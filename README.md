@@ -1,3 +1,7 @@
+[![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=master)[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp)
+
+![Logo](https://s3.amazonaws.com/lexpredict.com-marketing/graphics/lexpredict_lexnlp_logo_horizontal_1.png)
+
 # LexNLP by LexPredict
 ## Information retrieval and extraction for real, unstructured legal text
 LexNLP is a library for working with real, unstructured legal text, including contracts, plans, policies, procedures,
@@ -5,6 +9,7 @@ and other material.  LexNLP provides functionality such as:
 * Segmentation and tokenization, such as
   * A sentence parser that is aware of common legal abbreviations like LLC. or F.3d.
   * Pre-trained segmentation models for legal concepts such as pages or sections.
+* Legal-specific stopwords and collocations
 * Pre-trained word embedding and topic models, broadly and for specific practice areas
 * Pre-trained classifiers for document type and clause type
 * Broad range of fact extraction, such as:
@@ -15,13 +20,10 @@ and other material.  LexNLP provides functionality such as:
 * Tools for building new clustering and classification methods
 * Hundreds of unit tests from real legal documents
 
-
-![Logo](https://s3.amazonaws.com/lexpredict.com-marketing/graphics/lexpredict_lexnlp_logo_horizontal_1.png)
-
 # Information
+* Official Website: https://lexnlp.com/
 * ContraxSuite: https://contraxsuite.com/
 * LexPredict: https://lexpredict.com/
-* Official Website: https://lexnlp.com/
 * Documentation: (in progress)
 * Contact: support@contraxsuite.com
 
