@@ -1,0 +1,645 @@
+
+
+
+
+
+
+
+
+
+Exhibir 10.1
+
+
+Exhibit 10.1
+
+VALIDIAN SOFTWARE LICENSE AGREEMENT
+
+This Agreement (this “Agreement”) effective November 16, 2016 (“Effective Date”), is between VALIDIAN Corporation, a Nevada Corporation (“VALIDIAN”) and Ganthet Mobile Corporation, a Georgia Corporation (“LICENSEE”).
+
+
+
+
+1.
+
+GENERAL TERMS
+
+1.1
+
+This Agreement is a master agreement ("Software License Agreement" or "SLA") intended to govern the license by LICENSEE of pre-packaged VALIDIAN software programs in object code form, including improvements, modifications and other derivative works by VALIDIAN (“Software”), including related user manuals and documentation (“Related Documentation”), the provision of support for the Software (“Support”) and the provision of other services provided by VALIDIAN (“Services”).
+
+1.2
+
+Software, Services and Support will be provided to LICENSEE, pursuant to a supplemental Software Support and Maintenance Agreement(s) in Schedule C initialed by both parties (“SSMA”).  Each SSMA incorporates and is to be read together with this Agreement.  Any conflict between this Agreement and an SSMA will be resolved in favour of the SSMA and any conflict between SSMAs covering the same subject matter will be resolved in favour of the most recent SSMA.
+
+1.3
+
+Schedules to the Agreement  are to be read together with this Agreement.  Any conflict between this Agreement and any Schedule will be resolved in favour of the Schedule and any conflict between Schedules covering the same subject matter will be resolved in favour of the most recent Schedule.
+
+2.
+
+SOFTWARE LICENSE
+
+2.1
+
+VALIDIAN grants to LICENSEE a perpetual, non-exclusive, worldwide, non-transferable and non-assignable (except as provided herein) license to use the Software.  Each copy of the Software and any upgrade or new release of the Software provided to the LICENSEE is subject to the provisions of this Agreement.  VALIDIAN will deliver to LICENSEE a set of master media for the current version of each item of Software from which LICENSEE may copy the Software.
+
+2.2
+
+LICENSEE’s use of Software is limited to the solutions or applications (mobile, Cloud, web, local and/or network solutions or applications), the hardware (mobile devices, the Cloud, computers, CPU’s or servers), the number of copies, ValidianProtect Runtimes or users, and by such other restrictions, as set out in this Agreement, except that additional copies may be made for archival or back-up purposes.  LICENSEE is responsible for installing the Software and copying and installing any upgrades or new releases of the Software.  LICENSEE may purchase additional copies of Related Documentation at prevailing VALIDIAN prices.
+
+2.3
+
+LICENSEE will use the Software only for its own,  and for lawful, purposes, and will not sublicense, distribute or otherwise make the Software available to any unrelated third party (including, without limit, any distributor, partner, channel partner, contractor, franchisee, agent or dealer) without first obtaining the written agreement of (a) VALIDIAN, and of (b) the third party, to comply with this Agreement including end users of any LICENSEE product,
+
+
+
+
+
+
+____   ____
+
+
+
+
+
+
+solution or software containing  the Software signing an end user license agreement to that  effect or any distributors, partners channel partners or licensees of any LICENSEE product, solution or software containing  the Software signing an agreement to that  effect.
+
+2.4
+
+LICENSEE may distribute or make the Software available to any Affiliates.  Software may be either licensed by LICENSEE on behalf of Affiliates named in this Agreement (for which the LICENSEE will be jointly and severally liable) or at the discretion of the LICENSEE an Affiliate may execute a separate SLA.
+
+3.
+
+SUPPORT & SERVICES
+
+3.1
+
+VALIDIAN will provide Support for the Term and in accordance with Schedule C to this Agreement and the prevailing VALIDIAN Support Guide.  LICENSEE shall cancel Support renewal not less than 30 days before the end of any Support period.  Requests for Support will be directed through the LICENSEE’s representatives to the VALIDIAN Support Centers identified by VALIDIAN to the LICENSEE.
+
+3.2
+
+VALIDIAN will perform Services (consulting, training, education or other Services) as described in this Agreement.  VALIDIAN does not guarantee any estimates but will notify LICENCEE as soon as practicable if an estimate will be exceeded.  LICENSEE may cancel any Service on notice to VALIDIAN and will pay for Services performed before termination and may be liable to pay for canceled training or education.
+
+3.3
+
+VALIDIAN retains all right, title and interest in any Software, Related Documentation or other works provided or developed under this Agreement and as a result of performing Services (“Works”).  VALIDIAN grants LICENSEE a non-exclusive, non-transferable and non-assignable (except to Affiliates) license to use and modify the Works solely for LICENSEE’s internal purposes and not for distribution.  Either party may (a) independently develop works competitive with or similar to the Works, and (b) make use of the know-how acquired, principles learned or experience gained during the performance of the Services.
+
+3.4
+
+For a period ending six (6) months after the completion of any Services neither party will directly or indirectly, solicit, or induce away from the other any employee or sub-contractor of the other who has provided those Services without the prior written agreement of the other party.
+
+4.
+
+FEES & CHARGES
+
+4.1
+
+LICENSEE will pay VALIDIAN the fees, charges or other amounts specified in this Agreement initially on signing this Agreement and receipt by the LICENSEE of an invoice from VALIDIAN and thereafter within thirty (30) days of date of receipt of any additional invoices and immediately upon Acceptance.  VALIDIAN may issue additional invoices to the LICENSEE: (a) upon the shipment of Software or Related Documentation, (b) in advance of or upon the provision of Support or training/education Services, or (c) following the earlier of the completion of other Services or at the end of any month during which those Services are performed.  LICENSEE shall pay a service charge on overdue accounts equal to 1.5% per month.
+
+4.2
+
+All sales, value-added and other taxes relating to Software, Related Documentation, Support or Services, where applicable and excluding taxes on the income of VALIDIAN, will be paid by LICENSEE.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4.3
+
+VALIDIAN agrees to provide to LICENSEE all Software modifications necessary to support upgrades or changes to the Software within a mutually agreed upon time frame.  VALIDIAN warrants that all updates, upgrades, and revisions to the Software furnished hereunder will be implemented in such a manner as to maintain backward compatibility with the previous version or release of the Software furnished hereunder, under the Agreement, or under any other agreement issued pursuant to this Agreement, so that such previous versions or releases shall continue to be operable with the Software as updated, upgraded, or revised, in materially the same manner and with materially equivalent performance.
+
+5.
+
+CONFIDENTIAL INFORMATION
+
+5.1
+
+In the course of their dealings, the parties may disclose to one another confidential information relating to their business (“Confidential Information”).  Neither party will disclose Confidential Information to any third party, other than to its employees or contractors, without the express written consent of the other party, nor will a party make use of any Confidential Information other than in the performance of rights or obligations under this Agreement. Each party will use at least the same degree of care to avoid disclosure of Confidential Information as it uses with respect to its own Confidential Information.  This Section shall not limit any prior confidentiality agreement between the parties.
+
+5.2
+
+Confidential Information does not include information: (a) generally available to or known to the public, (b) previously known to the recipient, (c) independently developed by the recipient outside the scope of this Agreement, (d) lawfully disclosed by a third party, or (e) disclosed during testimony before any judicial or quasi-judicial court or tribunal, except those held in-camera.
+
+6.
+
+WARRANTY
+
+6.1
+
+VALIDIAN warrants that: (a) it has the right to grant the license to use the Software; and (b) following the initial delivery of the Software, or of any new release of the Software, to LICENSEE the Software will perform in conformity with its Related Documentation, excluding malfunction caused by or present or inherent: in the data, database, operating system or native file system that the Software accesses; or in the host or related hardware, (c) the media on which the Software is provided to LICENSEE will be free from Critical Errors and defects in materials and workmanship under normal use, (d) the Software and the medium on which it was originally provided to LICENSEE is free from any virus, and (e) Support and Services will be provided with reasonable skill and care conforming to generally accepted software industry standards.  Subject to applicable law and except as provided in this Agreement, all other warranties or conditions, express, implied or otherwise, are excluded.
+
+6.2
+
+If the above warranties are breached VALIDIAN will, at its option and at no cost to LICENSEE (a) provide remedial services necessary to enable the Software, Support or Services to conform to the warranty or (b) replace any defective Software or media.  LICENSEE will notify VALIDIAN in writing promptly of any breach of warranty in reasonable detail and provide VALIDIAN with a reasonable opportunity to remedy any breach, and reasonable assistance in remedying any defects.  The remedies set out in this subsection are the LICENSEE’s sole remedies for breach of the above warranties.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7.
+
+LIMITATION OF LIABILITY
+
+7.1
+
+VALIDIAN will not be liable to the LICENSEE for loss of profits, or special, indirect, incidental, consequential or exemplary damages, including costs or legal expenses, in connection with the supply, use of performance of the Software or the performance of its other obligations pursuant to Agreement, even if it is aware of the possibility of the occurrence of such damages.  In certain jurisdictions the foregoing limitations may not be effective, in which case the applicable law will prevail.
+
+7.2
+
+In any event, the total liability of VALIDIAN (including the licensors of products forming part of the Software) to LICENSEE for any claim under this Agreement whether it arises by statute, contract or otherwise, will not exceed the amounts paid to VALIDIAN by LICENSEE under this Agreement for the Software, Support or Services which form the subject of the claim.  The foregoing limit does not apply to the indemnity given in Section 9 or to death or personal injury arising from negligence of VALIDIAN or in respect of accidental loss of, or damage to LICENSEE’s tangible property, to the extent caused by VALIDIAN, its employees or subcontractors.  In the latter event of damage to tangible property, the limit of liability is $1,000,000 (U.S.).
+
+8.
+
+PROPRIETARY RIGHTS
+
+LICENSEE acknowledges that the Software contains confidential and proprietary information and trade secrets belonging to VALIDIAN and its licensors, and that title in and rights to the Software remains exclusively with VALIDIAN.  LICENSEE’s rights to the Software are strictly limited to those granted in this Agreement.  LICENSEE will not decompile, disassemble or otherwise reverse engineer the Software, except as permitted by applicable law, in which case, LICENSEE will notify VALIDIAN of its intention to do so and give VALIDIAN the right of first refusal to perform those activities.
+
+9.
+
+INTELLECTUAL PROPERTY INDEMNIFICATION
+
+VALIDIAN will indemnify, defend and hold LICENSEE harmless against any claims, legal actions, losses and other expenses arising out of or in connection with any claims that the Software infringes or violates any intellectual property right of any third party (“Claim”), on the condition that LICENSEE notifies VALIDIAN promptly in writing of the Claim and gives VALIDIAN sole control of the defense and negotiations for its settlement or compromise; provided, however, (i) VALIDIAN shall obtain the prior written consent of LICENSEE (which shall not be unreasonably withheld, conditioned or delayed) before entering into any settlement or compromise of such Claim, if the settlement or compromise does not release LICENSEE and its Affiliates from all liabilities and obligations with respect to such Claim or the settlement imposes injunctive or other equitable relief against LICENSEE or any of its Affiliates and (ii) LICENSEE shall be entitled to participate in the defense of any Claim and to employ separate counsel of its choice for such purpose.  The fees and expenses of such separate counsel shall be paid by LICENSEE.  If LICENSEE is, or may become, prohibited from continued use of any Software by reason of an actual or anticipated Claim, VALIDIAN will use its reasonable efforts to (a) obtain for LICENSEE the right to use the Software, or (b) replace or modify such Software so that it is no longer subject to a Claim, but performs the same functions in an equivalent manner.  If it cannot do so, VALIDIAN will refund to LICENSEE the unused portion of the license fees paid in respect of the Software (determined by depreciating the license fees paid on a straight-line basis over the remainder of any renewal period) and any corresponding unused fees paid in respect of Support.  VALIDIAN will have no liability for any Claim based on (i) use of
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+other than a prevailing release of the Software (if the Claim could have been avoided by that release and the LICENSEE has been so notified), or (ii) any use or modification of Software not approved by VALIDIAN.  THIS SECTION STATES THE ENTIRE RESPONSIBILITY OF VALIDIAN CONCERNING CLAIMS.
+
+10.
+
+TERM & TERMINATION
+
+10.1
+
+The term of this Agreement shall commence on the Effective Date and shall be perpetual unless terminated (i) upon the breach of this Agreement by either party (the “Initial Term”) or (ii) by LICENSEE upon at least 30 days written notice to VALIDIAN.
+
+10.2
+
+The term and rights of termination of this Agreement and of the SSMA for breach shall be subject to and pursuant to Section 7 of the SSMA in Schedule C to this Agreement made a part hereof and incorporated by reference herein.  A party (“Terminating Party”) may, on giving written notice to the other party, terminate any this Agreement or an SSMA on written notice to the other if the other party fails to remedy a breach of any material obligation under this Agreement within thirty (30) days after receiving notice thereof from the Terminating Party.  If this Agreement or an SSMA is terminated, the parties will continue to be liable for any obligations arising, liabilities accrued or amounts payable under this Agreement or that SSMA prior to termination.  In addition to any other remedies, VALIDIAN may seek injunctive relief in respect of any breach of this Agreement by the LICENSEE (or any Affiliate).  Sections 1, 2, 5, 7, 8, 9 and 12.5 will survive the termination of this Agreement.
+
+11.
+
+AUDIT RIGHTS
+
+LICENSEE will keep accurate records (the “LICENSEE’s Records”) of the number of copies of Software made and distributed, the number of the Software Runtimes and end users and their location.  LICENSEE will provide to VALIDIAN copies of the up to date LICENSEE’s Records as well as copies of the Software Realm Manager Logs at the end of each quarter.  VALIDIAN may enter LICENSEE’s premises without disruption during business hours on five (5) business days’ notice for the purpose of examining, or having examined (at its own expense), LICENSEE’s relevant books, records and computers as well as the Software deployed and the Software Realm Manager Logs to verify LICENSEE’s fulfillment of its obligations under this Agreement; provided, however, such audit rights shall not extend to computers or data that is under a contractual or statutory restriction that would prohibit such access.
+
+
+
+
+12.
+
+GENERAL
+
+
+
+
+12.1
+
+Any and all notices or other communications or deliveries required or permitted to be provided hereunder shall be in writing and shall be deemed given and effective on the earliest of: (a) the date of transmission, if such notice or communication is delivered via email prior to 5:30 p.m. (Eastern Time) on a business day, defined as Monday to Friday excluding U.S. and Canadian National Holidays (“Business Day”) (b) the next Business Day after the date of transmission, if such notice or communication is delivered via email attachment on a day that is not a Business Day or later than 5:30 p.m. (Eastern Time) on any Business Day, or (d) upon actual receipt by the party to whom such notice is required to be given if delivered by courier. The address for such notices and communications shall be as set forth below:
+
+
+
+
+Validian Corporation,  email: info@validian.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Ganthet Mobile Corporation; email:  info@ganthetmobile.com
+
+
+
+
+12.2
+
+No delay or failure in exercising any right under this Agreement, or any partial or single exercise of any right, will constitute a waiver of that right or any other rights under this Agreement.  No consent to a breach of any express or implied term of this Agreement constitutes a consent to any subsequent breach hereunder.
+
+12.3
+
+If any provision of this Agreement is, or becomes, unenforceable, it will be severed from this Agreement, and the remainder will remain in full force and effect.
+
+12.4
+
+Either party may assign or otherwise transfer its rights and obligations in respect to all or part of the Software, Support or Services provided or to be provided under this Agreement to a third party (“Permitted Assignment”) on the condition that (a) the third party delivers to the non-assigning party a duly executed document agreeing to be bound by this Agreement and (b) the Permitted Assignment is part of a bona fide internal corporate reorganization or an arm’s length commercial transaction.  Despite the foregoing, if all or part of the LICENSEE’s business is acquired by a third party (by way of asset or share purchase, merger or amalgamation) or if it becomes an Affiliate of a third party, the scope and effect of this Agreement will be limited to the total number of copies or users of Software authorized pursuant to this Agreement, immediately prior to either of the foregoing events.
+
+12.5
+
+This Agreement, and any matters relating to it, will be governed, construed and interpreted in accordance with the laws of New York, excluding its law relating to conflicts of laws and the United Nations Convention on Contracts for the International Sale of Goods (and any legislation implementing such Convention).
+
+12.6
+
+The parties hereto agree that any suit, action or proceeding seeking to enforce any provision of, or based on any matter arising out of or in connection with, this Agreement or the transactions contemplated hereby shall be brought in the United States District Court for the Southern District of New York, so long as such court shall have subject matter jurisdiction over such suit, action or proceeding, and that any cause of action arising out of this Agreement shall be deemed to have arisen from a transaction of business in the State of New York, and each of the parties hereby irrevocably consents to the jurisdiction of such courts (and of the appropriate appellate courts therefrom) in any such suit, action or proceeding and irrevocably waives, to the fullest extent permitted by law, any objection that it may now or hereafter have to the laying of the venue of any such suit, action or proceeding in any such court or that any such suit, action or proceeding brought in any such court has been brought in an inconvenient forum. Process in any such suit, action or proceeding may be served on any party anywhere in the world, whether within or without the jurisdiction of any such court. Without limiting the foregoing, each party agrees that service of process on such party as provided in ‎Section 12.1 shall be deemed effective service of process on such party.
+
+Notwithstanding anything to the contrary, except for injunctive relief, any dispute, claim or controversy arising out of or relating to this Agreement or the breach, termination, enforcement, interpretation or validity thereof, including the determination of the scope or applicability of this Agreement to arbitrate, shall be determined by arbitration in New York, New York before one arbitrator. The arbitration shall be administered by JAMS pursuant to its Comprehensive Arbitration Rules and Procedures or pursuant to JAMS’ Streamlined Arbitration Rules and Procedures. Judgment on the Award may be entered in any court having jurisdiction. This clause
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+shall not preclude Parties from seeking provisional remedies in aid of arbitration from a court of appropriate jurisdiction, including injunctive relief.
+
+12.7
+
+LICENSEE will ensure that, to the extent permitted by this Agreement, the Software (and any direct products thereof) is exported or re-exported in compliance with applicable statutes or regulations (including U.S. export laws) relating to the country of destination, or to the users or uses of the Software.
+
+12.8
+
+EACH OF THE PARTIES HERETO HEREBY IRREVOCABLY WAIVES ANY AND ALL RIGHT TO TRIAL BY JURY IN ANY LEGAL PROCEEDING ARISING OUT OF OR RELATED TO THIS AGREEMENT OR THE TRANSACTIONS CONTEMPLATED HEREBY.
+
+12.9
+
+This Agreement may be signed in any number of counterparts, each of which shall be an original, with the same effect as if the signatures thereto and hereto were upon the same instrument.  This Agreement shall become effective when each party hereto shall have received a counterpart hereof signed by the other party hereto.  Until and unless each party has received a counterpart hereof signed by the other party hereto, this Agreement shall have no effect and no party shall have any right or obligation hereunder (whether by virtue of any other oral or written agreement or other communication).  No provision of this Agreement is intended to confer any rights, benefits, remedies, obligations, or liabilities hereunder upon any Person other than the parties hereto and their respective successors and permitted assigns.
+
+12.10
+
+This Agreement sets out the entire understanding and agreement between LICENSEE and VALIDIAN with respect to its subject matter, and it supersedes all prior negotiations, commitments and understandings, verbal or written, any order terms issued by LICENSEE and any terms (in any form or medium) provided with or in the Software.  Neither party has relied on any representation, arrangement, understanding or agreement (written or oral, in any medium) not set out in this Agreement or any amendment thereto.  This Agreement may only be amended or otherwise modified by written agreement signed by the authorized signatories of both parties.
+
+
+
+
+IN WITNESS the parties have executed this Agreement with effect on the Effective Date first appearing above.
+
+VALIDIAN Corporation
+
+Ganthet Mobile Corporation
+
+
+
+
+_____________________________
+
+_________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Schedule A to the Software License Agreement By and Between Validian Corporation and Ganthet Mobile Corporation dated November 16, 2016
+
+DEFINITIONS
+
+Section 1.01.
+
+Definitions.  As used herein, the following terms have the following meanings:
+
+“Acceptance” for the Software shall occur only when:  (a) VALIDIAN has provided to LICENSEE all Software and Support Documentation required to be provided to LICENSEE; and (b)(i) LICENSEE notifies VALIDIAN in writing that all testing for the Software has been completed successfully by LICENSEE.  Nothing else, including LICNESEE’S use of the Software, or any portion thereof, in a live, operational environment, shall constitute Acceptance (under contract law or the Uniform Commercial Code of New York of any portion of the applicable system.
+
+“Affiliate” shall mean, as to a party, any other person that directly or indirectly controls or is controlled by such party.  The term “control” (including, with correlative meanings, the terms “controlled by” and “under common control with”) as applied to any Person means the possession, direct or indirect, of the power to direct or cause the direction of the management and policies of such person, whether through the ownership of voting securities or other ownership interest.  For the purposes of this definition, “Person” means any individual, partnership, corporation, limited liability company, unincorporated organization or association, any trust, or any other business entity.
+
+“Critical Error(s)” shall mean a failure of the Software that severely impacts LICENSEE’S ability to provide service or has a significant financial impact on Customer for which an alternative temporary solution or work around acceptable to LICENSEE may not be accomplished.
+
+Section 1.02.
+
+Other Definitional and Interpretative Provisions.  The words “hereof”, “herein” and “hereunder” and words of like import used in this Agreement shall refer to this Agreement as a whole and not to any particular provision of this Agreement. The captions herein are included for convenience of reference only and shall be ignored in the construction or interpretation hereof. References to Sections and Schedules are to Sections and Schedules of this Agreement unless otherwise specified.  All Schedules annexed hereto or referred to herein are hereby incorporated in and made a part of this Agreement as if set forth in full herein.  Any capitalized terms used in any Schedule but not otherwise defined therein, shall have the meaning as defined in this Agreement.  Any singular term in this Agreement shall be deemed to include the plural, and any plural term the singular.  Whenever the words “include”, “includes” or “including” are used in this Agreement, they shall be deemed to be followed by the words “without limitation”, whether or not they are in fact followed by those words or words of like import. “Writing”, “written” and comparable terms refer to printing, typing and other means of reproducing words (including electronic media) in a visible form.  References to any agreement or contract are to that agreement or contract as amended, modified or supplemented from time to time in accordance with the terms hereof and thereof; provided that with respect to any agreement or contract listed on any schedules hereto, all such amendments, modifications or supplements must also be listed in the appropriate schedule.  References to any Person include the successors and permitted assigns of that Person.  References from or through any date mean, unless otherwise specified, from and including or through and including, respectively.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Schedule B to the Software License Agreement ("Agreement") By and Between Validian Corporation and Ganthet Mobile Corporation dated November 16, 2016
+
+B.1 Description of Software Licensed.  The ValidianProtect 3.1.2 Software and the Secure Capabilities Module, which are comprised of the following:
+
+a.
+
+An unlimited number of ValidianProtect Servers, each comprised of:
+
+•
+
+the Realm Entry Point
+
+•
+
+the Realm Manager
+
+•
+
+the Rendezvous Server
+
+b.
+
+An unlimited number of ValidianProtect Runtimes
+
+c.
+
+The Validian Ready Built Secure Capabilities Module (aka Social Module)
+
+d.
+
+Tutorial applications
+
+e.
+
+Software Development Kits (SDK)
+
+•
+
+C++ Developer SDK
+
+•
+
+.Net Developer SDK
+
+•
+
+Android Java Developer SDK
+
+•
+
+Windows Java Developer SDK
+
+•
+
+SDK's for Apple iOS
+
+•
+
+SDK's for Linux and Unix
+
+•
+
+Secure Capabilities Module SDK
+
+f.
+
+Related Documentation:
+
+•
+
+ValidianProtect Complete Data Sheet for 26 Algorithms
+
+•
+
+ValidianProtect Technical Overview
+
+•
+
+ValidianProtect Administrator Guide
+
+•
+
+ValidianProtect Developer Guide
+
+•
+
+ValidianProtect dotNet Developer Guide
+
+•
+
+ValidianProtect Android Java Developer Guide
+
+•
+
+ValidianProtect Windows Java Developer Guide
+
+
+
+
+B.2 The Software is licensed for integration into and use by one (1) LICENSEE solution or application (the "Ganthet Mobile Global App") for an unlimited number of internal and third party licenses, installations and deployments of the Ganthet Mobile Global App, including an unlimited number of ValidianProtect Runtimes, end points and end users subject to terms of the Agreement and Schedules of the Agreement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Schedule C to the Software License Agreement ("Agreement") By and Between Validian Corporation and Ganthet Mobile Corporation dated November 16, 2016
+
+The Software Support and Maintenance Agreement
+
+Introduction
+
+THIS SOFTWARE SUPPORT and MAINTENANCE AGREEMENT (“SSMA”) is entered into between VALIDIAN Corporation, referred to herein as “VALIDIAN”, and GANTHET MOBILE CORPORATION, the holder of this license, referred to herein as “LICENSEE”.
+
+The terms of this SMA are as follows:
+
+Section 1.  Software Maintenance Services
+
+1.1
+
+VALIDIAN agrees to provide to LICENSEE corrected or modified versions of the Software distributed as either patches to existing releases, or as maintenance releases or new versions of the Software that VALIDIAN makes generally available to end-users and any master keys or root keys necessary to operate and use the Software.
+
+1.2
+
+Such modifications, when delivered and installed, shall become part of the Software and shall otherwise be subject to all of the terms of the License Agreement to which this SSMA is incorporated by reference.
+
+1.3
+
+New versions are major releases of the software in which platform upgrades, substantial additional functionality or improved performance are provided.  Under this maintenance agreement, LICENSEE has the right to receive any new Realm Credentials and to upgrade their license to the new version of the software to replace existing versions as long as LICENSEE is current in payment of any fees under the License Agreement and SSMA have not been terminated.
+
+Section 2.  Error Correction Services
+
+2.1
+
+VALIDIAN shall use reasonable commercial efforts to correct or provide a usable work-around solution for any Critical Error or reproducible material error in the Software, within a reasonable period of time.  VALIDIAN agrees, if feasible, to commence correction within twenty-four (24) hours after such error or malfunction is detected.  If VALIDIAN, in its discretion, requests written verification of an error or malfunction discovered by LICENSEE, LICENSEE shall promptly provide such verification, by email, fax, or overnight mail, setting forth in reasonable detail the respects in which the Software fails to perform.  An error or malfunction shall be “material” if it represents a non-conformity with VALIDIAN's current published specifications for the Software that interferes with the usability of the Software.  VALIDIAN is not obligated to fix errors that are not material.  Upon request, LICENSEE shall provide VALIDIAN remote access to LICENSEE’s computer system for the purpose of remote diagnostics.
+
+2.2
+
+LICENSEE shall pay VALIDIAN at VALIDIAN's then current time and material rates for work of VALIDIAN spent investigating an error or malfunction that VALIDIAN reasonably determines to have been caused by a modification to the Software not made nor authorized by VALIDIAN.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Section 3.  Telephone Support
+
+3.1
+
+VALIDIAN shall make reasonable email and/or telephone support available to LICENSEE's designated individual(s) who have been trained in the use of VALIDIAN software products. Email and telephone support is available between 9 a.m. and 5 p.m. Eastern Time (ET), Monday to Friday excluding U.S. and Canadian National Holidays, and consists of problem validation and logging, and preliminary diagnosis of the reported problem.  The intent is to identify a remedy or an avoidance procedure directly by email or over the telephone.
+
+Section 4. Request for Modification of the Software Products
+
+4.1
+
+LICENSEE may at any time request that VALIDIAN make additional modifications to the Software Products to add functions or improve performance.  VALIDIAN shall respond to a request for such work with the terms on which it may be willing to undertake such work, but the decision to do so is in the sole discretion of VALIDIAN.
+
+Section 5.  Delivery
+
+5.1
+
+In order to satisfy any delivery obligation, VALIDIAN may, at its option, send, have delivered to, or email to LICENSEE corrected Program(s), patches, modifications, error corrections, fixes, or releases to the Software provided pursuant to this Agreement, together with installation instructions.
+
+Section 6. Intellectual Property
+
+6.1
+
+All modifications to the Software, including all intellectual property rights associated therewith, made or provided by VALIDIAN pursuant to this Agreement, whether alone or with any contribution from LICENSEE or its personnel, shall be owned exclusively by VALIDIAN and its licensors.
+
+Section 7.  Term
+
+7.1
+
+This Agreement and the SSMA shall commence on the Effective Date, as set forth on page 1 of the License Agreement unless sooner terminated in accordance with this Section or the License Agreement.
+
+7.2
+
+VALIDIAN may terminate this Agreement and SSMA by giving written notice of termination to LICENSEE upon the occurrence of any of the following events:
+
+7.2.1.
+
+LICENSEE defaults in the performance of any material requirement or obligation created by this Agreement or the License Agreement and such default is not cured within the applicable cure period;
+
+7.2.2.
+
+LICENSEE fails to make any payment to VALIDIAN within thirty (30) days of its due date under this Agreement;
+
+7.2.3.
+
+LICENSEE ceases business operations, is the subject of any state or federal bankruptcy, insolvency, or similar proceeding, becomes insolvent, or makes an assignment for the benefit of creditors, or a receiver is appointed for a substantial part of LICENSEE's assets, or becomes unable to pay its debts when due;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7.3
+
+No termination of this Agreement and SSMA shall release LICENSEE from any obligation to pay VALIDIAN any amount that has accrued or become payable at or prior to the date of termination.
+
+Section 8.   Miscellaneous
+
+8.1
+
+The date on which VALIDIAN's obligations are required to be fulfilled will be extended for a period equal to the time lost by reason of any delay arising directly or indirectly from acts of God, unforeseeable circumstances, or any other cause beyond VALIDIAN's reasonable control.
+
+8.2
+
+A failure by either party to enforce any right under this Agreement shall not at any time constitute a waiver of such right or any other right, and shall not modify the rights or obligations of either party under this Agreement.
+
+8.3
+
+This Agreement shall obligate and benefit the parties, their personal representatives, heirs, successors, and assigns.  VALIDIAN may assign all or any part of this Agreement and SSMA.
+
+8.4
+
+The invalidity or unenforceability of any provision of this Agreement and SSMA shall not affect the validity or enforceability of any other provision, the remaining provisions being deemed to continue in full force and effect.
+
+
+
+
+
+
+
+
+
+
+
+
+
