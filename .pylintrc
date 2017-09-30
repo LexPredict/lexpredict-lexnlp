@@ -1,0 +1,10 @@
+[FORMAT]
+max-line-length=120
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$
+
+
+[MISCELLANEOUS]
+notes=FIXME,TODO
+
+[MESSAGES CONTROL]
+disable=r,c,w0511

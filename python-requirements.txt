@@ -1,0 +1,16 @@
+dateparser==0.6.0
+https://github.com/LexPredict/datefinder/archive/master.zip
+nltk==3.2.4
+num2words==0.5.5
+pandas==0.20.3
+py==1.4.34
+python-dateutil==2.6.1
+pytz==2017.2
+regex==2016.1.10
+reporters-db==1.0.12.1
+requests==2.18.4
+scikit-learn==0.19.0
+scipy==0.19.1
+six==1.10.0
+tika==1.15
+Unidecode==0.4.21
