@@ -7,10 +7,13 @@ Todo:
   * Add utilities for loading court data
 """
 
+from lexnlp.nlp.en.tokens import get_tokens
+
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -61,11 +64,12 @@ def get_courts(text, court_config_list, return_source=False):
     :param return_source:
     :return:
     """
+    tokenized_text = ' %s ' % ' '.join(get_tokens(text, lowercase=True))
 
     # Iterate through all CourtConfig objects
     for court_config in court_config_list:
         # Check for name match
-        if court_config.get('name').lower() in ' '.join(text.lower().split()):
+        if ' %s ' % court_config.get('name').lower() in tokenized_text:
             if return_source:
                 yield court_config, court_config.get('name')
             else:
@@ -73,7 +77,7 @@ def get_courts(text, court_config_list, return_source=False):
 
         # Check for alias match
         for alias in court_config.get('court_aliases'):
-            if alias.lower() in text.lower():
+            if ' %s ' % ' '.join(get_tokens(alias, lowercase=True)) in tokenized_text:
                 if return_source:
                     yield court_config, alias
                 else:
