@@ -14,7 +14,7 @@ from lexnlp.nlp.en.tests.test_tokens import EXAMPLE_TEXT_2, EXAMPLE_TEXT_2_TOKEN
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
