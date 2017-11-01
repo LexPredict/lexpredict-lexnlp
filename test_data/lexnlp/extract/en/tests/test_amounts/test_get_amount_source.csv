@@ -1,0 +1,62 @@
+Text,Amount,Source
+"total 34,567,890 documents",34567890.0,"34,567,890 documents"
+"total 25,890.33 dollars",25890.33,"25,890.33 dollars"
+total 2 million people,2000000.0,2 million people
+total 2.035 billion tons of,2035000000.0,2.035 billion tons
+total twenty-five MILLION dollars,25000000,twenty-five MILLION dollars
+will cost 1/33,0.0303,1/33
+will cost 1/100,0.01,1/100
+will cost 25/100,0.25,25/100
+THIRTY-SIX THOUSAND TWO-HUNDRED SIXTY-SIX AND 2/100,36266.02,THIRTY-SIX THOUSAND TWO-HUNDRED SIXTY-SIX AND 2/100
+twenty-five and NO/100,25,twenty-five and NO/100
+total Seven Hundred Eighty and 87/100 Dollars ($780.87) per month,780.87,Seven Hundred Eighty and 87/100 Dollars
+,780.87,$780.87)
+one hundred AND five AND 25/100,105.25,one hundred AND five AND 25/100
+twenty-FIFTH day of month,25,twenty-FIFTH day
+"amount of RMB 200,000 (TWO HUNDRED THOUSAND YUAN) ",200000.0,"RMB 200,000"
+,200000,(TWO HUNDRED THOUSAND YUAN
+get .5 of total amount,0.5,.5
+get .5 million,500000.0,.5 million
+"they need $25,400, 1 million people and 3.5 tons of sugar",25400.0,"$25,400,"
+,1000000.0,1 million people
+,3.5,3.5 tons
+three-tenths,0.3,three-tenths
+one-twelfth,0.0833,one-twelfth
+ten ninety-ninths,0.101,ten ninety-ninths
+ten and one-third,10.3333,ten and one-third
+twenty one-hundredths,0.21,twenty one-hundredths
+"twenty 
+ AND one-hundredths",20.01,"twenty 
+ AND one-hundredths"
+"2 hundred and 
+one-thousandth",200.001,"2 hundred and 
+one-thousandth"
+a dozen months,12,dozen months
+"twenty-two DOZEN 
+and 1/100",264.01,"twenty-two DOZEN 
+and 1/100"
+"two and 
+a HALF",2.5,"two and 
+a HALF"
+Six and a HALF Billion,6500000000.0,Six and a HALF Billion
+one-quarter,0.25,one-quarter
+five and three-quarters,5.75,five and three-quarters
+5 and three-quarters,5.75,5 and three-quarters
+"""There are 10 dogs.",10.0,10 dogs
+There are fifteen cats.,15,fifteen cats
+"I have 10,000 friends.",10000.0,"10,000 friends"
+He has two thousand friends.,2000,two thousand friends
+They generated thirty-five million units.,35000000,thirty-five million units
+There are two hundred and thirty million ants here.,230000000,two hundred and thirty million ants
+nine hundred and ninety-nine bottles,999,nine hundred and ninety-nine bottles
+I found 27.5123 apples.,27.5123,27.5123 apples
+"The aggregate Term Loan Commitment with respect to the Initial Term Loan of all Term Loan Lenders on
+the Closing Date shall be $200,000,000.",200000000.0,"$200,000,000."
+There are FIFTY MILLION dollars.,50000000,FIFTY MILLION dollars
+There are 50 MILLION dollars.,50000000.0,50 MILLION dollars
+"There are 10 people, five dogs and one cat.",10.0,10 people
+,5,five dogs
+,1,and one cat
+This string ends with the number 20,20.0,20
+"This string ends with the number 20,000",20000.0,"20,000"
+"This string ends with the number 20,000,000",20000000.0,"20,000,000"

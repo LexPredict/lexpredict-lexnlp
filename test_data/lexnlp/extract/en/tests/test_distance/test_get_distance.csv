@@ -1,0 +1,21 @@
+Text,Distance,Units
+That is at least 10 miles away.,10,mile
+That is at least 10mi away.,10,mile
+That is at least 10 kilometers away.,10,kilometer
+That is at least 10km away.,10,kilometer
+That is somewhere between 5 miles and 10km from here.,5,mile
+,10,kilometer
+There are 10 dogs.
+That is a 20Hz oscillation.
+This is a 5khz test.
+", 500 miles to go",500,mile
+",500.5 miles to go",500.5,mile
+", fifty miles to the 5khz test.",50,mile
+ .5 miles to go,0.5,mile
+"There is no , distance here"
+There are many miles to go
+There are ten miles to go,10,mile
+There are 50 thousand miles to go,50000,mile
+There are fifty thousand miles to go,50000,mile
+This is not a 5.4.3.2.1 mi distance
+There are 5.4.3 thousand mi reasons

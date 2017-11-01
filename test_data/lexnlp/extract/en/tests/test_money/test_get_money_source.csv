@@ -1,0 +1,26 @@
+"Text","Amount","Currency","Source"
+"the amount is $5,000,000.00 or less",5000000,"USD","$5,000,000.00"
+"Principal Amount:    20 Million Dollars ($20,000,000)",20000000,"USD","20 Million Dollars"
+,20000000,"USD","$20,000,000"
+"Principal Amount:    Seventy-five Million Dollars ($75,000,000)",75000000,"USD","Seventy-five Million Dollars"
+,75000000,"USD","$75,000,000"
+"$1,000,000 individually or $3,000,000 in the",1000000,"USD","$1,000,000"
+,3000000,"USD","$3,000,000"
+" to paragraph 7 below and expressed in euros per €1,000,000.",1000000,"EUR","€1,000,000"
+"Credit Advances denominated in Dollars, $1,000,000 in respect of Revolving Credit Advances 
+                 denominated in Sterling, £1,000,000, in respect of Revolving Credit Advances denominated in 
+                 Swiss Francs, CHF1,000,000, in respect of Revolving Credit",1000000,"USD","$1,000,000"
+,1000000,"GBP","£1,000,000"
+,1000000,"CHF","CHF1,000,000"
+"in the annual amount of RMB 200,000 (TWO HUNDRED THOUSAND CHINESE YUAN), payable",200000,"CNY","RMB 200,000"
+,200000,"CNY","TWO HUNDRED THOUSAND CHINESE YUAN"
+"credit amounting to RMB 21 million yuan only ",21000000,"CNY","RMB 21 million"
+"one instance and ,Fifty Thousand and NO/100 Dollars ($50,000.00) ",50000,"USD","Fifty Thousand and NO/100 Dollars"
+,50000,"USD","$50,000.00"
+"There are 20,625.75 USD",20625.75,"USD","20,625.75 USD"
+"There are $ 65.43 in the..",65.43,"USD","$ 65.43"
+"There are 10 dogs",,,
+"The model number is X100 for your vacuum",,,
+"There is no , money in the banana stand",,,
+"Bank must be rated at least ""A"" by S&P and ""A2"" by Moody's.  No",,,
+"There are 5.4.3 dollars",,,

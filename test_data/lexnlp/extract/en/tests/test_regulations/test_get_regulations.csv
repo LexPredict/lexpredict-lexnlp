@@ -1,0 +1,19 @@
+Text,Regulation Type,Regulation Code,Regulation Str
+test 55 C.F.R. 77 code,Code of Federal Regulations,55 CFR 77,55 C.F.R. 77
+test 55  CFR  77a-22B code,Code of Federal Regulations,55 CFR 77a-22B,55  CFR  77a-22B
+"test 123 U.S.C 
+456, code",United States Code,123 USC 456,"123 U.S.C 
+456"
+"test 123 U.S.C § 456, code",United States Code,123 USC § 456,123 U.S.C § 456
+"test 123 U.S.C Section 456, code",United States Code,123 USC Section 456,123 U.S.C Section 456
+"test 123 U.S.C Sec. 456, code",United States Code,123 USC Section 456,123 U.S.C Sec. 456
+test Public Law No.   123-456 code,Public Law,Public Law No. 123-456,Public Law No.   123-456
+test Public Law 123-456 code,Public Law,Public Law No. 123-456,Public Law 123-456
+test Pub. Law 123-456 code,Public Law,Public Law No. 123-456,Pub. Law 123-456
+test Pub. L. 123-456 code,Public Law,Public Law No. 123-456,Pub. L. 123-456
+test 123 Stat. 456 code,Public Law,123 Stat. 456,123 Stat. 456
+test Stat. 456 code
+test AB USC 456 code
+test 678 USC UPD code
+test 678 USC UPD code
+test 10 Public Law codes

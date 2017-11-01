@@ -1,0 +1,10 @@
+Text,Volume,Reporter,Reporter Full Name,Page,Page2,Court,Year,Source Text
+"bob lissner v. test 1 F.2d 1, 2-5 (2d Cir., 1982)",1,F.2d,Federal Reporter,1,2-5,2d Cir.,1982,"1 F.2d 1, 2-5 (2d Cir., 1982)"
+"bob lissner v. test 1 F.2d 1, 2-5 (1982)",1,F.2d,Federal Reporter,1,2-5,,1982,"1 F.2d 1, 2-5 (1982)"
+"bob lissner v. test 1 F.2d 1, 25 (1982)",1,F.2d,Federal Reporter,1,25,,1982,"1 F.2d 1, 25 (1982)"
+bob lissner v. test 1 F.2d 1 (1982),1,F.2d,Federal Reporter,1,,,1982,1 F.2d 1 (1982)
+bob lissner v. test 1 F.2d 1,1,F.2d,Federal Reporter,1,,,,1 F.2d 1
+"bob lissner v. test 1 F.2d 1, 2-5 (25 Fed. Cl. 20)",1,F.2d,Federal Reporter,1,2-5,,,"1 F.2d 1, 2-5"
+,25,Fed. Cl.,United States Claims Court Reporter,20,,,,25 Fed. Cl. 20
+"green cow v. boy 1 Wash. 1, 25 (1795)",1,Wash.,"Virginia Reports, Washington",1,25,,1795,"1 Wash. 1, 25 (1795)"
+"green cow v. boy 1 Wash. 1, 25 (1900)",1,Wash.,Washington Reports,1,25,,1900,"1 Wash. 1, 25 (1900)"

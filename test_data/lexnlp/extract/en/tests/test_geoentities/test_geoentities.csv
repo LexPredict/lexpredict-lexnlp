@@ -1,0 +1,24 @@
+"Text","input_text_languages","input_priority_bool","Geo Entity"
+"One Iceland two.","en",,"Iceland"
+"One Island two.","en",,
+"One Island two.",,,"Iceland"
+"Abbreviation “MS” can mean either MMMontserrat or Misssssisssssippi. And different non-letter symbols should be treated correctly (MS). ","en",,"Mississippi"
+,,,"Montserrat"
+"Hello!!!!Mississippi!!!(US)!!!","en",,"Mississippi"
+,,,"United States"
+"MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict resolving is enabled and it should detect MS as the entity having the first id in config (geoaliases.csv, entity_id). And this is Monserrat.",,"TRUE","Montserrat"
+"Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best.",,TRUE,
+"NEITHER AM NOR IN AND OR SHOULD NOT BE DETECTED HERE",,TRUE,
+"AM, IN and OR should be detected here",,,"Armenia"
+,,,"Oregon"
+,,,"Indiana"
+,,,"India"
+"NO ANDDDORRRAA SHOULD BE DETECTED HERE.
+LESSOR AND LESSEE HAVE CAREFULLY READ AND REVIEWED THIS LEASE AND EACH TERM AND PROVISION CONTAINED HEREIN, AND BY THE EXECUTION OF THIS LEASE SHOW THEIR INFORMED AND VOLUNTARY CONSENT THERETO. THE PARTIES HEREBY AGREE THAT, AT THE TIME THIS LEASE IS EXECUTED, THE TERMS OF THIS LEASE ARE COMMERCIALLY REASONABLE AND EFFECTUATE THE INTENT AND PURPOSE OF LESSOR AND LESSEE WITH RESPECT TO THE PREMISES.  ",,,
+,,,
+,,,
+,,,
+,,,
+,,,
+"AAnnddoorraa should be detected here because of AND in uppercase having lowercase letters within -20:+20 range around it. 
+There should be actually three AAnnddoorrraass - AND AND.",,,"Andorra"

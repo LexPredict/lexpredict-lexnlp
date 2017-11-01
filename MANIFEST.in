@@ -1,0 +1,6 @@
+include README.md
+include python-requirements.txt
+recursive-include lexnlp *.pickle
+recursive-include lexnlp *.csv
+recursive-include libs *
+recursive-include scripts *

@@ -1,0 +1,6 @@
+"Text","Normalized Text"
+"Bankr. E.D.N.C."," bankr . e . d . n . c . "
+"Bankr.E.D.N.C."," bankr . e . d . n . c . "
+"Something Bankr. E.D.N.C. else."," something bankr . e . d . n . c . else . "
+"SomethingBankr.E.D.N.C. else."," somethingbankr . e . d . n . c . else . "
+"Something/Bankr. E.D.N.C. else."," something/bankr . e . d . n . c . else . "

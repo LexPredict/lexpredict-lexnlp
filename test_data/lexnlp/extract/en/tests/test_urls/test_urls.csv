@@ -1,0 +1,7 @@
+"test http://www.demo.com/2/some-url/document.txt in the text","http://www.demo.com/2/some-url/document.txt"
+"test https - https://alpha.demo.com/document.txt in the text","https://alpha.demo.com/document.txt"
+"test get arguments - https://alpha.demo.com/document.txt?arg1=1&arg2=2 in the text","https://alpha.demo.com/document.txt?arg1=1&arg2=2"
+"test hash - https://alpha.demo.com#hash in the text","https://alpha.demo.com#hash"
+"test 2 urls http://alpha.demo.com/ and http://beta.demo.com/","http://alpha.demo.com/"
+,"http://beta.demo.com/"
+"test UPPERCASE HTTP://WWW.DEMO.COM in the text","HTTP://WWW.DEMO.COM"

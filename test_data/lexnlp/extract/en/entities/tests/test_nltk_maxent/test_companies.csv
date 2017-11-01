@@ -1,0 +1,36 @@
+Text,Company Name,Company Type
+"This Amendment to Employment Agreement (“Amendment”) is made and entered into this 18th day of July,
+2005, by and between OSI SYSTEMS, INC. (“Company”), a California corporation, and Anuj Wadhawan (“Employee”).",OSI SYSTEMS,INC
+"AMERICAN RESIDENTIAL GAP LLC (ARG), a Michigan Limited Liability Company
+with address at 380, N. Old Woodward Avenue, Ste. 300, Birmingham, MI 48009.
+And
+PROGREEN CONSTRUCTION LLC (PGC), a Michigan Limited Liability Company
+with address at 380 N. Old Woodward Avenue, Ste. 226, Birmingham, MI 48009.
+",AMERICAN RESIDENTIAL GAP,LLC
+,PROGREEN CONSTRUCTION,LLC
+"“Arrangers” means Credit Suisse Securities (USA) LLC, KeyBank National Association and SunTrust
+ Robinson Humphrey, Inc., in their capacity as joint lead arrangers and joint bookrunners under
+ this Agreement.",Credit Suisse Securities (USA),LLC
+,KeyBank,National Association
+,SunTrust Robinson Humphrey,Inc
+"This SUPPORT AGREEMENT (this “Agreement”), dated as of March 22, 2015,
+ is entered into by and among EMRISE Corporation, a Delaware corporation (“Seller”), DDC (US) Ltd.,
+ a company Cisco Misco LLC (SM) incorporated under the laws of England (
+ “Purchaser”), and each of the Persons set forth on Schedule A hereto (each, a “Stockholder”).
+ All capitalized terms used but not otherwise defined in this Agreement shall have the respective meanings ascribed
+ to such terms in the Stock Purchase Agreement (as defined below). ",EMRISE,Corporation
+,DDC (US),Ltd
+,Cisco Misco,LLC
+"test case for match 'or' in substring
+ Company or Geovic Ltd. by providing written notice",Geovic,Ltd
+"test case for match 'of' in a party name such as Member of Party Ltd. policy.",Member of Party,Ltd
+"test case for match '&' in a party name such as A&B, LLC. policy.",A&B,LLC
+"test case for  for U.S.A. to ensure that it is not matched company type",,
+"test case for  for U.S.C. to ensure that it is not matched company type",,
+"test case for '& Company' case in a party name like Party & Company,LLC presents",Party & Company,LLC
+"test case for 'and Company' case in a party name like Party and Company,LLC presents",Party and Company,LLC
+"test party name without party type like Trial BANK presents",Trial,
+"test company right after party name TRIAL LLC and Company presents",TRIAL,LLC
+"test word after description TRIAL Bank Services LLC and Company presents",TRIAL Bank Services,LLC
+"TEST IF ALL TEXT IS IN UPPERCASSE. NEXT PHRASE WITN ABC LLC INSIDE",,
+"test if part of text is in uppercase. NEXT PHRASE WITN ABC LLC INSIDE",,

@@ -1,0 +1,58 @@
+Text,Amount
+"total 34,567,890 documents",34567890.0
+"total 25,890.33 dollars",25890.33
+total 2 million people,2000000.0
+total 2.035 billion tons of,2035000000.0000002
+total twenty-five MILLION dollars,25000000
+will cost 1/33,0.030303030303030304
+will cost 1/100,0.01
+will cost 25/100,0.25
+THIRTY-SIX THOUSAND TWO-HUNDRED SIXTY-SIX AND 2/100,36266.02
+twenty-five and NO/100,25
+total Seven Hundred Eighty and 87/100 Dollars ($780.87) per month,780.87
+,780.87
+one hundred AND five AND 25/100,105.25
+twenty-FIFTH day of month,25
+"amount of RMB 200,000 (TWO HUNDRED THOUSAND YUAN) ",200000.0
+,200000
+get .5 of total amount,0.5
+get .5 million,500000.0
+"they need $25,400, 1 million people and 3.5 tons of sugar",25400.0
+,1000000.0
+,3.5
+three-tenths,0.3
+one-twelfth,0.08333333333333333
+ten ninety-ninths,0.10101010101010101
+ten and one-third,10.333333333333334
+twenty one-hundredths,0.21
+"twenty 
+ AND one-hundredths",20.01
+"2 hundred and 
+one-thousandth",200.001
+a dozen months,12
+"twenty-two DOZEN 
+and 1/100",264.01
+"two and 
+a HALF",2.5
+Six and a HALF Billion,6500000000.0
+one-quarter,0.25
+five and three-quarters,5.75
+5 and three-quarters,5.75
+"""There are 10 dogs.",10.0
+There are fifteen cats.,15
+"I have 10,000 friends.",10000.0
+He has two thousand friends.,2000
+They generated thirty-five million units.,35000000
+There are two hundred and thirty million ants here.,230000000
+nine hundred and ninety-nine bottles,999
+I found 27.5123 apples.,27.5123
+"The aggregate Term Loan Commitment with respect to the Initial Term Loan of all Term Loan Lenders on
+the Closing Date shall be $200,000,000.",200000000.0
+There are FIFTY MILLION dollars.,50000000
+There are 50 MILLION dollars.,50000000.0
+"There are 10 people, five dogs and one cat.",10.0
+,5
+,1
+This string ends with the number 20,20.0
+"This string ends with the number 20,000",20000.0
+"This string ends with the number 20,000,000",20000000.0

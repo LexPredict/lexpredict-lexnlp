@@ -1,0 +1,143 @@
+Alias,Abbreviation,Label
+General Partnership,GP,Partnership
+GP,GP,Partnership
+G.P.,GP,Partnership
+LTD,LTD,LTD
+Limited Partnership,LP,Partnership
+LP,LP,Partnership
+L.P.,LP,Partnership
+Limited Liability Partnership,LLP,Partnership
+LLP,LLP,Partnership
+L.L.P.,LLP,Partnership
+Limited Liability Limited Partnership,LLLP,Partnership
+LLLP,LLLP,Partnership
+L.L.L.P.,LLLP,Partnership
+Limited Liability Company,LLC,Company
+LLC,LLC,Company
+L.L.C.,LLC,Company
+Ltd. Co.,LLC,Company
+Professional Limited Liability Company,PLLC,Company
+PLLC,PLLC,Company
+P.L.L.C.,PLLC,Company
+Corporation,CORP,Corporation
+Incorporated,CORP,Corporation
+Inc,CORP,Corporation
+Corp,CORP,Corporation
+Professional Corporation,PC,Corporation
+PC,PC,Corporation
+P.C.,PC,Corporation
+National Association,NA,National Association
+NA,NA,National Association
+N.A.,NA,National Association
+National Trust and Savings Association,NT&SA,National Association
+NT&SA,NT&SA,National Association
+Pte Ltd,PLC,Company
+Pte. Ltd.,PLC,Company
+Pvt Ltd,PLC,Company
+Pvt. Ltd.,PLC,Company
+Public Limited Company,PLC,Company
+PLC,PLC,Company
+P.L.C.,PLC,Company
+Pub. Ltd. Co.,PLC,Company
+Sociedad Anónima,SA,Sociedad Anónima
+SA,SA,Sociedad Anónima
+S.A.,SA,Sociedad Anónima
+Sociedad Anonima,SA,Sociedad Anónima
+Sociedad Limitada,SL,Sociedad Limitada
+SL,SL,Sociedad Limitada
+S.L.,SL,Sociedad Limitada
+Sociedad Limitada Nueva Empresa,SLNE,Sociedad Limitada
+SLNE,SLNE,Sociedad Limitada
+S.L.N.E.,SLNE,Sociedad Limitada
+Sociedad Anónima Deportiva,SAD,Sociedad Anónima
+SAD,SAD,Sociedad Anónima
+S.A.D.,SAD,Sociedad Anónima
+Sociedad Anonima Deportiva,SAD,Sociedad Anónima
+Sociedad Limitada Laboral,SLL,Sociedad Limitada
+SLL,SLL,Sociedad Limitada
+S.L.L.,SLL,Sociedad Limitada
+Sociedad Colectiva,SC,Sociedad Colectiva
+SC,SC,Sociedad Colectiva
+S.C.,SC,Sociedad Colectiva
+Sociedad Civil Privada,SCP,Sociedad Civil Privada
+SCP,SCP,Sociedad Civil Privada
+S.C.P.,SCP,Sociedad Civil Privada
+Sociedad Comanditaria,S.Cra.,Sociedad Comanditaria
+S.Cra.,S.Cra.,Sociedad Comanditaria
+Sociedad Cooperativa,S.Coop.,Sociedad Cooperativa
+S.Coop.,S.Coop.,Sociedad Cooperativa
+Aktiengesellschaft,AG,Aktiengesellschaft
+AG,AG,Aktiengesellschaft
+A.G.,AG,Aktiengesellschaft
+Gesellschaft mit beschränkter Haftung,GmbH,Gesellschaft mit beschränkter Haftung
+GmbH,GmbH,Gesellschaft mit beschränkter Haftung
+G.m.b.H.,GmbH,Gesellschaft mit beschränkter Haftung
+Kommanditaktiengesellschaft,KomAG,Kommanditaktiengesellschaft
+KomAG,KomAG,Kommanditaktiengesellschaft
+Kom.A.G.,KomAG,Kommanditaktiengesellschaft
+Stiftung,Stiftung,Stiftung
+Société à responsabilité limitée,SARL,Société à responsabilité limitée
+SARL,SARL,Société à responsabilité limitée
+S.A.R.L.,SARL,Société à responsabilité limitée
+Société anonyme,,Société anonyme
+Société par actions simplifiée,SAS,Société par actions simplifiée
+SAS,SAS,Société par actions simplifiée
+S.A.S.,SAS,Société par actions simplifiée
+SA de C.V.,SA de C.V.,Sociedad Anónima
+S.A.de C.V.,SA de C.V.,Sociedad Anónima
+S.A. de C.V.,SA de C.V.,Sociedad Anónima
+Sociedad de Responsabilidad Limitada,S. de R.L.,Sociedad de Responsabilidad Limitada
+S.de R.L.,S. de R.L.,Sociedad de Responsabilidad Limitada
+S. de R.L.,S. de R.L.,Sociedad de Responsabilidad Limitada
+S.de R.L. de C.V.,S. de R.L.,Sociedad de Responsabilidad Limitada
+S. de R.L. de C.V.,S. de R.L.,Sociedad de Responsabilidad Limitada
+Sociedad en Comandita Simple,S. en C.,Sociedad en Comandita Simple
+S. en C.,S. en C.,Sociedad en Comandita Simple
+S. en C. de C.V.,S. en C.,Sociedad en Comandita Simple
+Sociedad en Comandita por Acciones,S. en C. por A.,Sociedad en Comandita por Acciones
+S. en C. por A.,S. en C. por A.,Sociedad en Comandita por Acciones
+S. en C. por A. de C.V.,S. en C. por A.,Sociedad en Comandita por Acciones
+Sociedad Anónima Bursátil,SAB,Sociedad Anónima
+SAB,SAB,Sociedad Anónima
+S.A.B.,SAB,Sociedad Anónima
+Sociedade Limitada,Ltda,Sociedade Limitada
+Ltda,Ltda,Sociedade Limitada
+Sociedad por acciones,SpA,Sociedad por acciones
+SpA,SpA,Sociedad por acciones
+S.p.A.,SpA,Sociedad por acciones
+Besloten vennootschap,BV,Besloten vennootschap
+BV,BV,Besloten vennootschap
+B.V.,BV,Besloten vennootschap
+Naamloze vennootschap,NV,Naamloze vennootschap
+NV,NV,Naamloze vennootschap
+N.V.,NV,Naamloze vennootschap
+Sendirian Berhad,Sdn. Bhd.,Sendirian Berhad
+Sdn. Bhd.,Sdn. Bhd.,Sendirian Berhad
+Berhad,Bhd.,Berhad
+Bhd.,Bhd.,Berhad
+Společnost s ručením omezeným,sro,Společnost s ručením omezeným
+sro,sro,Společnost s ručením omezeným
+s.r.o.,sro,Společnost s ručením omezeným
+Société en commandite par actions,SCA,Société en commandite par actions
+SCA,SCA,Société en commandite par actions
+S.C.A.,SCA,Société en commandite par actions
+kabushiki-kaisha,KK,kabushiki-kaisha
+KK,KK,kabushiki-kaisha
+K.K.,KK,kabushiki-kaisha
+yūgen-kaisha,YK,yūgen-kaisha
+YK,YK,yūgen-kaisha
+Y.K.,YK,yūgen-kaisha
+gōdō-kaisha,GK,gōdō-kaisha
+GK,GK,gōdō-kaisha
+G.K.,GK,gōdō-kaisha
+Società per azioni,Spa,Società per azioni
+Spa,Spa,Società per azioni
+S.p.a.,Spa,Società per azioni
+Società in accomandita per azioni,Sapa,Società in accomandita per azioni
+Sapa,Sapa,Società in accomandita per azioni
+S.a.p.a.,Sapa,Società in accomandita per azioni
+Società a responsabilità limitata,Srl,Società a responsabilità limitata
+Srl,Srl,Società a responsabilità limitata
+S.r.l.,Srl,Società a responsabilità limitata
+Aktieselkab,Aktieselskab,Aktieselskab
+Aktieselskab,Aktieselskab,Aktieselskab

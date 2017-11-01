@@ -1,0 +1,6 @@
+"Text","input_text_languages_str","input_min_alias_len_int","Geo Entity"
+"Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best but New York should be too.",,2,"New York"
+"Community of Mmaaddrid should be detected for single letter Mm especially in name A.M. Best and New York should be too.",,1,"New York"
+,,,"Community of Madrid"
+"There should be no Afghanistan in this sentence because “Afghanistan” and . Only USA.",,,"United States"
+"There should not be Aallbbania here – AL is blacklisted for English.","en",,
