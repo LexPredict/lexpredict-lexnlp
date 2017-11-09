@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=master)
+
 # LexNLP by LexPredict
 ## Information retrieval and extraction for real, unstructured legal text
 LexNLP is a library for working with real, unstructured legal text, including contracts, plans, policies, procedures,
@@ -14,8 +16,6 @@ and other material.  LexNLP provides functionality such as:
   * Courts, regulations, and citations
 * Tools for building new clustering and classification methods
 * Hundreds of unit tests from real legal documents
-
-
 ![Logo](https://s3.amazonaws.com/lexpredict.com-marketing/graphics/lexpredict_lexnlp_logo_horizontal_1.png)
 
 # Information
@@ -25,12 +25,10 @@ and other material.  LexNLP provides functionality such as:
 * Documentation: (in progress)
 * Contact: support@contraxsuite.com
 
-
 ## Licensing
 LexNLP is available under a dual-licensing model.  By default, this library can be used under AGPLv3 terms as detailed
 in the repository LICENSE file; however, organizations can request a release from the AGPL terms by contacting
 ContraxSuite Licensing at <<license@contraxsuite.com>>.
-
 
 ## Releases
 * 0.1.2: November 1, 2017 - Second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.2)
