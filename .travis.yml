@@ -1,0 +1,40 @@
+language: python
+python:
+- '3.4'
+sudo: false
+cache:
+  directories:
+  - "$HOME/tika"
+  - "$HOME/.cache/pip"
+  - "$HOME/libs"
+addons:
+  apt:
+    packages:
+    - oracle-java8-set-default
+    - tesseract-ocr
+before_install:
+- chmod +x scripts/*.sh
+install:
+- pip install -r python-requirements.txt
+- pip install -r python-requirements-dev.txt
+- travis_wait 30 python -m nltk.downloader punkt
+- travis_wait 30 python -m nltk.downloader wordnet
+- travis_wait 30 python -m nltk.downloader averaged_perceptron_tagger
+- travis_wait 30 python -m nltk.downloader maxent_ne_chunker
+- travis_wait 30 python -m nltk.downloader words
+- pip install -e .
+before_script:
+- "./libs/download_stanford_nlp.sh"
+- "./scripts/download_tika.sh"
+- "./scripts/run_tika.sh"
+after_script:
+- cat /tmp/tika-server-*.log
+script:
+- py.test --cov lexnlp --pylint --pylint-rcfile=.pylintrc lexnlp
+after_success:
+- coveralls
+notifications:
+  slack:
+    secure: ZRKZEEBAjkJPzLLL8PEwqMoZRRvuz3YC0S/4aYx8vwrZd5uYHyuN0RQGHNl9s62RZNtxxJu/l5h+JZCYuUnDKswx0vnwhhn88HY3gLZ31jtUgJviDS59xx9vB8Dxwy57qs9Y2ACtXCCcDKZ4bkG/JXR3M8HAq4Wusig1CbAaud+NXnLf1hfnkPW9LCUeFHXvxZPwqwV2aGA31lmxSwRbHjBmIHxbT52qH5FInx1rucf32k2y5sU6eFJmf5tU606KG/THIsWZqMZ0P6CQBMwC53AhvQrYTuegYH5tVDNqL8lInd/6Nbr2S+193BhpbPg+9XSQCWVqBo3G3u7HuaiGK8pSINTZAvwq2uDg6IEpqb3ACmeEMppUkSiOVyC0HuNTODYM8+mh7jqliYj1ILCB4d+k/b8BEV41EZbeqRXmQ5fp2mm2vX5rBMnkwF/kxwgMGcbeHgat5Tak6pSGbdDBrlKkEviQaNRivN6ZZUIgnREKkLoRBKuK7i7ks94iH7xI69BphyzyqcsH6JE0YjDRsexDr6fKluKo0URU/e5A0OAlR64b1/zY7YnQGMgYqonrhRip+FvWfl4msd/joeAvNIlCN/Yg/Hkqpla//5UY0jQUm035Oe3NcF+4nTubmoR+AV5wkH2wbJG6qGWLpPEDq0iwO1lfh38eLWYkdRhgHIE=
+env:
+- LEXNLP_USE_STANFORD=true
