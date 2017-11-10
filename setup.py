@@ -96,7 +96,7 @@ setup(
         'regex==2017.9.23',
         'reporters-db==1.0.12.1',
         'scipy==1.0.0',
-        'sklearn==0.0',
+        'scikit-learn==0.19.1',
         'typing==3.6.2',
         'Unidecode==0.4.21'
     ],
