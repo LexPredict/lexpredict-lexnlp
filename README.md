@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=master)
+[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=master)
 
 # LexNLP by LexPredict
 ## Information retrieval and extraction for real, unstructured legal text
