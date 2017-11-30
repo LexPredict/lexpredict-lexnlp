@@ -95,6 +95,7 @@ setup(
         'pandas==0.21.0',
         'regex==2017.9.23',
         'reporters-db==1.0.12.1',
+        'requests==2.18.4',
         'scipy==1.0.0',
         'scikit-learn==0.19.1',
         'typing==3.6.2',
