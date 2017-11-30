@@ -24,7 +24,7 @@ from lexnlp.nlp.en.segments.sentences import get_sentence_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -42,8 +42,14 @@ COMPANY_NAME_PATTERN = r'[a-z0-9][a-z0-9 \,\.\-&]+?(?:\([a-z0-9][a-z0-9 \,\.\-\&
 COMPANY_PATTERN_TEMPLATE = r'''
 {article_pattern}
 (?P<full_name>
+    (?P<company_name>
+        (?P<company_description_of>{company_description_pattern})\s+of\s+{company_name_pattern})
+        (?:\W+|$)(?P<company_type_of>{company_type_pattern})?
+    |
     (?P<company_name>{company_name_pattern})[\s\,]+
     (?:
+        (?P<company_description_and>{company_description_pattern})\s+and
+        |
         (?P<company_description>{company_description_pattern})(?:\s\w+)*[\s\,]+(?P<company_type>{company_type_pattern})
         |
         (?P<company_description_single>{company_description_pattern})
@@ -51,6 +57,7 @@ COMPANY_PATTERN_TEMPLATE = r'''
         (?P<company_type_single>{company_type_pattern})
     )
 )
+(?:\s*\((?P<abbr_name>[A-Z1-9\&]+)(?:\)|$))?
 (?:\,|\.|\;|\s|$)
 '''
 
@@ -73,15 +80,15 @@ def create_company_pattern(company_pattern_template=None,
     company_name_pattern = company_name_pattern or COMPANY_NAME_PATTERN
     company_type_list = company_type_list or COMPANY_TYPES
     if isinstance(company_type_list, dict):
-        company_type_list = sorted(list(company_type_list.keys()), key=len)
-    company_description_list = company_description_list or COMPANY_DESCRIPTIONS
+        company_type_list = list(company_type_list.keys())
 
     # Setup company type list
     company_type_list.sort(key=len, reverse=True)
-    company_type_pipe = "|".join([re.escape(c.strip(".").lower())
+    company_type_pipe = "|".join([re.escape(c.lower())
                                   for c in company_type_list])
 
     # Setup description list
+    company_description_list = company_description_list or COMPANY_DESCRIPTIONS
     company_description_list.sort(key=len, reverse=True)
     company_description_pipe = "|".join([re.escape(c.strip(".").lower())
                                          for c in company_description_list])
@@ -113,12 +120,17 @@ PARTY_AS_PATTERN = r'''
 RE_PARTY_AS = re.compile(PARTY_AS_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.VERBOSE)
 
 
-def get_companies(text, use_article=False, detail_type=False, return_source=False) -> Generator:
+def get_companies(text: str,
+                  use_article: bool = False,
+                  detail_type: bool = False,
+                  parse_name_abbr: bool = False,
+                  return_source: bool = False) -> Generator:
     """
     Find company names in text, optionally using the stricter article/prefix expression.
     :param text:
     :param use_article:
     :param detail_type:
+    :param parse_name_abbr:
     :param return_source:
     :return:
     """
@@ -130,18 +142,20 @@ def get_companies(text, use_article=False, detail_type=False, return_source=Fals
         for match in re_c.finditer(sentence):
             captures = match.capturesdict()
 
-            company_type = captures["company_type"] or captures["company_type_single"]
+            company_type = captures["company_type_of"] or \
+                           captures["company_type"] or \
+                           captures["company_type_single"]
             company_type = "".join(company_type).strip(
-                string.punctuation + string.whitespace)
+                string.punctuation.replace(".", "") + string.whitespace)
             company_type = company_type or None
 
-            # import ipdb;ipdb.set_trace()
             company_name = "".join(captures["full_name"])
             if company_type:
                 company_name = re.sub(r'%s$' % company_type, '', company_name)
             company_name = company_name.strip(
                 string.punctuation.replace('&', '').replace(')', '') + string.whitespace)
-            company_name = re.sub(r'^(?:and|&|of)(?:\s|$)', '', company_name, re.IGNORECASE)
+            company_name = re.sub(r'^\s*(?:and|&|of)\s+|\s+(?:and|&|of)\s*$', '',
+                                  company_name, re.IGNORECASE)
             if not company_name:
                 continue
 
@@ -149,7 +163,9 @@ def get_companies(text, use_article=False, detail_type=False, return_source=Fals
             if company_name.lower().startswith('a ') or captures.get('article') == ['a']:
                 continue
 
-            company_description = captures["company_description"] or \
+            company_description = captures["company_description_of"] or \
+                                  captures["company_description_and"] or \
+                                  captures["company_description"] or \
                                   captures["company_description_single"]
             company_description = "".join(company_description).strip(
                 string.punctuation + string.whitespace)
@@ -159,11 +175,13 @@ def get_companies(text, use_article=False, detail_type=False, return_source=Fals
                 company_description = None
             company_description = company_description or None
             if company_description:
-                company_name = re.sub(r'[\s,]*%s$' % company_description, '', company_name)
+                company_name = re.sub(r'[\s,]%s$' % company_description, '', company_name)
                 if not company_name:
                     return
             if company_name in COMPANY_DESCRIPTIONS:
                 continue
+
+            abbr_name = "".join(captures["abbr_name"]) or None
 
             ret = (company_name,
                    company_type)
@@ -171,8 +189,14 @@ def get_companies(text, use_article=False, detail_type=False, return_source=Fals
                 ret += (COMPANY_TYPES[company_type.lower()]['abbr'] if company_type else None,
                         COMPANY_TYPES[company_type.lower()]['label'] if company_type else None)
             ret += (company_description,)
+            if parse_name_abbr:
+                ret += (abbr_name,)
             if return_source:
                 ret += (sentence,)
+            # no args:         = [company_name, company_type, company_description]
+            # detail_type:     + [company_type_abbr, company_type_label]
+            # parse_name_abbr: + [abbr_name]
+            # return_source:   + [source]
             yield ret
 
 

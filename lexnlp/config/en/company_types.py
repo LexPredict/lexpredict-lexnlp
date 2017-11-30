@@ -15,7 +15,7 @@ import os
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -42,12 +42,17 @@ def get_company_types(file_path=None):
     file_path = file_path or default_company_types_file_path
     with open(file_path) as f:
         for row in csv.DictReader(f):
-            alias = row['Alias'].strip('. ').lower()
+            alias_dot = row['Alias'].strip(' ').lower()
+            alias = alias_dot.strip('.')
             abbr = row['Abbreviation'].strip()
             label = row['Label'].strip()
             ret[alias] = dict(
                 abbr=abbr,
                 label=label)
+            if alias_dot != alias:
+                ret[alias_dot] = dict(
+                    abbr=abbr,
+                    label=label)
     return ret
 
 

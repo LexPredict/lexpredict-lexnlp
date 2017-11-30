@@ -17,7 +17,7 @@ from lexnlp.extract.en.utils import NPExtractor
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -25,7 +25,7 @@ __email__ = "support@contraxsuite.com"
 YEAR_PTN = r"(\d{4}(?:\s*-\s*\d{4})?)"
 YEAR_PTN_RE = re.compile(YEAR_PTN + '$')
 
-COPYRIGHT_PTN = r"((Copyright\s*|\(C\)\s*|©)+\s*{}?\s*(.+))".format(YEAR_PTN)
+COPYRIGHT_PTN = r"((Copyright\W|\([Cc]\)\s*|©)+\s*{}?\s*(.+))".format(YEAR_PTN)
 COPYRIGHT_PTN_RE = re.compile(COPYRIGHT_PTN)
 
 grammar = r"""

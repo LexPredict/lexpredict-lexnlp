@@ -25,12 +25,19 @@ with address at 380 N. Old Woodward Avenue, Ste. 226, Birmingham, MI 48009.
  Company or Geovic Ltd. by providing written notice",Geovic,Ltd
 "test case for match 'of' in a party name such as Member of Party Ltd. policy.",Member of Party,Ltd
 "test case for match '&' in a party name such as A&B, LLC. policy.",A&B,LLC
-"test case for  for U.S.A. to ensure that it is not matched company type",,
-"test case for  for U.S.C. to ensure that it is not matched company type",,
+"test case for U.S.A. to ensure that it is not matched company type",,
+"test case for U.S.C. to ensure that it is not matched company type",,
 "test case for '& Company' case in a party name like Party & Company,LLC presents",Party & Company,LLC
 "test case for 'and Company' case in a party name like Party and Company,LLC presents",Party and Company,LLC
 "test party name without party type like Trial BANK presents",Trial,
 "test company right after party name TRIAL LLC and Company presents",TRIAL,LLC
 "test word after description TRIAL Bank Services LLC and Company presents",TRIAL Bank Services,LLC
-"TEST IF ALL TEXT IS IN UPPERCASSE. NEXT PHRASE WITN ABC LLC INSIDE",,
+"TEST IF ALL TEXT IS IN UPPERCASSE. NEXT PHRASE WITH ABC LLC INSIDE",,
 "test if part of text is in uppercase. NEXT PHRASE WITN ABC LLC INSIDE",,
+"test a Trust Bank name",,
+"test a Some Company without name",,
+"among State Street Bank and Trust Company of Connecticut, N.A",State Street,
+,Trust Company of Connecticut,N.A
+"test two words after 'of' for Trust Company of New York, N.A",Trust Company of New York,N.A
+"test 'of' cause for company without typr for Trust Company of New York",Trust Company of New York,
+
