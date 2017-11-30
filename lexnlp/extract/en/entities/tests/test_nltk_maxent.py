@@ -18,7 +18,7 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -91,6 +91,32 @@ def test_company_has_type_only():
     example = 'Those two organizations IBM INC and company without name LLC are cool.'
     results = {('IBM', 'INC')}
     lexnlp_tests.test_extraction_func(results, get_companies, example)
+
+
+def test_company_detail_type():
+    """
+    Test get_companies methods with detailed type option.
+    :return:
+    """
+    # Example text
+    example = 'Those two organizations IBM INC and LexPredict LLC are cool.'
+    results = [('IBM', 'INC', 'CORP', 'Corporation', None),
+               ('LexPredict', 'LLC', 'LLC', 'Company', None)]
+    lexnlp_tests.test_extraction_func(results, get_companies, example,
+                                      detail_type=True)
+
+
+def test_company_abbr_name():
+    """
+    Test get_companies methods with detailed type option.
+    :return:
+    """
+    # Example text
+    example = 'Those two organizations IBM INC and LexPredict LLC (LP) are cool.'
+    results = [('IBM', 'INC', None),
+               ('LexPredict', 'LLC', 'LP')]
+    lexnlp_tests.test_extraction_func(results, get_companies, example,
+                                      parse_name_abbr=True)
 
 
 def test_persons():

@@ -25,7 +25,7 @@ from lexnlp.nlp.en.tokens import get_token_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -271,7 +271,7 @@ class CompanyNPExtractor(NPExtractor):
 
     def cleanup_leaves(self, leaves):
         leaves = super().cleanup_leaves(leaves)
-        leaves = [i for i in leaves if i[0][0].lower() != 'a' and i[0][1] != 'DT']
+        leaves = [i for i in leaves if i[0] != ('a', 'DT') and i[0] != ('A', 'DT')]
         return leaves
 
 
@@ -284,6 +284,7 @@ def get_companies(text: str,
                   detail_type: bool = False,
                   count_unique: bool = False,
                   name_upper: bool = False,
+                  parse_name_abbr: bool = False,
                   return_source: bool = False):
     """
     Find company names in text, optionally using the stricter article/prefix expression.
@@ -293,6 +294,7 @@ def get_companies(text: str,
     :param detail_type: return detailed type (type, unified type, label) vs type only
     :param name_upper: return company name in upper case.
     :param count_unique: return only unique companies - case insensitive.
+    :param parse_name_abbr: return company abbreviated name if exists.
     :param return_source:
     :return:
     """
@@ -316,8 +318,10 @@ def get_companies(text: str,
                 phrases = np_extractor.get_np(sentence)
             for phrase in phrases:
                 if COMPANY_TYPES_RE.search(phrase):
-                    for result in nltk_re.get_companies(phrase, detail_type=True):
-                        co_name, co_type, co_type_abbr, co_type_label, co_desc = result
+                    for result in nltk_re.get_companies(phrase,
+                                                        detail_type=True,
+                                                        parse_name_abbr=True):
+                        co_name, co_type, co_type_abbr, co_type_label, co_desc, co_abbr = result
 
                         if co_name == co_type or co_name == co_desc:
                             continue
@@ -328,6 +332,8 @@ def get_companies(text: str,
 
                         if detail_type:
                             result += (co_type_abbr, co_type_label, co_desc)
+                        if parse_name_abbr:
+                            result += (co_abbr,)
                         if return_source and not count_unique:
                             result = result + (sentence,)
 
