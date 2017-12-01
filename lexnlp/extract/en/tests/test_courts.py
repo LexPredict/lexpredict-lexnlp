@@ -67,7 +67,7 @@ def test_courts():
     # Create config objects
     court_config_list = []
     for _, row in court_df.iterrows():
-        c = entity_config(row["Court ID"], row["Court Name"],
+        c = entity_config(row["Court ID"], row["Court Name"], 0,
                           row["Alias"].split(";") if not pandas.isnull(row["Alias"]) else [])
         court_config_list.append(c)
 
@@ -93,7 +93,7 @@ def test_courts_rs():
     # Create config objects
     court_config_list = []
     for _, row in court_df.iterrows():
-        c = entity_config(row["Court ID"], row["Court Name"],
+        c = entity_config(row["Court ID"], row["Court Name"], 0,
                           row["Alias"].split(";") if not pandas.isnull(row["Alias"]) else [])
         court_config_list.append(c)
 
@@ -108,12 +108,12 @@ def test_court_config_setup():
     :return:
     """
     # Test setup 1
-    cc = entity_config(0, 'Test Court', ['Alias'])
-    assert_equals(str(cc), "(0, 'Test Court', [('Test Court', None, False, None), ('Alias', None, False, None)])")
+    cc = entity_config(0, 'Test Court', 0, ['Alias'])
+    assert_equals(str(cc), "(0, 'Test Court', 0, [('Test Court', None, False, None), ('Alias', None, False, None)])")
 
     # Test setup 2
-    cc = entity_config(0, 'Test Court')
-    assert_equals(str(cc), "(0, 'Test Court', [('Test Court', None, False, None)])")
+    cc = entity_config(0, 'Test Court', 0)
+    assert_equals(str(cc), "(0, 'Test Court', 0, [('Test Court', None, False, None)])")
 
 
 def test_courts_longest_match():
@@ -129,7 +129,7 @@ def test_courts_longest_match():
     with open(courts_config_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            cc = entity_config(row['Court ID'], row['Court Type'] + '|' + row['Court Name'],
+            cc = entity_config(row['Court ID'], row['Court Type'] + '|' + row['Court Name'], 0,
                                row['Alias'].split(';') if row['Alias'] else [],
                                name_is_alias=False)
             add_alias_to_entity(cc, row['Court Name'])

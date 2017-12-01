@@ -19,7 +19,7 @@ __email__ = "support@contraxsuite.com"
 
 
 def get_courts(text: str,
-               court_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
+               court_config_list: List[Tuple[int, str, int, List[Tuple[str, str, bool, int]]]],
                priority: bool = False,
                text_languages: List[str] = None) -> Generator[Tuple[Tuple, Tuple], Any, Any]:
     """

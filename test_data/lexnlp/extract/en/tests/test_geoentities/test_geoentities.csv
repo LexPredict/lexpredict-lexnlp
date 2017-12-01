@@ -6,9 +6,9 @@
 ,,,"Montserrat"
 "Hello!!!!Mississippi!!!(US)!!!","en",,"Mississippi"
 ,,,"United States"
-"MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict resolving is enabled and it should detect MS as the entity having the first id in config (geoaliases.csv, entity_id). And this is Monserrat.",,"TRUE","Montserrat"
-"Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best.",,TRUE,
-"NEITHER AM NOR IN AND OR SHOULD NOT BE DETECTED HERE",,TRUE,
+"MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict resolving is enabled and it should detect MS as the entity having the first id in config (geoaliases.csv, entity_id). And this is Monserrat.",,"TRUE","Mississippi"
+"Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best.",,"TRUE",
+"NEITHER AM NOR IN AND OR SHOULD NOT BE DETECTED HERE",,"TRUE",
 "AM, IN and OR should be detected here",,,"Armenia"
 ,,,"Oregon"
 ,,,"Indiana"

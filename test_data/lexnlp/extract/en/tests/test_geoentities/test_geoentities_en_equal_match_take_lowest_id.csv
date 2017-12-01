@@ -1,0 +1,3 @@
+"Text","Geo Entity","Source Text"
+"MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict resolving is enabled and it should detect MS as the entity having the first id in config (geoaliases.csv, entity_id). And this is Monserrat.","Montserrat","MS"
+"Here we expect CcaaNNaaddaa to be returned as having lower id than CcaaLLifornia for alias CA.","Canada","CA"

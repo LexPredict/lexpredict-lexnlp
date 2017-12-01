@@ -40,7 +40,7 @@ default_company_types_file_path = os.path.join(os.path.dirname(__file__), 'compa
 def get_company_types(file_path=None):
     ret = dict()
     file_path = file_path or default_company_types_file_path
-    with open(file_path, encoding="utf-8") as f:
+    with open(file_path) as f:
         for row in csv.DictReader(f):
             alias_dot = row['Alias'].strip(' ').lower()
             alias = alias_dot.strip('.')
