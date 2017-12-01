@@ -31,7 +31,16 @@ LexNLP is available under a dual-licensing model.  By default, this library can 
 in the repository LICENSE file; however, organizations can request a release from the AGPL terms by contacting
 ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
+## Structure
+Please note that ContraxSuite installations generally require trained models or knowledge sets for usage.
+* ContraxSuite web application: https://github.com/LexPredict/lexpredict-contraxsuite
+* LexNLP library for extraction: https://github.com/LexPredict/lexpredict-lexnlp
+* ContraxSuite pre-trained models and "knowledge sets": https://github.com/LexPredict/lexpredict-legal-dictionary
+* ContraxSuite agreement samples: https://github.com/LexPredict/lexpredict-contraxsuite-samples
+* ContraxSuite deployment automation: https://github.com/LexPredict/lexpredict-contraxsuite-deploy
+
 ## Releases
+* 0.1.3: December 1, 2017 - Third scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.3)
 * 0.1.2: November 1, 2017 - Second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.2)
 * 0.1.1: October 2, 2017 - Bug fix release for 0.1.0; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.1)
 * 0.1.0: September 30, 2017 - First public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.0)
