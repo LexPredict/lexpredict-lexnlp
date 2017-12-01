@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=master) [![](https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code)](https://github.com/lexpredict/lexpredict-lexnlp)
-
-
 # LexNLP by LexPredict
 ## Information retrieval and extraction for real, unstructured legal text
 LexNLP is a library for working with real, unstructured legal text, including contracts, plans, policies, procedures,
@@ -17,6 +14,8 @@ and other material.  LexNLP provides functionality such as:
   * Courts, regulations, and citations
 * Tools for building new clustering and classification methods
 * Hundreds of unit tests from real legal documents
+
+
 ![Logo](https://s3.amazonaws.com/lexpredict.com-marketing/graphics/lexpredict_lexnlp_logo_horizontal_1.png)
 
 # Information
@@ -26,21 +25,14 @@ and other material.  LexNLP provides functionality such as:
 * Documentation: (in progress)
 * Contact: support@contraxsuite.com
 
+
 ## Licensing
 LexNLP is available under a dual-licensing model.  By default, this library can be used under AGPLv3 terms as detailed
 in the repository LICENSE file; however, organizations can request a release from the AGPL terms by contacting
 ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
-## Structure
-Please note that ContraxSuite installations generally require trained models or knowledge sets for usage.
-* ContraxSuite web application: https://github.com/LexPredict/lexpredict-contraxsuite
-* LexNLP library for extraction: https://github.com/LexPredict/lexpredict-lexnlp
-* ContraxSuite pre-trained models and "knowledge sets": https://github.com/LexPredict/lexpredict-legal-dictionary
-* ContraxSuite agreement samples: https://github.com/LexPredict/lexpredict-contraxsuite-samples
-* ContraxSuite deployment automation: https://github.com/LexPredict/lexpredict-contraxsuite-deploy
 
 ## Releases
-* 0.1.3: December 1, 2017 - Third scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.3)
 * 0.1.2: November 1, 2017 - Second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.2)
 * 0.1.1: October 2, 2017 - Bug fix release for 0.1.0; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.1)
 * 0.1.0: September 30, 2017 - First public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.0)
