@@ -30,7 +30,8 @@ def load_entities_dict():
     with open(entities_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            entities[row['id']] = entity_config(row['id'], row['name'], name_is_alias=True)
+            entities[row['id']] = entity_config(row['id'], row['name'], int(row['priority']) if row['priority'] else 0,
+                                                name_is_alias=True)
 
     with open(aliases_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
@@ -60,7 +61,16 @@ def test_geoentities_counting():
     assert len(actual) == 3
 
 
-def test_geoentities_en_equal_match_take_first():
+def test_geoentities_en_equal_match_take_lowest_id():
+    lexnlp_tests.test_extraction_func_on_test_data(get_geoentities, geo_config_list=_CONFIG,
+                                                   priority_by_id=True,
+                                                   text_languages='en',
+                                                   actual_data_converter=lambda actual:
+                                                   [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                                   debug_print=True)
+
+
+def test_geoentities_en_equal_match_take_top_prio():
     lexnlp_tests.test_extraction_func_on_test_data(get_geoentities, geo_config_list=_CONFIG,
                                                    priority=True,
                                                    text_languages='en',

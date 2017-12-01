@@ -31,13 +31,16 @@ __email__ = "support@contraxsuite.com"
 
 def entity_config(entity_id: int,
                   name: str,
+                  priority: int = 0,
                   aliases: List[Union[str, Tuple]] = (),
-                  name_is_alias: bool = True) -> Tuple[int, str, List[Tuple]]:
+                  name_is_alias: bool = True) -> Tuple[int, str, int, List[Tuple]]:
     """
     Create entity configuration for a possible entity with its id, name and aliases to search.
     :param entity_id: Unique identifier of the entity.
     :param name: Human-readable name to displaying in UI. Searches are made not for name but for the possible aliases -
     each one having its assigned language. And name may or may not be added to the list of search aliases.
+    :param priority: Optional int priority value for the entity. Can be used for sorting. Entities with higher prio
+    should be selected first.
     :param aliases: List of aliases to search for. Each alias can be either string or
     (alias, language, is_abbreviation, alias_id)
     tuple. For string - a tuple with default values is created. entity_alias() function can be used to create the alias
@@ -45,7 +48,7 @@ def entity_config(entity_id: int,
     :param name_is_alias: If True - then add entity name to the list of aliases with undefined language.
     :return: A tuple representing the entity in format (entity_id, name, [(alias, lang, is_abbrev, alias_id), ...])
     """
-    res = (entity_id, name, list())
+    res = (entity_id, name, priority, list())
 
     if name_is_alias:
         add_alias_to_entity(res, name)
@@ -55,7 +58,7 @@ def entity_config(entity_id: int,
             if isinstance(alias, str):
                 add_alias_to_entity(res, alias)
             else:
-                res[2].append(alias)
+                res[3].append(alias)
     return res
 
 
@@ -73,7 +76,7 @@ def entity_alias(alias: str, language: str = None, is_abbreviation: bool = False
     return alias, language, is_abbreviation, alias_id
 
 
-def get_entity_name(entity: Tuple[int, str, List[Tuple]]) -> str:
+def get_entity_name(entity: Tuple[int, str, int, List[Tuple]]) -> str:
     """
     Get name of the entity.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -84,7 +87,7 @@ def get_entity_name(entity: Tuple[int, str, List[Tuple]]) -> str:
     return entity[1]
 
 
-def get_entity_id(entity: Tuple[int, str, List[Tuple]]) -> int:
+def get_entity_id(entity: Tuple[int, str, int, List[Tuple]]) -> int:
     """
     Get id of the entity.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -93,6 +96,28 @@ def get_entity_id(entity: Tuple[int, str, List[Tuple]]) -> int:
     :return:
     """
     return entity[0]
+
+
+def get_entity_aliases(entity: Tuple[int, str, int, List[Tuple]]) -> List[Tuple]:
+    """
+    Get aliases of the entity.
+    This method is just for more comfortable development - to avoid accessing properties of
+    entities by their indexes.
+    :param entity:
+    :return:
+    """
+    return entity[3]
+
+
+def get_entity_priority(entity: Tuple[int, str, int, List[Tuple]]) -> int:
+    """
+    Get priority of the entity.
+    This method is just for more comfortable development - to avoid accessing properties of
+    entities by their indexes.
+    :param entity:
+    :return:
+    """
+    return entity[2]
 
 
 def get_alias_text(alias: Tuple[str, str, bool, int]) -> str:
@@ -106,7 +131,7 @@ def get_alias_text(alias: Tuple[str, str, bool, int]) -> str:
     return alias[0]
 
 
-def get_alias_id(alias: Tuple[str, str, bool, int]) -> str:
+def get_alias_id(alias: Tuple[str, str, bool, int]) -> int:
     """
     Get alias text from alias tuple.
     This method is just for more comfortable development - to avoid accessing properties of
@@ -117,7 +142,7 @@ def get_alias_id(alias: Tuple[str, str, bool, int]) -> str:
     return alias[3]
 
 
-def add_alias_to_entity(entity: Tuple[int, str, List[Tuple]],
+def add_alias_to_entity(entity: Tuple[int, str, int, List[Tuple]],
                         alias: str, language: str = None, is_abbreviation: bool = False, alias_id: int = None):
     """
     Add alias to entity. Entities are in the form of tuples:
@@ -131,10 +156,10 @@ def add_alias_to_entity(entity: Tuple[int, str, List[Tuple]],
     :param alias_id: Alias id or None if identifying is not supported.
     :return:
     """
-    entity[2].append(entity_alias(alias, language, is_abbreviation, alias_id))
+    entity[3].append(entity_alias(alias, language, is_abbreviation, alias_id))
 
 
-def add_aliases_to_entity(entity: Tuple[int, str, List[Tuple[str, str, bool]]],
+def add_aliases_to_entity(entity: Tuple[int, str, int, List[Tuple[str, str, bool]]],
                           aliases_csv: str,
                           language: str = None,
                           is_abbreviation: bool = None,
@@ -167,12 +192,12 @@ class SearchResultPosition:
     """
     __slots__ = ('entities_dict', 'alias_text', 'start')
 
-    def __init__(self, entity: Tuple[int, str, List[Tuple]], alias: Tuple[str, str, bool, int], start: int):
+    def __init__(self, entity: Tuple[int, str, int, List[Tuple]], alias: Tuple[str, str, bool, int], start: int):
         self.entities_dict = {entity[0]: (entity, alias)}
         self.alias_text = alias[0]
         self.start = start
 
-    def add_entity(self, entity: Tuple[int, str, List[Tuple]], alias: Tuple[str, str, bool, int]):
+    def add_entity(self, entity: Tuple[int, str, int, List[Tuple]], alias: Tuple[str, str, bool, int]):
         if entity:
             self.entities_dict[entity[0]] = (entity, alias)
         return self
@@ -231,7 +256,7 @@ def alias_is_blacklisted(alias_black_list: Union[None, Dict[str, Tuple[List[str]
 
 def _find_entity_positions(normalized_text: str,
                            normalized_text_lowercase: str,
-                           entity: Tuple[int, str, List[Tuple]],
+                           entity: Tuple[int, str, int, List[Tuple]],
                            text_languages: Union[List[str], Tuple[str], Set[str]],
                            context: Dict[int, SearchResultPosition] = None,
                            use_stemmer: bool = False,
@@ -275,7 +300,7 @@ def _find_entity_positions(normalized_text: str,
     if context is None:
         context = dict()
 
-    entity_aliases = entity[2]
+    entity_aliases = get_entity_aliases(entity)
     if entity_aliases:
         for ea in entity_aliases:
 
@@ -318,7 +343,7 @@ def _find_entity_positions(normalized_text: str,
 
 
 def find_dict_entities(text: str,
-                       all_possible_entities: List[Tuple[int, str, List[Tuple]]],
+                       all_possible_entities: List[Tuple[int, str, int, List[Tuple]]],
                        text_languages: Union[List[str], Tuple[str], Set[str]] = None,
                        conflict_resolving_func: Callable[[List[Tuple[int, str, List[Tuple]]]],
                                                          Tuple[List[Tuple[int, str, List[Tuple]]], Tuple]] = None,
@@ -414,7 +439,7 @@ def find_dict_entities(text: str,
     prev_pos = None
 
     def resolve_conflicts(pos: SearchResultPosition) \
-            -> List[Tuple[Tuple[int, str, List[Tuple]], Tuple[str, str, bool, int]]]:
+            -> List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
         """
         Takes SearchResultPosition (multiple found entities+aliases at the same position in the text)
         and return a single entity+its alias which should be returned for this position or their smaller list.
@@ -450,15 +475,27 @@ def find_dict_entities(text: str,
             yield entity, alias
 
 
-def conflicts_take_first_by_id(conflicting_entities_aliases: List[Tuple[Tuple[int, str, List[Tuple]], Tuple]]) \
-        -> List[Tuple[Tuple[int, str, List[Tuple]], Tuple[str, str, bool, int]]]:
+def conflicts_take_first_by_id(conflicting_entities_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \
+        -> List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
     """
     Default conflict resolving function for dropping all entities detected at the same position excepting the one
     having the smallest id. To be used in find_dict_entities() method.
-    :param conflicting_entities_aliases: (entity, alias) pair
+    :param conflicting_entities_aliases: list of (entity, alias) pairs
     :return:
     """
-    return [min(conflicting_entities_aliases, key=lambda entity: entity[0][0]), ]
+    return [min(conflicting_entities_aliases, key=lambda entity_alias_pair: get_entity_id(entity_alias_pair[0])), ]
+
+
+def conflicts_top_by_priority(conflicting_entities_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \
+        -> List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
+    """
+    Default conflict resolving function for dropping all entities detected at the same position excepting the one
+    having the smallest id. To be used in find_dict_entities() method.
+    :param conflicting_entities_aliases: list of (entity, alias) pairs
+    :return:
+    """
+    return [max(conflicting_entities_aliases,
+                key=lambda entity_alias_pair: get_entity_priority(entity_alias_pair[0])), ]
 
 
 def prepare_alias_blacklist_dict(alias_blacklist: List[Tuple[str, str, bool]], use_stemmer: bool=False) \
