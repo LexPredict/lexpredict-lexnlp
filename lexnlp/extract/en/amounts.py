@@ -36,7 +36,7 @@ from num2words import num2words
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -50,7 +50,12 @@ SMALL_NUMBERS_MAP.update({num2words(n).replace('y', 'ieths'): n for n in SMALL_N
 
 BIG_NUMBERS_EXPONENT = [3, 6, 9, 12]
 MAGNITUDE_MAP = {num2words(10 ** n)[4:]: 10 ** n for n in BIG_NUMBERS_EXPONENT}
-MAGNITUDE_MAP.update({'thousandth': 1000, 'thousandths': 1000})
+MAGNITUDE_MAP.update(
+    {'thousandth': 1000,
+     'thousandths': 1000,
+     'k': 1000,
+     'm': 1000000,
+     'b': 1000000000})
 
 small_numbers = list(SMALL_NUMBERS_MAP.keys())
 small_numbers.sort(key=len, reverse=True)
@@ -147,7 +152,8 @@ def text2num(s, search_fraction=True):
     s = re.sub(r'\s+and\s*$|^\s*and\s+', '', s)
     if not (s.startswith('.') and s[1].isdigit()):
         s = s.lstrip(string.punctuation + string.whitespace)
-
+    if s in ['k', 'm', 'b']:
+        return
     # if only number or float in string
     if NON_WRIT_RE.fullmatch(s):
         return float(s)
@@ -240,6 +246,8 @@ def get_amounts(text, return_sources=False, float_digits=4) -> Generator:
             amount = text2num(found_item)
         except (AttributeError, RuntimeError, ValueError,
                 TypeError, ZeroDivisionError):
+            continue
+        if amount is None:
             continue
         if isinstance(amount, float) and float_digits:
             amount = round(amount, float_digits)

@@ -40,4 +40,6 @@ with address at 380 N. Old Woodward Avenue, Ste. 226, Birmingham, MI 48009.
 ,Trust Company of Connecticut,N.A
 "test two words after 'of' for Trust Company of New York, N.A",Trust Company of New York,N.A
 "test 'of' cause for company without typr for Trust Company of New York",Trust Company of New York,
-
+"test. The Company and all Company employees, just without actual name",,
+"test if NP starts with JJ in lower case: such Company",,
+"the Mortgage and Deed of Trust",,

@@ -57,3 +57,6 @@ This string ends with the number 20,20.0
 "This string ends with the number 20,000",20000.0
 "This string ends with the number 20,000,000",20000000.0
 "This string has number in pycopg2 word",
+"test when the text uses units such as K/M/B: i.e. 12.320 M.",12320000.0
+"test 12 K",12000.0
+"test 12,333 B",12333000000000.0

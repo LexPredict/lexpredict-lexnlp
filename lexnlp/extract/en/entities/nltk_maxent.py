@@ -25,7 +25,7 @@ from lexnlp.nlp.en.tokens import get_token_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -271,7 +271,8 @@ class CompanyNPExtractor(NPExtractor):
 
     def cleanup_leaves(self, leaves):
         leaves = super().cleanup_leaves(leaves)
-        leaves = [i for i in leaves if i[0] != ('a', 'DT') and i[0] != ('A', 'DT')]
+        leaves = [i for i in leaves if i[0] != ('a', 'DT') and i[0] != ('A', 'DT') and
+                  not (i[0][1] == 'JJ' and i[0][0].islower())]
         return leaves
 
 

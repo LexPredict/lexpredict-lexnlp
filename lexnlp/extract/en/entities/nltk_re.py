@@ -24,18 +24,21 @@ from lexnlp.nlp.en.segments.sentences import get_sentence_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 # Commonly re-used regular expression components
+ARTICLES = r'by\ and\ between|by\ and\ among|among|between|with|the|and|to|by|an|a|all'
+ARTICLE_RE = re.compile(ARTICLES,
+                        re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
 ARTICLE_PATTERN = r'''
 (?:
-(?:\W|^)
-(?P<article>by\ and\ between|by\ and\ among|among|between|with|the|and|to|by|an|a)
-\s+
+    (?:\W|^)
+    (?P<article>{})
+    \s+
 )?
-'''
+'''.format(ARTICLES)
 COMPANY_NAME_PATTERN = r'[a-z0-9][a-z0-9 \,\.\-&]+?(?:\([a-z0-9][a-z0-9 \,\.\-\&]+?\))?'
 
 # Setup template expression for name matches alone
@@ -141,7 +144,6 @@ def get_companies(text: str,
     for sentence in get_sentence_list(text):
         for match in re_c.finditer(sentence):
             captures = match.capturesdict()
-
             company_type = captures["company_type_of"] or \
                            captures["company_type"] or \
                            captures["company_type_single"]
@@ -176,8 +178,10 @@ def get_companies(text: str,
             company_description = company_description or None
             if company_description:
                 company_name = re.sub(r'[\s,]%s$' % company_description, '', company_name)
-                if not company_name:
-                    return
+                if not company_name or \
+                        ARTICLE_RE.fullmatch(company_name) or \
+                        re.match(r'.+?\s(?:of|in)$', company_name.lower()):
+                    continue
             if company_name in COMPANY_DESCRIPTIONS:
                 continue
 

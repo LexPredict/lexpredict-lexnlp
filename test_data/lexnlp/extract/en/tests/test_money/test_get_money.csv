@@ -24,3 +24,5 @@ The model number is X100 for your vacuum
 "There is no , money in the banana stand"
 "Bank must be rated at least ""A"" by S&P and ""A2"" by Moody's.  No"
 There are 5.4.3 dollars
+"test $12 K",12000.0,USD
+"test $12,333 M",12333000000.0,USD
