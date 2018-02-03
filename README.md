@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.1.3)[![](https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code)](https://github.com/lexpredict/lexpredict-lexnlp)
+[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.1.5)[![](https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code)](https://github.com/lexpredict/lexpredict-lexnlp)
 
 
 
@@ -43,6 +43,8 @@ ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
 
 ## Releases
+* 0.1.5: February 1, 2018 - Fifth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.5)
+* 0.1.4: January 1, 2018 - Fourth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.4)
 * 0.1.3: December 1, 2017 - Third scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.3)
 * 0.1.2: November 1, 2017 - Second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.2)
 * 0.1.1: October 2, 2017 - Bug fix release for 0.1.0; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.1)
