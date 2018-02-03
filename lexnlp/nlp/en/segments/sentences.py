@@ -11,15 +11,16 @@ Todo:
 
 # Imports
 import os
+import typing
 
 # Packages
-from sklearn.externals import joblib
 from nltk.tokenize.punkt import PunktTrainer, PunktSentenceTokenizer
+from sklearn.externals import joblib
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.4"
+__version__ = "0.1.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -39,6 +40,14 @@ def get_sentence_list(text):
     :return:
     """
     return SENTENCE_SEGMENTER_MODEL.tokenize(text)
+
+
+def get_sentence_span_list(text) -> typing.List[typing.Tuple[int, int]]:
+    """
+    Given a text, returns a list of the (start, end) spans of sentences
+    in the text.
+    """
+    return list(SENTENCE_SEGMENTER_MODEL.span_tokenize(text))
 
 
 def build_sentence_model(text, extra_abbrevs=None):

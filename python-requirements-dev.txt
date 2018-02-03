@@ -7,16 +7,11 @@ nose==1.3.7
 num2words==0.5.5
 pandas==0.21.0
 psutil==5.4.0
-pylint==1.7.2
-pytest==3.2.1
-pytest-cache==1.0
 pytest-cov==2.5.1
 pytest-pep8==1.0.6
 pytest-pylint==0.7.1
 pytest-xdist==1.20.1
-python-coveralls==2.9.1
 reporters-db==1.0.12.1
-requests==2.18.4
 scipy==1.0.0
 scikit-learn==0.19.1
 Unidecode==0.4.21
