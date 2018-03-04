@@ -24,7 +24,7 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -43,15 +43,22 @@ EXAMPLE_BAD_DATES = [
 DATE_FORMAT = '%Y-%m-%d'
 
 
+def expected_data_converter(expected):
+    return [datetime.datetime.strptime(
+        d if len(d) == 10
+        else '{}-{}'.format(datetime.date.today().year, d),
+        DATE_FORMAT).date()
+            for d in expected]
+
+
 def test_fixed_raw_dates():
     """
     Test raw date extraction from fixed examples.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_raw_date_list,
-                                                   expected_data_converter=lambda expected:
-                                                   [datetime.datetime.strptime(d, DATE_FORMAT).date()
-                                                    for d in expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        get_raw_date_list,
+        expected_data_converter=expected_data_converter)
 
 
 def test_fixed_dates():
@@ -59,10 +66,9 @@ def test_fixed_dates():
     Test date extraction from fixed examples.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_dates_list,
-                                                   expected_data_converter=lambda expected:
-                                                   [datetime.datetime.strptime(d, DATE_FORMAT).date() for d in
-                                                    expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        get_dates_list,
+        expected_data_converter=expected_data_converter)
 
 
 def test_fixed_dates_nonstrict():
@@ -70,10 +76,9 @@ def test_fixed_dates_nonstrict():
     Test date extraction from fixed examples.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_dates_list, strict=False,
-                                                   expected_data_converter=lambda expected:
-                                                   [datetime.datetime.strptime(d, DATE_FORMAT).date() for d in
-                                                    expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        get_dates_list, strict=False,
+        expected_data_converter=expected_data_converter)
 
 
 def test_date_may():
@@ -94,11 +99,10 @@ def test_fixed_dates_source():
     Test date extraction from fixed examples with source.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_dates_list, return_source=True,
-                                                   expected_data_converter=lambda expected:
-                                                   [datetime.datetime.strptime(d, DATE_FORMAT).date() for d in
-                                                    expected],
-                                                   actual_data_converter=lambda actual: [d[0] for d in actual])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        get_dates_list, return_source=True,
+        expected_data_converter=expected_data_converter,
+        actual_data_converter=lambda actual: [d[0] for d in actual])
 
 
 def test_random_dates():
@@ -176,7 +180,7 @@ def test_date_feature_1_bigram():
     :return:
     """
     date_feature = lexnlp_tests.benchmark_extraction_func(get_date_features,
-        "2000-02-02", start_index=0, end_index=10, include_bigrams=True, characters=string.digits)
+                                                          "2000-02-02", start_index=0, end_index=10, include_bigrams=True, characters=string.digits)
     assert_dict_equal(date_feature,
                       {'bigram_02': 0.6666666666666666, 'bigram_06': 0.0, 'bigram_05': 0.0, 'bigram_58': 0.0,
                        'bigram_41': 0.0, 'bigram_13': 0.0, 'bigram_95': 0.0, 'bigram_37': 0.0, 'bigram_25': 0.0,
