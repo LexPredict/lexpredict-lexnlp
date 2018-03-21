@@ -5,90 +5,70 @@
 ============
 
 The :mod:`lexnlp.extract.en.distances` module contains methods that allow for the extraction
-of conditional statements from text.  Statements that are covered by default in this module are:
+of distance references from text.  Distances that are covered by default in this module include:
 
- * if
- * if not
- * when
- * when not
- * where
- * where not
- * unless and until
- * unless
- * unless not
- * until
- * until not
- * as soon as
- * as soon as not
- * provided that
- * provided that not
- * subject to
- * not subject to
- * upon the occurrence
- * subject to
- * conditioned  on
- * conditioned  upon
-
+ * km
+ * kilometer
+ * mile
+ * miles
+ * mi
 
 The full list of current unit test cases can be found here:
-https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/extract/en/tests/test_conditions
+https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/extract/en/tests/test_distances
 
 
-.. currentmodule:: lexnlp.extract.en.conditions
+.. currentmodule:: lexnlp.extract.en.distances
 
 
 Extracting conditions
 ----------------
-.. autofunction:: get_conditions
+.. autofunction:: get_distances
 
 Example ::
 
-    >>> import lexnlp.extract.en.conditions
-    >>> text = "This will occur unless something else happens."
-    >>> print(list(lexnlp.extract.en.conditions.get_conditions(text)))
-    [('unless and until', 'This will occur', '')]
-
-    >>> import lexnlp.extract.en.conditions
-    >>> text = "Immediately upon the occurrence of a Change in Control of the Company or the Bank, the Employee shall be paid $125,000.00."
-    >>> print(list(lexnlp.extract.en.conditions.get_conditions(text)))
-    [('upon the occurrence', 'Immediately', '')]
+    >>> import lexnlp.extract.en.distances
+    >>> text = "Within 50 miles of office."
+    >>> print(list(lexnlp.extract.en.distances.get_distances(text)))
+    [(50.0, 'mile')]
 
 
-Customizing conditional statement extraction
+Customizing distance extraction
 ----------------
-
-Conditional statement extraction can be customized.  There are two key module
+Distance extraction can be customized.  There are three key module
 variables that store the default configuration and one function used to create
 a matching instance:
 
- * `CONDITION_PHRASES`: This `List` stores the "trigger" phrases that are used to identify conditional statements.  They are typically conjunctions or conjunction phrases.
- * `CONDITION_PATTERN_TEMPLATE`: This `String` stores the regular expression pattern that drives matching in this module.
+ * `DISTANCE_TOKEN_MAP`: This `Dictionary` stores the map from tokens to standard distance types.  See customization example below.
+ * `DISTANCE_SYMBOL_MAP`: This `Dictionary` stores the map from abbreviations to standard distance types.  See customization example below.
+ * `DISTANCE_PTN`: This `String` defines the regular expression pattern used to match distances.
 
-.. autofunction:: create_condition_pattern
-
-.. note::
-    For more examples and information about conditional statements, see the linguistic resources below:
-     * http://www-personal.umich.edu/~jlawler/subordinatingconjunctions.pdf
-
-
-The default behavior of this module can be customized by overriding the value of `RE_CONDITION`
-with a new regular expression created using `create_condition_pattern` above.  The example below
-demonstrates a simple addition of a new phrase::
+The default behavior of this module can be customized by overriding the value of `DISTANCE_PTN_RE`
+with a new regular expression.  The example below demonstrates a simple addition of a new distance::
 
     >>> # Out of the box behavior
     >>> import lexnlp.extract.en.conditions
-    >>> text = "This will occur predicated upon something else."
-    >>> print(list(lexnlp.extract.en.conditions.get_conditions(text)))
+    >>> text = "This improvement shall extend for no more than fifteen yards."
+    >>> print(list(lexnlp.extract.en.distances.get_distances(text)))
     []
 
-    >>> # Customize the `RE_CONDITION` variable by adding a new phrase
+    >>> # Customize the regular expression pattern
     >>> import regex as re
-    >>> my_condition_phrases = lexnlp.extract.en.conditions.CONDITION_PHRASES
-    >>> my_condition_phrases.append("predicated upon")
-    >>> CONDITION_PATTERN = lexnlp.extract.en.conditions.create_condition_pattern(lexnlp.extract.en.conditions.CONDITION_PATTERN_TEMPLATE, my_condition_phrases)
-    >>> lexnlp.extract.en.conditions.RE_CONDITION = re.compile(CONDITION_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
+    >>> import lexnlp.extract.en.amounts
+    >>> lexnlp.extract.en.distances.DISTANCE_TOKEN_MAP["yard"] = "yard"
+    >>> lexnlp.extract.en.distances.DISTANCE_TOKEN_MAP["yards"] = "yard"
+    >>> lexnlp.extract.en.distances.DISTANCE_SYMBOL_MAP["yd"] = "yard"
+    >>> lexnlp.extract.en.distances.DISTANCE_PTN = r"""
+    (({num_ptn})\s*
+    ({distance_tokens}|{distance_symbols}))(?:\W|$)
+    """.format(
+        num_ptn=lexnlp.extract.en.amounts.NUM_PTN.replace('(?:\\W|$)', '').replace('(?<=\\W|^)', ''),
+        distance_symbols='|'.join(lexnlp.extract.en.distances.DISTANCE_SYMBOL_MAP),
+        distance_tokens='|'.join(lexnlp.extract.en.distances.DISTANCE_TOKEN_MAP)
+    )
+    >>> lexnlp.extract.en.distances.DISTANCE_PTN_RE = re.compile(lexnlp.extract.en.distances.DISTANCE_PTN,
+    re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
-    >>> # Run the `get_conditions` method again to test
-    >>> print(list(lexnlp.extract.en.conditions.get_conditions(text)))
-    [('predicated upon', 'This will occur', '')]
+    >>> # Run the method again to test
+    >>> print(list(lexnlp.extract.en.distances.get_distances(text)))
+    [(15, 'yard')]
 

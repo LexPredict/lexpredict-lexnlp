@@ -39,7 +39,7 @@ The full list of supported pattern-based structured data types is below:
  * :ref:`ratios <extract_en_ratios>`, e.g.," 3:1" or "four to three"
  * :ref:`regulations <extract_en_regulations>`, e.g., "32 CFR 170"
  * :ref:`trademarks <extract_en_trademarks>`, e.g., "MyApp (TM)"
- * :ref:`URLs <extract_en_url>`, e.g., "http://acme.com/"
+ * :ref:`URLs <extract_en_urls>`, e.g., "http://acme.com/"
 
 .. note:
     The `lexnlp.extract.en.dates` module optionally relies on machine learning classifiers

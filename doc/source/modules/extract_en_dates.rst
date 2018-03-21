@@ -4,110 +4,58 @@
 :mod:`lexnlp.extract.en.dates`: Extracting date references
 ============
 
-The :mod:`lexnlp.extract.en.definitions` module contains methods that allow for the extraction
-of constraint statements from text.  Statements that are covered by default in this module are:
+The :mod:`lexnlp.extract.en.dates` module contains methods that allow for the extraction
+of dates from text.  Sample formats that are handled by this module include:
 
- * after
- * at least
- * at most
- * before
- * equal to
- * exactly
- * first of
- * greater
- * greater of
- * greater than
- * greater than or equal to
- * greatest of
- * last of
- * least of
- * lesser
- * lesser of
- * lesser than
- * less than
- * less than or equal to
- * maximum of
- * maximum
- * minimum of
- * minimum
- * more than
- * more than or equal to
- * no earlier than
- * no later than
- * no less than
- * no more than
- * not equal to
- * not to exceed
- * earlier than
- * later than
- * within
- * exceed
- * exceeds
- * prior to
- * highest
- * least
- * smallest among
+ * February 1, 1998
+ * 2017-06-01
+ * 1st day of June, 2017
+ * 31 October 2016
+ * 15th of March 2000
 
 The full list of current unit test cases can be found here:
-https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/extract/en/tests/test_constraints
+https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/extract/en/tests/test_dates
 
 
-.. currentmodule:: lexnlp.extract.en.constraints
+.. currentmodule:: lexnlp.extract.en.dates
 
 
-Extracting constraints
+Extracting dates
 ----------------
-.. autofunction:: get_constraints
+.. autofunction:: get_dates
 
 Example ::
 
-    >>> import lexnlp.extract.en.constraints
-    >>> text = "This will occur at most three times."
-    >>> print(list(lexnlp.extract.en.constraints.get_constraints(text)))
-    [('at most', 'this will occur', '')]
-
-    >>> import lexnlp.extract.en.conditions
-    >>> text = "The rate shall be no less than 50 bps."
-    >>> print(list(lexnlp.extract.en.constraints.get_constraints(text)))
-    [('no less than', 'the rate shall be', '')]
-
-
-Customizing constraint statement extraction
-----------------
-
-Constraint statement extraction can be customized.  There are two key module
-variables that store the default configuration and one function used to create
-a matching instance:
-
- * `CONSTRAINT_PHRASES`: This `List` stores the "trigger" phrases that are used to identify constraint statements.  They are typically adverbial or prepositional phrases.
- * `CONSTRAINT_PATTERN_TEMPLATE`: This `String` stores the regular expression pattern that drives matching in this module.
-
-.. autofunction:: create_constraint_pattern
+    >>> import lexnlp.extract.en.dates
+    >>> text = "This agreement shall terminate on the 15th day of March, 2020."
+    >>> print(list(lexnlp.extract.en.dates.get_dates(text)))
+    [datetime.date(2020, 3, 15)]
+    >>> text = "This agreement shall terminate on the 2nd of Apr 2030."
+    >>> print(list(lexnlp.extract.en.dates.get_dates(text)))
+    [datetime.date(2030, 4, 1)]
 
 .. note::
-    For more examples and information about natural language constraints, see the linguistic resources below:
-     * https://www.ijcai.org/Proceedings/16/Papers/111.pdf
-     * https://www.sciencedirect.com/science/article/pii/S131915781200002X
+    This method combines both pattern-matching approaches as well as machine learning and NLP
+    to remove false positive matches.  If speed is more important than precision, then users
+    should examine the `get_raw_dates` method below or train their own model using a smaller
+    feature space or faster machine learning model type.  For more details, see the Advanced
+    Usage section below.
 
 
-The default behavior of this module can be customized by overriding the value of `RE_CONSTRAINT`
-with a new regular expression created using `create_constraint_pattern` above.  The example below
-demonstrates a simple addition of a new phrase::
 
-    >>> # Out of the box behavior
-    >>> import lexnlp.extract.en.constraints
-    >>> text = "The applicable rate shall be the smallest among thing A and thing B at time T."
-    >>> print(list(lexnlp.extract.en.constraints.get_constraints(text)))
-    []
+Advanced usage and customization
+----------------
+Out of the box, LexNLP uses a cross-validated logistic classifier whose inputs are
+the one-character and two-character sequence distributions within a 5-character window
+of the potential date match.  The training and assessment data used can be found
+in `train_default_model` and unit tests.
 
-    >>> # Customize the `RE_CONSTRAINT` variable by adding a new phrase
-    >>> import regex as re
-    >>> my_constraint_phrases = lexnlp.extract.en.constraints.CONSTRAINT_PHRASES
-    >>> my_constraint_phrases.append("smallest among")
-    >>> CONSTRAINT_PATTERN = lexnlp.extract.en.constraints.create_constraint_pattern(lexnlp.extract.en.constraints.CONSTRAINT_PATTERN_TEMPLATE, my_constraint_phrases)
-    >>> lexnlp.extract.en.constraints.RE_CONSTRAINT = re.compile(CONSTRAINT_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
+.. autofunction:: get_raw_date_list
 
-    >>> # Run the `get_constraints` method again to test
-    >>> print(list(lexnlp.extract.en.constraints.get_constraints(text)))
-    [('smallest among', 'the applicable rate shall be the', '')]
+.. autofunction:: get_raw_dates
 
+.. autofunction:: get_date_features
+
+.. autofunction:: build_date_model
+
+.. autofunction:: train_default_model

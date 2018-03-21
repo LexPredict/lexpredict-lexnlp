@@ -24,6 +24,17 @@ The methods in this package are primarily built on the Natural Language Toolkit 
 but some functionality from the Stanford NLP, gensim, and spaCy packages is available
 to users depending on their use case.
 
+.. attention::
+    The sections below are a work in progress.  Thank you for your patience
+    while we continue to expand and improve our documentation coverage.
+
+    If you have any questions in the meantime, please feel free to log issues on
+    GitHub at the URL below or contact us at the email below:
+
+    - GitHub issues: https://github.com/LexPredict/lexpredict-lexnlp
+    - Email: support@contraxsuite.com
+
+
 Tokenization and related methods
 ----------------
  * lexnlp.nlp.en.tokens
