@@ -15,3 +15,4 @@ reporters-db==1.0.12.1
 scipy==1.0.0
 scikit-learn==0.19.1
 Unidecode==0.4.21
+sphinx-automodapi==0.7
