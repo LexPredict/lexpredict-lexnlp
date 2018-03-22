@@ -15,8 +15,8 @@ Table of Contents
 .. toctree::
     :maxdepth: 4
 
-    lexnlp
     about
+    lexnlp
     changes
     license
 

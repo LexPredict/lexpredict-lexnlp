@@ -37,18 +37,29 @@ to users depending on their use case.
 
 Tokenization and related methods
 ----------------
- * lexnlp.nlp.en.tokens
 
-Segmentation and related methods
-----------------
- * lexnlp.nlp.en.segments.pages
- * lexnlp.nlp.en.segments.paragraphs
- * lexnlp.nlp.en.segments.sections
- * lexnlp.nlp.en.segments.sentences
- * lexnlp.nlp.en.segments.titles
- * lexnlp.nlp.en.segments.utils
+ * :ref:`Extracting tokens, stems, lemmas, and parts of speech <nlp_en_tokens>`
 
-Transforms and related methods
+
+
+Segmentation and related methods for real-world text
 ----------------
- * lexnlp.nlp.en.transforms.characters
- * lexnlp.nlp.en.transforms.tokens
+
+ * :ref:`Sentences <nlp_en_segments_sentences>`
+
+ * :ref:`Paragraphs <nlp_en_segments_paragraphs>`
+
+ * :ref:`Sections <nlp_en_segments_sections>`
+
+ * :ref:`Pages <nlp_en_segments_pages>`
+
+ * :ref:`Titles <nlp_en_segments_titles>`
+
+ * :ref:`Utilities <nlp_en_segments_utils>`
+
+Transforming text into features
+----------------
+
+ * :ref:`Character Transforms <nlp_en_transforms_characters>`
+
+ * :ref:`Token Transforms <nlp_en_transforms_tokens>`, including n-grams and skip-grams
