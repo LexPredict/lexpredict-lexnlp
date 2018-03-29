@@ -24,7 +24,7 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -41,14 +41,19 @@ EXAMPLE_BAD_DATES = [
 ]
 
 DATE_FORMAT = '%Y-%m-%d'
+DATETIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 
 def expected_data_converter(expected):
-    return [datetime.datetime.strptime(
-        d if len(d) == 10
-        else '{}-{}'.format(datetime.date.today().year, d),
-        DATE_FORMAT).date()
-            for d in expected]
+    ret = []
+    for d in expected:
+        if len(d) == 19:
+            ret.append(datetime.datetime.strptime(d, DATETIME_FORMAT))
+        else:
+            if len(d) == 5:
+                d = '{}-{}'.format(datetime.date.today().year, d)
+            ret.append(datetime.datetime.strptime(d, DATE_FORMAT).date())
+    return ret
 
 
 def test_fixed_raw_dates():

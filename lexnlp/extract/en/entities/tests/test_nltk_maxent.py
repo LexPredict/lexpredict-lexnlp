@@ -9,16 +9,15 @@ Todo:
     * Better testing for exact test in return sources
     * More pathological and difficult cases
 """
-from nose.tools import assert_equal
 
-from lexnlp.extract.en.entities.nltk_maxent import get_noun_phrases, get_companies, get_persons, get_geopolitical, \
-    get_organizations
+from lexnlp.extract.en.entities.nltk_maxent import get_noun_phrases, get_companies, get_persons, \
+    get_geopolitical
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -36,8 +35,7 @@ def test_companies():
     Test get_companies methods.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_companies,
-                                                   actual_data_converter=lambda actual: [(c[0], c[1]) for c in actual])
+    lexnlp_tests.test_extraction_func_on_test_data(get_companies, detail_type=True)
 
 
 def test_companies_count():
@@ -45,9 +43,11 @@ def test_companies_count():
     Test get_companies with counting uniques.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_companies, detail_type=True, count_unique=True,
-                                                   actual_data_converter=lambda actual: [(c[0], c[2], str(c[-1]))
-                                                                                         for c in actual])
+    lexnlp_tests.test_extraction_func_on_test_data(get_companies, detail_type=True,
+                                                   count_unique=True,
+                                                   actual_data_converter=lambda actual: [
+                                                       (c[0], c[2], str(c[-1]))
+                                                       for c in actual])
 
 
 def test_company_upper_name():
@@ -67,7 +67,8 @@ def test_companies_rs():
     :return:
     """
     lexnlp_tests.test_extraction_func_on_test_data(get_companies, return_source=True,
-                                                   actual_data_converter=lambda actual: [(c[0], c[1]) for c in actual])
+                                                   actual_data_converter=lambda actual: [
+                                                       (c[0], c[1]) for c in actual])
 
 
 def test_companies_and():
@@ -133,7 +134,8 @@ def test_persons_rs():
     :return:
     """
     lexnlp_tests.test_extraction_func_on_test_data(get_persons, return_source=True,
-                                                   actual_data_converter=lambda actual: [p[0] for p in actual])
+                                                   actual_data_converter=lambda actual: [p[0] for p
+                                                                                         in actual])
 
 
 def test_gpes():
@@ -150,44 +152,8 @@ def test_gpes_rs():
     :return:
     """
     lexnlp_tests.test_extraction_func_on_test_data(get_geopolitical, return_source=True,
-                                                   actual_data_converter=lambda actual: [v[0] for v in actual])
-
-
-def test_orgs():
-    """
-    Test get_organizations methods.
-    :return:
-    """
-    lexnlp_tests.test_extraction_func_on_test_data(get_organizations)
-
-
-def test_orgs_rs():
-    """
-    Test get_organizations methods with return_source.
-    :return:
-    """
-    lexnlp_tests.test_extraction_func_on_test_data(get_organizations, return_source=True,
-                                                   actual_data_converter=lambda actual: [v[0] for v in actual])
-
-
-def test_orgs_or():
-    """
-    Test get_organizations methods with CC case.
-    :return:
-    """
-    orgs = list(get_organizations("We will work with either Acme Inc. or Beta Co."))
-    num_orgs = len(orgs)
-    assert_equal(num_orgs, 2)
-
-
-def test_orgs_and():
-    """
-    Test get_organizations methods with CC case.
-    :return:
-    """
-    orgs = list(get_organizations("We will work with either Acme Inc. and Beta Co."))
-    num_orgs = len(orgs)
-    assert_equal(num_orgs, 1)
+                                                   actual_data_converter=lambda actual: [v[0] for v
+                                                                                         in actual])
 
 
 def test_person_in():

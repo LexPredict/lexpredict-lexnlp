@@ -113,16 +113,16 @@ cp -rf ${CORE_REPO_PATH}/MANIFEST.in ${LEXNLP_REPO_PATH}
 # create commit and push
 echo ${aline}
 echo "Commit and push new branch to -lexnlp remote repo"
-#git add --all
-#git commit -m "initial commit"
-#git push origin ${NEW_RELEASE_BRANCH}
+git add --all
+git commit -m "initial ${NEW_RELEASE_BRANCH} commit"
+git push origin ${NEW_RELEASE_BRANCH}
 
 # update master
 echo ${aline}
 echo "Update master branch in -lexnlp remote repo"
-#git checkout origin master
-#git pull origin master
-#git merge ${NEW_RELEASE_BRANCH}
-#git push origin master
+git checkout origin master
+git pull origin master
+git merge ${NEW_RELEASE_BRANCH}
+git push origin master
 
 popd

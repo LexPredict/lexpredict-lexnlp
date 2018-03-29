@@ -7,6 +7,7 @@ Todo:
   * Better define interface for sentences vs. raw text
   * Standardize generator vs list
 """
+# pylint: disable=W0612
 
 # Imports
 import re
@@ -25,11 +26,32 @@ from lexnlp.nlp.en.tokens import get_token_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 VALID_PUNCTUATION = [",", ".", "&"]
+
+COMPANY_TYPES = sorted(list(COMPANY_TYPES.keys()) + COMPANY_DESCRIPTIONS, key=len)
+COMPANY_TYPES_RE = re.compile(r' %s(?:\W|$)' % '|'.join([re.escape(i.strip('.'))
+                                                         for i in COMPANY_TYPES]), re.IGNORECASE)
+
+PERSONS_STOP_WORDS = re.compile(
+    r'avenue|amendment|agreement|addendum|article|assignment|exhibit', re.IGNORECASE)
+
+
+def contains_companies(text:str) -> bool:
+    if COMPANY_TYPES_RE.search(text):
+        for result in nltk_re.get_companies(text,
+                                            detail_type=True,
+                                            parse_name_abbr=True):
+            co_name, co_type, co_type_abbr, co_type_label, co_desc, co_abbr = result
+
+            if co_name == co_type or co_name == co_desc:
+                continue
+            return True
+
+    return False
 
 
 def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
@@ -77,6 +99,12 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
             if len(person) <= 2:
                 continue
 
+            if PERSONS_STOP_WORDS.search(person):
+                continue
+
+            if contains_companies(person):
+                continue
+
             if person.lower().endswith(" and"):
                 person = person[0:-4]
             elif person.endswith(" &"):
@@ -87,62 +115,6 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
                 yield person, sentence
             else:
                 yield person
-
-
-def get_organizations(text, strict=False, return_source=False, window=2) -> Generator:
-    """
-    Get organizations from text.
-    :param window:
-    :param return_source:
-    :param strict:
-    :param text:
-    :return:
-    """
-    # Iterate through sentences
-    for sentence in get_sentence_list(text):
-        # Tag sentence
-        sentence_pos = nltk.pos_tag(get_token_list(sentence))
-
-        # Iterate through chunks
-        organizations = []
-        last_org_pos = None
-        for i, chunk in enumerate(nltk.ne_chunk(sentence_pos)):
-            if type(chunk) == nltk.tree.Tree:
-                # Check label
-                if chunk.label() in ['ORGANIZATION']:
-                    if not strict and last_org_pos is not None and (i - last_org_pos) < window:
-                        organizations[-1] += " " + " ".join([c[0] for c in chunk])
-                    else:
-                        organizations.append(" ".join([c[0] for c in chunk]))
-                    last_org_pos = i
-            elif not strict and last_org_pos is not None and (i - last_org_pos) < window:
-                if chunk[1] in ["NNP", "NNPS"]:
-                    organizations[-1] += " " + chunk[0]
-                    last_org_pos = i
-                elif chunk[1] in ["CC"] or chunk[0] in VALID_PUNCTUATION:
-                    if chunk[0].lower() in ["or"]:
-                        continue
-                    organizations[-1] += (" " if chunk[0].lower() in ["&", "and"] else "") + chunk[0]
-                    last_org_pos = i
-                else:
-                    last_org_pos = None
-
-        for org in organizations:
-            # Cleanup
-            org = org.strip()
-            if len(org) <= 2:
-                continue
-
-            if org.lower().endswith(" and"):
-                org = org[0:-4]
-            elif org.endswith(" &"):
-                org = org[0:-2]
-
-            org = strip_unicode_punctuation(org).strip(string.punctuation).strip(string.whitespace)
-            if return_source:
-                yield org, sentence
-            else:
-                yield org
 
 
 def get_geopolitical(text, strict=False, return_source=False, window=2) -> Generator:
@@ -257,10 +229,6 @@ def get_noun_phrases(text, strict=False, return_source=False, window=3, valid_pu
             else:
                 yield nnp
 
-
-COMPANY_TYPES = sorted(list(COMPANY_TYPES.keys()) + COMPANY_DESCRIPTIONS, key=len)
-COMPANY_TYPES_RE = re.compile(r' %s(?:\W|$)' % '|'.join([re.escape(i.strip('.'))
-                                                         for i in COMPANY_TYPES]), re.IGNORECASE)
 
 
 class CompanyNPExtractor(NPExtractor):

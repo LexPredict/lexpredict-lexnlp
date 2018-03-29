@@ -1,45 +1,49 @@
-Text,Company Name,Company Type
+"Text","Company Name","Company Type","Company Type Abbr","Company Type Label","Company Description"
 "This Amendment to Employment Agreement (“Amendment”) is made and entered into this 18th day of July,
-2005, by and between OSI SYSTEMS, INC. (“Company”), a California corporation, and Anuj Wadhawan (“Employee”).",OSI SYSTEMS,INC
+2005, by and between OSI SYSTEMS, INC. (“Company”), a California corporation, and Anuj Wadhawan (“Employee”).","OSI SYSTEMS","INC","CORP","Corporation",
 "AMERICAN RESIDENTIAL GAP LLC (ARG), a Michigan Limited Liability Company
 with address at 380, N. Old Woodward Avenue, Ste. 300, Birmingham, MI 48009.
 And
 PROGREEN CONSTRUCTION LLC (PGC), a Michigan Limited Liability Company
 with address at 380 N. Old Woodward Avenue, Ste. 226, Birmingham, MI 48009.
-",AMERICAN RESIDENTIAL GAP,LLC
-,PROGREEN CONSTRUCTION,LLC
+","AMERICAN RESIDENTIAL GAP","LLC","LLC","Company",
+,"PROGREEN CONSTRUCTION","LLC","LLC","Company",
 "“Arrangers” means Credit Suisse Securities (USA) LLC, KeyBank National Association and SunTrust
  Robinson Humphrey, Inc., in their capacity as joint lead arrangers and joint bookrunners under
- this Agreement.",Credit Suisse Securities (USA),LLC
-,KeyBank,National Association
-,SunTrust Robinson Humphrey,Inc
+ this Agreement.","Credit Suisse Securities (USA)","LLC","LLC","Company",
+,"KeyBank","National Association","NA","National Association",
+,"SunTrust Robinson Humphrey","Inc","CORP","Corporation",
 "This SUPPORT AGREEMENT (this “Agreement”), dated as of March 22, 2015,
  is entered into by and among EMRISE Corporation, a Delaware corporation (“Seller”), DDC (US) Ltd.,
  a company Cisco Misco LLC (SM) incorporated under the laws of England (
  “Purchaser”), and each of the Persons set forth on Schedule A hereto (each, a “Stockholder”).
  All capitalized terms used but not otherwise defined in this Agreement shall have the respective meanings ascribed
- to such terms in the Stock Purchase Agreement (as defined below). ",EMRISE,Corporation
-,DDC (US),Ltd
-,Cisco Misco,LLC
+ to such terms in the Stock Purchase Agreement (as defined below). ","EMRISE","Corporation","CORP","Corporation",
+,"DDC (US)","Ltd","LTD","LTD",
+,"Cisco Misco","LLC","LLC","Company",
 "test case for match 'or' in substring
- Company or Geovic Ltd. by providing written notice",Geovic,Ltd
-"test case for match 'of' in a party name such as Member of Party Ltd. policy.",Member of Party,Ltd
-"test case for match '&' in a party name such as A&B, LLC. policy.",A&B,LLC
-"test case for U.S.A. to ensure that it is not matched company type",,
-"test case for U.S.C. to ensure that it is not matched company type",,
-"test case for '& Company' case in a party name like Party & Company,LLC presents",Party & Company,LLC
-"test case for 'and Company' case in a party name like Party and Company,LLC presents",Party and Company,LLC
-"test party name without party type like Trial BANK presents",Trial,
-"test company right after party name TRIAL LLC and Company presents",TRIAL,LLC
-"test word after description TRIAL Bank Services LLC and Company presents",TRIAL Bank Services,LLC
-"TEST IF ALL TEXT IS IN UPPERCASSE. NEXT PHRASE WITH ABC LLC INSIDE",,
-"test if part of text is in uppercase. NEXT PHRASE WITN ABC LLC INSIDE",,
-"test a Trust Bank name",,
-"test a Some Company without name",,
-"among State Street Bank and Trust Company of Connecticut, N.A",State Street,
-,Trust Company of Connecticut,N.A
-"test two words after 'of' for Trust Company of New York, N.A",Trust Company of New York,N.A
-"test 'of' cause for company without typr for Trust Company of New York",Trust Company of New York,
-"test. The Company and all Company employees, just without actual name",,
-"test if NP starts with JJ in lower case: such Company",,
-"the Mortgage and Deed of Trust",,
+ Company or Geovic Ltd. by providing written notice","Geovic","Ltd","LTD","LTD",
+"test case for match 'of' in a party name such as Member of Party Ltd. policy.","Member of Party","Ltd","LTD","LTD",
+"test case for match '&' in a party name such as A&B, LLC. policy.","A&B","LLC","LLC","Company",
+"test case for U.S.A. to ensure that it is not matched company type",,,,,
+"test case for U.S.C. to ensure that it is not matched company type",,,,,
+"test case for '& Company' case in a party name like Party & Company,LLC presents","Party & Company","LLC","LLC","Company",
+"test case for 'and Company' case in a party name like Party and Company,LLC presents","Party and Company","LLC","LLC","Company",
+"test party name without party type like Trial BANK presents","Trial",,,,"BANK"
+"test company right after party name TRIAL LLC and Company presents","TRIAL","LLC","LLC","Company",
+"test word after description TRIAL Bank Services LLC and Company presents","TRIAL Bank Services","LLC","LLC","Company","Bank"
+"TEST IF ALL TEXT IS IN UPPERCASSE. NEXT PHRASE WITH ABC LLC INSIDE",,,,,
+"test if part of text is in uppercase. NEXT PHRASE WITN ABC LLC INSIDE",,,,,
+"test a Trust Bank name",,,,,
+"test a Some Company without name",,,,,
+"among State Street Bank and Trust Company of Connecticut, N.A","State Street",,,,"Bank"
+,"Trust Company of Connecticut","N.A","NA","National Association","Trust Company"
+"test two words after 'of' for Trust Company of New York, N.A","Trust Company of New York","N.A","NA","National Association","Trust Company"
+"test 'of' cause for company without typr for Trust Company of New York","Trust Company of New York",,,,"Trust Company"
+"test. The Company and all Company employees, just without actual name",,,,,
+"test if NP starts with JJ in lower case: such Company",,,,,
+"the Mortgage and Deed of Trust",,,,,
+"THIS DISTRIBUTOR AGREEMENT is made as of this 29th day of January, 1999, between LIEBHERR CONSTRUCTION EQUIPMENT CO. (""Liebherr""), with offices at 4100 Chestnut Avenue, Newport News, Virginia 23607, and WESTERN TRACTION COMPANY (""Distributor""), with offices at:","WESTERN TRACTION",,,,"COMPANY"
+,"LIEBHERR CONSTRUCTION EQUIPMENT","CO","CORP","Corporation",
+"The Amendment, dated as of May 31, 1999, between California Federal Bank, A Federal Savings Bank, (the ""Company"") successor by merger to First Nationwide Bank, A Federal Savings Bank, (""FNB"") and Christie S. Flanagan (the ""Executive"").","First Nationwide",,,,"Bank"
+,"California Federal",,,,"Bank"

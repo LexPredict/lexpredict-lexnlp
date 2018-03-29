@@ -15,7 +15,7 @@ import os
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -30,7 +30,7 @@ _COMPANY_TYPES = [
     'S.A.', 'S.A. DE C.V.', 'S.A. De C.V.', 'S.A. de C.V.', 'S.A.R.L.',
     'S.A.S.', 'S.A.U.', 'S.A.de C.V.', 'S.C.', 'S.C.A.',
     'S.L.', 'S.L.U.', 'S.R.L.', 'S.R.L. de C.V.', 'S.R.O.', 'S.a.r.l.',
-    'S.de R.L. de C.V.', 'S.r.l.', 'Sdn. Bhd.', 's.r.o.'
+    'S.de R.L. de C.V.', 'S.r.l.', 'Sdn. Bhd.', 's.r.o.', 'CO'
 ]
 
 

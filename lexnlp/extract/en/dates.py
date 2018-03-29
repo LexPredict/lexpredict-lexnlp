@@ -23,7 +23,7 @@ from sklearn.externals import joblib
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -130,16 +130,20 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
     """
     # Setup base date
     if not base_date:
-        base_date = datetime.date(datetime.date.today().year, 1, 1)
+        base_date = datetime.datetime.now().replace(
+            day=1, month=1, hour=0, minute=0, second=0, microsecond=0)
 
     # Find potential dates
     date_finder = datefinder.DateFinder(base_date=base_date)
+
+    for extra_token in date_finder.EXTRA_TOKENS_PATTERN.split('|'):
+        if extra_token != 't':
+            date_finder.REPLACEMENTS[extra_token] = ' '
 
     # Iterate through possible matches
     possible_dates = [(date_string, index, date_props) for date_string, index, date_props in
                       date_finder.extract_date_strings(text, strict=strict)]
     possible_matched = []
-
     for i, possible_date in enumerate(possible_dates):
         # Get
         date_string = possible_date[0]
@@ -211,8 +215,8 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             continue
 
         # Cleanup
-        for token in date_props["extra_tokens"]:
-            if token.lower() in ["to"]:
+        for token in sorted(date_props["extra_tokens"], key=len, reverse=True):
+            if token.lower() in ["to", "t"]:
                 continue
             date_string = date_string.replace(token, "")
         date_string = date_string.strip()
@@ -232,8 +236,23 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             continue
 
         # Parse and skip nones
+        date = None
         try:
-            date = date_finder.parse_date_string(date_string, date_props)
+            date_string_tokens = date_string.split()
+            for cutter in range(len(date_string_tokens)):
+                for direction in (0, 1):
+                    if cutter > 0:
+                        if direction:
+                            _date_string_tokens = date_string_tokens[cutter:]
+                        else:
+                            _date_string_tokens = date_string_tokens[:-cutter]
+                        date_string = ' '.join(_date_string_tokens)
+                    date = date_finder.parse_date_string(date_string, date_props)
+                    if date:
+                        break
+                else:
+                    continue  # executed if the loop ended normally (no break)
+                break  # executed if 'continue' was skipped (break)
         except TypeError:
             possible_matched.append(False)
             continue
@@ -242,8 +261,17 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             possible_matched.append(False)
             continue
         else:
+            # for case when datetime.datetime(2001, 1, 22, 20, 1, tzinfo=tzoffset(None, -104400))
+            if hasattr(date, 'tzinfo'):
+                try:
+                    _ = date.isoformat()
+                except ValueError:
+                    possible_matched.append(False)
+                    continue
             possible_matched.append(True)
 
+        if isinstance(date, datetime.datetime) and date.hour == 0 and date.minute == 0:
+            date = date.date()
         # Append
         if return_source:
             yield (date, index)
@@ -302,7 +330,12 @@ def build_date_model(input_examples, output_file, verbose=True):
         date_results = get_raw_date_list(example[0], strict=False, return_source=True)
         dates = [d[0] for d in date_results]
 
-        l_diff = set(dates) - set(example[1])
+        try:
+            l_diff = set(dates) - set(example[1])
+        except:
+            print(dates)
+            print(example)
+            raise
         r_diff = set(example[1]) - set(dates)
         if len(l_diff) > 0 or len(r_diff) > 0:
             print(example[0])
