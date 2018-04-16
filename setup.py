@@ -89,7 +89,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        # 'datefinder',
+        'datefinder',
         'nltk==3.2.4',
         'num2words==0.5.5',
         'pandas==0.21.0',
@@ -102,7 +102,7 @@ setup(
         'Unidecode==0.4.21'
     ],
     dependency_links=[
-        'https://github.com/LexPredict/datefinder.git#egg=datefinder-0.6.1'
+        'git+https://github.com/LexPredict/datefinder.git@master#egg=datefinder-0.6.1'
     ],
 
     # Install any data files from packages.
