@@ -247,7 +247,10 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
                         else:
                             _date_string_tokens = date_string_tokens[:-cutter]
                         date_string = ' '.join(_date_string_tokens)
-                    date = date_finder.parse_date_string(date_string, date_props)
+                    try:
+                        date = date_finder.parse_date_string(date_string, date_props)
+                    except:
+                        date = None
                     if date:
                         break
                 else:
