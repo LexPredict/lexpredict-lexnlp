@@ -244,8 +244,7 @@ def get_amounts(text, return_sources=False, float_digits=4) -> Generator:
             continue
         try:
             amount = text2num(found_item)
-        except (AttributeError, RuntimeError, ValueError,
-                TypeError, ZeroDivisionError):
+        except:
             continue
         if amount is None:
             continue
