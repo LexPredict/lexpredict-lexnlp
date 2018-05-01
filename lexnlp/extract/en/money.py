@@ -19,7 +19,7 @@ from lexnlp.extract.en.amounts import (
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.7"
+__version__ = "0.1.8"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -46,6 +46,11 @@ CURRENCY_ABBR_LIST = set(
     list(CURRENCY_PREFIX_MAP.values())
 )
 
+CURRENCY_PREFIXES = set(
+    list(CURRENCY_PREFIX_MAP.keys()) +
+    list(CURRENCY_SYMBOL_MAP.values())
+)
+
 CURR_NUM_PTN = NUM_PTN.replace('(?<=\\W|^)', '')
 
 CURRENCY_PTN = r"""
@@ -58,7 +63,7 @@ CURRENCY_PTN = r"""
 """.format(
     num_ptn_1=CURR_NUM_PTN,
     num_ptn_2=CURR_NUM_PTN,
-    currency_prefixes='|'.join(CURRENCY_PREFIX_MAP),
+    currency_prefixes='|'.join(CURRENCY_PREFIXES),
     currency_symbols=''.join([re.escape(i) for i in CURRENCY_SYMBOL_MAP]),
     currency_tokens='|'.join([i.replace(' ', '\\s+') for i in CURRENCY_TOKEN_MAP]),
     currency_abbreviations='|'.join(CURRENCY_ABBR_LIST),
@@ -78,7 +83,9 @@ def get_money(text, return_sources=False, float_digits=4) -> Generator:
             continue
         if prefix:
             prefix = prefix[0].lower()
-            currency_type = CURRENCY_SYMBOL_MAP.get(prefix) or CURRENCY_PREFIX_MAP.get(prefix)
+            currency_type = CURRENCY_SYMBOL_MAP.get(prefix)\
+                            or CURRENCY_PREFIX_MAP.get(prefix)\
+                            or prefix.upper()
         else:
             postfix = postfix[0].lower()
             currency_type = CURRENCY_TOKEN_MAP.get(postfix) or capture['postfix'][0]

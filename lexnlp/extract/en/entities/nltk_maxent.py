@@ -26,7 +26,7 @@ from lexnlp.nlp.en.tokens import get_token_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.7"
+__version__ = "0.1.8"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -40,9 +40,9 @@ PERSONS_STOP_WORDS = re.compile(
     r'avenue|amendment|agreement|addendum|article|assignment|exhibit', re.IGNORECASE)
 
 
-def contains_companies(text:str) -> bool:
-    if COMPANY_TYPES_RE.search(text):
-        for result in nltk_re.get_companies(text,
+def contains_companies(person:str, companies) -> bool:
+    if COMPANY_TYPES_RE.search(person):
+        for result in nltk_re.get_companies(person,
                                             detail_type=True,
                                             parse_name_abbr=True):
             co_name, co_type, co_type_abbr, co_type_label, co_desc, co_abbr = result
@@ -51,6 +51,13 @@ def contains_companies(text:str) -> bool:
                 continue
             return True
 
+    for co_name, co_type in companies:
+        # Solving this scenario: This Amendment to Employment Agreement ("Amendment") is entered into
+        # between Marsh Supermarkets, Inc. (the "Company"), and Don E. Marsh (the "Executive").
+        # because that is pretty common , even though it screws up this scenario
+        # "This is an agreement between John Smith and John Smith, LLC"
+        if person in co_name:
+            return True
     return False
 
 
@@ -67,10 +74,12 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
     for sentence in get_sentence_list(text):
         # Tag sentence
         sentence_pos = nltk.pos_tag(get_token_list(sentence))
+        companies = get_companies(text)
 
         # Iterate through chunks
         persons = []
         last_person_pos = None
+
         for i, chunk in enumerate(nltk.ne_chunk(sentence_pos)):
             if type(chunk) == nltk.tree.Tree:
                 # Check label
@@ -102,7 +111,9 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
             if PERSONS_STOP_WORDS.search(person):
                 continue
 
-            if contains_companies(person):
+            person = strip_unicode_punctuation(person).strip(string.punctuation).strip(string.whitespace)
+
+            if contains_companies(person, companies):
                 continue
 
             if person.lower().endswith(" and"):
@@ -110,7 +121,7 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
             elif person.endswith(" &"):
                 person = person[0:-2]
 
-            person = strip_unicode_punctuation(person).strip(string.punctuation).strip(string.whitespace)
+
             if return_source:
                 yield person, sentence
             else:
