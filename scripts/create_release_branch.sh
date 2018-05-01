@@ -65,9 +65,9 @@ find setup.py -type f -readable -writable -exec sed -i "s/version='$OLD_RELEASE_
 
 echo ${aline}
 echo "Update version number in core@${DEV_BRANCH} from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
-#git add --all
-#git commit -m "CS: updated version from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
-#git push origin ${DEV_BRANCH}
+git add --all
+git commit -m "CS: updated version from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
+git push origin ${DEV_BRANCH}
 
 popd
 
@@ -120,7 +120,7 @@ git push origin ${NEW_RELEASE_BRANCH}
 # update master
 echo ${aline}
 echo "Update master branch in -lexnlp remote repo"
-git checkout origin master
+git checkout master
 git pull origin master
 git merge ${NEW_RELEASE_BRANCH}
 git push origin master

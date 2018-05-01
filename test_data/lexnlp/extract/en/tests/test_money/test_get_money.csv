@@ -26,3 +26,5 @@ The model number is X100 for your vacuum
 There are 5.4.3 dollars
 "test $12 K",12000.0,USD
 "test $12,333 M",12333000000.0,USD
+"test USD12,333 M",12333000000.0,USD
+"test USD 12,333 M",12333000000.0,USD
