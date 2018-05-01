@@ -2,6 +2,7 @@
 
 This module implements date extraction functionality in English.
 """
+# pylint: disable=bare-except
 
 # Imports
 import datetime

@@ -24,6 +24,7 @@ This module supports converting:
 Avoids:
 - skip: "5.3.1.", "1/1/2010"
 """
+# pylint: disable=bare-except
 
 # Imports
 import string
