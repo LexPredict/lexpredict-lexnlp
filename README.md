@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.1.5)[![](https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code)](https://github.com/lexpredict/lexpredict-lexnlp)
-
-
+[![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.1.8) [![](https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code)](https://github.com/lexpredict/lexpredict-lexnlp) [![Docs](https://readthedocs.org/projects/lexpredict-lexnlp/badge/?version=docs-0.1.6)](http://lexpredict-lexnlp.readthedocs.io/en/docs-0.1.6/)
 
 # LexNLP by LexPredict
 ## Information retrieval and extraction for real, unstructured legal text
@@ -25,7 +23,7 @@ and other material.  LexNLP provides functionality such as:
 * ContraxSuite: https://contraxsuite.com/
 * LexPredict: https://lexpredict.com/
 * Official Website: https://lexnlp.com/
-* Documentation: (in progress)
+* Documentation: http://lexpredict-lexnlp.readthedocs.io/en/docs-0.1.6/ (in progress)
 * Contact: support@contraxsuite.com
 
 ## Structure
