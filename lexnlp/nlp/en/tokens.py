@@ -26,7 +26,7 @@ MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 STOPWORDS = pickle.load(open(os.path.join(MODULE_PATH, "stopwords.pickle"), "rb"))
 
 # Collocations
-COLLOCATION_SIZE = 1000
+COLLOCATION_SIZE = 10000
 BIGRAM_COLLOCATIONS = pickle.load(
     open(os.path.join(MODULE_PATH, "collocation_bigrams_{0}.pickle".format(COLLOCATION_SIZE)), "rb"))
 TRIGRAM_COLLOCATIONS = pickle.load(
