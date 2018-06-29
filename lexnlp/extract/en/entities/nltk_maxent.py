@@ -241,7 +241,6 @@ def get_noun_phrases(text, strict=False, return_source=False, window=3, valid_pu
                 yield nnp
 
 
-
 class CompanyNPExtractor(NPExtractor):
 
     @staticmethod
@@ -290,7 +289,7 @@ def get_companies(text: str,
         for sentence in get_sentence_list(text):
             # skip if whole phrase is in uppercase
             if sentence == sentence.upper():
-                return
+                continue
             if use_gnp:
                 phrases = get_noun_phrases(sentence, strict=strict,
                                            valid_punctuation=valid_punctuation)
