@@ -111,3 +111,6 @@ ENV/
 .mypy_cache/
 
 benchmarks
+lexnlp/extract/en/contracts/data/*.model
+/.pytest_cache/
+

@@ -17,9 +17,9 @@ from lexnlp.extract.en.amounts import (
     CURRENCY_SYMBOL_MAP)
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -88,7 +88,7 @@ def get_money(text, return_sources=False, float_digits=4) -> Generator:
                             or prefix.upper()
         else:
             postfix = postfix[0].lower()
-            currency_type = CURRENCY_TOKEN_MAP.get(postfix) or capture['postfix'][0]
+            currency_type = CURRENCY_TOKEN_MAP.get(postfix) or (capture['postfix'][0]).upper()
         item = (amount[0], currency_type)
         if return_sources:
             item += (capture['text'][0].strip(

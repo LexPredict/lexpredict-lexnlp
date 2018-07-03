@@ -17,11 +17,12 @@ from sklearn.externals import joblib
 
 # Project
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
+from lexnlp.utils.decorators import safe_failure
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -185,6 +186,7 @@ def build_model(training_file_path):
     joblib.dump(model, "title_locator.pickle")
 
 
+@safe_failure
 def get_titles(text, window_pre=3, window_post=3, score_threshold=0.5) -> Generator:
     """
     Get titles from text.

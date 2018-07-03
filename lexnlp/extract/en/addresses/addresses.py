@@ -12,7 +12,7 @@ from nltk.tokenize.treebank import TreebankWordTokenizer
 from lexnlp.extract.en.addresses import address_features
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
 __version__ = "0.1.6"
 __maintainer__ = "LexPredict, LLC"

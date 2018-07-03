@@ -12,6 +12,8 @@ Todo:
 """
 
 # Imports
+import pytest
+
 import datetime
 import random
 import string
@@ -22,9 +24,9 @@ from lexnlp.extract.en.dates import get_dates_list, get_date_features, get_raw_d
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -210,6 +212,7 @@ def test_date_feature_1_bigram():
                        'char_6': 0.0, 'bigram_94': 0.0})
 
 
+@pytest.mark.serial
 def test_build_model():
     """
     Test build model by running default train.

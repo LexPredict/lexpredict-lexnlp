@@ -1,16 +1,16 @@
-Text,Sentence
+"Text","Sentence"
 "Batman, Esq., J.D., M.B.A., is the author of 26 U.S.C. 501, i.e., the exemption section of the IRC.
 Therefore, e.g., joke about INC. or LLC. entities.
 Did you know that the I.R.S. loves to fine non-U.S. Acme Ltda. at c.a. 10:00A.M.","Batman, Esq., J.D., M.B.A., is the author of 26 U.S.C. 501, i.e., the exemption section of the IRC."
 ,"Therefore, e.g., joke about INC. or LLC. entities."
-,Did you know that the I.R.S. loves to fine non-U.S. Acme Ltda. at c.a. 10:00A.M.
+,"Did you know that the I.R.S. loves to fine non-U.S. Acme Ltda. at c.a. 10:00A.M."
 "(A)  Definition of Normal Tenant Improvements. As used herein, ""NORMAL TENANT
 IMPROVEMENTS"" shall mean any ""below-ceiling"" interior finishes and special
 fixtures or equipment to be constructed for NAI within the Improvements as part
 of the Construction Project, BUT WILL NOT INCLUDE (1) costs of structural
 elements of the Construction Project, or (2) equipment that would be necessary
 for the use of the Improvements by any lessee (e.g., HVAC equipment, elevators,
-standard electrical wiring).",(A)  Definition of Normal Tenant Improvements.
+standard electrical wiring).","(A)  Definition of Normal Tenant Improvements."
 ,"As used herein, ""NORMAL TENANT
 IMPROVEMENTS"" shall mean any ""below-ceiling"" interior finishes and special
 fixtures or equipment to be constructed for NAI within the Improvements as part
@@ -141,3 +141,30 @@ Contract (hereinafter “Contract”):","Encorium Germany GmbH, with registered 
 Chief Executive Officer, Encorium Group, Inc. (hereinafter Company” or “Employer”) and Dr. Renee E. Moore, born May 2,
 1969, with an address at XYZ (hereinafter “Renée Moore”) hereby enter into the following Employment
 Contract (hereinafter “Contract”):"
+"This is the first sentence.
+33                                        Miscellaneous
+34                                        Furnishings Covenant
+37                                        Heating and Cooling System
+Exhibit A:       Diagram of the Project
+Exhibit B-1:     Plans and Specifications
+
+This is the next sentence.","This is the first sentence."
+,"33                                        Miscellaneous"
+,"34                                        Furnishings Covenant"
+,"37                                        Heating and Cooling System"
+,"Exhibit A:       Diagram of the Project"
+,"Exhibit B-1:     Plans and Specifications"
+,"This is the next sentence."
+"    EXHIBIT C-2- SHELL BUILDING DESIGN SCHEDULE
+
+    EXHIBIT D- RULES AND REGULATIONS
+ 
+   EXHIBIT E- RIGHT OF FIRST REFUSAL                                   
+
+                                                          LEASE AGREEMENT
+
+           THIS LEASE AGREEMENT (the ""Lease""), is made and entered into as of the 9th day of July, 1997, by and between WEEKS REALTY, L.P., a Georgia limited partnership (the ""Landlord""), and PPD PHARMACO, INC., a Texas corporation (the ""Tenant"").","EXHIBIT C-2- SHELL BUILDING DESIGN SCHEDULE"
+,"EXHIBIT D- RULES AND REGULATIONS"
+,"EXHIBIT E- RIGHT OF FIRST REFUSAL"
+,"LEASE AGREEMENT"
+,"THIS LEASE AGREEMENT (the ""Lease""), is made and entered into as of the 9th day of July, 1997, by and between WEEKS REALTY, L.P., a Georgia limited partnership (the ""Landlord""), and PPD PHARMACO, INC., a Texas corporation (the ""Tenant"")."

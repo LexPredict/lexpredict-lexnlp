@@ -8,9 +8,9 @@ from lexnlp import get_module_path
 from lexnlp.nlp.en.segments.titles import get_titles
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -43,3 +43,26 @@ def test_title_2():
         file_text = file_handle.read().decode("utf-8")
         assert_list_equal(list(get_titles(file_text)),
                           ["VALIDIAN SOFTWARE LICENSE AGREEMENT"])
+
+
+def test_title_3():
+    """
+    test failure
+    """
+    text = """
+    (1279209, 'en', 'C-106 TRANSPORTATION AND PUBLIC WORKS PERFORMANCE
+    MEASURES Actual Forecast FY14 FY15 FY16 FY17 FY18 Traffic Engineering
+     # of Miles of Roadway Striping 20 miles 10 miles 70 miles 10 miles
+     10 Miles # of Signs Replaced 1,300 1,800 2,100 1,600 1,600 # of
+     Traffic Signal Upgrades 2 15 18 25 30 Engineering Average Plan Review
+      Time 6.9 days 6.13 days 8.34 days 7 days 7 days % Plan Reviews
+      Completed Within 14 / 7 days 94% / 59% 94% / 67% 97% / 74% 100% /
+       75% 100%/ 75% # Roadway Miles Receiving Major Roadway Maintenance
+       57.8 miles 47 miles 45.0 miles 45.0 miles 45 miles Streets &
+       Drainage Average Response Time for Street immediate Work Requests
+       1 day 1 day 1 day 1 day 1day Percent of Street immediate work
+       requests completed in 3 days 95% 90% 96% 95% 95% Percentage of
+       staff hours utilized on recurring work activities 30% 33% 40% 45%
+       45% Stormwater Utility Bill Collection Rate 94% 98% 95% 95% 95%
+       Average Response Time for...', 1, , ...)"""
+    assert_list_equal(list(get_titles(text)), [])

@@ -12,9 +12,9 @@ import regex as re
 from reporters_db import EDITIONS, REPORTERS
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2017, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -44,28 +44,31 @@ def get_citations(text, return_source=False, as_dict=False) -> Generator:
 
     for source_text, volume, reporter, page, page2, court, year\
             in CITATION_PTN_RE.findall(text):
-        reporter_data = REPORTERS[EDITIONS[reporter]]
-        reporter_full_name = ''
-        if len(reporter_data) == 1:
-            reporter_full_name = reporter_data[0]['name']
-        elif year:
-            for period_data in reporter_data:
-                if reporter in period_data['editions']:
-                    start = period_data['editions'][reporter]['start'].year
-                    end = period_data['editions'][reporter]['end']
-                    if (end and start <= int(year) <= end.year) or start <= int(year):
-                        reporter_full_name = period_data['name']
-        item = (int(volume),
-                reporter,
-                reporter_full_name,
-                int(page),
-                page2 or None,
-                court.strip(', ') or None,
-                int(year) if year.isdigit() else None)
-        if return_source:
-            item += (source_text.strip(),)
-        if as_dict:
-            keys = ['volume', 'reporter', 'reporter_full_name',
-                    'page', 'page2', 'court', 'year', 'citation_str']
-            item = {keys[n]: val for n, val in enumerate(item)}
-        yield item
+        try:
+            reporter_data = REPORTERS[EDITIONS[reporter]]
+            reporter_full_name = ''
+            if len(reporter_data) == 1:
+                reporter_full_name = reporter_data[0]['name']
+            elif year:
+                for period_data in reporter_data:
+                    if reporter in period_data['editions']:
+                        start = period_data['editions'][reporter]['start'].year
+                        end = period_data['editions'][reporter]['end']
+                        if (end and start <= int(year) <= end.year) or start <= int(year):
+                            reporter_full_name = period_data['name']
+            item = (int(volume),
+                    reporter,
+                    reporter_full_name,
+                    int(page),
+                    page2 or None,
+                    court.strip(', ') or None,
+                    int(year) if year.isdigit() else None)
+            if return_source:
+                item += (source_text.strip(),)
+            if as_dict:
+                keys = ['volume', 'reporter', 'reporter_full_name',
+                        'page', 'page2', 'court', 'year', 'citation_str']
+                item = {keys[n]: val for n, val in enumerate(item)}
+            yield item
+        except KeyError:
+            pass

@@ -1,0 +1,103 @@
+Text,Expected
+"
+PAGE 1 OF 2
+[Page body]",[Page body]
+"[Page1 body]
+
+
+
+[Caption] PaGe 2 Of 3
+
+[Page2 body]","[Page1 body]
+[Page2 body]"
+"
+pAgE 1 oF 3                          [Caption]
+
+
+[Page body]",[Page body]
+"
+ [Caption1]       page 1 of 3         [Caption2]
+
+
+[Page body]",[Page body]
+"[Page body]
+
+
+Page 1 of 3 ","[Page body]
+"
+"Page 1 of 3 Page 2 of 3 [Caption2]
+[Page body]",[Page body]
+"[Page body]
+Page 1 of 3      ","[Page body]
+"
+"*Page 1 of 3 [Caption2]
+[Page body]",[Page body]
+"Page 1 of 3-[Caption2]
+[Page body]",[Page body]
+"Page 1th of 3
+[Page body]","Page 1th of 3
+[Page body]"
+"Pages 1th of 3
+[Page body]","Pages 1th of 3
+[Page body]"
+"[Page body]
+
+                                  Page 2 of 6
+<PAGE>
+
+[Page body]","[Page body]
+[Page body]"
+"<PAGE>   1
+                                                                   EXHIBIT 10.16
+
+
+                                  LEASE BETWEEN
+
+                        475 Java Drive Associates, L.P.,
+                        a California Limited Partnership
+
+                                   (""LESSOR"")
+
+                                       AND
+
+                            NETWORK APPLIANCE, INC.,
+                             a Delaware Corporation
+
+                                   (""LESSEE"")
+
+
+                                                                   June 11, 1998
+
+
+<PAGE>   2
+
+                                      LEASE
+
+                  THIS LEASE is made and entered into as of June 11, 1998, by
+and between 475 Java Drive Associates, L.P., a California Limited Partnership
+(""Lessor"") and Network Appliance, Inc., a Delaware Corporation (""Lessee"").
+
+
+","                                                                   EXHIBIT 10.16
+
+                                  LEASE BETWEEN
+
+                        475 Java Drive Associates, L.P.,
+                        a California Limited Partnership
+
+                                   (""LESSOR"")
+
+                                       AND
+
+                            NETWORK APPLIANCE, INC.,
+                             a Delaware Corporation
+
+                                   (""LESSEE"")
+
+                                                                   June 11, 1998
+                                      LEASE
+
+                  THIS LEASE is made and entered into as of June 11, 1998, by
+and between 475 Java Drive Associates, L.P., a California Limited Partnership
+(""Lessor"") and Network Appliance, Inc., a Delaware Corporation (""Lessee"").
+"
