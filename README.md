@@ -41,6 +41,7 @@ ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
 
 ## Releases
+* 0.1.9: July 1, 2018 - Ninth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.9)
 * 0.1.8: May 1, 2018 - Eighth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.8)
 * 0.1.7: April 1, 2018 - Seventh scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.7)
 * 0.1.6: March 1, 2018 - Sixth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.6)
