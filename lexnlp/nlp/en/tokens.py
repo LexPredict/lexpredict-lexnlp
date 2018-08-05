@@ -16,7 +16,7 @@ from nltk.corpus import wordnet
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.9"
+__version__ = "0.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -57,16 +57,17 @@ def get_wordnet_pos(treebank_tag):
         return None
 
 
-def get_tokens(text, lowercase=False, stopword=False) -> Generator:
+def get_tokens(text, lowercase=False, stopword=False, preserve_line=True) -> Generator:
     """
     Get token generator from text.
     :param text:
     :param lowercase:
     :param stopword:
+    :param preserve_line: keep the preserve the sentence and not sentence tokenize it.
     :return:
     """
     if stopword:
-        for token in nltk.word_tokenize(text):
+        for token in nltk.word_tokenize(text, preserve_line=preserve_line):
             if token.lower() in STOPWORDS:
                 continue
             if lowercase:
@@ -74,22 +75,25 @@ def get_tokens(text, lowercase=False, stopword=False) -> Generator:
             else:
                 yield token
     else:
-        for token in nltk.word_tokenize(text):
+        for token in nltk.word_tokenize(text, preserve_line=preserve_line):
             if lowercase:
                 yield token.lower()
             else:
                 yield token
 
 
-def get_token_list(text: str, lowercase: bool = False, stopword: bool = False) -> List:
+def get_token_list(text: str, lowercase: bool = False, stopword: bool = False,
+                   preserve_line: bool = True) -> List:
     """
     Get token list from text.
     :param text:
     :param lowercase:
     :param stopword:
+    :param preserve_line: keep the preserve the sentence and not sentence tokenize it.
     :return:
     """
-    return list(get_tokens(text, lowercase=lowercase, stopword=stopword))
+    return list(get_tokens(text, lowercase=lowercase, stopword=stopword,
+                           preserve_line=preserve_line))
 
 
 def get_stems(text, lowercase=False, stopword=False, stemmer=DEFAULT_STEMMER) -> Generator:

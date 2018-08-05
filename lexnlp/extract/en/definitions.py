@@ -18,7 +18,7 @@ from lexnlp.nlp.en.tokens import get_token_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.1.9"
+__version__ = "0.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -60,9 +60,38 @@ PAREN_PTN_RE = re.compile(PAREN_PTN, re.IGNORECASE | re.UNICODE | re.DOTALL | re
 # TODO
 
 
+def get_definitions_in_sentence(sentence: str, return_sources=False, decode_unicode=True) -> Generator:
+    """
+        Find possible definitions in natural language in a single sentence.
+        :param decode_unicode:
+        :param return_sources:
+        :param sentence:
+        :return:
+        """
+
+    result = set()
+
+    if decode_unicode:
+        sentence = unidecode.unidecode(sentence)
+
+    for item in TRIGGER_WORDS_PTN_RE.findall(sentence):
+        result.update(EXTRACT_PTN_RE.findall(item))
+
+    # case #2
+    result.update(PAREN_PTN_RE.findall(sentence))
+
+    for term in result:
+        if len(get_token_list(term)) <= MAX_TERM_TOKENS:
+            if return_sources:
+                yield (term, sentence)
+            else:
+                yield term
+
+
 def get_definitions(text, return_sources=False, decode_unicode=True) -> Generator:
     """
-    Find possible definitions in natural language.
+    Find possible definitions in natural language in text.
+    The text will be split to sentences first.
     :param decode_unicode:
     :param return_sources:
     :param text:
@@ -70,20 +99,4 @@ def get_definitions(text, return_sources=False, decode_unicode=True) -> Generato
     """
 
     for sentence in get_sentence_list(text):
-        result = set()
-
-        if decode_unicode:
-            sentence = unidecode.unidecode(sentence)
-
-        for item in TRIGGER_WORDS_PTN_RE.findall(sentence):
-            result.update(EXTRACT_PTN_RE.findall(item))
-
-        # case #2
-        result.update(PAREN_PTN_RE.findall(sentence))
-
-        for term in result:
-            if len(get_token_list(term)) <= MAX_TERM_TOKENS:
-                if return_sources:
-                    yield (term, sentence)
-                else:
-                    yield term
+        yield from get_definitions_in_sentence(sentence, return_sources, decode_unicode)

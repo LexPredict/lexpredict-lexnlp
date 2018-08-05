@@ -48,7 +48,7 @@ def is_datetime(word: str) -> bool:
     if len(word) < 6:
         return False
     try:
-        dt = dateparser.parse(word)
+        dt = dateparser.parse(word, ignoretz=True)
         if dt < DATE_MIN or dt > DATE_MAX:
             return False
         return True
