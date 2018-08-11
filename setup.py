@@ -102,7 +102,7 @@ setup(
         'scikit-learn==0.19.1',
         'typing==3.6.2',
         'Unidecode==0.4.21',
-        'us==1.1.0'
+        'us==1.0.0'
     ],
     dependency_links=[
         'git+https://github.com/LexPredict/datefinder.git@master#egg=datefinder-0.6.1'
