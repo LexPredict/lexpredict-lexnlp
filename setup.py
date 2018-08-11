@@ -94,13 +94,15 @@ setup(
         'nltk==3.2.4',
         'num2words==0.5.5',
         'pandas==0.21.0',
+        'pycountry==18.5.26',
         'regex==2017.9.23',
         'reporters-db==1.0.12.1',
         'requests==2.18.4',
         'scipy==1.0.0',
         'scikit-learn==0.19.1',
         'typing==3.6.2',
-        'Unidecode==0.4.21'
+        'Unidecode==0.4.21',
+        'us==1.1.0'
     ],
     dependency_links=[
         'git+https://github.com/LexPredict/datefinder.git@master#egg=datefinder-0.6.1'
