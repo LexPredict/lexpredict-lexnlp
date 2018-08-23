@@ -23,7 +23,7 @@ pandas==0.21.0
 pep8==1.7.0
 psutil==5.4.0
 py==1.4.34
-pycountry==17.1.8
+pycountry==18.5.26
 pylint==1.7.2
 pytest==3.2.1
 pytest-cache==1.0

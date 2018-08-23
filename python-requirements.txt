@@ -5,7 +5,7 @@ lxml==4.2.0
 nltk==3.2.4
 num2words==0.5.5
 pandas==0.21.0
-pycountry==17.1.8
+pycountry==18.5.26
 regex==2017.9.23
 reporters-db==1.0.12.1
 requests==2.18.4

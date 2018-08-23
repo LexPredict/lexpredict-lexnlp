@@ -37,7 +37,7 @@ from num2words import num2words
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -231,11 +231,12 @@ def get_np(text) -> Generator:
         yield np, _np
 
 
-def get_amounts(text, return_sources=False, float_digits=4) -> Generator:
+def get_amounts(text, return_sources=False, extended_sources=True, float_digits=4) -> Generator:
     """
     Find possible amount references in the text.
     :param text: text
     :param return_sources: return amount AND source text
+    :param extended_sources: return data around amount itself
     :param float_digits: round float to N digits, don't round if None
     :return: list of amounts
     """
@@ -252,20 +253,21 @@ def get_amounts(text, return_sources=False, float_digits=4) -> Generator:
         if isinstance(amount, float) and float_digits:
             amount = round(amount, float_digits)
         if return_sources:
-            unit = ''
-            next_text = text[match.span()[1]:]
-            if next_text:
-                for np, _ in get_np(next_text):
-                    if next_text.startswith(np):
-                        unit = np
-                if unit:
-                    found_item = ' '.join([found_item.strip(), unit])
-            if not unit:
-                prev_text = text[:match.span()[0]]
-                prev_text_tags = nltk.word_tokenize(prev_text)
-                if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
-                    sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
-                    found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
+            if extended_sources:
+                unit = ''
+                next_text = text[match.span()[1]:]
+                if next_text:
+                    for np, _ in get_np(next_text):
+                        if next_text.startswith(np):
+                            unit = np
+                    if unit:
+                        found_item = ' '.join([found_item.strip(), unit])
+                if not unit:
+                    prev_text = text[:match.span()[0]]
+                    prev_text_tags = nltk.word_tokenize(prev_text)
+                    if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
+                        sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
+                        found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
             yield (amount, found_item.strip())
         else:
             yield amount

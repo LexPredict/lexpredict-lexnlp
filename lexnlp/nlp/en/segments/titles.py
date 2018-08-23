@@ -22,7 +22,7 @@ from lexnlp.utils.decorators import safe_failure
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -64,22 +64,33 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
         except IndexError:
             continue
 
+        index_str = str(i)
         # Count length
-        feature_vector["line_len_{0}".format(i)] = len(line)
-        feature_vector["line_lenstrip_{0}".format(i)] = len(line.strip())
-        feature_vector["line_title_case_{0}".format(i)] = line == line.title()
-        feature_vector["line_upper_case_{0}".format(i)] = line == line.upper()
+        feature_vector["line_len_" + index_str] = len(line)
+        feature_vector["line_lenstrip_" + index_str] = len(line.strip())
+        feature_vector["line_title_case_" + index_str] = line == line.title()
+        feature_vector["line_upper_case_" + index_str] = line.isupper()
+
+        alpha_count, number_count, punct_count, whitespace_count = 0, 0, 0, 0
+        for c in line:
+            if c.isalpha():
+                alpha_count += 1
+            elif c.isspace():
+                whitespace_count += 1
+            elif c.isnumeric():
+                number_count += 1
+            elif c in string.punctuation:
+                punct_count += 1
 
         # Count characters
-        feature_vector["line_n_alpha_{0}".format(i)] = sum([1 for c in line if unicodedata.category(c).startswith("L")])
-        feature_vector["line_n_number_{0}".format(i)] = sum(
-            [1 for c in line if unicodedata.category(c).startswith("N")])
-        feature_vector["line_n_punct_{0}".format(i)] = sum([1 for c in line if unicodedata.category(c).startswith("P")])
-        feature_vector["line_n_whitespace_{0}".format(i)] = sum(
-            [1 for c in line if unicodedata.category(c).startswith("Z")])
+        feature_vector["line_n_alpha_" + index_str] = alpha_count
+        feature_vector["line_n_number_" + index_str] = number_count
+        feature_vector["line_n_punct_" + index_str] = punct_count
+        feature_vector["line_n_whitespace_" + index_str] = whitespace_count
 
     # Simple checks
     line = lines[line_id]
+    line_strip_lower = line.strip().lower()
     feature_vector["agreement"] = 1 if "agreement" in line else 0
     feature_vector["Agreement"] = 1 if "Agreement" in line else 0
     feature_vector["AGREEMENT"] = 1 if "AGREEMENT" in line else 0
@@ -89,12 +100,20 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
     feature_vector["amendment"] = 1 if "amendment" in line else 0
     feature_vector["Amendment"] = 1 if "Amendment" in line else 0
     feature_vector["AMENDMENT"] = 1 if "AMENDMENT" in line else 0
-    feature_vector["ew_agreement"] = 1 if line.strip().lower().endswith("agreement") else 0
-    feature_vector["sw_amendment"] = 1 if line.strip().lower().startswith("amendment") else 0
+    feature_vector["ew_agreement"] = 1 if line_strip_lower.endswith("agreement") else 0
+    feature_vector["sw_amendment"] = 1 if line_strip_lower.startswith("amendment") else 0
 
     # Build character vector
+    characters_count = {}
     for character in characters:
-        feature_vector["char_{0}".format(character)] = lines[line_id].count(character)
+        characters_count[character] = 0
+
+    for character in lines[line_id]:
+        if characters_count.get(character) is not None:
+            characters_count[character] += 1
+
+    for character, count in characters_count.items():
+        feature_vector["char_" + character] = count
 
     # Add doc if requested
     if include_doc:
