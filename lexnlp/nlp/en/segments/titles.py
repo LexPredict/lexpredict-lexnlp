@@ -73,13 +73,13 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
 
         alpha_count, number_count, punct_count, whitespace_count = 0, 0, 0, 0
         for c in line:
-            if c.isalpha():
+            if unicodedata.category(c).startswith("L"):
                 alpha_count += 1
-            elif c.isspace():
+            elif unicodedata.category(c).startswith("Z"):
                 whitespace_count += 1
-            elif c.isnumeric():
+            elif unicodedata.category(c).startswith("N"):
                 number_count += 1
-            elif c in string.punctuation:
+            elif unicodedata.category(c).startswith("P"):
                 punct_count += 1
 
         # Count characters
