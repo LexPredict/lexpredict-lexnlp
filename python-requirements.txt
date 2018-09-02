@@ -1,5 +1,6 @@
 bs4==0.0.1
 dateparser==0.6.0
+gensim==3.4.0
 https://github.com/LexPredict/datefinder/archive/master.zip
 lxml==4.2.0
 nltk==3.2.4
