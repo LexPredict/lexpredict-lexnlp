@@ -7,7 +7,6 @@ machine learning classifiers.
 # Imports
 import os
 import string
-import unicodedata
 from typing import Generator
 
 # Packages
@@ -18,11 +17,12 @@ from sklearn.externals import joblib
 # Project
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 from lexnlp.utils.decorators import safe_failure
+from lexnlp.utils.unicode.unicode_lookup import UNICODE_CHAR_TOP_CATEGORY_MAPPING
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -58,7 +58,7 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
         line_window_post = len(lines) - line_window_post - 1
 
     # Iterate through window
-    for i in range(-line_window_pre, line_window_post + 1):
+    for i in range(0 - line_window_pre, line_window_post + 1):
         try:
             line = lines[line_id + i]
         except IndexError:
@@ -73,13 +73,13 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
 
         alpha_count, number_count, punct_count, whitespace_count = 0, 0, 0, 0
         for c in line:
-            if unicodedata.category(c).startswith("L"):
+            if UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'L':
                 alpha_count += 1
-            elif unicodedata.category(c).startswith("Z"):
+            elif UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'Z':
                 whitespace_count += 1
-            elif unicodedata.category(c).startswith("N"):
+            elif UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'N':
                 number_count += 1
-            elif unicodedata.category(c).startswith("P"):
+            elif UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'P':
                 punct_count += 1
 
         # Count characters
