@@ -7,12 +7,12 @@ Todo:
   * Standardize model (re-)generation
 """
 
-# Imports
 import os
+# Imports
+import re
 import string
 import unicodedata
-
-from typing import Generator
+from typing import Generator, List, Tuple, Union, Optional
 
 # Packages
 import pandas
@@ -23,7 +23,7 @@ from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -35,7 +35,7 @@ PARAGRAPH_SEGMENTER_MODEL = joblib.load(os.path.join(MODULE_PATH, "./paragraph_s
 
 
 def build_paragraph_break_features(lines, line_id, line_window_pre, line_window_post, characters=string.printable,
-                                 include_doc=None):
+                                   include_doc=None):
     """
     Build a feature vector for a given line ID with given parameters.
 
@@ -97,13 +97,49 @@ def build_paragraph_break_features(lines, line_id, line_window_pre, line_window_
     return feature_vector
 
 
-def get_paragraphs(text, window_pre=3, window_post=3, score_threshold=0.5) -> Generator:
+RE_NEW_LINE = re.compile(r'(?P<line>[^\r\n]*)((\r\n)|(\n\r)|\n|\r)')
+
+
+def splitlines_with_spans(text: str) -> Tuple[List[str], List[Tuple[int, int]]]:
+    lines = list()  # type: List[str]
+    spans = list()  # type: List[Tuple[int, int]]
+    if text is None:
+        return lines, spans
+    last_line_end = -1
+    for m in RE_NEW_LINE.finditer(text):
+        line = m.group('line')
+        span = m.span()
+        lines.append(line)
+        spans.append(span)
+        last_line_end = span[1]
+    if last_line_end < len(text):
+        lines.append(text[last_line_end:len(text)])
+        spans.append((last_line_end, len(text)))
+    return lines, spans
+
+
+def _maybe_paragraph(pos0: int, pos1: Optional[int], text: str, line_spans: List[Tuple[int, int]], return_spans: bool) \
+        -> Optional[Union[str, Tuple[str, int, int]]]:
+    span = (line_spans[pos0][0], line_spans[pos1][0] if pos1 is not None else len(text))
+    paragraph = text[span[0]:span[1]]
+
+    if len(paragraph.strip()) > 0:
+        if return_spans:
+            return paragraph, span[0], span[1]
+        else:
+            return paragraph
+    else:
+        return None
+
+
+def get_paragraphs(text: str, window_pre=3, window_post=3, score_threshold=0.5, return_spans: bool = False) \
+        -> Generator:
     """
     Get paragraphs.
     """
     # Get document character distribution
     doc_distribution = build_document_line_distribution(text)
-    lines = text.splitlines()
+    lines, line_spans = splitlines_with_spans(text)
     feature_data = []
 
     for line_id in range(len(lines)):
@@ -120,9 +156,10 @@ def get_paragraphs(text, window_pre=3, window_post=3, score_threshold=0.5) -> Ge
         # Get first break
         pos0 = 0
         pos1 = paragraph_breaks[0]
-        paragraph = "\n".join(lines[pos0:pos1])
-        if len(paragraph.strip()) > 0:
-            yield paragraph
+
+        maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+        if maybe_paragraph is not None:
+            yield maybe_paragraph
 
         # Iterate through section breaks
         for i in range(len(paragraph_breaks) - 1):
@@ -130,11 +167,13 @@ def get_paragraphs(text, window_pre=3, window_post=3, score_threshold=0.5) -> Ge
             pos0 = paragraph_breaks[i]
             pos1 = paragraph_breaks[i + 1]
             # Get text
-            paragraph = "\n".join(lines[pos0:pos1])
-            if len(paragraph.strip()) > 0:
-                yield paragraph
+            maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+            if maybe_paragraph is not None:
+                yield maybe_paragraph
 
         # Yield final section
-        paragraph = "\n".join(lines[paragraph_breaks[-1]:])
-        if len(paragraph.strip()) > 0:
-            yield paragraph.strip()
+        pos0 = paragraph_breaks[-1]
+        pos1 = None
+        maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+        if maybe_paragraph is not None:
+            yield maybe_paragraph

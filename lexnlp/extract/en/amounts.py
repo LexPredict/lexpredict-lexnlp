@@ -37,7 +37,7 @@ from num2words import num2words
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -268,6 +268,7 @@ def get_amounts(text, return_sources=False, extended_sources=True, float_digits=
                     if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
                         sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
                         found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
+            # yield (amount, found_item.strip(), match.span())
             yield (amount, found_item.strip())
         else:
             yield amount

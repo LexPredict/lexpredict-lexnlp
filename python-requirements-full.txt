@@ -19,8 +19,8 @@ memory-profiler==0.47
 nltk==3.2.4
 nose==1.3.7
 num2words==0.5.5
-numpy==1.13.3
-pandas==0.21.0
+numpy==1.15.1
+pandas==0.23.4
 pep8==1.7.0
 psutil==5.4.0
 py==1.4.34
@@ -37,13 +37,14 @@ python-dateutil==2.6.1
 pytz==2017.2
 PyYAML==3.12
 regex==2017.9.23
-requests==2.18.4
+reporters-db==1.0.12.1
+requests==2.21.0
 scikit-learn==0.19.1
 scipy==1.0.0
 six==1.11.0
 scikit-learn==0.19.1
 tika==1.15
 Unidecode==0.4.21
-urllib3==1.22
+urllib3==1.24.1
 us==1.0.0
 wrapt==1.10.11

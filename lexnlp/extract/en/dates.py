@@ -24,7 +24,7 @@ from sklearn.externals import joblib
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.2"
+__version__ = "0.2.3"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -195,17 +195,17 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             continue
 
         # Skip odd date like "1 10"
-        if re.match('\d{1,2}\s+\d{1,2}', date_string):
+        if re.match(r'\d{1,2}\s+\d{1,2}', date_string):
             possible_matched.append(False)
             continue
 
         # Skip floats
-        if num_point and not num_month and not re.match('\d{2}\.\d{2}\.\d{2,4}', date_string):
+        if num_point and not num_month and not re.match(r'\d{2}\.\d{2}\.\d{2,4}', date_string):
             possible_matched.append(False)
             continue
 
         # Skip odd months from string like "Nil 62. Marquee"
-        if re.search('\d{2,4}\.\s*[A-Za-z]', date_string):
+        if re.search(r'\d{2,4}\.\s*[A-Za-z]', date_string):
             possible_matched.append(False)
             continue
 
