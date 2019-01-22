@@ -59,7 +59,7 @@ PAREN_PTN_RE = re.compile(PAREN_PTN, re.IGNORECASE | re.UNICODE | re.DOTALL | re
 NOUN_PTN = r"""
 \b((?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})\b|\b(?:[A-Z][-A-Za-z']))\b\s*(?={trigger_list})"""\
     .format(max_term_tokens=MAX_TERM_TOKENS, trigger_list="|".join([w.replace(" ", r"\s+") for w in TRIGGER_LIST]))
-NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE)
+NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
 # Case 4: Term inside quotes is preceded by word|term|phrase or :,.^
 # and has a colon after itself.
