@@ -57,7 +57,7 @@ PAREN_PTN_RE = re.compile(PAREN_PTN, re.IGNORECASE | re.UNICODE | re.DOTALL | re
 # e.g.: "Revolving Loan Commitment means…"; "LIBOR Rate shall mean…"
 # false positive: "This Borrower Joiner Agreement to the extent signed signed and delivered by means of a facsimile..."
 NOUN_PTN = r"""
-\b((?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})\b|\b(?:[A-Z][-A-Za-z']))\b\s*(?={trigger_list})"""\
+^((?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})\b|\b(?:[A-Z][-A-Za-z']))\b\s*(?={trigger_list})"""\
     .format(max_term_tokens=MAX_TERM_TOKENS, trigger_list="|".join([w.replace(" ", r"\s+") for w in TRIGGER_LIST]))
 NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
@@ -78,6 +78,7 @@ def get_definitions_in_sentence(sentence: str, return_sources=False, decode_unic
         """
 
     result = set()
+    case1_terms = set()
 
     if decode_unicode:
         sentence = unidecode.unidecode(sentence)
@@ -85,6 +86,7 @@ def get_definitions_in_sentence(sentence: str, return_sources=False, decode_unic
     # case 1
     for item in TRIGGER_WORDS_PTN_RE.findall(sentence):
         result.update(EXTRACT_PTN_RE.findall(item))
+        case1_terms.update(EXTRACT_PTN_RE.findall(item))
 
     # case 2
     result.update(PAREN_PTN_RE.findall(sentence))
@@ -97,11 +99,12 @@ def get_definitions_in_sentence(sentence: str, return_sources=False, decode_unic
 
     # return result
     for term in result:
-        if len(get_token_list(term)) <= MAX_TERM_TOKENS:
-            if return_sources:
-                yield (term, sentence)
-            else:
-                yield term
+        if term not in case1_terms and len(get_token_list(term)) > MAX_TERM_TOKENS:
+            continue
+        if return_sources:
+            yield (term, sentence)
+        else:
+            yield term
 
 
 def get_definitions(text, return_sources=False, decode_unicode=True) -> Generator:
