@@ -19,9 +19,9 @@ from nltk.tokenize.punkt import PunktTrainer, PunktSentenceTokenizer
 from sklearn.externals import joblib
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -123,6 +123,15 @@ def get_sentence_list(text):
     :return:
     """
     return [text[start:end] for start, end in get_sentence_span_list(text)]
+
+
+def get_sentence__with_coords_list(text):
+    """
+    Get sentences + start + end from text.
+    :param text:
+    :return:
+    """
+    return [(text[start:end], start, end) for start, end in get_sentence_span_list(text)]
 
 
 def get_sentence_span(text) -> Generator[Tuple[int, int, str], Any, Any]:

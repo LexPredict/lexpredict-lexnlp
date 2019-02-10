@@ -22,7 +22,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.2.3',
+    version='0.2.4',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -90,6 +90,7 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'datefinder',
+        'dateparser==0.7.0',
         'gensim==3.4.0',
         'nltk==3.2.4',
         'num2words==0.5.5',

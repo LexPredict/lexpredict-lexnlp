@@ -10,9 +10,9 @@ from tempfile import mkstemp
 from lexnlp.utils.unicode.unicode_lookup import UNICODE_CHAR_TOP_CATEGORY_MAPPING, build_lookup_tables, _load_table
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 

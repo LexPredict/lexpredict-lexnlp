@@ -1,0 +1,32 @@
+Term Locale,Term Category,Court ID,Level,Jurisdiction,Court Type,Court Name,Alias
+en-CA,Canadian Courts,1,Regional,Alberta,Appellate Court,Court of Appeal of Alberta,ABCA
+en-CA,Canadian Courts,2,Regional,British Colombia,Appellate Court,Court of Appeal of British Columbia,BCCA
+en-CA,Canadian Courts,3,Regional,Manitoba,Appellate Court,Manitoba Court of Appeal,MBCA
+en-CA,Canadian Courts,4,Regional,New Brunswick,Appellate Court,Court of Appeal of New Brunswick,NBCA
+en-CA,Canadian Courts,5,Regional,Newfoundland and Labrador,Appellate Court,Supreme Court of Newfoundland and Labrador Court of Appeal,NLCA; Supreme Court of Newfoundland and Labrador (Court of Appeal)
+en-CA,Canadian Courts,6,Regional,Northwest Territories,Appellate Court,Court of Appeal for the Northwest Territories,NTCA
+en-CA,Canadian Courts,7,Regional,Nova Scotia,Appellate Court,Nova Scotia Court of Appeal,NSCA
+en-CA,Canadian Courts,8,Regional,Nunavut,Appellate Court,Nunavut Court of Appeal,NUCA
+en-CA,Canadian Courts,9,Regional,Ontario,Appellate Court,Court of Appeal for Ontario,ONCA
+en-CA,Canadian Courts,10,Regional,Prince Edward Island,Appellate Court,Prince Edward Island Court of Appeal,PECA
+en-CA,Canadian Courts,11,Regional,Québec,Appellate Court,Québec Court of Appeal,QCCA
+en-CA,Canadian Courts,12,Regional,Saskatchewan,Appellate Court,Court of Appeal for Saskatchewan,SKCA
+en-CA,Canadian Courts,13,Regional,Yukon,Appellate Court,Court of Appeal of Yukon,YKCA
+en-CA,Canadian Courts,14,Supreme Court,Federal,Court of Last Resort,Supreme Court of Canada,
+en-CA,Canadian Courts,15,Regional,Alberta,Superior Court,Court of Queen's Bench of Alberta,ABQB
+en-CA,Canadian Courts,16,Regional,British Colombia,Superior Court,Supreme Court of British Columbia,BCSC
+en-CA,Canadian Courts,17,Regional,Manitoba,Superior Court,Court of Queen's Bench of Manitoba,MBQB
+en-CA,Canadian Courts,18,Regional,New Brunswick,Superior Court,Court of Queen's Bench of New Brunswick,NBQB
+en-CA,Canadian Courts,19,Regional,Newfoundland and Labrador,Superior Court,Supreme Court of Newfoundland and Labrador Trial Division,NLTD; Supreme Court of Newfoundland and Labrador (Trial Division)
+en-CA,Canadian Courts,20,Regional,Northwest Territories,Superior Court,Supreme Court of the Northwest Territories,NTSC
+en-CA,Canadian Courts,21,Regional,Nova Scotia,Superior Court,Supreme Court of Nova Scotia,NSSC
+en-CA,Canadian Courts,22,Regional,Nunavut,Superior Court,Nunavut Court of Justice,NUCJ
+en-CA,Canadian Courts,23,Regional,Ontario,Superior Court,Court of Ontario – Ontario Superior Court of Justice,ONSC; Court of Ontario
+en-CA,Canadian Courts,24,Regional,Prince Edward Island,Superior Court,Supreme Court of Prince Edward Island ,PESC
+en-CA,Canadian Courts,25,Regional,Québec,Superior Court,Québec Superior Court,QCCS
+en-CA,Canadian Courts,26,Regional,Saskatchewan,Superior Court,Court of Queen's Bench for Saskatchewan,SKQB
+en-CA,Canadian Courts,27,Regional,Yukon,Superior Court,Supreme Court of Yukon,YKSC
+en-CA,Canadian Courts,28,Federal,Federal,Federal Court,Federal Court of Appeal,
+en-CA,Canadian Courts,29,Federal,Federal,Federal Court,Federal Court,
+en-CA,Canadian Courts,30,Federal,Federal,Federal Court,Tax Court of Canada,
+en-CA,Canadian Courts,31,Federal,Federal,Military Court,Court Martial Appeal Court of Canada,

@@ -4,17 +4,17 @@ This module implements date extraction functionality in English.
 """
 # pylint: disable=bare-except
 
-# Imports
+# Standard imports
 import datetime
 import itertools
 import os
 import string
 from typing import Generator, List
 
-# Packges
+# Third-party packages
 import datefinder
 import regex as re
-import pandas
+import pandas as pd
 
 # sklearn imports
 import sklearn.pipeline
@@ -22,9 +22,9 @@ import sklearn.feature_selection
 from sklearn.externals import joblib
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -299,9 +299,8 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             yield date
 
 
-def get_dates_list(text, strict=False, base_date=None, return_source=False, threshold=0.50) -> List:
-    return list(get_dates(text, strict=strict, base_date=base_date, return_source=return_source,
-                          threshold=threshold))
+def get_dates_list(text, **kwargs) -> List:
+    return list(get_dates(text, **kwargs))
 
 
 def get_dates(text, strict=False, base_date=None, return_source=False, threshold=0.50) -> Generator:
@@ -318,7 +317,7 @@ def get_dates(text, strict=False, base_date=None, return_source=False, threshold
     raw_date_results = get_raw_date_list(text, strict=strict, base_date=base_date, return_source=True)
 
     for raw_date in raw_date_results:
-        row_df = pandas.DataFrame([get_date_features(text, raw_date[1][0], raw_date[1][1])])
+        row_df = pd.DataFrame([get_date_features(text, raw_date[1][0], raw_date[1][1])])
         date_score = MODEL_DATE.predict_proba(row_df.loc[:, MODEL_DATE.columns])
         if date_score[0, 1] >= threshold:
             if return_source:
@@ -372,7 +371,7 @@ def build_date_model(input_examples, output_file, verbose=True):
             target_data.append(int(d[0] in example[1]))
 
     # Get data frame
-    feature_df = pandas.DataFrame(feature_data).fillna(-1)
+    feature_df = pd.DataFrame(feature_data).fillna(-1)
 
     if verbose:
         print("In-Sample Assessment:")

@@ -1,0 +1,221 @@
+Term Locale,Term Category,Court ID,Level,Jurisdiction,Court Type,Court Name,Alias
+en-US,US Courts,1,Supreme Court,Federal,Court of Last Resort,United States Supreme Court,Supreme Court; SCOTUS
+en-US,US Courts,2,Federal,Federal,Appellate Court,First Circuit,1st Circuit; 1st Cir.; First Cir.
+en-US,US Courts,3,Federal,Federal,Appellate Court,Second Circuit,2nd Circuit; 2nd Cir.; Second Cir.
+en-US,US Courts,4,Federal,Federal,Appellate Court,Third Circuit,3rd Circuit; 3rd Cir.; Third Cir.
+en-US,US Courts,5,Federal,Federal,Appellate Court,Fourth Circuit,4th Circuit; 4th Cir.; Fourth Cir.
+en-US,US Courts,6,Federal,Federal,Appellate Court,Fifth Circuit,5th Circuit; 5th Cir.; Fifth Cir.
+en-US,US Courts,7,Federal,Federal,Appellate Court,Sixth Circuit,6th Circuit; 6th Cir.; Sixth Cir.
+en-US,US Courts,8,Federal,Federal,Appellate Court,Seventh Circuit,7th Circuit; 7th Cir.; Seventh Cir.
+en-US,US Courts,9,Federal,Federal,Appellate Court,Eighth Circuit,8th Circuit; 8th Cir.; Eighth Cir.
+en-US,US Courts,10,Federal,Federal,Appellate Court,Ninth Circuit,9th Circuit; 9th Cir.; Ninth Cir.
+en-US,US Courts,11,Federal,Federal,Appellate Court,Tenth Circuit,10th Circuit; 10th Cir.; Tenth Cir.
+en-US,US Courts,12,Federal,Federal,Appellate Court,Eleventh Circuit,11th Circuit; 11th Cir.; Eleventh Cir.
+en-US,US Courts,13,Federal,Federal,Appellate Court,D.C. Circuit,D.C. Cir.
+en-US,US Courts,14,Federal,Federal,Appellate Court,Federal Circuit,Fed. Cir.
+en-US,US Courts,15,Federal,Alabama,Federal District Court,Middle District of Alabama,M.D. Ala.
+en-US,US Courts,16,Federal,Alabama,Federal District Court,Northern District of Alabama,N.D. Ala.
+en-US,US Courts,17,Federal,Alabama,Federal District Court,Southern District of Alabama,S.D. Ala.
+en-US,US Courts,18,Federal,Alaska,Federal District Court,District of Alaska,D. Alaska
+en-US,US Courts,19,Federal,Arizona,Federal District Court,District of Arizona,D. Ariz.
+en-US,US Courts,20,Federal,Arkansas,Federal District Court,Eastern District of Arkansas,E.D. Ark.
+en-US,US Courts,21,Federal,Arkansas,Federal District Court,Western District of Arkansas,W.D. Ark.
+en-US,US Courts,22,Federal,California,Federal District Court,Central District of California,C.D. Cal.
+en-US,US Courts,23,Federal,California,Federal District Court,Eastern District of California,E.D. Cal.
+en-US,US Courts,24,Federal,California,Federal District Court,Northern District of California,N.D. Cal.
+en-US,US Courts,25,Federal,California,Federal District Court,Southern District of California,S.D. Cal.
+en-US,US Courts,26,Federal,,Federal District Court,District of the Canal Zone,D.C.Z.
+en-US,US Courts,27,Federal,Colorado,Federal District Court,District of Colorado,D. Colo.
+en-US,US Courts,28,Federal,Connecticut,Federal District Court,District of Connecticut,D. Conn.
+en-US,US Courts,29,Federal,Delaware,Federal District Court,District of Delaware,D. Del.
+en-US,US Courts,30,Federal,Washington D.C.,Federal District Court,District of D.C.,D.D.C.
+en-US,US Courts,31,Federal,Florida,Federal District Court,Middle District of Florida,M.D. Fla.
+en-US,US Courts,32,Federal,Florida,Federal District Court,Northern District of Florida,N.D. Fla.
+en-US,US Courts,33,Federal,Florida,Federal District Court,Southern District of Florida,S.D. Fla.
+en-US,US Courts,34,Federal,Georgia,Federal District Court,Middle District of Georgia,M.D. Ga.
+en-US,US Courts,35,Federal,Georgia,Federal District Court,Northern District of Georgia,N.D. Ga.
+en-US,US Courts,36,Federal,Georgia,Federal District Court,Southern District of Georgia,S.D. Ga.
+en-US,US Courts,37,Federal,Guam,Federal District Court,District of Guam,D. Guam
+en-US,US Courts,38,Federal,Hawaii,Federal District Court,District of Hawaii,D. Haw.
+en-US,US Courts,39,Federal,Idaho,Federal District Court,District of Idaho,D. Idaho
+en-US,US Courts,40,Federal,Illinois,Federal District Court,Central District of Illinois,C.D. Ill.
+en-US,US Courts,41,Federal,Illinois,Federal District Court,Northern District of Illinois,N.D. Ill.
+en-US,US Courts,42,Federal,Indiana,Federal District Court,Northern District of Indiana,N.D. Ind.
+en-US,US Courts,43,Federal,Indiana,Federal District Court,Southern District of Indiana,S.D. Ind.
+en-US,US Courts,44,Federal,Iowa,Federal District Court,Northern District of Iowa,N.D. Iowa
+en-US,US Courts,45,Federal,Iowa,Federal District Court,Southern District of Iowa,S.D. Iowa
+en-US,US Courts,46,Federal,Kansas,Federal District Court,District of Kansas,D. Kan.
+en-US,US Courts,47,Federal,Kentucky,Federal District Court,Eastern District of Kentucky,E.D. Ky.
+en-US,US Courts,48,Federal,Kentucky,Federal District Court,Western District of Kentucky,W.D. Ky.
+en-US,US Courts,49,Federal,Louisiana,Federal District Court,Eastern District of Louisiana,E.D. La.
+en-US,US Courts,50,Federal,Louisiana,Federal District Court,Middle District of Louisiana,M.D. La.
+en-US,US Courts,51,Federal,Louisiana,Federal District Court,Western District of Louisiana,W.D. La.
+en-US,US Courts,52,Federal,Maine,Federal District Court,District of Maine,D. Me.
+en-US,US Courts,53,Federal,Maryland,Federal District Court,District of Maryland,D. Md.
+en-US,US Courts,54,Federal,Massachusetts,Federal District Court,District of Massachusetts,D. Mass.
+en-US,US Courts,55,Federal,Michigan,Federal District Court,Eastern District of Michigan,E.D. Mich.
+en-US,US Courts,56,Federal,Michigan,Federal District Court,Western District of Michigan,W.D. Mich.
+en-US,US Courts,57,Federal,Minnesota,Federal District Court,District of Minnesota,D. Minn.
+en-US,US Courts,58,Federal,Mississippi,Federal District Court,Northern District of Mississippi,N.D. Miss.
+en-US,US Courts,59,Federal,Mississippi,Federal District Court,Southern District of Mississippi,S.D. Miss.
+en-US,US Courts,60,Federal,Missouri,Federal District Court,Eastern District of Missouri,E.D. Mo.
+en-US,US Courts,61,Federal,Missouri,Federal District Court,Western District of Missouri,W.D. Mo.
+en-US,US Courts,62,Federal,Montana,Federal District Court,District of Montana,D. Mont.
+en-US,US Courts,63,Federal,Nebraska,Federal District Court,District of Nebraska,D. Neb.
+en-US,US Courts,64,Federal,Nevada,Federal District Court,District of Nevada,D. Nev.
+en-US,US Courts,65,Federal,New Hampshire,Federal District Court,District of New Hampshire,D.N.H.
+en-US,US Courts,66,Federal,New Jersey,Federal District Court,District of New Jersey,D.N.J.
+en-US,US Courts,67,Federal,New Mexico,Federal District Court,District of New Mexico,D.N.M.
+en-US,US Courts,68,Federal,New York,Federal District Court,Eastern District of New York,E.D.N.Y.
+en-US,US Courts,69,Federal,New York,Federal District Court,Northern District of New York,N.D.N.Y.
+en-US,US Courts,70,Federal,New York,Federal District Court,Southern District of New York,S.D.N.Y.
+en-US,US Courts,71,Federal,North Carolina,Federal District Court,Eastern District of North Carolina,E.D.N.C.
+en-US,US Courts,72,Federal,North Carolina,Federal District Court,Middle District of North Carolina,M.D.N.C.
+en-US,US Courts,73,Federal,North Carolina,Federal District Court,Western District of North Carolina,W.D.N.C.
+en-US,US Courts,74,Federal,North Dakota,Federal District Court,District of North Dakota,D.N.D.
+en-US,US Courts,75,Federal,Northern Mariana Islands,Federal District Court,District of the Northern Mariana Islands,D.N. Mar. Is.
+en-US,US Courts,76,Federal,Ohio,Federal District Court,Northern District of Ohio,N.D. Ohio
+en-US,US Courts,77,Federal,Ohio,Federal District Court,Southern District of Ohio,S.D. Ohio
+en-US,US Courts,78,Federal,Oklahoma,Federal District Court,Eastern District of Oklahoma,E.D. Okla.
+en-US,US Courts,79,Federal,Oklahoma,Federal District Court,Northern District of Oklahoma,N.D. Okla.
+en-US,US Courts,80,Federal,Oklahoma,Federal District Court,Western District of Oklahoma,W.D. Okla.
+en-US,US Courts,81,Federal,Oregon,Federal District Court,District of Oregon,D. Or.
+en-US,US Courts,82,Federal,Pennsylvania,Federal District Court,Eastern District of Pennsylvania,E.D. Pa.
+en-US,US Courts,83,Federal,Pennsylvania,Federal District Court,Middle District of Pennsylvania,M.D. Pa.
+en-US,US Courts,84,Federal,Pennsylvania,Federal District Court,Western District of Pennsylvania,W.D. Pa.
+en-US,US Courts,85,Federal,Puerto Rico,Federal District Court,District of Puerto Rico,D.P.R.
+en-US,US Courts,86,Federal,Rhode Island,Federal District Court,District of Rhode Island,D.R.I.
+en-US,US Courts,87,Federal,South Carolina,Federal District Court,District of South Carolina,D.S.C.
+en-US,US Courts,88,Federal,South Dakota,Federal District Court,District of South Dakota,D.S.D.
+en-US,US Courts,89,Federal,Tennessee,Federal District Court,Eastern District of Tennessee,E.D. Tenn.
+en-US,US Courts,90,Federal,Tennessee,Federal District Court,Middle District of Tennessee,M.D. Tenn.
+en-US,US Courts,91,Federal,Tennessee,Federal District Court,Western District of Tennessee,W.D. Tenn.
+en-US,US Courts,92,Federal,Texas,Federal District Court,Eastern District of Texas,E.D. Tex.
+en-US,US Courts,93,Federal,Texas,Federal District Court,Northern District of Texas,N.D. Tex.
+en-US,US Courts,94,Federal,Texas,Federal District Court,Southern District of Texas,S.D. Tex.
+en-US,US Courts,95,Federal,Texas,Federal District Court,Western District of Texas,W.D. Tex.
+en-US,US Courts,96,Federal,Utah,Federal District Court,District of Utah,D. Utah
+en-US,US Courts,97,Federal,Vermont,Federal District Court,District of Vermont,D. Vt.
+en-US,US Courts,98,Federal,Virginia,Federal District Court,Eastern District of Virginia,E.D. Va.
+en-US,US Courts,99,Federal,Virginia,Federal District Court,Western District of Virginia,W.D. Va.
+en-US,US Courts,100,Federal,Virgin Islands,Federal District Court,District of the Virgin Islands,D.V.I.
+en-US,US Courts,101,Federal,Washington,Federal District Court,Eastern District of Washington,E.D. Wash.
+en-US,US Courts,102,Federal,Washington,Federal District Court,Western District of Washington,W.D. Wash.
+en-US,US Courts,103,Federal,West Virginia,Federal District Court,Northern District of West Virginia,N.D.W. Va.
+en-US,US Courts,104,Federal,West Virginia,Federal District Court,Southern District of West Virginia,S.D.W. Va.
+en-US,US Courts,105,Federal,Wisconsin,Federal District Court,Eastern District of Wisconsin,E.D. Wis.
+en-US,US Courts,106,Federal,Wisconsin,Federal District Court,Western District of Wisconsin,W.D. Wis.
+en-US,US Courts,107,Federal,Wyoming,Federal District Court,District of Wyoming,D. Wyo.
+en-US,US Courts,108,Federal,Alabama,Bankruptcy Court,Middle District of Alabama,Bankr. M.D. Ala.
+en-US,US Courts,109,Federal,Alabama,Bankruptcy Court,Northern District of Alabama,Bankr. N.D. Ala.
+en-US,US Courts,110,Federal,Alabama,Bankruptcy Court,Southern District of Alabama,Bankr. S.D. Ala.
+en-US,US Courts,111,Federal,Alaska,Bankruptcy Court,District of Alaska,Bankr. D. Alaska
+en-US,US Courts,112,Federal,Arizona,Bankruptcy Court,District of Arizona,Bankr. D. Ariz.
+en-US,US Courts,113,Federal,Arkansas,Bankruptcy Court,Eastern & Western Districts of Arkansas,Bankr. E.D. Ark.
+en-US,US Courts,114,Federal,California,Bankruptcy Court,Central District of California,Bankr. C.D. Cal.
+en-US,US Courts,115,Federal,California,Bankruptcy Court,Eastern District of California,Bankr. E.D. Cal.
+en-US,US Courts,116,Federal,California,Bankruptcy Court,Northern District of California,Bankr. N.D. Cal.
+en-US,US Courts,117,Federal,California,Bankruptcy Court,Southern District of California,Bankr. S.D. Cal.
+en-US,US Courts,118,Federal,Colorado,Bankruptcy Court,District of Colorado,Bankr. D. Colo.
+en-US,US Courts,119,Federal,Connecticut,Bankruptcy Court,District of Connecticut,Bankr. D. Conn.
+en-US,US Courts,120,Federal,Delaware,Bankruptcy Court,District of Delaware,Bankr. D. Del.
+en-US,US Courts,121,Federal,Washington D.C.,Bankruptcy Court,District of D.C.,Bankr. D.D.C.
+en-US,US Courts,122,Federal,Florida,Bankruptcy Court,Middle District of Florida,Bankr. M.D. Fla.
+en-US,US Courts,123,Federal,Florida,Bankruptcy Court,Northern District of Florida,Bankr. N.D. Fla.
+en-US,US Courts,124,Federal,Florida,Bankruptcy Court,Southern District of Florida,Bankr. S.D. Fla.
+en-US,US Courts,125,Federal,Georgia,Bankruptcy Court,Middle District of Georgia,Bankr. M.D. Ga.
+en-US,US Courts,126,Federal,Georgia,Bankruptcy Court,Northern District of Georgia,Bankr. N.D. Ga.
+en-US,US Courts,127,Federal,Georgia,Bankruptcy Court,Southern District of Georgia,Bankr. S.D. Ga.
+en-US,US Courts,128,Federal,Guam,Bankruptcy Court,District of Guam,Bankr. D. Guam
+en-US,US Courts,129,Federal,Hawaii,Bankruptcy Court,District of Hawaii,Bankr. D. Haw.
+en-US,US Courts,130,Federal,Idaho,Bankruptcy Court,District of Idaho,Bankr. D. Idaho
+en-US,US Courts,131,Federal,Illinois,Bankruptcy Court,Central District of Illinois,Bankr. C.D. Ill.
+en-US,US Courts,132,Federal,Illinois,Bankruptcy Court,Northern District of Illinois,Bankr. N.D. Ill.
+en-US,US Courts,133,Federal,Indiana,Bankruptcy Court,Northern District of Indiana,Bankr. N.D. Ind.
+en-US,US Courts,134,Federal,Indiana,Bankruptcy Court,Southern District of Indiana,Bankr. S.D. Ind.
+en-US,US Courts,135,Federal,Iowa,Bankruptcy Court,Northern District of Iowa,Bankr. N.D. Iowa
+en-US,US Courts,136,Federal,Iowa,Bankruptcy Court,Southern District of Iowa,Bankr. S.D. Iowa
+en-US,US Courts,137,Federal,Kansas,Bankruptcy Court,District of Kansas,Bankr. D. Kan.
+en-US,US Courts,138,Federal,Kentucky,Bankruptcy Court,Eastern District of Kentucky,Bankr. E.D. Ky.
+en-US,US Courts,139,Federal,Kentucky,Bankruptcy Court,Western District of Kentucky,Bankr. W.D. Ky.
+en-US,US Courts,140,Federal,Louisiana,Bankruptcy Court,Eastern District of Louisiana,Bankr. E.D. La.
+en-US,US Courts,141,Federal,Louisiana,Bankruptcy Court,Middle District of Louisiana,Bankr. M.D. La.
+en-US,US Courts,142,Federal,Louisiana,Bankruptcy Court,Western District of Louisiana,Bankr. W.D. La.
+en-US,US Courts,143,Federal,Maine,Bankruptcy Court,District of Maine,Bankr. D. Me.
+en-US,US Courts,144,Federal,Maryland,Bankruptcy Court,District of Maryland,Bankr. D. Md.
+en-US,US Courts,145,Federal,Massachusetts,Bankruptcy Court,District of Massachusetts,Bankr. D. Mass.
+en-US,US Courts,146,Federal,Michigan,Bankruptcy Court,Eastern District of Michigan,Bankr. E.D. Mich.
+en-US,US Courts,147,Federal,Michigan,Bankruptcy Court,Western District of Michigan,Bankr. W.D. Mich.
+en-US,US Courts,148,Federal,Minnesota,Bankruptcy Court,District of Minnesota,Bankr. D. Minn.
+en-US,US Courts,149,Federal,Mississippi,Bankruptcy Court,Northern District of Mississippi,Bankr. N.D. Miss.
+en-US,US Courts,150,Federal,Mississippi,Bankruptcy Court,Southern District of Mississippi,Bankr. S.D. Miss.
+en-US,US Courts,151,Federal,Missouri,Bankruptcy Court,Eastern District of Missouri,Bankr. E.D. Mo.
+en-US,US Courts,152,Federal,Missouri,Bankruptcy Court,Western District of Missouri,Bankr. W.D. Mo.
+en-US,US Courts,153,Federal,Montana,Bankruptcy Court,District of Montana,Bankr. D. Mont.
+en-US,US Courts,154,Federal,Nebraska,Bankruptcy Court,District of Nebraska,Bankr. D. Neb.
+en-US,US Courts,155,Federal,Nevada,Bankruptcy Court,District of Nevada,Bankr. D. Nev.
+en-US,US Courts,156,Federal,New Hampshire,Bankruptcy Court,District of New Hampshire,Bankr. D.N.H.
+en-US,US Courts,157,Federal,New Jersey,Bankruptcy Court,District of New Jersey,Bankr. D.N.J.
+en-US,US Courts,158,Federal,New Mexico,Bankruptcy Court,District of New Mexico,Bankr. D.N.M.
+en-US,US Courts,159,Federal,New York,Bankruptcy Court,Eastern District of New York,Bankr. E.D.N.Y.
+en-US,US Courts,160,Federal,New York,Bankruptcy Court,Northern District of New York,Bankr. N.D.N.Y.
+en-US,US Courts,161,Federal,New York,Bankruptcy Court,Southern District of New York,Bankr. S.D.N.Y.
+en-US,US Courts,162,Federal,North Carolina,Bankruptcy Court,Eastern District of North Carolina,Bankr. E.D.N.C.
+en-US,US Courts,163,Federal,North Carolina,Bankruptcy Court,Middle District of North Carolina,Bankr. M.D.N.C.
+en-US,US Courts,164,Federal,North Carolina,Bankruptcy Court,Western District of North Carolina,Bankr. W.D.N.C.
+en-US,US Courts,165,Federal,North Dakota,Bankruptcy Court,District of North Dakota,Bankr. D.N.D.
+en-US,US Courts,166,Federal,Ohio,Bankruptcy Court,Northern District of Ohio,Bankr. N.D. Ohio
+en-US,US Courts,167,Federal,Ohio,Bankruptcy Court,Southern District of Ohio,Bankr. S.D. Ohio
+en-US,US Courts,168,Federal,Oklahoma,Bankruptcy Court,Eastern District of Oklahoma,Bankr. E.D. Okla.
+en-US,US Courts,169,Federal,Oklahoma,Bankruptcy Court,Northern District of Oklahoma,Bankr. N.D. Okla.
+en-US,US Courts,170,Federal,Oklahoma,Bankruptcy Court,Western District of Oklahoma,Bankr. W.D. Okla.
+en-US,US Courts,171,Federal,Oregon,Bankruptcy Court,District of Oregon,Bankr. D. Or.
+en-US,US Courts,172,Federal,Pennsylvania,Bankruptcy Court,Eastern District of Pennsylvania,Bankr. E.D. Pa.
+en-US,US Courts,173,Federal,Pennsylvania,Bankruptcy Court,Middle District of Pennsylvania,Bankr. M.D. Pa.
+en-US,US Courts,174,Federal,Pennsylvania,Bankruptcy Court,Western District of Pennsylvania,Bankr. W.D. Pa.
+en-US,US Courts,175,Federal,Puerto Rico,Bankruptcy Court,District of Puerto Rico,Bankr. D.P.R.
+en-US,US Courts,176,Federal,Rhode Island,Bankruptcy Court,District of Rhode Island,Bankr. D.R.I.
+en-US,US Courts,177,Federal,South Carolina,Bankruptcy Court,District of South Carolina,Bankr. D.S.C.
+en-US,US Courts,178,Federal,South Dakota,Bankruptcy Court,District of South Dakota,Bankr. D.S.D.
+en-US,US Courts,179,Federal,Tennessee,Bankruptcy Court,Eastern District of Tennessee,Bankr. E.D. Tenn.
+en-US,US Courts,180,Federal,Tennessee,Bankruptcy Court,Middle District of Tennessee,Bankr. M.D. Tenn.
+en-US,US Courts,181,Federal,Tennessee,Bankruptcy Court,Western District of Tennessee,Bankr. W.D. Tenn.
+en-US,US Courts,182,Federal,Texas,Bankruptcy Court,Eastern District of Texas,Bankr. E.D. Tex.
+en-US,US Courts,183,Federal,Texas,Bankruptcy Court,Northern District of Texas,Bankr. N.D. Tex.
+en-US,US Courts,184,Federal,Texas,Bankruptcy Court,Southern District of Texas,Bankr. S.D. Tex.
+en-US,US Courts,185,Federal,Texas,Bankruptcy Court,Western District of Texas,Bankr. W.D. Tex.
+en-US,US Courts,186,Federal,Utah,Bankruptcy Court,District of Utah,Bankr. D. Utah
+en-US,US Courts,187,Federal,Vermont,Bankruptcy Court,District of Vermont,Bankr. D. Vt.
+en-US,US Courts,188,Federal,Virginia,Bankruptcy Court,Eastern District of Virginia,Bankr. E.D. Va.
+en-US,US Courts,189,Federal,Virginia,Bankruptcy Court,Western District of Virginia,Bankr. W.D. Va.
+en-US,US Courts,190,Federal,Washington,Bankruptcy Court,Eastern District of Washington,Bankr. E.D. Wash.
+en-US,US Courts,191,Federal,Washington,Bankruptcy Court,Western District of Washington,Bankr. W.D. Wash.
+en-US,US Courts,192,Federal,West Virginia,Bankruptcy Court,Northern District of West Virginia,Bankr. N.D.W. Va.
+en-US,US Courts,193,Federal,West Virginia,Bankruptcy Court,Southern District of West Virginia,Bankr. S.D.W. Va.
+en-US,US Courts,194,Federal,Wisconsin,Bankruptcy Court,Eastern District of Wisconsin,Bankr. E.D. Wis.
+en-US,US Courts,195,Federal,Wisconsin,Bankruptcy Court,Western District of Wisconsin,Bankr. W.D. Wis.
+en-US,US Courts,196,Federal,Wyoming,Bankruptcy Court,District of Wyoming,Bankr. D. Wyo.
+en-US,US Courts,108,Federal,Federal,Federal Court,United States Tax Court,Tax Court
+en-US,US Courts,109,Federal,Federal,Federal Court,Patent Trial and Appeal Board,PTAB
+en-US,US Courts,110,Federal,Federal,Federal Court,United States Court of International Trade,Ct. Intl. Trade; Court of International Trade
+en-US,US Courts,111,Federal,Federal,Federal Court,United States Court of Federal Claims,Fed Cl.; Court of Federal Claims
+en-US,US Courts,112,Federal,Federal,Federal Court,United States Foreign Intelligence Surveillance Court,FISC; FISA
+en-US,US Courts,113,Federal,Federal,Federal Court,Trademark Trial and Appeal Board,TTAB
+en-US,US Courts,114,Federal,Federal,Federal Court,United States Merit Systems Protection Board,USMSRB
+en-US,US Courts,115,Federal,Federal,Federal Court,United States Alien Terrorist Removal Court,USATRC
+en-US,US Courts,116,Federal,Federal,Federal Court,International Trade Commission,ITC
+en-US,US Courts,117,Federal,Federal,Federal Court,United States Court of Appeals for the Federal Circuit,Federal Circuit; Fed. Cir.;C.A.F.C.; CAFC
+en-US,US Courts,118,Federal,Federal,Military Court,United States Court of Appeals for the Armed Forces,CAAF; Armed Forces App
+en-US,US Courts,119,Federal,Federal,Military Court,United States Army Court of Criminal Appeals,ACCA; Army Crim. App.
+en-US,US Courts,120,Federal,Federal,Military Court,Navy-Marine Corps Court of Criminal Appeals,NMCCA; Navy-Marine Crim. App.
+en-US,US Courts,121,Federal,Federal,Military Court,Air Force Court of Criminal Appeals,AFCCA; A.F. Crim. App.
+en-US,US Courts,122,Federal,Federal,Military Court,Coast Guard Court of Criminal Appeals,Coast Guard Crim. App
+en-US,US Courts,123,Federal,Federal,Military Court,United States Court of Appeals for Veterans Claims,Vet. App.
+en-US,US Courts,124,Federal,Federal,Federal Court,United States Foreign Intelligence Surveillance Court of Review,FISCR
+en-US,US Courts,125,Federal,Federal,Military Court,United States Court of Military Commission Review,USCMCR
+en-US,US Courts,126,Federal,Federal,Federal Court,Civilian Board of Contract Appeals,CBCA
+en-US,US Courts,127,Federal,Federal,Military Court,Armed Services Board of Contract Appeals,ASBCA
+en-US,US Courts,128,Federal,Federal,Federal Court,Postal Service Board of Contract Appeals,PSBCA
+en-US,US Courts,129,Federal,Federal,Federal Court,Office of Dispute Resolution for Acquisition,ODRA
+en-US,US Courts,130,Federal,Federal,Federal Court,Board of Immigration Appeals,BIA
+en-US,US Courts,131,Federal,Federal,Federal Court,Board of Veterans' Appeals,BVA

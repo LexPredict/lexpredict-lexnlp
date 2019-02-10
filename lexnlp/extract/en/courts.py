@@ -7,13 +7,19 @@ Todo:
   * Add utilities for loading court data
 """
 from typing import List, Tuple, Generator, Any
-
 from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id
 
+import os
+import re
+
+from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
+from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
+from lexnlp.utils.lines_processing.line_processor import LineSplitParams
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -43,3 +49,31 @@ def get_courts(text: str,
     yield from find_dict_entities(text, court_config_list,
                                   conflict_resolving_func=conflicts_take_first_by_id if priority else None,
                                   text_languages=text_languages)
+
+
+def setup_en_parser():
+    ptrs = ParserInitParams()
+    ptrs.dataframe_paths = [os.path.join(os.path.dirname(__file__), "../../config/en/us_state_courts.csv"),
+             os.path.join(os.path.dirname(__file__), "../../config/en/us_courts.csv"),
+             os.path.join(os.path.dirname(__file__), "../../config/en/ca_courts.csv"),
+             os.path.join(os.path.dirname(__file__), "../../config/en/au_courts.csv")]
+    ptrs.split_ptrs = LineSplitParams()
+    ptrs.split_ptrs.line_breaks = {'\n', '.', ';', ','}.union(set(EnLanguageTokens.conjunctions))
+    ptrs.split_ptrs.abbreviations = EnLanguageTokens.abbreviations
+    ptrs.split_ptrs.abbr_ignore_case = True
+    ptrs.court_pattern_checker = re.compile('court', re.IGNORECASE)
+    parser = UniversalCourtsParser(ptrs)
+    return parser
+
+
+parser = setup_en_parser()
+
+
+def _get_court_list(text: str, language=None):
+    return parser.parse(text)
+
+
+def _get_courts(text: str, language=None):
+    courts = parser.parse(text)
+    for c in courts:
+        yield c

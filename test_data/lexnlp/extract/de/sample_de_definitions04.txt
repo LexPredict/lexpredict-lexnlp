@@ -1,0 +1,42 @@
+Bergverordnung für das Gebiet der Küstengewässer und des Festlandsockels (Offshore-Bergverordnung - OffshoreBergV)
+
+§ 2 Begriffsbestimmung
+(1) „Offshore-Erdöl- und -Erdgasaktivitäten“ sind alle Tätigkeiten, die der Aufsuchung, Gewinnung und Aufbereitung von Erdöl und Erdgas im Offshore-Bereich einschließlich der bei ihrer Gewinnung anfallenden Gase dienen und im Zusammenhang mit einer Plattform oder anderen Einrichtung ausgeübt werden. Zu den Offshore-Erdöl- und -Erdgasaktivitäten gehören die Konzeption, die Planung, der Bau, der Betrieb und die Stilllegung der Plattform oder anderen Einrichtung. Nicht zu den Offshore-Erdöl- und -Erdgasaktivitäten gehört die Errichtung und der Betrieb von Transit-Rohrleitungen, sofern nichts anderes in dieser Verordnung bestimmt ist.
+(2) „Ernste Gefahr“ ist eine Situation, die zu einem schweren Unfall führen könnte.
+(3) „Schwerer Unfall“ ist in Bezug auf eine Plattform oder andere Einrichtung
+1.
+eine Explosion, ein Brand, ein Verlust der Kontrolle über das Bohrloch oder ein Entweichen von Erdöl, Erdgas oder gefährlichen Stoffen, die, der oder das zu dem Tod eines Menschen, einem schweren Personenschaden, einer Lebensgefahr oder einer Gefahr einer schweren Körperverletzung führt,
+2.
+eine erhebliche Beschädigung der Plattform oder anderen Einrichtungen mit Todesfolge oder schwerem Personenschaden oder mit einem erheblichen Potenzial dafür,
+3.
+jeder andere Vorfall mit Todesfolge oder schwerem Personenschaden bei fünf oder mehr Personen, die sich auf der Plattform befinden, auf der sich der Unfall ereignet, oder eine Offshore-Erdöl- und -Erdgasaktivität im Zusammenhang mit der Plattform oder einer anderen Einrichtung ausüben, oder
+4.
+jeder schwere Umweltvorfall als Folge der in den Nummern 1, 2 und 3 genannten Vorfälle; dies gilt bei Umweltvorfällen als Folge der Nummer 1 und 2 auch, wenn es bei dem Vorfall nicht zu einer Gefahr für Personen oder einem Schaden für Leib und Leben von Personen gekommen ist.
+(4) „Schwerer Umweltvorfall“ ist ein Vorfall, der zu einem Umweltschaden im Sinne des § 2 Nummer 1 des Umweltschadensgesetzes vom 10. Mai 2007 (BGBl. I S. 666), das zuletzt durch Artikel 1 des Gesetzes vom 21. Juli 2016 (BGBl. I S. 1764) geändert worden ist, führt oder voraussichtlich führen wird.
+(5) „Risiko“ ist die Kombination aus der Eintrittswahrscheinlichkeit eines Unfalls und seinen Folgen.
+(6) „Vertretbar“ ist ein Risikoniveau, wenn seine Verringerung Zeit, Kosten oder Aufwand erfordern würde, die in einem krassen Missverhältnis zu den Vorteilen einer solchen Verringerung stehen. Bei der Beurteilung, ob ein solches Missverhältnis besteht, ist ein der Unternehmung angemessenes Risikoniveau, das auf bewährten Verfahren beruht, zugrunde zu legen.
+(7) „Einrichtungen“ sind alle Betriebsanlagen und Betriebseinrichtungen, die überwiegend einer in § 1 genannten Tätigkeit dienen oder zu dienen bestimmt sind, einschließlich Plattformen, angebundenen Einrichtungen, auch wenn sie sich außerhalb der Sicherheitszone befinden, sowie Bohrungen und Leitungssysteme, auch wenn diese nicht an die Plattform oder Bohrung angeschlossen sind.
+(8) „Plattform“ ist jede bewegliche oder ortsfeste Einrichtung mit einem schwimmenden oder auf dem Meeresgrund abgestützten oder aufliegenden Tragwerk, die der Durchführung von Offshore-Erdöl- und -Erdgasaktivitäten oder der Unterbringung der Beschäftigten dient. Als Plattform gilt auch eine Kombination solcher Einrichtungen, wenn diese dauerhaft durch Brücken oder andere Strukturen untereinander verbunden sind. Keine Plattformen sind Betriebseinrichtungen, die Bestandteil der Bohrung sind, und angebundene Einrichtungen.
+(9) „Andere Einrichtungen“ sind Einrichtungen nach Absatz 7 mit Ausnahme von Plattformen.
+(10) „Angebundene Einrichtungen“ sind
+1.
+Einrichtungen, die sich auf der Hauptstruktur der Plattform befinden oder daran befestigt sind,
+2.
+Bohrungen und zugehörige Strukturen, Zusatzeinheiten und -geräte, die an die Plattform angebunden sind, oder
+3.
+
+Leitungssysteme oder Komponenten, die an die Plattform oder die Bohrungen angeschlossen sind.
+Angebundene Einrichtungen nach Satz 1 sind nur solche, die sich bei ihrem bestimmungsgemäßen Gebrauch innerhalb der Sicherheitszone befinden, sofern in der Verordnung nichts anderes bestimmt ist.
+(11) „Bohrung“ ist ein Bohrloch mitsamt der dazugehörigen Verrohrung, der Zementation, der Komplettierung und den übertägigen Absperreinrichtungen. Das Bohrloch wird von der Erdoberfläche aus zur Aufsuchung und Gewinnung von Bodenschätzen abgeteuft. Erdoberfläche ist auch der Meeresgrund und der Grund der Seewasserstraßen im Sinne des Bundeswasserstraßengesetzes in der Fassung der Bekanntmachung vom 23. Mai 2007 (BGBl. I S. 962; 2008 I S. 1980), das zuletzt durch Artikel 6 des Gesetzes vom 5. Juli 2016 (BGBl. I S. 1578) geändert worden ist.
+(12) „Hilfsbohrungen“ sind Bohrungen, die sekundären oder tertiären Fördermaßnahmen dienen oder die zur sonstigen Einleitung von bei der Gewinnung oder Aufbereitung anfallenden Stoffen in den Untergrund bestimmt sind.
+(13) „Bohrungsarbeiten“ sind alle eine Bohrung betreffenden Betriebsvorgänge, einschließlich der Niederbringung einer Bohrung, der Instandsetzung oder der Aussetzung der Bohrungsarbeiten und der endgültigen Aufgabe eines Bohrlochs.
+(14) „Kombinierter Betrieb“ sind Betriebsabläufe, die von zwei oder mehreren Plattformen gemeinsam für Zwecke durchgeführt werden, die mit einer dieser Plattformen zusammenhängen, und die sich dadurch erheblich auf die Risiken für die Sicherheit von Personen oder den Schutz der Umwelt auf der anderen Plattform oder den anderen Plattformen auswirken.
+(15) „Sicherheitszone“ ist der Bereich innerhalb einer Entfernung von 500 Metern, gemessen vom jeweiligen äußeren Rand der Plattform.
+(16) „Beginn des Betriebs“ ist der Zeitpunkt, zu dem eine Einrichtung erstmals an den Betriebsvorgängen beteiligt ist, für die sie ausgelegt wurde.
+(17) „Wirksamkeit von Notfallmaßnahmen“ bei Öl- oder Gasunfällen ist die Tauglichkeit der Systeme für Notfallmaßnahmen bei Öl- oder Gasunfällen hinsichtlich der Reaktion auf Öl- oder Gasunfälle. Sie wird ermittelt auf der Grundlage einer Analyse der Häufigkeit des Auftretens, der Dauer und des zeitlichen Ablaufs von Umweltbedingungen, die Abhilfemaßnahmen an einem bestimmten Standort ausschließen. Die Bewertung der Wirksamkeit von Notfallmaßnahmen bei Öl- oder Gasunfällen bestimmt sich nach der Zeit, in der solche Umweltbedingungen nicht gegeben sind. Die Wirksamkeit ist als Prozentsatz auszudrücken. Die Bewertung hat eine Beschreibung der Einsatzbeschränkungen zu umfassen, die sich aus der Bewertung für die betreffenden Plattformen ergeben.
+(18) „Sicherheits- und umweltkritische Elemente“ sind die Teile einer Plattform oder anderen Einrichtung einschließlich Computerprogrammen, deren Zweck unter anderem darin besteht, einen schweren Unfall zu verhindern oder seine Folgen zu begrenzen, oder deren Versagen dazu führen oder wesentlich dazu beitragen könnte, dass es zu einem schweren Unfall kommt.
+(19) „Signalperson“ ist eine Person, die einem Taucher zugeordnet ist, den Tauchgang überwacht und mit dem Taucher Kontakt über die Signalleine oder seine Versorgungsleitung hält.
+(20) „Taucherhelfer“ ist eine Person, die mit der Bedienung und Wartung der für das Tauchen erforderlichen Ausrüstung oder mit sonstigen Unterstützungshandlungen betraut ist.
+
+Fußnote
+(+++ Kapitel 1 (§§ 1 bis 39): Zur Anwendung vgl. § 69 Abs. 1 +++)

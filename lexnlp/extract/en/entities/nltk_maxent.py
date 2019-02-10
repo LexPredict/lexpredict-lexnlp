@@ -24,9 +24,9 @@ from lexnlp.nlp.en.segments.sentences import get_sentence_list
 from lexnlp.nlp.en.tokens import get_token_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 

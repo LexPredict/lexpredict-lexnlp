@@ -6,7 +6,7 @@ certifi==2017.7.27.1
 chardet==3.0.4
 coverage==4.0.3
 https://github.com/LexPredict/datefinder/archive/master.zip
-dateparser==0.6.0
+dateparser==0.7.0
 elasticsearch==5.4.0
 execnet==1.4.1
 gensim==3.4.0

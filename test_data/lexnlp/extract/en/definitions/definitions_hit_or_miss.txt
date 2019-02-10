@@ -1,0 +1,112 @@
+GOOD: ----------------------------------------------------------
+--- In this section there are examples of definitions that I consider
+--- proper ones.
+
+#SAMPLE 01
+
+The Bonds are limited obligations of the Authority, secured under the provisions of the Indenture and Loan Agreement, as described herein,
+and will be payable from Loan Repayments made by Stanford Health Care (the “Corporation”) under the Loan Agreement and from certain funds
+held under the Indenture.
+
+#SAMPLE 02
+
+The 2017 Series A Bonds (the “Bonds”) are being issued as fully registered bonds and initially will be registered in the name of Cede & Co.,
+as nominee for The Depository Trust Company, New York, New York (“DTC”).
+
+#SAMPLE 03
+
+Beneficial Owner means any Person which has or shares the power, directly or indirectly, to make
+investment decisions concerning ownership of any of the Bonds (including any Person holding Bonds through
+nominees, depositories or other intermediaries).
+
+#SAMPLE 04
+
+--- Please note, that the sentence below contains 2 possible definitions: {Obligation and Obligations}.
+--- Before my update the parser would skip them both because the whole "definition term" {the text in
+--- braces: /// each an 'Obligation' and collectively, the 'Obligations' ///} contains 7 words -
+---  - this "term" was considered as too long for a definition.
+
+--- I changed the logic: now the parser allows this term be so long because the term contains 2 definitions:
+--- {'Obligation' and 'Obligations'}. Is it better than was before?
+
+--- Unfortunately, the parser captured "definitions" with some extra words. Right now I'm thinking on the way
+--- to make these 2 annotations being more strict.
+
+Obligation No. 39, the outstanding Obligations relating to other indebtedness and obligations of the
+Corporation (as described below) and any other Obligations issued in the future under the Master Indenture, including
+the Obligation to be issued to evidence the Corporation’s obligations with respect to the payment of principal of and
+interest on the Taxable Bonds (each an “Obligation” and collectively, the “Obligations”), will be secured by security
+interests in (i) the Gross Revenues of each Member of the Obligated Group and (ii) the moneys on deposit from time
+to time in the Gross Revenue Fund established under the Master Indenture.
+
+
+
+
+
+
+
+
+
+
+
+BAD: -----------------------------------------------------------
+-- Here WERE a number of false-positives that I've fixed.
+-- E.g., the first word within the phrase followed by
+-- braces
+
+#MISS 01
+
+CALIFORNIA HEALTH FACILITIES FINANCING AUTHORITY
+
+Refunding Revenue Bonds
+(STANFORD HEALTH CARE)
+
+2017 Series A
+
+#MISS 02
+
+--- Here the parser used to find the word Corporation
+--- because it: was the first word in the sentence
+---   was followed by braces
+--- Fixed
+
+Obligation No. 39, the outstanding Obligations relating to other indebtedness and obligations of the
+Corporation (as described below) and any other Obligations issued in the future under the Master Indenture.
+
+#MISS 03
+
+Noncontrolling capital (distribution) contribution, net (62) (1,000) 301
+
+Increase (decrease) in unrestricted net assets 329,679 (21,202) 424,003
+Changes in temporarily restricted net assets:
+
+#MISS 04
+
+ Operations (15,663) (9,372) (9,904)
+ Purchase of property and equipment (2,288) (973) (1,320)
+
+
+
+
+
+
+
+
+
+
+
+
+
+AVERAGE: -----------------------------------------------------------
+--- ..Bonds shall be deemed.. - I don't think that it IS a definition,
+--- but I don't know how to tell the parser that this case is not suitable.
+
+#HITMISS 01
+
+With respect to any notice of optional redemption of the Bonds, unless, upon the giving of such notice, such
+Bonds shall be deemed to have been paid pursuant to the provisions of the Indenture, such notice shall state that such
+redemption shall be conditional upon the receipt by the Trustee on or prior to the date fixed for such redemption of
+amounts sufficient to pay the principal of and interest on, such Bonds to be redeemed, and that if such amounts shall
+not have been so received said notice shall be of no force and effect and the Authority shall not be required to redeem
+such Bonds and such failure to redeem such Bonds shall not constitute an Event of Default.
+

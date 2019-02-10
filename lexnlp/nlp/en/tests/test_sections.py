@@ -10,6 +10,7 @@ Todo:
 
 # Imports
 import os
+import codecs
 
 # Project imports
 from nose.tools import assert_equal
@@ -19,9 +20,9 @@ from lexnlp.nlp.en.segments.sections import get_sections
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2018, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -34,7 +35,7 @@ def test_file_1():
     # Open file
     base_path = get_module_path()
 
-    with open(os.path.join(base_path, "../test_data", "1582586_2015-08-31")) as test_file_handle:
+    with codecs.open(os.path.join(base_path, "../test_data", "1582586_2015-08-31"), encoding='utf8') as test_file_handle:
         # Read buffer
         file_buffer = test_file_handle.read()
 

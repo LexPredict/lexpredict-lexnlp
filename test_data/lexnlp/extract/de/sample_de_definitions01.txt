@@ -1,0 +1,22 @@
+Telemediengesetz (TMG)
+§ 2 Begriffsbestimmungen
+Im Sinne dieses Gesetzes
+1.
+ist Diensteanbieter jede natürliche oder juristische Person, die eigene oder fremde Telemedien zur Nutzung bereithält oder den Zugang zur Nutzung vermittelt; bei audiovisuellen Mediendiensten auf Abruf ist Diensteanbieter jede natürliche oder juristische Person, die die Auswahl und Gestaltung der angebotenen Inhalte wirksam kontrolliert,
+2.
+ist niedergelassener Diensteanbieter jeder Anbieter, der mittels einer festen Einrichtung auf unbestimmte Zeit Telemedien geschäftsmäßig anbietet oder erbringt; der Standort der technischen Einrichtung allein begründet keine Niederlassung des Anbieters,
+2a.
+ist drahtloses lokales Netzwerk ein Drahtloszugangssystem mit geringer Leistung und geringer Reichweite sowie mit geringem Störungsrisiko für weitere, von anderen Nutzern in unmittelbarer Nähe installierte Systeme dieser Art, welches nicht exklusive Grundfrequenzen nutzt,
+3.
+ist Nutzer jede natürliche oder juristische Person, die Telemedien nutzt, insbesondere um Informationen zu erlangen oder zugänglich zu machen,
+4.
+sind Verteildienste Telemedien, die im Wege einer Übertragung von Daten ohne individuelle Anforderung gleichzeitig für eine unbegrenzte Anzahl von Nutzern erbracht werden,
+5.
+ist kommerzielle Kommunikation jede Form der Kommunikation, die der unmittelbaren oder mittelbaren Förderung des Absatzes von Waren, Dienstleistungen oder des Erscheinungsbilds eines Unternehmens, einer sonstigen Organisation oder einer natürlichen Person dient, die eine Tätigkeit im Handel, Gewerbe oder Handwerk oder einen freien Beruf ausübt; die Übermittlung der folgenden Angaben stellt als solche keine Form der kommerziellen Kommunikation dar:
+a)
+Angaben, die unmittelbaren Zugang zur Tätigkeit des Unternehmens oder der Organisation oder Person ermöglichen, wie insbesondere ein Domain-Name oder eine Adresse der elektronischen Post,
+b)
+Angaben in Bezug auf Waren und Dienstleistungen oder das Erscheinungsbild eines Unternehmens, einer Organisation oder Person, die unabhängig und insbesondere ohne finanzielle Gegenleistung gemacht werden.
+6.
+sind „audiovisuelle Mediendienste auf Abruf“ Telemedien mit Inhalten, die nach Form und Inhalt fernsehähnlich sind und die von einem Diensteanbieter zum individuellen Abruf zu einem vom Nutzer gewählten Zeitpunkt und aus einem vom Diensteanbieter festgelegten Inhaltekatalog bereitgestellt werden.
+Einer juristischen Person steht eine Personengesellschaft gleich, die mit der Fähigkeit ausgestattet ist, Rechte zu erwerben und Verbindlichkeiten einzugehen.
