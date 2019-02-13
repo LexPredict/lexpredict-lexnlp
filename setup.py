@@ -89,7 +89,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'datefinder',
+        'datefinder==0.6.1',
         'dateparser==0.7.0',
         'gensim==3.4.0',
         'nltk==3.2.4',
