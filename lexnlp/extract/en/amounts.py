@@ -54,6 +54,9 @@ MAGNITUDE_MAP = {num2words(10 ** n)[4:]: 10 ** n for n in BIG_NUMBERS_EXPONENT}
 MAGNITUDE_MAP.update(
     {'thousandth': 1000,
      'thousandths': 1000,
+     'trill': 1000000000000,
+     'bil': 1000000000,
+     'mm': 1000000,
      'k': 1000,
      'm': 1000000,
      'b': 1000000000})
@@ -84,7 +87,7 @@ CURRENCY_PREFIX_MAP = {
 allowed_prev_units = list(CURRENCY_SYMBOL_MAP) + list(CURRENCY_PREFIX_MAP)
 
 NUM_PTN = r"""
-(?:(?:(?:(?:[\.\d][\d\.,]*\s+|\W|^)
+(?:(?:(?:(?:[\.\d][\d\.,]*\s*|\W|^)
 (?:(?:{written_small_numbers}|{written_big_numbers}
 |hundred(?:th(?:s)?)?|dozen|and|a\s+half|quarters?)[\s-]*)+)
 (?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)(?:[\.\d][\d\.,/]*))(?:\W|$)""".format(
