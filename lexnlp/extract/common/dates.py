@@ -92,7 +92,7 @@ class DateParser(object):
 
         # First try dateparser searcher
         try:
-            self.DATES = self.get_dateparser_dates()
+            self.DATES = self.get_dateparser_dates() or []
         except Exception as e:
             # TODO: add logging
             print(str(e))
