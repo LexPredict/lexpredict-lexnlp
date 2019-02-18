@@ -27,7 +27,7 @@ class DateParser(object):
     ENABLE_CLASSIFIER_CHECK = True
     CLASSIFIER_MODEL = MODEL_DATE
     CLASSIFIER_THRESHOLD = 0.5
-    BAD_FULL_RE = re.compile('\d+\W?')
+    BAD_FULL_RE = re.compile(r'\d+\W?|(?:\d+ )?die|so|\d+ und \d+|die in einem', re.I)
     BAD_PARTIAL_RE = re.compile('[%s]' % re.escape(re.sub('[.,-:]', '', string.punctuation)))
     DATEPARSER_SETTINGS = {'PREFER_DAY_OF_MONTH': 'first', 'STRICT_PARSING': False}
 
