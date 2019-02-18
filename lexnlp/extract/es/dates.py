@@ -19,7 +19,8 @@ __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-ES_MONTHS = sorted([y.lower() for x in list(info.values())[2:14] for y in x],
+months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+ES_MONTHS = sorted([y.lower() for k, v in info.items() if k in months for y in v],
                    key=lambda i: (-len(i), i))
 
 
