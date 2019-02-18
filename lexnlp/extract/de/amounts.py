@@ -85,6 +85,7 @@ class AmountParserDE(object):
         UNIQUE_NUMBERS_MAP.update(
             {'ein': 1,
              'eine': 1,
+             'einen': 1,
              'einhalb': 0.5,
              'millionen': 1000000,
              'millionenste': 1000000,

@@ -17,37 +17,45 @@ get_amounts = amounts_parser.parse
 
 
 DURATION_MAP = {
-    "secunde": 1 / (60 * 60 * 24),
+    "second": 1 / (60 * 60 * 24),
     "minute": 1 / (60 * 24),
-    "stunde": 1 / 24,
-    "tag": 1,
-    "woche": 7,
-    "monate": 30,  # 365.25/12.,
-    "vierteljahr": 365 / 4,
-    "jahr": 365,  # 365.25,
+    "hour": 1 / 24,
+    "day": 1,
+    "week": 7,
+    "month": 30,  # 365.25/12.,
+    "quarter": 365 / 4,
+    "year": 365,  # 365.25,
 }
 
 DURATION_TRANSLATION_MAP = {
     "secunde": 'second',
+    "secunden": 'second',
     "minute": 'minute',
+    "minuten": 'minute',
     "stunde": 'hour',
+    "stunden": 'hour',
     "tag": 'day',
+    "tage": 'day',
     "woche": 'week',
+    "wochen": 'week',
+    "monat": 'month',
     "monate": 'month',
     "vierteljahr": 'quarter',
+    "vierteljahre": 'quarter',
     "jahr": 'year',
+    "jahre": 'year',
+    "jahres": 'year',
+    "jahren": 'year',
 }
-DURATION_MAP_RE = re.compile('|'.join(DURATION_MAP))
+DURATION_MAP_RE = re.compile('|'.join(DURATION_TRANSLATION_MAP))
 
 DURATION_PTN = r"""
 (?P<text>(?P<num_text>{num_ptn})?
 (?P<unit_prefix>(?:kalend[ae]r|lebens|actual))?
 (?P<unit_name>secunden?|minuten?|stunden?|tage?|wochen?|monate?|vierteljahre?|jahr(?:e|es|en)?))
 (?:\W|$)
-""".format(
-    num_ptn=amounts_parser.NUM_PTN,
-    duration_list='|'.join(DURATION_MAP)
-)
+""".format(num_ptn=amounts_parser.NUM_PTN)
+
 DURATION_PTN_RE = re.compile(DURATION_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 
@@ -68,8 +76,13 @@ def get_durations(text, float_digits=4) -> Generator:
             amount = amount[0]
         unit_name_local = ''.join(capture.get('unit_name', '')).lower()
         unit_prefix = ''.join(capture.get('unit_prefix', '')).lower()
-        unit_name_local = DURATION_MAP_RE.findall(unit_name_local)[0]
-        amount_days = DURATION_MAP[unit_name_local] * amount
+        unit_name_local = DURATION_MAP_RE.findall(unit_name_local)
+        if not unit_name_local:
+            continue
+        unit_name_local = unit_name_local[0]
+        unit_name_en = DURATION_TRANSLATION_MAP.get(unit_name_local)
+
+        amount_days = DURATION_MAP[unit_name_en] * amount
         if float_digits:
             amount_days = round(amount_days, float_digits)
         yield dict(
@@ -77,7 +90,7 @@ def get_durations(text, float_digits=4) -> Generator:
                 location_end=match.end(),
                 source_text=''.join(capture.get('text', '')),
                 unit_name_local=unit_name_local,
-                unit_name=DURATION_TRANSLATION_MAP[unit_name_local],
+                unit_name=unit_name_en,
                 unit_prefix=unit_prefix,
                 amount=amount,
                 amount_days=amount_days)
