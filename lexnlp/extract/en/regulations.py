@@ -35,7 +35,7 @@ PUBLIC_LAW_PTN = r"""
 (
 Pub(?:lic|\.)\s+L(?:aw|\.)(?:\s+No.?)?\s+\d+\-\d+
 |
-\d+\s+Stat\.\s+\d+
+\d+\s+Stat\.\s+[\d-]+
 )
 """
 PUBLIC_LAW_PTN_RE = re.compile(PUBLIC_LAW_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
