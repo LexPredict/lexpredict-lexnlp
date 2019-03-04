@@ -2,20 +2,20 @@
 Date extraction
 Dates parser based on dateparser package
 """
-# pylint: disable=bare-except
+# pylint: disable=bare-except,broad-except,unused-argument
 
 import re
 import pandas as pd
 import string
 
 from dateparser.search import search_dates
-from lexnlp.extract.en.dates import MODEL_DATE, get_date_features
+from lexnlp.extract.en.date_model import MODEL_DATE, get_date_features
 
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -56,7 +56,7 @@ class DateParser(object):
         text = text or self.TEXT
         # INFO: 'DATE_ORDER': 'DMY' prevents parsing date like 2004-12-13T00:00:00Z,
         #  use SKIP_TOKENS setting if needed along with DATE_ORDER
-        return search_dates(text, languages=[self.LANGUAGE], settings=self.DATEPARSER_SETTINGS)
+        return search_dates(text, languages=[self.LANGUAGE], settings=self.DATEPARSER_SETTINGS) or []
 
     def get_extra_dates(self):
         """
@@ -100,7 +100,8 @@ class DateParser(object):
         # Next try custom search logic
         self.get_extra_dates()
 
-        for date_str, date in self.DATES:
+        positions = []
+        for date_str, date in sorted(self.DATES, key=lambda i: -len(i[0])):
 
             # if possible date has weird format or unwanted symbols
             if not self.passed_general_check(date_str, date):
@@ -108,6 +109,11 @@ class DateParser(object):
 
             for match in re.finditer(re.escape(date_str), self.TEXT):
                 location_start, location_end = match.span()
+
+                # skip overlapping entities
+                if any([1 for i, j in positions if location_start>=i and location_end<=j]):
+                    continue
+                positions.append(match.span())
 
                 # filter out possible dates using classifier
                 if self.ENABLE_CLASSIFIER_CHECK and \
@@ -119,8 +125,8 @@ class DateParser(object):
                        'value': date,
                        'source': self.TEXT[location_start:location_end]}
 
-    def get_date_list(self, **kwargs):
-        return list(self.get_dates(**kwargs))
+    def get_date_list(self, *args, **kwargs):
+        return list(self.get_dates(*args, **kwargs))
 
 
 get_dates = DateParser().get_dates

@@ -2,6 +2,14 @@ import re
 from enum import Enum
 from lexnlp.utils.lines_processing.line_processor import LineOrPhrase, LineProcessor
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.5"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+
 LineType = Enum('LineType', 'regular header paragraph_start')
 
 
@@ -11,6 +19,7 @@ class TypedLineOrPhrase(LineOrPhrase):
     Adds LineType attribute specifying the line's "role" within the text
     """
     def __init__(self):
+        super().__init__()
         self.type = LineType.regular
 
     @staticmethod
@@ -97,10 +106,10 @@ class ParsedTextQualityEstimator:
 
         for indx in range(0, len(self.lines)):
             if self.check_line_followed_by_unnecessary_break(indx):
-                    total_extra_breaks += 1
-                    current_seq += 1
-                    longest_seq = max(current_seq, longest_seq)
-                    continue
+                total_extra_breaks += 1
+                current_seq += 1
+                longest_seq = max(current_seq, longest_seq)
+                continue
             current_seq = 0
 
         if total_extra_breaks > 1:

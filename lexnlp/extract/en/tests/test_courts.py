@@ -11,17 +11,16 @@ Todo:
 import csv
 import os
 from unittest import TestCase
-
 from nose.tools import assert_equals
-
-from lexnlp.extract.en.courts import get_courts, setup_en_parser
+from lexnlp.extract.en.courts import get_courts, \
+    _get_court_list, _get_courts
 from lexnlp.extract.en.dict_entities import entity_config, add_alias_to_entity
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -55,20 +54,24 @@ BY SUCH COURTS.""",
 class TestParseEnCourts(TestCase):
 
     def test_parse_empty_text(self):
-        parser = setup_en_parser()
-        ret = parser.parse('')
+        ret = _get_court_list('')
         self.assertEqual(0, len(ret))
-        ret = parser.parse("""
+        ret = _get_court_list("""
 
          """)
         #self.assertEqual(0, len(ret))
 
     def test_parse_simply_text(self):
-        parser = setup_en_parser()
         text = "A recent decision by a United States Supreme Court in Alabama v. Ballyshear LLC confirms that a key factor is the location of the impact of the alleged discriminatory conduct."
-        ret = parser.parse(text)
+        ret = _get_court_list(text)
         self.assertEqual(1, len(ret))
-        court_name = ret[0]["tags"]["Extracted Entity Court Name"]
+        self.assertEqual("en", ret[0].locale)
+
+        ret = _get_court_list(text, "z")
+        self.assertEqual("z", ret[0].locale)
+
+        items = list(_get_courts(text))
+        court_name = items[0]["tags"]["Extracted Entity Court Name"]
         self.assertEqual('United States Supreme Court', court_name)
 
 

@@ -4,12 +4,13 @@ This module implements extraction functionality for courts in Spain, including f
 and aliases.
 
 """
-from typing import List, Tuple, Generator, Any
-from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id
+# pylint: disable=unused-argument
 
+from typing import List, Tuple, Generator, Any
+from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
+from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id
 import os
 import re
-
 from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
 from lexnlp.extract.es.language_tokens import EsLanguageTokens
 from lexnlp.utils.lines_processing.line_processor import LineSplitParams
@@ -17,7 +18,7 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -42,18 +43,17 @@ def setup_es_parser():
     ptrs.split_ptrs.abbreviations = EsLanguageTokens.abbreviations
     ptrs.split_ptrs.abbr_ignore_case = True
     ptrs.court_pattern_checker = re.compile('tribunal', re.IGNORECASE)
-    parser = UniversalCourtsParser(ptrs)
-    return parser
+    return UniversalCourtsParser(ptrs)
 
 
 parser = setup_es_parser()
 
 
-def _get_court_list(text: str, language=None):
-    return parser.parse(text)
-
-
-def _get_courts(text: str, language=None):
-    courts = parser.parse(text)
+def _get_courts(text: str, language: str = None) -> Generator[dict, None, None]:
+    courts = parser.parse(text, language if language else 'es')
     for c in courts:
-        yield c
+        yield c.to_dictionary()
+
+
+def _get_court_list(text: str, language: str = None) -> List[CourtAnnotation]:
+    return parser.parse(text, language if language else 'es')

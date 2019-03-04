@@ -14,7 +14,7 @@ from lexnlp.extract.common.dates import DateParser
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -31,9 +31,9 @@ class ESDateParser(DateParser):
         r'(?P<text>(?P<day>\d{{1,2}}) de (?P<month>{es_months})(?:, | y | de (?P<year>\d{{4}})))'.format(
             es_months='|'.join(ES_MONTHS)), re.I | re.M)
     WEIRD_DATES_NORM = [
-        (re.compile('(\d+º\s?de (?:{es_months})(?: de \d{{4}})?)'.format(
+        (re.compile(r'(\d+º\s?de (?:{es_months})(?: de \d{{4}})?)'.format(
             es_months='|'.join(ES_MONTHS)), re.I | re.M),
-         lambda i: re.sub('\s*º\s*', ' ', i))
+         lambda i: re.sub(r'\s*º\s*', ' ', i))
     ]
 
     def get_extra_dates(self):

@@ -1,15 +1,18 @@
 from unittest import TestCase
 from num2words import num2words
-
 from lexnlp.extract.de.amounts import get_amounts
 
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+
+def _sort(v):
+    return sorted(v, key=lambda i: i['location_start'])
 
 
 class AssertionMixin(TestCase):
@@ -18,6 +21,9 @@ class AssertionMixin(TestCase):
         parsed_num = list(get_amounts(writ_num))
         self.assertEqual(len(parsed_num), 1)
         self.assertEqual(num, parsed_num[0])
+
+    def assertSortedByLocationListEqual(self, list1, list2):
+        self.assertListEqual(_sort(list1), _sort(list2))
 
     def assertSortedListEqual(self, list1, list2):
         self.assertListEqual(sorted(list(list1)), sorted(list(list2)))

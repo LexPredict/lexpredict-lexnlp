@@ -8,7 +8,6 @@ This module implements date extraction functionality in English.
 import datetime
 import itertools
 import os
-import string
 from typing import Generator, List
 
 # Third-party packages
@@ -21,29 +20,23 @@ import sklearn.pipeline
 import sklearn.feature_selection
 from sklearn.externals import joblib
 
+from lexnlp.extract.en.date_model import MODEL_DATE, DATE_MODEL_CHARS, MODULE_PATH
+from lexnlp.extract.common.dates import DateParser
+
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
-# Setup path
-MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
-
-# Load model
-MODEL_DATE = joblib.load(os.path.join(MODULE_PATH, "./date_model.pickle"))
 
 # Distance in characters to use to merge two date strings
 DATE_MERGE_WINDOW = 10
 
 # Maximum date length
 DATE_MAX_LENGTH = 40
-
-DATE_MODEL_CHARS = []
-DATE_MODEL_CHARS.extend(string.ascii_letters)
-DATE_MODEL_CHARS.extend(string.digits)
-DATE_MODEL_CHARS.extend(["-", "/", " ", "%", "#", "$"])
 
 # Setup regular expression for "as of" strings
 AS_OF_PATTERN = r"""
@@ -740,3 +733,8 @@ def train_default_model(save=True):
     else:
         build_date_model(examples, "test_date_model.pickle")
         os.unlink("test_date_model.pickle")
+
+
+parser = DateParser(enable_classifier_check=True, language='en')
+_get_dates = parser.get_dates
+_get_date_list = parser.get_date_list

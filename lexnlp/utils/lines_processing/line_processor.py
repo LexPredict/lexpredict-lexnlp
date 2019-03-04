@@ -1,8 +1,15 @@
 from typing import List, Generator
 import re
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.5"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
-class LineOrPhrase:
+
+class LineOrPhrase(object):
     def __init__(self, text='', start=0):
         self.text = text
         self.start = start
@@ -165,7 +172,7 @@ class LineProcessor:
 
         return words
 
-    def words_to_lowercase(words: WordList):
+    def words_to_lowercase(self, words: WordList):
         for word in words:
             if not word.is_separator:
                 word.text = word.text.lower()

@@ -14,7 +14,7 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -28,12 +28,12 @@ class TestUniversalCourtsParser(TestCase):
         ret_list = parser.parse(text)
         self.assertEqual(4, len(ret_list))
 
-        for rv in ret_list:
+        for rv in [r.to_dictionary() for r in ret_list]:
             self.assertGreater(rv["attrs"]["end"], rv["attrs"]["start"])
             self.assertGreater(rv["attrs"]["end"], 0)
             self.assertGreater(len(rv["tags"]["Extracted Entity Type"]), 0)
-            rf = text[rv["attrs"]["start"]:rv["attrs"]["end"]]
-            #self.assertEqual(len(rf), len(rf.strip(' \t')))
+            _ = text[rv["attrs"]["start"]:rv["attrs"]["end"]]
+            # self.assertEqual(len(rf), len(rf.strip(' \t')))
 
     def test_compare_to_legacy_parser(self):
         parser = self.make_en_parser()
@@ -42,12 +42,12 @@ class TestUniversalCourtsParser(TestCase):
 
         start = time.time()
         ret_n = parser.parse(text)
-        t1 = (time.time() - start)
+        _ = (time.time() - start)
         self.assertEqual(4, len(ret_n))
 
         start = time.time()
         ret_l = [c for c in self.parse_courts_legacy_function(text)]
-        t2 = (time.time() - start)
+        __ = (time.time() - start)
         self.assertEqual(3, len(ret_l))
 
     def parse_courts_legacy_function(self, text: str):

@@ -1,6 +1,9 @@
+# pylint: disable=unused-argument
+
 import os
 import re
-
+from typing import Generator, List
+from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
 from lexnlp.extract.de.language_tokens import DeLanguageTokens
 from lexnlp.utils.lines_processing.line_processor import LineSplitParams
@@ -31,18 +34,17 @@ def setup_de_parser():
 
     path = os.path.join(os.path.dirname(__file__), "../../config/de/de_courts.csv")
     ptrs.dataframe_paths = [path]
-    parser = UniversalCourtsParser(ptrs)
-    return parser
+    return UniversalCourtsParser(ptrs)
 
 
 parser = setup_de_parser()
 
 
-def get_court_list(text: str, language=None):
-    return parser.parse(text)
-
-
-def get_courts(text: str, language=None):
-    courts = parser.parse(text)
+def get_courts(text: str, language=None) -> Generator[dict, None, None]:
+    courts = parser.parse(text, language if language else 'de')
     for c in courts:
-        yield c
+        yield c.to_dictionary()
+
+
+def get_court_list(text: str, language=None) -> List[CourtAnnotation]:
+    return parser.parse(text, language if language else 'de')

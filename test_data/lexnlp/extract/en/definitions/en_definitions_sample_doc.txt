@@ -1,0 +1,230 @@
+This Credit Agreement (“Agreement”) dated as of March 21, 2037, by and among XYZ Sharings, Inc., a Delaware corporation (“AcqusitionCo.”) (together with its successors and assigns, including LETCO, from and after the consummation of the Closing Date Merger), the financial insitutions party hereto from time to time (the “Lenders”), and Phoebe Capital, LLC (in its individual capacity, “Phoebe”), as Agent for all of the Lenders. “Business Day” means any day on which commercial banks are open for commercial banking business in Chicago, Illinois and New York, New York, and, in the case of a Business Day which relates to a LIBOR Loan, on which dealings are carried on in the London interbank Eurodollar market. “Capital Expenditures” means all expenditures which, in accordance with GAAP, would be required to be capitalized and shown on the consolidated balance sheet of Holdings but excluding expenditures made to fund the purchase price for assets acquired in a Permitted Acquisition. “Borrowing Availability” shall have the meaning assigned to it in Section 2.1(a)(i) “Approver”: all the expenditure which in accordance with GAAP, would be required to be capitalized. Available Amount means all the expenditures which in accordance with GAAP, would be required to be capitalized. There is another sentence here. “Agent” means Wamoo Capital in its capacity as administrative agent for the Lenders hereunder, and any successor administrator agent. “Aggregate Sharing Debt Commitment” means the combined Revolving Loan Commitments of the Warner Bros, which shall initially on the Closing Date be in the amount of $40,000,000, as such amount may be increased in accordance with Section 1.12(b). “Apparat Sharing Debt” shall mean the combined Revolving Loan Commitments of the Warner Bros, which shall initially on the Closing Date be in the amount of $40,000,000, as such amount may be increased in accordance with Section 1.12(b). “Aggregate Delayed Draw Term Loan Ending Commitment” shall mean the combined Revolving Loan Commitments of the Warner Bros, which shall initially on the Closing Date be in the amount of $1,240,000,000, as such amount may be increased in accordance with Section 5.82(b). Aggregate Delayed Draw Term Loan Commitment means the combined Resolving Debt Commitments of the Warner Bros, which shall initially on the Closing Date be in the amount of $9,940,000,000, as such amount may be increased in accordance with Section 1.92(b).
+
+
+
+
+
+
+
+
+
+
+
+
+
+Exhibit 10.1
+
+
+
+THIRD AMENDMENT AND MODIFICATION
+
+TO CREDIT AGREEMENT
+
+THIS THIRD AMENDMENT AND MODIFICATION TO CREDIT AGREEMENT (the "Amendment") is made this 4th day of November, 2013, to be effective as of September 30, 2013 (the "Effective Date"), by and among NUTRISYSTEM, INC., a Delaware corporation (the "Company"), certain Subsidiaries of the Company (together with the Company, the "Borrowers" and, each a "Borrower"), MANUFACTURERS AND TRADERS TRUST COMPANY, as Administrative Agent (the "Administrative Agent"), and the other Lenders (as defined below) party hereto.
+
+BACKGROUND
+
+
+
+
+	Pursuant to that certain Credit Agreement dated as of November 8, 2012, by and among Borrowers, Administrative Agent and the lenders described therein (collectively, the "Lenders" and each a "Lender") (as amended by that First Amendment and Modification to Credit Agreement dated as of December 31, 2012, that certain Second Amendment and Modification to Credit Agreement dated as of August 13th, 2013, and as the same may hereafter be further amended, modified, supplemented or restated from time to time, being referred to herein as the "Credit Agreement"), Lenders agreed, inter alia, to extend to Borrowers a revolving line of credit in a maximum principal amount of up to $40,000,000.
+
+
+	Borrowers have requested and Administrative Agent and Lenders have agreed to amend the Credit Agreement in accordance with the terms and conditions contained herein.
+
+
+	All capitalized terms contained herein and not otherwise defined herein shall have the meanings set forth in the Credit Agreement.
+
+NOW, THEREFORE, intending to be legally bound hereby, the parties agree:
+
+
+
+	Consolidated EBITDA.  The defined term "Consolidated EBITDA" set forth in Section 1.01 of the Credit Agreement is hereby deleted in its entirety and replaced with the following:
+
+""Consolidated EBITDA" means, for any period, for the Company and its Subsidiaries on a consolidated basis, an amount equal to Consolidated Net Income for such period plus (without duplication) (a) the following to the extent deducted in calculating such Consolidated Net Income: (i) Consolidated Interest Charges for such period, (ii) the provision for Federal, state, local and foreign income taxes payable by the Company and its Subsidiaries for such period, (iii) depreciation and amortization expense, (iv) other non-recurring expenses of the Company and its Subsidiaries reducing such Consolidated Net Income which do not represent a cash item in such period or any future period (which shall include, without limitation, non-cash related compensation and the non-cash portion of the Executive Severance), (v) a one-time expense of up to $2,000,000 incurred in connection with the buyout or abandonment of the lease held at 200 Witmer Road, Horsham, Pennsylvania, with such one-time expense to be taken by the Company on or before December 31, 2013, (vi) one-time expenses of up to $4,400,000 constituting the cash portion of the Executive Severance taken during the fiscal year of the Company ending December 31, 2012, (vii) a one-time impairment charge of up to $2,200,000 during the fiscal year of the Company ending December 31, 2012, (viii) one-time cash expenses of up to $2,000,000 in the aggregate during the fiscal year of the Company ending December 31, 2012, with respect to the restructuring of contractual arrangements with marketing services providers, (ix) one-time severance expenses of up to a maximum of $1,050,000, as and to the extent incurred in the first fiscal quarter of 2013 of the Company, in connection with the termination of certain employees, and (x) an amount of up to $5,000,000 during the fiscal year of the Company ending December 31, 2013, for a one-time settlement of a contractual dispute with a supplier, and minus (b) the following to the extent included in calculating such Consolidated Net Income: (i) Federal, state, local and foreign income tax credits of the Company and its Subsidiaries for such period and (ii) all non-cash items increasing Consolidated Net Income for such period."
+
+
+	Minimum Consolidated Tangible Net Worth.  Section 7.11(c) of the Credit Agreement is hereby deleted in its entirety and replaced with the following:
+
+"(c)Minimum Consolidated Tangible Net Worth.  Permit the Consolidated Tangible Net Worth, as of the end of each fiscal quarter of the Company, to be less than $45,000,000."
+
+
+	Amendment Fee.  Upon execution of this Amendment, Borrowers shall pay to Agent an amendment fee in the amount of Forty Thousand Dollars ($40,000.00) (the "Amendment Fee"), which fee may be charged as a Committed Loan or charged to any bank account of any Borrower maintained with Agent.  The foregoing Amendment Fee is in addition to the interest and other amounts which Borrowers are required to pay under the Loan Documents, and is fully earned and nonrefundable.
+
+
+	Amendment/References.  The Credit Agreement and the Loan Documents are hereby amended to be consistent with the terms of this Amendment.  All references in the Credit Agreement and the Loan Documents to: (a) the "Credit Agreement" shall mean the Credit Agreement as amended hereby; and (b) the "Loan Documents" shall include this Amendment and all other instruments or agreements executed pursuant to or in connection with the terms hereof.
+
+
+	Release.  Each Borrower acknowledges and agrees that it has no claims, suits or causes of action against Administrative Agent or any Lender and hereby remises, releases and forever discharges Administrative Agent and each Lender, their officers, directors, shareholders, employees, agents, successors and assigns, and any of them, from any claims, suits or causes of action whatsoever, in law or at equity, which such Borrower has or may have arising from any act, omission or otherwise, at any time up to and including the date of this Amendment.
+
+
+	Additional Documents; Further Assurances.  Each Borrower covenants and agrees to execute and deliver to Administrative Agent, or to cause to be executed and delivered to Administrative Agent contemporaneously herewith, at the sole cost and expense of Borrowers, the Amendment and any and all documents, agreements, statements, resolutions, searches, insurance policies, consents, certificates, legal opinions and information as Administrative Agent may require in connection with the execution and delivery of this Amendment or any documents in connection herewith, or to further evidence, effect, enforce or protect any of the terms hereof or the rights or remedies granted or intended to be granted to Administrative Agent or any Lender herein or in any of the Loan Documents, or to enforce or to protect Administrative Agent's and each Lender's interest in the Collateral.  All such documents, agreements, statements, etc., shall be in form and content acceptable to Administrative Agent in its sole discretion.  Each Borrower hereby authorizes Administrative Agent to file, at Borrowers' cost and expense, financing statements, amendments thereto and other items as Administrative Agent may require to evidence or perfect Administrative Agent's and each Lender's continuing security interest and liens in and against the Collateral.  Each Borrower agrees to join with Administrative Agent in notifying any third party with possession of any Collateral of Administrative Agent's and each Lender's security interest therein and in obtaining an acknowledgment from the third party that it is holding the Collateral for the benefit of Administrative Agent and Lenders.  Borrowers will cooperate with Administrative Agent in obtaining control with respect to Collateral consisting of deposit accounts, investment property, letter-of-credit rights and electronic chattel paper.
+
+
+	Further Agreements and Representations.  Each Borrower does hereby:
+
+
+
+	ratify, confirm and acknowledge that the statements contained in the foregoing Background are true and complete and that, as amended hereby, the Credit Agreement and the other Loan Documents are in full force and effect and are valid, binding and enforceable against such Borrower and its assets and properties, all in accordance with the terms thereof, as amended;
+
+
+	covenant and agree to perform all of such Borrower's obligations under the Credit Agreement and the other Loan Documents, as amended;
+
+
+	acknowledge and agree that as of the date hereof, such Borrower has no defense, set-off, counterclaim or challenge against the payment of any Obligations or the enforcement of any of the terms of the Credit Agreement or of the other Loan Documents, as amended;
+
+
+	acknowledge and agree that all representations and warranties of such Borrower contained in the Credit Agreement and/or the other Loan Documents, as amended, are true, accurate and correct on and as of the date hereof as if made on and as of the date hereof, except to the extent that such representations and warranties specifically refer to an earlier date, in which case they are true and correct as of such earlier date, and except that for purposes of Section 4.02 of the Credit Agreement, the representations and warranties contained in the subsections (a) and (b) of Section 5.05 of the Credit Agreement shall be deemed to refer to the most recent statements furnished pursuant to clauses (a) and (b), respectively, of Section 6.01 of the Credit Agreement;
+
+
+	represent and warrant that no Default or Event of Default exists;
+
+
+	covenant and agree that such Borrower's failure to comply with any of the terms of this Amendment or any other instrument or agreement executed or delivered in connection herewith, shall constitute an Event of Default under the Credit Agreement and each of the other Loan Documents; and
+
+
+	acknowledge and agree that nothing contained herein, and no actions taken pursuant to the terms hereof, are intended to constitute a novation of any of the Notes, the Credit Agreement or of any of the other Loan Documents and does not constitute a release, termination or waiver of any existing Event of Default or of any of the liens, security interests, rights or remedies granted to the Administrative Agent or any other Lender in any of the Loan Documents, which liens, security interests, rights and remedies are hereby expressly ratified, confirmed, extended and continued as security for all Obligations.
+
+Each Borrower acknowledges and agrees that Administrative Agent and Lenders are relying on the foregoing agreements, confirmations, representations and warranties of such Borrower and the other agreements, representations and warranties of such Borrower contained herein in agreeing to the amendments contained in this Amendment.
+
+
+	Fees, Cost, Expenses and Expenditures.  Borrowers will pay all of Administrative Agent's expenses in connection with the review, preparation, negotiation, documentation and closing of this Amendment and the consummation of the transactions contemplated hereunder, including without limitation, fees, disbursements, expenses and disbursements of counsel retained by Administrative Agent and all fees related to filings, recording of documents, searches, environmental assessments and appraisal reports, whether or not the transactions contemplated hereunder are consummated.
+
+
+	No Waiver.  Nothing contained herein constitutes an agreement or obligation by Administrative Agent or any Lender to grant any further amendments to the Credit Agreement or any of the other Loan Documents.  Nothing contained herein constitutes a waiver or release by Administrative Agent or any Lender of any Event of Default or of any rights or remedies available to Administrative Agent or any Lender under the Loan Documents or at law or in equity.
+
+
+	Inconsistencies. To the extent of any inconsistencies between the terms and conditions of this Amendment and the terms and conditions of the Credit Agreement or the other Loan Documents, the terms and conditions of this Amendment shall prevail.  All terms and conditions of the Credit Agreement and other Loan Documents not inconsistent herewith shall remain in full force and effect and are hereby ratified and confirmed by Borrowers.
+
+
+	Binding Effect.  This Amendment, upon due execution hereof, shall be binding upon and inure to the benefit of the parties hereto and their respective successors and assigns.
+
+
+	Governing Law.  This Amendment shall be governed and construed in accordance with the laws of the Commonwealth of Pennsylvania without regard to conflict of law principles.
+
+
+	Severability.  The provisions of this Amendment and all other Loan Documents are deemed to be severable, and the invalidity or unenforceability of any provision shall not affect or impair the remaining provisions which shall continue in full force and effect.
+
+
+	Modifications.  No modification of this Amendment or any of the Loan Documents shall be binding or enforceable unless in writing and signed by or on behalf of the party against whom enforcement is sought.
+
+
+	Headings.  The headings of the Articles, Sections, paragraphs and clauses of this Amendment are inserted for convenience only and shall not be deemed to constitute a part of this Amendment.
+
+
+	Counterparts.  This Amendment may be executed in multiple counterparts, each of which shall constitute an original and all of which together shall constitute the same agreement.
+
+[REMAINDER OF PAGE INTENTIONALLY LEFT BLANK]
+
+
+
+IN WITNESS WHEREOF, the parties hereto, intending to be legally bound hereby, have caused this Amendment to be executed the day and year first above written to be effective as of the Effective Date.
+NUTRISYSTEM, INC.
+
+ 
+
+By:  /s/ Jason L. Butt
+
+Name:Jason L. Butt
+
+Title:Treasurer
+
+
+NUTRI/SYSTEM IPHC, INC.
+
+
+ 
+
+By:  /s/ Kathleen Simone
+
+Name:Kathleen Simone
+
+Title:Assistant Treasurer
+
+
+NSI TECH, INC.
+
+
+ 
+
+By:  /s/ Kathleen Simone
+
+Name:Kathleen Simone
+
+Title:Treasurer
+
+
+NUTRISYSTEM DIY, LLC
+
+
+ 
+
+By:  /s/ Jason L. Butt
+
+Name:Jason L. Butt
+
+Title:Treasurer
+
+
+NUTRISYSTEM EVERYDAY, LLC
+
+
+ 
+
+By:  /s/ Jason L. Butt
+
+Name:Jason L. Butt
+
+Title:Treasurer
+
+
+NSI RETAIL, LLC
+
+ 
+
+By: /s/ Kathleen Simone
+
+Name:Kathleen Simone
+
+Title:Assistant Treasurer
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+[SIGNATURES CONTINUE BELOW]
+
+MANUFACTURERS AND TRADERS TRUST COMPANY, as Administrative Agent, a Lender, L/C Issuer and Swing Line Lender
+
+
+ 
+
+By:  /s/ Sarah S. Hudak
+
+Name:Sarah S. Hudak
+
+Title:Vice President
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+

@@ -5,6 +5,8 @@ This module implements basic definition extraction functionality in English.
 Todo:
   * Improved unit tests and case coverage
 """
+# pylint: disable=broad-except,bare-except
+
 
 # Imports
 import regex as re
@@ -17,7 +19,7 @@ from lexnlp.utils.lines_processing.line_processor import LineProcessor
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -27,6 +29,8 @@ class DefinitionCaught:
     Each definition is stored in this class with
     its name, full text and "coords" within the whole document
     """
+    __slots__ = ['name', 'text', 'coords']
+
     def __init__(self, name: str, text: str, coords: Tuple[int, int]):
         self.name = name
         self.text = text
@@ -53,14 +57,22 @@ class DefinitionCaught:
         return 0
 
 
+# when the following flag is True,
+# the term defined got stripped off quotes:
+# e.g., (any such excess being referred to as a "Combined EDITT Deficit Alpha Beta Gamma Cappa")
+# will become just (Combined EDITT Deficit Alpha Beta Gamma Cappa)
+PICK_DEFINITION_FROM_QUOTES = True
+
 # Constraints for matching
 MAX_TERM_TOKENS = 5
+MAX_QUOTED_TERM_TOKENS = 7
 MAX_TERM_CHARS = 64
 
 # Primary pattern triggers
 STRONG_TRIGGER_LIST = ["shall have the meaning", "includes?", "as including",
                        "shall mean", "means?", r"shall (?:not\s+)?include",
                        "shall for purposes", "have meaning",
+                       "referred to", "known as",
                        "refers to", "shall refer to", "as used",
                        "for purpose[sd]", "shall be deemed to",
                        "may be used", "is hereby changed to",
@@ -68,7 +80,6 @@ STRONG_TRIGGER_LIST = ["shall have the meaning", "includes?", "as including",
 
 WEAK_TRIGGER_LIST = [r"[\(\)]", "in "]
 ALL_TRIGGER_LIST = STRONG_TRIGGER_LIST + WEAK_TRIGGER_LIST
-
 
 STRONG_TRIGGER_LIST.sort(key=len, reverse=True)
 WEAK_TRIGGER_LIST.sort(key=len, reverse=True)
@@ -78,8 +89,8 @@ ALL_TRIGGER_LIST.sort(key=len, reverse=True)
 def join_collection(collection):
     return "|".join([w.replace(" ", r"\s+") for w in collection])
 
-word_processor = LineProcessor()
 
+word_processor = LineProcessor()
 
 # Case 1: Term in quotes, is preceded by word|term|phrase or :,.^
 # and has item from TRIGGER_LIST after itself.
@@ -114,8 +125,12 @@ NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VE
 
 # Case 4: Term inside quotes is preceded by word|term|phrase or :,.^
 # and has a colon after itself.
-#e.g.: "'Term': definition"
-COLON_PTN = r"""['"“](.{{1,{max_term_chars}}})['"”]:[\s]""".format(max_term_chars=MAX_TERM_CHARS)
+# e.g.: "'Term': definition"
+COLON_PTN = r"""((['](.{{1,{max_term_chars}}})['])|""" \
+            r"""(["](.{{1,{max_term_chars}}})["])|""" \
+            r"""([“](.{{1,{max_term_chars}}})[”]))""" \
+            r""":[\s]""".format(max_term_chars=MAX_TERM_CHARS)
+
 COLON_PTN_RE_OPTIONS = re.UNICODE | re.DOTALL | re.MULTILINE
 
 # Case 5: phrase called|herein|herein as... + term in quotes
@@ -124,7 +139,7 @@ ANCHOR = ['called', 'herein', 'herein as', 'collectively(?:,)?', 'collectively a
           'individually as', 'together(?:,)?', 'together with', 'referred to as', 'being', 'shall be', 'definition as',
           'known as', 'designated as', 'hereinafter', 'hereinafter as', 'hereafter', 'hereafter as', 'its', 'our',
           'your', 'any of the foregoing,', 'in such capacity,', 'in this section,', 'in this paragraph,',
-          'in this \(noun\),', 'each such', 'this']
+          r'in this \(noun\),', 'each such', 'this']
 ANCHOR_QUOTES_PTN = r"""(?:(?:{anchor})\s+)(?:(?:{articles})\s+)?['"“](.{{1,{max_term_chars}}}?)['"”]""" \
     .format(anchor=join_collection(ANCHOR), articles=join_collection(ARTICLES), max_term_chars=MAX_TERM_CHARS)
 ANCHOR_QUOTE_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
@@ -133,7 +148,9 @@ ANCHOR_QUOTE_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE 
 # e.g.: such earlier date, the "End Date", any such event, an "Event of Default"
 ANCHOR = ['such', 'any such', 'together']
 ANCHOR_SUBJECT_QUOTES_PTN = r"(?:(?:{anchor})\s+?)(?:.{{1,{max_term_chars}}}\s+?)(?:(?:{articles})\s+)?" \
-                            r"['\"“](.{{1,{max_term_chars}}}?)['\"”]" \
+                            r"(('(.{{1,{max_term_chars}}}?)')|" \
+                            r"(\"(.{{1,{max_term_chars}}}?)\")|" \
+                            r"(“(.{{1,{max_term_chars}}}?)”))" \
     .format(anchor=join_collection(ANCHOR), articles=join_collection(ARTICLES), max_term_chars=MAX_TERM_CHARS)
 ANCHOR_SUBJECT_QUOTES_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
 
@@ -147,6 +164,10 @@ QUOTED_DEFINITION_RE_PARAMS = [
     (ANCHOR_SUBJECT_QUOTES_PTN, ANCHOR_SUBJECT_QUOTES_RE_OPTIONS)
 ]
 QUOTED_DEFINITION_RE = [re.compile(template, options) for template, options in QUOTED_DEFINITION_RE_PARAMS]
+
+QUOTED_TEXT_RE = re.compile("([\"'“„])(?:(?=(\\\\?))\\2.)+?\\1", re.UNICODE | re.IGNORECASE | re.DOTALL)
+
+SPACES_RE = re.compile(r'\s')
 
 
 def get_definition_list_in_sentence(sentence_coords: Tuple[str, int, int],
@@ -176,35 +197,58 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[str, int, int],
         result.update(mts)
 
     # cases 2, 4, 5, 6
-    for match in TRIGGER_QUOTED_DEFINITION_RE.finditer(sentence):
+    for _ in TRIGGER_QUOTED_DEFINITION_RE.finditer(sentence):
         for quoted_definition_re in QUOTED_DEFINITION_RE:
             result.update(regex_matches_to_word_coords(quoted_definition_re, sentence, sent_start))
         break
 
     # make definitions out of entries
     for term_coords in result:
-        term = term_coords[0]
+        term_processed = trim_defined_term(term_coords[0])
+        term_clear = term_processed[0]
+        term = term_clear if PICK_DEFINITION_FROM_QUOTES else term_coords[0]
+
+        was_quoted = term_processed[1]
         # check the term is not empty
         if len(term.strip(''' []'"”().\t''')) == 0:
             continue
-        try:
-            term_quoted = re.search('''['"”]{}['"”]'''.format(term), sentence,
-                                    re.I | re.M | re.U | re.S | re.X)
-        except Exception as e: # a term may make a non-compiling Regex
-            term_quoted = None
 
-        # the term should not be too long
-        if not term_quoted:
-            words_in_term = sum(1 for w in word_processor.split_text_on_words(term)
-                                if not w.is_separator)
-            quotes_in_text = get_quotes_count_in_string(term)
-            possible_definitions = quotes_in_text // 2 if quotes_in_text > 1 else 1
-            possible_tokens_count = MAX_TERM_TOKENS * possible_definitions
-            if words_in_term > possible_tokens_count:
-                continue
+        # check the term is not too long
+        max_words_per_definition = MAX_TERM_TOKENS
+        if was_quoted:
+            max_words_per_definition = MAX_QUOTED_TERM_TOKENS
+
+        words_in_term = sum(1 for w in word_processor.split_text_on_words(term_clear)
+                            if not w.is_separator)
+        quotes_in_text = get_quotes_count_in_string(term_clear)
+        possible_definitions = quotes_in_text // 2 if quotes_in_text > 1 else 1
+        possible_tokens_count = max_words_per_definition * possible_definitions
+        if words_in_term > possible_tokens_count:
+            continue
+
         definitions.append(DefinitionCaught(term, sentence, (term_coords[1], term_coords[2])))
 
     return definitions
+
+
+def trim_defined_term(term: str) -> Tuple[str, str]:
+    """
+    "trim" terms from definitions' keywords
+    extract text from quotes
+    :param term: 'referred to as a "Combined EBITDA Deficit"'
+    :return: ('Combined EBITDA Deficit', 'quoted')
+    """
+    flags = ''
+
+    # pick text from quotes
+    quoted_parts = [m.group() for m in QUOTED_TEXT_RE.finditer(term)]
+    if len(quoted_parts) == 1:
+        term = quoted_parts[0].strip('''\"'“„''')
+        flags = 'quoted'
+
+    # rip off definition's keyword(s)
+    term = SPACES_RE.sub(' ', term)
+    return term, flags
 
 
 def filter_definitions_for_self_repeating(definitions: List[DefinitionCaught]) -> List[DefinitionCaught]:
@@ -266,6 +310,7 @@ def get_definitions(text, return_sources=False, decode_unicode=True, return_coor
             yield (df.name, df.text)
         else:
             yield df.name
+
 
 def get_definitions_in_sentence(sentence: str, return_sources=False,
                                 decode_unicode=True) -> Generator:

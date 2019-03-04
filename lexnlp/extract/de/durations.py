@@ -7,7 +7,7 @@ from lexnlp.extract.de.amounts import AmountParserDE
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -47,14 +47,16 @@ DURATION_TRANSLATION_MAP = {
     "jahres": 'year',
     "jahren": 'year',
 }
-DURATION_MAP_RE = re.compile('|'.join(DURATION_TRANSLATION_MAP))
+duration_items = sorted(DURATION_TRANSLATION_MAP.keys(), key=len, reverse=True)
+duration_items_joined = '|'.join(duration_items)
+DURATION_MAP_RE = re.compile(duration_items_joined)
 
 DURATION_PTN = r"""
 (?P<text>(?P<num_text>{num_ptn})?
 (?P<unit_prefix>(?:kalend[ae]r|lebens|actual))?
-(?P<unit_name>secunden?|minuten?|stunden?|tage?|wochen?|monate?|vierteljahre?|jahr(?:e|es|en)?))
+(?P<unit_name>{unit_names}))
 (?:\W|$)
-""".format(num_ptn=amounts_parser.NUM_PTN)
+""".format(num_ptn=amounts_parser.NUM_PTN, unit_names=duration_items_joined)
 
 DURATION_PTN_RE = re.compile(DURATION_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
