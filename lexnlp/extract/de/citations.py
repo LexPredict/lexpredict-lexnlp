@@ -5,6 +5,7 @@ This module implements citation extraction functionality in German.
 Todo:
   * Improved unit tests and case coverage
 """
+# pylint: disable=bare-except
 
 import regex as re
 
@@ -14,7 +15,7 @@ from lexnlp.extract.en.dates import get_dates
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -67,7 +68,7 @@ def get_citations(text):
             if date:
                 try:
                     date = str(list(get_dates(date, 'de'))[0]['value'])
-                except Exception as e:
+                except:
                     pass
             yield dict(
                 location_start=match.start(),

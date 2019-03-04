@@ -1,6 +1,14 @@
 import re
 from typing import List, Tuple
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.5"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+
 PhraseMatch = Tuple[str, int, int]
 
 
@@ -18,7 +26,7 @@ class PhraseFinder:
 
     def word_to_regex(self, word: str, ignore_case: bool) -> str:
         # " Amtsgericht Stuttgart" ->  re("Amtsgericht[\s]+Stuttgart")
-        subphrase = word.replace('\t', ' ').strip(' ').replace('  ', ' ').replace(' ', '[\s]+')
+        subphrase = word.replace(r'\t', ' ').strip(' ').replace('  ', ' ').replace(' ', r'[\s]+')
         if self.extra_format_function is not None:
             subphrase = self.extra_format_function(subphrase)
         sps = '(\\b|\\s)'

@@ -13,7 +13,6 @@ class TestLineProcessor(TestCase):
         lines = [line for line in proc.split_text_on_line_with_endings(text)]
         assert len(lines) == 3
 
-
     def test_line_processor_phrases(self):
         text = """
 Once upon a midnight dreary

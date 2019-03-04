@@ -7,9 +7,11 @@ This module implements unit tests for the regulation extraction functionality in
 Todo:
     * Better testing for exact test in return sources
     * More pathological and difficult cases
+    * test_parse_comission should pick one and only one record
 """
 
 # Imports
+from unittest import TestCase
 
 from nose.tools import assert_list_equal
 
@@ -19,9 +21,22 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+
+class TestRegulations(TestCase):
+    def test_parse_comission(self):
+        text = """
+    Pursuant to section 10(d) of the Federal Advisory Committee Act, as amended, notice is hereby given of the following meetings.
+    The meetings will be closed to the public in accordance with the provisions set forth in sections 552b(c)(4) and 552b(c)(6), Title 5 U.S.C., as amended. 
+    The grant applications and the discussions could disclose confidential trade secrets or commercial property such as patentable material, 
+    and personal information concerning individuals associated with the grant applications, the disclosure of which would constitute a clearly unwarranted invasion of personal privacy.
+    Name of Committee: Center for Scientific Review Special Emphasis Panel; Small Business: Cancer Biotherapeutics Development.
+    """
+        ret = list(get_regulations(text))
+        self.assertEqual(0, len(ret))
 
 
 def test_get_regulations():

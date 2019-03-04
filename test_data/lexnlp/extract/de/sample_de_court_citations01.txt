@@ -1,0 +1,298 @@
+Wie viele Menschen leben in Deutschland? Wo wohnen sie und wie alt sind sie? Daten über Struktur und Entwicklung der Bevölkerung gehören zum grundlegenden Informationsbedarf für fast alle Bereiche von Staat, Wirtschaft und Gesellschaft. Die Politik benötigt sie,
+weil viele Entscheidungen – beispielsweise im Bildungs- und Gesundheitswesen – nur auf der Grundlage gesicherter bevölkerungsstatistischer Angaben getroffen werden können. Für das wirtschaftliche Geschehen sind demografische Daten von Bedeutung, weil sie Grundinformationen über die Menschen als Arbeitskräfte, Einkommensbezieher und Konsumenten liefern. In der Öffentlichkeit werden Bevölkerungszahlen und demografische Entwicklungen aufmerksam verfolgt.
+Hinter den Zahlen verbergen sich aber auch Werthaltungen und Lebenseinstellungen, die ihrerseits wieder Rückwirkungen auf die Bevölkerungsstruktur haben. So spiegeln sich zum Beispiel in den Zahlen der Eheschließungen und scheidungen sowie der Lebenspartnerschaften, der Geburtenentwicklung und der Familiengröße die Einstellungen der Gesellschaft zur Familie und zu Kindern wider. Der Altersaufbau wird von diesen Lebenseinstellungen mitbestimmt und hat zugleich direkte Auswirkungen auf die Bildungs- und Beschäftigungsmöglichkeiten der Bevölkerung und beeinflusst daher unmittelbar ihre Lebensweise. u Info 1 Weitere Informationen zur Bevölkerung mit Migrationshintergrund bietet Kapitel 1.2, Seite 28. Daten zur Lebenssituation von Geflüchteten enthält Kapitel 7.4, Seite 280.
+
+1.1.1 Bevölkerungsstand
+Nach den Ergebnissen der Bevölkerungsfortschreibung lebten Ende 2016 in Deutschland rund 82,5 Millionen Menschen (BStBl I 2003, 240; - Sanierungserlass -), davon waren 49 % männlich und 51% weiblich. Gegenüber 2015 ist die Bevölkerung damit um 346 000 Einwohnerinnen und Einwohner beziehungsweise um 0,4 % gewachsen. Rund 66,4 Millionen Personen (80 %) lebten in den alten Bundesländern, 12,6 Millionen (15 %) in den neuen Bundesländern und 3,6 Millionen (4,3%) in Berlin. Die bevölkerungsreichsten Länder waren Nordrhein-Westfalen (17,9 Millionen Personen), Bayern (12,9 Millionen) und Baden-Württemberg (knapp 11,0 Millionen). In diesen drei Bundesländern lebten rund 51% der Bevölkerung Deutschlands. Die Hälfte der Bundesländer hatte dagegen weniger als 3 Millionen Einwohnerinnen und Einwohner. u Tab 1 Mit 82,5 Millionen hatte Deutschland Ende 2016 rund 13,2 Millionen Einwoh1 Bevölkerung und Demografie
+
+1.1 Bevölkerungsstand und Bevölkerungsentwicklung
+This book is a work of fiction. Names, characters, businesses, organizations, places, events and incidents either are the product of the author’s imagination or are used fictiously. Any resemblance to actual persons, living or dead, events or locales is entirely coincidental.
+
+
+
+All rights reserved. Published in the United States by Doubleday, a division of Random House, Inc., New York, and in Canada by Random House of Canada Limited, Toronto.
+
+
+
+Grafik: Copyright © 2008 Reed Business Information – UK. All rights reserved. Distributed by Tribune Media Services.
+
+
+
+Für die deutschsprachige Ausgabe:
+
+Copyright © 2013 by Bastei Lübbe GmbH & Co. KG, Köln
+
+Textredaktion: Ruggero Leò
+
+Umschlaggestaltung: Johannes Wiebel, punchdesign
+
+Umschlagmotiv: © Johannes Wiebel, punchdesign unter Verwendung von Shutterstock.com
+
+Datenkonvertierung E-Book: Dörlemann Satz, Lemförde
+
+
+
+ISBN 978-3-8387-3026-4
+
+
+
+Sie finden uns im Internet unter: www.luebbe.de
+
+Bitte beachten Sie auch: www.lesejury.de
+
+
+
+
+
+Für meine Eltern …
+
+
+
+www.boox.to
+
+
+
+
+
+Die heißesten Orte der Hölle sind reserviert für jene,
+
+die in Zeiten moralischer Krisen nicht Partei ergreifen.
+
+
+
+
+
+FAKTEN
+
+
+Alle Werke der Kunst und Literatur in diesem
+
+Roman existieren wirklich.
+
+Die wissenschaftlichen und historischen
+
+Hintergründe sind wahr.
+
+»Das Konsortium« ist eine private Organisation
+
+mit Büros in sieben Nationen. Ihr Name
+
+wurde aus Gründen der Sicherheit und des
+
+Datenschutzes geändert.
+
+Inferno ist die Unterwelt, wie in Dante Alighieris
+
+Göttlicher Komödie beschrieben, ein kunstvoll
+
+ausgearbeitetes Reich, bevölkert von als Schatten
+
+bekannten Wesen – körperlosen Schemen,
+
+gefangen zwischen Leben und Tod.
+
+
+
+
+
+PROLOG
+
+
+Ich bin der Schatten.
+
+Ich fliehe durch die trauernde Stadt.
+
+Durch das ewige Leid hindurch ergreife ich die Flucht.
+
+Ich haste entlang am Ufer des Flusses Arno, atemlos … wende mich nach links in die Via di Castellani, suche meinen Weg nach Norden, drücke mich in die Schatten der Uffizien.
+
+Und sie jagen mich immer weiter in BFHE 238, 518, BStBl II 2013.
+
+Ihre Schritte werden lauter, während sie mich mit unerbittlicher Entschlossenheit verfolgen.
+
+Vier Jahre stellen sie mir schon nach. Ihre Beharrlichkeit hat mich in den Untergrund getrieben … mich gezwungen, im Fegefeuer zu leben … unter der Erde zu arbeiten wie ein chthonisches Monster.
+
+Ich bin der Schatten.
+
+Hier über der Erde hebe ich den Blick nach Norden, doch ich finde keinen direkten Weg zur Erlösung … Die Berge des Apennin halten das erste Licht der Morgendämmerung zurück.
+
+Ich renne hinter dem Palazzo vorbei mit seinem krenelierten Turm und der Stundenuhr … schleiche hindurch zwischen den Verkäufern auf der Piazza di San Firenze mit ihren heiseren Stimmen und ihrem Geruch nach lampredotto und gegrillten Oliven. Vor dem Bargello biege ich ab nach Westen, nähere mich der Badia und lande vor dem eisernen Tor am Fuß der Treppen.
+
+Jetzt ist kein Zögern mehr erlaubt.
+
+Ich drehe den Knauf und betrete die Passage, von der es kein Zurück mehr für mich gibt. Ich zwinge meine bleiernen Beine die schmale, gewundene Treppe hinauf mit ihren ausgetretenen, abgewetzten Stufen aus narbigem Marmor.
+
+Die Stimmen hallen von unten herauf. Beschwörend.
+
+Sie sind hinter mir, unerbittlich, schließen auf.
+
+Sie begreifen nicht, was kommen wird … ebenso wenig wie das, was ich für sie getan habe!
+
+Undankbare Welt!
+
+Während ich emporsteige, überkommen mich die Visionen in schneller Folge … sündige Leiber, die sich in feurigem Regen winden, verfressene Seelen, die in Exkrementen treiben, verräterische Schurken, erstarrt in Satans eisigem Griff.
+
+Ich ersteige die letzten Stufen und erreiche das Ende, stolpere hinaus in die feuchte Morgenluft, dem Tode nah. Ich renne zu der mannshohen Mauer, spähe durch die Scharten. Tief unter mir liegt die gesegnete Stadt, in der ich Zuflucht suche vor jenen, die mich ins Exil getrieben haben.
+
+Die Stimmen rufen laut; sie sind jetzt dicht hinter mir. »Was du getan hast, ist Wahnsinn!«
+
+Wahnsinn bringt Wahnsinn hervor.
+
+»Um Gottes willen!«, rufen sie. »Sag uns, wo du es versteckt hast!«
+
+Um unseres Gottes willen werde ich genau das nicht tun.
+
+Ich stehe jetzt, in die Enge getrieben, mit dem Rücken zum kalten Stein. Sie starren mir tief in die klaren grünen Augen, und ihre Mienen verdunkeln sich, als sie mir nicht länger schmeicheln, sondern unverhüllt drohen. »Du weißt, dass wir unsere Methoden haben. Wir können dich zwingen, uns zu verraten, wo es ist!«
+
+Aus genau diesem Grund bin ich den halben Weg zum Himmel hinaufgestiegen.
+
+Unvermittelt drehe ich mich um und ziehe mich am Sims der hohen Mauer hinauf. Zuerst auf die Knie, dann stehe ich … unsicher wankend vor dem Abgrund. Führe mich, o Vergil, durch die Leere.
+
+Ungläubig springen sie vor, wollen mich an den Füßen packen und fürchten zugleich, sie könnten mir das Gleichgewicht rauben und mich hinunterstoßen. Jetzt flehen sie in stiller Verzweiflung, doch ich habe ihnen den Rücken zugewandt. Ich weiß, was ich tun muss.
+
+Unter mir, in schwindelerregender Tiefe, erstrahlt die Landschaft aus rot geziegelten Dächern wie ein feuriges Meer … erhellt das Land, das einst Giganten durchstreiften … Giotto, Donatello, Brunelleschi, Michelangelo, Botticelli.
+
+Ich trete ganz langsam vor bis zur Kante.
+
+»Komm runter!«, rufen sie mir zu. »Es ist noch nicht zu spät!«
+
+Oh, ihr starrsinnigen Ignoranten. Seht ihr denn nicht die Zukunft? Begreift ihr denn nicht die Brillanz meiner Schöpfung? Die schiere Notwendigkeit?
+
+Ich bin mehr als bereit, dieses größte aller Opfer zu bringen … Und mit ihm werde ich eure letzte Hoffnung zerstören, das zu finden, was ihr sucht.
+
+Ihr werdet es niemals rechtzeitig entdecken.
+
+Dutzende von Metern unter mir lockt der gepflasterte Platz wie eine stille Oase. Wie sehr es mich nach mehr Zeit dürstet … Doch Zeit ist die einzige Ware, die zu erkaufen selbst meine üppigen Reichtümer nicht genügen.
+
+In diesen letzten Sekunden sehe ich hinunter auf die Piazza und halte verblüfft inne.
+
+Ich sehe dein Gesicht.
+
+Du starrst aus den Schatten zu mir herauf. Deine Augen sind voller Trauer, und doch verspüre ich Ehrfurcht in ihnen für das, was ich erreicht habe. Du verstehst, dass mir keine Wahl bleibt. Um der Menschheit willen – ich muss mein Meisterwerk schützen.
+
+Es wächst selbst jetzt noch … wartend … schwelend in den blutroten Wassern der Lagune, in der sich nie spiegeln die Sterne.
+
+Und so löse ich mich von deinem Anblick und betrachte den Horizont. Hoch über dieser schwer beladenen Welt spreche ich mein letztes Gebet.
+
+Allmächtiger Gott, ich bete darum, dass die Welt mich nicht als einen ungeheuerlichen Sünder in Erinnerung behält, sondern als den glorreichen Erlöser, der ich, wie du weißt, in Wahrheit bin. Ich bete darum, dass die Menschheit begreift, welches Geschenk ich ihr hinterlassen habe.
+
+Mein Geschenk ist die Zukunft.
+
+Mein Geschenk ist die Erlösung.
+
+Mein Geschenk ist … Inferno.
+
+Ich flüstere ein leises Amen … und trete einen letzten Schritt vor, hinein in den Abgrund.
+
+
+
+
+
+KAPITEL 1
+
+
+Die Erinnerungen kehrten nur langsam zurück … wie Blasen, die aus den Tiefen eines bodenlosen Brunnens an die Oberfläche steigen.
+
+Eine verschleierte Frau.
+
+Robert Langdon starrte sie über einen Fluss hinweg an, dessen schäumende Fluten rot waren von Blut. Die Frau stand am anderen Ufer, ihm zugewandt, reglos und ernst, das Gesicht mit einem Schleier verhüllt. In der Hand hielt sie eine blaue Taenia, eine Kopfbinde, die sie nun hob, zu Ehren des Ozeans aus Leibern am Boden ringsum. Der Gestank nach Tod hing über allem.
+
+Suche, flüsterte die Frau. Suche, und du wirst finden.
+
+Langdon hörte die Worte, als hätte die Frau in seinem Kopf gesprochen. »Wer sind Sie?«, wollte er rufen, doch seine Kehle blieb stumm.
+
+Die Zeit drängt, flüsterte die Frau. Suche und finde.
+
+Langdon trat einen Schritt auf den Fluss zu. Er wollte ihn durchqueren, doch das Wasser, das blutrote Wasser, war zu tief. Als er den Blick wieder zu der verschleierten Frau hob, hatte sich die Zahl der Körper zu ihren Füßen vervielfacht. Jetzt waren es Hunderte, vielleicht Tausende, manche noch am Leben, sich windend in entsetzlichen Qualen, unvorstellbare Tode sterbend … verzehrt vom Feuer, unter Fäkalien begraben, einander verschlingend. Die klagenden Schreie der Gepeinigten hallten über das Wasser.
+
+Die Frau trat einen Schritt auf ihn zu. Sie hielt die zierlichen Hände ausgestreckt, als flehe sie um Hilfe.
+
+»Wer sind Sie?«, wiederholte Langdon seine Frage, und diesmal gehorchte ihm seine Stimme.
+
+Zur Antwort zog die Frau sich langsam den Schleier vom Gesicht. Sie war von atemberaubender Schönheit, doch viel älter, als Langdon vermutet hatte – bestimmt über sechzig, würdevoll, erhaben und zeitlos wie eine Statue. Ihre Miene zeigte Entschlossenheit, ihre Augen waren tief und voller Gefühl, und ihr langes, silbergraues Haar fiel ihr in gelockten Kaskaden über die Schultern. Um den Hals trug sie ein Amulett aus Lapislazuli – eine Schlange, die sich um einen Stab wand.
+
+Langdon war sicher, dass er die Frau kannte … dass er ihr vertraute. Aber … woher? Warum?
+
+Sie deutete auf ein sich windendes Paar Beine, das aus dem Erdreich ragte und anscheinend einer armen Seele gehörte, die mit dem Kopf voran bis zur Hüfte eingegraben worden war. Auf dem blassen Oberschenkel des Mannes war ein einzelner Buchstabe zu erkennen, geschrieben mit Schlamm, ein R.
+
+R?, dachte Langdon unsicher. Wie in Robert? »Bin … Bin ich das?«
+
+Das Gesicht der Frau war ausdruckslos. Suche und finde, wiederholte sie.
+
+Unvermittelt erstrahlte sie in weißem Licht … schwach zuerst, dann heller und heller. Ihr gesamter Leib fing an zu vibrieren, bis sie unter ohrenbetäubendem Donnerhall in tausend splitternde Scherben aus Licht zerbarst.
+
+Langdon fuhr schreiend hoch. Er war mit einem Schlag wach.
+
+Das Zimmer war hell erleuchtet. Er war allein. Der scharfe Geruch nach medizinischem Alkohol hing in der Luft, und irgendwo pingte eine Maschine in leisem, rhythmischem Einklang mit seinem Herzschlag. Langdon hob den rechten Arm ein wenig, doch sogleich durchfuhr ihn ein stechender Schmerz. Er blickte an sich hinunter und sah einen intravenösen Tropf in seinem Unterarm.
+
+Sein Puls ging schneller, und die Maschine hielt mit ihm mit. Das leise Pingen wurde drängender.
+
+Wo bin ich? Was ist passiert?
+
+Langdons Hinterkopf pochte – ein nagender, anhaltender Schmerz. Behutsam tastete er mit der linken Hand nach der Ursache für seine Kopfschmerzen. Unter dem verfilzten Haar fand er eine verkrustete Narbe: etwa ein Dutzend Stiche.
+
+Er schloss die Augen und versuchte sich an einen Unfall zu erinnern.
+
+Nichts. Völlige Leere.
+
+Denk nach.
+
+Nichts außer Dunkelheit.
+
+Ein Mann in einem OP-Kittel stürmte herein, offensichtlich alarmiert durch Langdons rasenden Herzmonitor. Er hatte einen zottigen Bart mit buschigem Schnäuzer und freundliche Augen, die unter den dichten Brauen eine besonnene Ruhe ausstrahlten.
+
+»Was … was ist passiert?«, stieß Langdon hervor. »Hatte ich einen Unfall?«
+
+Der bärtige Mann legte den Zeigefinger an die Lippen, eilte auf den Korridor hinaus und rief nach einer zweiten Person.
+
+Langdon drehte den Kopf, doch die Bewegung sandte einen brennenden Schmerz durch seinen Schädel. Er atmete tief durch und wartete, bis der Schmerz nachließ. Dann nahm er seine sterile Umgebung sehr, sehr vorsichtig und methodisch in Augenschein.
+
+Das Krankenzimmer hatte nur ein einziges Bett. Keine Blumen, keine Karten. Langdon entdeckte seine Kleidung auf einem Tresen, ordentlich gefaltet und in einer transparenten Plastiktüte verstaut. Alles war voller Blut.
+
+Mein Gott. Es muss schlimm gewesen sein.
+
+Behutsam wandte Langdon den Kopf zum Fenster. Draußen war es dunkel. Nacht. Hinter der Scheibe war nichts zu erkennen, er sah nur sein Spiegelbild – das Bild eines aschfahlen Fremden, bleich und erschöpft, angeschlossen an Schläuche und Drähte und umgeben von medizinischen Apparaten.
+
+Auf dem Gang näherten sich Stimmen, und Langdon richtete den Blick zur Tür. Der Arzt kehrte zurück, in Begleitung einer Frau.
+
+Sie sah aus wie Anfang dreißig, trug den gleichen blauen Kittel wie ihr Kollege und hatte die blonden Haare zu einem dicken Pferdeschwanz zurückgebunden, der beim Gehen rhythmisch pendelte.
+
+»Mein Name ist Dr. Sienna Brooks«, stellte sie sich vor und lächelte Langdon an. »Dr. Marconi und ich arbeiten heute Nacht zusammen.«
+
+Langdon nickte schwach.
+
+Sie war groß und schlank und bewegte sich energisch wie eine Athletin. Selbst in ihrem unförmigen Kittel strahlte sie eine geschmeidige Eleganz aus, und sie schien völlig ungeschminkt zu sein, was ihre ungewöhnlich glatte Haut zusätzlich betonte. Ihr einziger Makel war ein winziger Schönheitsfleck dicht über der Oberlippe. Die Augen der Ärztin waren von einem sanften Braun und wirkten ungewöhnlich ernst, als habe die junge Frau in mehr dunkle Abgründe geblickt als die meisten Menschen ihres Alters.
+
+»Dr. Marconi spricht nicht so gut Englisch«, sagte sie und setzte sich neben ihn. »Er hat mich gebeten, Ihr Aufnahmeformular auszufüllen.« Sie schenkte ihm ein weiteres Lächeln.
+
+»Danke«, krächzte Langdon.
+
+»Okay, fangen wir an«, fuhr sie in geschäftsmäßigem Ton fort. »Wie heißen Sie?«
+
+Er brauchte einen Augenblick. »Robert … Robert Langdon.«
+
+Sie leuchtete ihm mit einer Stiftlampe in die Augen. »Beruf?«
+
+Diese Information kam noch langsamer an die Oberfläche. »Wissenschaftler. Professor für Kunstgeschichte … und Symbolologie. Harvard University.«
+
+Dr. Brooks senkte die Lampe und sah ihn verblüfft an. Der Arzt mit den buschigen Augenbrauen wirkte gleichermaßen überrascht.
+
+»Sie … Sie sind Amerikaner?«
+
+Langdon blickte verlegen drein.
+
+»Es ist so …« Sie zögerte. »Sie hatten keine Papiere bei sich, als Sie heute Nacht hergekommen sind. Sie trugen Harris-Tweed und Somerset-Slipper, deswegen dachten wir, Sie seien Brite.«
+
+»Ich bin Amerikaner«, versicherte Langdon ihr. Er war zu erschöpft, um seine Vorliebe für gut sitzende Maßkleidung zu erklären.
+
+»Schmerzen?«
+
+»Mein Kopf«, antwortete Langdon. Das Pochen war von dem grellen Licht der Stiftlampe noch schlimmer geworden. Er war heilfroh, als sie die Lampe einsteckte und ihm den Puls fühlte.
+
+»Sie sind schreiend aufgewacht«, sagte die Ärztin. »Erinnern Sie sich an den Grund?«
+
+Langdon dachte an die merkwürdige Vision von der verschleierten Frau in dem Meer aus sich windenden Leibern. Suche, und du wirst finden. »Ich hatte einen Alptraum.«
+
+»Worum ging es?«
+
+Langdon erzählte ihr alles.

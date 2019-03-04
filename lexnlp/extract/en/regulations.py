@@ -13,7 +13,7 @@ from typing import Generator
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -35,7 +35,7 @@ PUBLIC_LAW_PTN = r"""
 (
 Pub(?:lic|\.)\s+L(?:aw|\.)(?:\s+No.?)?\s+\d+\-\d+
 |
-\d+\s+Stat\.\s+\d+
+\d+\s+Stat\.\s+[\d-]+
 )
 """
 PUBLIC_LAW_PTN_RE = re.compile(PUBLIC_LAW_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)

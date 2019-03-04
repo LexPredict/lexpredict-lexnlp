@@ -1,8 +1,20 @@
+# pylint: disable=unused-import
+
 import re
 import pandas as pd
 from typing import List, Tuple
+
+from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.utils.lines_processing.line_processor import LineProcessor, LineSplitParams, LineOrPhrase
 from lexnlp.utils.lines_processing.phrase_finder import PhraseFinder, PhraseMatch
+
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.5"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
 
 class ParserInitParams:
@@ -18,12 +30,12 @@ class ParserInitParams:
             'alias': 'Alias'
         }
         self.dataframe_paths = []  # type: List[str]
-        self.split_ptrs = None # type: LineSplitParams
+        self.split_ptrs = None   # type: LineSplitParams
         self.key_word_preproc_func = None  # def (text:str) -> str
 
 
 class MatchFound:
-    def __init__(self, subset, entry_start: int, entry_end: int):
+    def __init__(self, subset, entry_start: int, entry_end: int, text: str):
         self.subset = subset
         self.is_exact = len(subset) == 1
         self.court_name = None
@@ -31,14 +43,15 @@ class MatchFound:
         self.court_type = None
         self.entry_start = entry_start
         self.entry_end = entry_end
+        self.text = text
 
     def __repr__(self):
-        len = 'nil' if self.subset is None else str(len(self.subset))
+        length = 'nil' if self.subset is None else str(len(self.subset))
         court_name = 'court name: ' + self.court_name if self.court_name is not None else ''
         court_type = 'court type: ' + self.court_type if self.court_type is not None else ''
         court_jur = 'jurisdiction: ' + self.jurisdiction \
             if self.jurisdiction is not None else ''
-        return ' '.join(['Exact: ', self.is_exact, '[' + len + ']',
+        return ' '.join(['Exact: ', self.is_exact, '[' + length + ']',
                          court_name, court_type, court_jur])
 
     def make_sort_key(self):
@@ -112,9 +125,10 @@ class UniversalCourtsParser:
         self.jurisdiction_column = ptrs.column_names['jurisdiction']
         self.proc = LineProcessor()
         self.phrase_split_ptrs = ptrs.split_ptrs
-        self.annotations = []
+        self.annotations = []  # type: List[CourtAnnotation]
         self.courts = None
         self.load_courts(ptrs.dataframe_paths)
+        self.locale = None
 
         # unique columns
         self.finder_court_name = PhraseFinder(UniversalCourtsParser.get_unique_col_values(
@@ -129,9 +143,10 @@ class UniversalCourtsParser:
         self.finder_jur = PhraseFinder(UniversalCourtsParser.get_unique_col_values(
             self.courts[self.jurisdiction_column]), ptrs.key_word_preproc_func)
 
-    def parse(self, text: str) -> List[dict]:
+    def parse(self, text: str, locale: str = None) -> List[CourtAnnotation]:
         """
         :param text: the text being processed
+        :param locale: 'En', 'Es', ...
         :return: annotations - List[dict]
 
         Here is an example of the method's call:
@@ -144,7 +159,7 @@ class UniversalCourtsParser:
             'Extracted Entity Court Jurisdiction': 'Sachsen'}
         """
         self.annotations = []
-
+        self.locale = locale
         self.find_courts_by_alias_in_whole_text(text)
 
         # if the whole text doesn't contain the key word (gericht) - skip all the following
@@ -181,7 +196,7 @@ class UniversalCourtsParser:
         for m in self.finder_court_alias.find_word(text):
             alias = m[0]
             rows = self.courts.loc[self.courts[self.court_alias_column] == alias]
-            match_found = MatchFound(rows, m[1], m[2])
+            match_found = MatchFound(rows, m[1], m[2], text[m[1]:m[2]])
             self.add_annotation(match_found)
 
     def find_court_by_any_key(self, phrase: LineOrPhrase):
@@ -215,9 +230,12 @@ class UniversalCourtsParser:
         if len(subset) == 0:
             return None
 
+        start = found_substrings[0][1]
+        end = found_substrings[0][2]
         match = MatchFound(subset,
-                           phrase.start + found_substrings[0][1],
-                           phrase.start + found_substrings[0][2])
+                           phrase.start + start,
+                           phrase.start + end,
+                           phrase.text[start:end])
         return (match, found_substrings)
 
     def find_court_by_type_and_jurisdiction(self, phrase: LineOrPhrase) -> List[MatchFound]:
@@ -231,7 +249,10 @@ class UniversalCourtsParser:
             # (without commas or conjuctions)
             matches = []
             for ct in court_types:
-                m = MatchFound([], phrase.start + ct[1], phrase.start + ct[2])
+                m = MatchFound([],
+                               phrase.start + ct[1],
+                               phrase.start + ct[2],
+                               phrase.text[ct[1]:ct[2]])
                 m.court_type = ct[0]
                 m.court_name = ct[0]
                 matches.append(m)
@@ -243,7 +264,10 @@ class UniversalCourtsParser:
             subset = self.courts.loc[(self.courts[self.court_type_column] == court_types[0][0]) &
                                      (self.courts[self.jurisdiction_column] == court_jurs[0][0])]
 
-        match = MatchFound(subset, phrase.start, phrase.start + court_types[0][2])
+        match = MatchFound(subset,
+                           phrase.start,
+                           phrase.start + court_types[0][2],
+                           phrase.text[0:court_types[0][2]])
         if len(subset) != 1:
             match.court_name = court_types[0][0]
             match.court_type = court_types[0][0]
@@ -267,16 +291,10 @@ class UniversalCourtsParser:
             match.jurisdiction if match.jurisdiction is not None else \
                 match.subset[self.jurisdiction_column].values[0] if mlen > 0 else ''
 
-        ant = dict(
-            attrs={
-                'start': match.entry_start,
-                'end': match.entry_end},
-            tags={
-                'Extracted Entity Type': 'court',
-                'Extracted Entity Court Name': name,
-                'Extracted Entity Court Type': court_type,
-                'Extracted Entity Court Jurisdiction': jurisdiction
-            })
+        ant = CourtAnnotation(name=name, coords=(match.entry_start, match.entry_end),
+                              locale=self.locale, text=match.text)
+        ant.jurisdiction = jurisdiction
+        ant.court_type = court_type
         self.annotations.append(ant)
 
     @staticmethod

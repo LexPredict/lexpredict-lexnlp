@@ -5,7 +5,7 @@ from lexnlp.extract.de.tests.test_amounts import AssertionMixin
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -16,28 +16,58 @@ class TestGetActs(AssertionMixin):
         res = get_act_list(text)
         self.assertEqual(res, [{'location_start': 20,
                                 'location_end': 38,
+                                'section': '',
+                                'year': '',
+                                'act_name': 'VERY Important Act',
                                 'value': 'VERY Important Act'}])
         text = "This sentence which ends with VERY Important Act"
         res = get_act_list(text)
         self.assertEqual(res, [{'location_start': 30,
                                 'location_end': 48,
+                                'section': '',
+                                'year': '',
+                                'act_name': 'VERY Important Act',
                                 'value': 'VERY Important Act'}])
         text = "This sentence which ends with point after VERY Important Act."
         res = get_act_list(text)
         self.assertEqual(res, [{'location_start': 42,
                                 'location_end': 60,
+                                'section': '',
+                                'year': '',
+                                'act_name': 'VERY Important Act',
                                 'value': 'VERY Important Act'}])
         text = "test verb in phrase Updated VERY Important Act."
         res = get_act_list(text)
         self.assertEqual(res, [{'location_start': 28,
                                 'location_end': 46,
+                                'section': '',
+                                'year': '',
+                                'act_name': 'VERY Important Act',
                                 'value': 'VERY Important Act'}])
         text = "test year in VERY Important Act of 1954."
         res = get_act_list(text)
         self.assertEqual(res, [{'location_start': 13,
                                 'location_end': 39,
+                                'section': '',
+                                'year': '1954',
+                                'act_name': 'VERY Important Act',
                                 'value': 'VERY Important Act of 1954'}])
-
+        text = "test section 12 of the VERY Important Act of 1954."
+        res = get_act_list(text)
+        self.assertEqual(res, [{'location_start': 5,
+                                'location_end': 49,
+                                'section': '12',
+                                'year': '1954',
+                                'act_name': 'VERY Important Act',
+                                'value': 'section 12 of the VERY Important Act of 1954'}])
+        text = "test that part 12 of the VERY Important Act of 1954."
+        res = get_act_list(text)
+        self.assertEqual(res, [{'location_start': 10,
+                                'location_end': 51,
+                                'section': '',
+                                'year': '1954',
+                                'act_name': 'VERY Important Act',
+                                'value': 'VERY Important Act of 1954'}])
 
     def test_wrong_cases(self):
         text = "This is awesome but incorrect Important Activity in the sentence"
