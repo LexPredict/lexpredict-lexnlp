@@ -36,14 +36,14 @@ class TestGetActs(AssertionMixin):
                                 'year': '',
                                 'act_name': 'VERY Important Act',
                                 'value': 'VERY Important Act'}])
-        text = "test verb in phrase Updated VERY Important Act."
+        text = "test verb in phrase Frozen VERY Important Act."
         res = get_act_list(text)
-        self.assertEqual(res, [{'location_start': 28,
-                                'location_end': 46,
+        self.assertEqual(res, [{'location_start': 13,
+                                'location_end': 45,
                                 'section': '',
                                 'year': '',
-                                'act_name': 'VERY Important Act',
-                                'value': 'VERY Important Act'}])
+                                'act_name': 'Frozen VERY Important Act',
+                                'value': 'Frozen VERY Important Act'}])
         text = "test year in VERY Important Act of 1954."
         res = get_act_list(text)
         self.assertEqual(res, [{'location_start': 13,
