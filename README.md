@@ -3,17 +3,18 @@
 # LexNLP by LexPredict
 ## Information retrieval and extraction for real, unstructured legal text
 LexNLP is a library for working with real, unstructured legal text, including contracts, plans, policies, procedures,
-and other material.  LexNLP provides functionality such as:
+and other material.
+## LexNLP provides functionality such as:
 * Segmentation and tokenization, such as
-  * A sentence parser that is aware of common legal abbreviations like LLC. or F.3d.
-  * Pre-trained segmentation models for legal concepts such as pages or sections.
+    * A sentence parser that is aware of common legal abbreviations like LLC. or F.3d.
+    * Pre-trained segmentation models for legal concepts such as pages or sections.
 * Pre-trained word embedding and topic models, broadly and for specific practice areas
 * Pre-trained classifiers for document type and clause type
 * Broad range of fact extraction, such as:
-  * Monetary amounts, non-monetary amounts, percentages, ratios
-  * Conditional statements and constraints, like "less than" or "later than"
-  * Dates, recurring dates, and durations
-  * Courts, regulations, and citations
+    * Monetary amounts, non-monetary amounts, percentages, ratios
+    * Conditional statements and constraints, like "less than" or "later than"
+    * Dates, recurring dates, and durations
+    * Courts, regulations, and citations
 * Tools for building new clustering and classification methods
 * Hundreds of unit tests from real legal documents
 
@@ -27,12 +28,12 @@ and other material.  LexNLP provides functionality such as:
 * Contact: support@contraxsuite.com
 
 ## Structure
-Please note that ContraxSuite installations generally require trained models or knowledge sets for usage.
 * ContraxSuite web application: https://github.com/LexPredict/lexpredict-contraxsuite
 * LexNLP library for extraction: https://github.com/LexPredict/lexpredict-lexnlp
 * ContraxSuite pre-trained models and "knowledge sets": https://github.com/LexPredict/lexpredict-legal-dictionary
 * ContraxSuite agreement samples: https://github.com/LexPredict/lexpredict-contraxsuite-samples
 * ContraxSuite deployment automation: https://github.com/LexPredict/lexpredict-contraxsuite-deploy
+Please note that ContraxSuite installations generally require trained models or knowledge sets for usage.
 
 ## Licensing
 LexNLP is available under a dual-licensing model.  By default, this library can be used under AGPLv3 terms as detailed

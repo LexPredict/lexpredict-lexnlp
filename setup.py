@@ -15,10 +15,10 @@ here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 try:
-	with open(path.join(here, 'README.md'), encoding='utf-8') as f:
-		long_description = f.read()
+    with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+        long_description = f.read()
 except Exception as e:
-	long_description = "LexPredict LexNLP: A swiss-army knife library built for working with real, unstructured legal text."
+    long_description = "LexPredict LexNLP: A swiss-army knife library built for working with real, unstructured legal text."
 
 setup(
     name='lexnlp',
@@ -29,8 +29,8 @@ setup(
     version='0.2.5',
 
     description='LexPredict LexNLP',
+    long_description_content_type='text/markdown',
     long_description=long_description,
-	long_description_content_type='text/markdown',
 
     # The project's main homepage.
     url='https://contraxsuite.com',
