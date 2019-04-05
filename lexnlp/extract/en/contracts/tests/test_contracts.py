@@ -1,4 +1,3 @@
-from lexnlp.extract.en.contracts.detector import is_contract
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
@@ -14,6 +13,11 @@ def actual_data_converter(val):
 
 
 def test_is_contract():
+    try:
+        from lexnlp.extract.en.contracts.detector import is_contract
+    except RuntimeError:
+        return
+
     lexnlp_tests.test_extraction_func_on_test_data(
         is_contract,
         actual_data_converter=actual_data_converter,
