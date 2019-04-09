@@ -34,7 +34,7 @@ pytest-xdist==1.20.1
 python-coveralls==2.9.1
 python-dateutil==2.6.1
 pytz==2017.2
-PyYAML==3.12
+PyYAML==4.2b1
 regex==2017.9.23
 reporters-db==1.0.12.1
 requests==2.21.0
