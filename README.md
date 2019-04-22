@@ -37,8 +37,8 @@ Please note that ContraxSuite installations generally require trained models or 
 
 ## Licensing
 LexNLP is available under a dual-licensing model.  By default, this library can be used under AGPLv3 terms as detailed
-in the repository LICENSE file; however, organizations can request a release from the AGPL terms by contacting
-ContraxSuite Licensing at <<license@contraxsuite.com>>.
+in the repository LICENSE file; however, organizations can request a release from the AGPL terms or a non-GPL evaluation license
+by contacting ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
 
 ## Releases
