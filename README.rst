@@ -72,6 +72,12 @@ LICENSE file; however, organizations can request a release from the AGPL
 terms by contacting ContraxSuite Licensing at
 <license@contraxsuite.com>.
 
+Requirements
+---------
+
+-  Python 3.4, 3.5, 3.6
+-  see python-requirements.txt file for full information
+
 Releases
 --------
 
