@@ -19,4 +19,4 @@ python:
     - requirements: python-requirements.txt
 
 build:
-  image: 0.2.4
+  image: stable
