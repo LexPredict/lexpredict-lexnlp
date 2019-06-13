@@ -81,6 +81,8 @@ Requirements
 Releases
 --------
 
+-  0.2.6: June 12, 2019 - Fifteenth scheduled public release;
+   `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.6>`__
 -  0.2.5: March 1, 2019 - Fourteenth scheduled public release;
    `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.5>`__
 -  0.2.4: February 1, 2019 - Thirteenth scheduled public release;

@@ -21,15 +21,31 @@ from lexnlp.config.stanford import STANFORD_POS_PATH
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 # Setup Stanford POS configuration
-STANFORD_POS_FILE = os.path.join(STANFORD_POS_PATH, "stanford-postagger.jar")
-STANFORD_TOKENIZER = StanfordTokenizer(path_to_jar=STANFORD_POS_FILE)
-STANFORD_DEFAULT_TAG_MODEL = os.path.join(STANFORD_POS_PATH, "models", "english-bidirectional-distsim.tagger")
-STANFORD_TAGGER = StanfordPOSTagger(STANFORD_DEFAULT_TAG_MODEL, STANFORD_POS_FILE)
+try:
+    STANFORD_POS_FILE = os.path.join(STANFORD_POS_PATH, "stanford-postagger.jar")
+    STANFORD_TOKENIZER = StanfordTokenizer(path_to_jar=STANFORD_POS_FILE)
+    STANFORD_DEFAULT_TAG_MODEL = os.path.join(STANFORD_POS_PATH, "models", "english-bidirectional-distsim.tagger")
+    STANFORD_TAGGER = StanfordPOSTagger(STANFORD_DEFAULT_TAG_MODEL, STANFORD_POS_FILE)
+except LookupError:
+    STANFORD_TOKENIZER = STANFORD_TAGGER = None
+
+
+def check_stanford():
+    if not is_stanford_enabled():
+        raise RuntimeError("USE_STANFORD is set to False. No Stanford functionality available.")
+    if not STANFORD_TOKENIZER:
+        raise RuntimeError("USE_STANFORD is set to True."
+                           " But default POS tagger jar file is not found."
+                           " No Stanford functionality available.")
+    if not STANFORD_TAGGER:
+        raise RuntimeError("USE_STANFORD is set to True."
+                           " But default tagger model file is not found."
+                           " No Stanford functionality available.")
 
 
 def get_tokens_list(text, lowercase=False, stopword=False) -> List:
@@ -40,9 +56,6 @@ def get_tokens_list(text, lowercase=False, stopword=False) -> List:
     :param stopword:
     :return:
     """
-    if not is_stanford_enabled():
-        raise RuntimeError("USE_STANFORD is set to False.  No Stanford functionality available.")
-
     return list(get_tokens(text, lowercase=lowercase, stopword=stopword))
 
 
@@ -54,8 +67,7 @@ def get_tokens(text, lowercase=False, stopword=False) -> Generator:
     :param stopword:
     :return:
     """
-    if not is_stanford_enabled():
-        raise RuntimeError("USE_STANFORD is set to False.  No Stanford functionality available.")
+    check_stanford()
 
     if stopword:
         for token in STANFORD_TOKENIZER.tokenize(text):
@@ -82,8 +94,7 @@ def get_verbs(text, lowercase=False, lemmatize=False) -> Generator:
     :param lemmatize:
     :return:
     """
-    if not is_stanford_enabled():
-        raise RuntimeError("USE_STANFORD is set to False.  No Stanford functionality available.")
+    check_stanford()
 
     # Get tokens and tag
     tokens = get_tokens_list(text)
@@ -108,8 +119,7 @@ def get_nouns(text, lowercase=False, lemmatize=False):
     :param lemmatize:
     :return:
     """
-    if not is_stanford_enabled():
-        raise RuntimeError("USE_STANFORD is set to False.  No Stanford functionality available.")
+    check_stanford()
 
     # Get tokens and tag
     tokens = get_tokens_list(text)

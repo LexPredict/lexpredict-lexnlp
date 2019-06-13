@@ -23,7 +23,7 @@ from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -132,8 +132,8 @@ def _maybe_paragraph(pos0: int, pos1: Optional[int], text: str, line_spans: List
         return None
 
 
-def get_paragraphs(text: str, window_pre=3, window_post=3, score_threshold=0.5, return_spans: bool = False) \
-        -> Generator:
+def get_paragraphs(text: str, window_pre=3, window_post=3,
+                   score_threshold=0.5, return_spans: bool = False) -> Generator:
     """
     Get paragraphs.
     """
@@ -148,32 +148,40 @@ def get_paragraphs(text: str, window_pre=3, window_post=3, score_threshold=0.5, 
 
     # Predict page breaks
     feature_df = pandas.DataFrame(feature_data).fillna(-1).astype(int)
-    predicted_lines = PARAGRAPH_SEGMENTER_MODEL.predict_proba(feature_df)
-    predicted_df = pandas.DataFrame(predicted_lines, columns=["prob_false", "prob_true"])
-    paragraph_breaks = predicted_df.loc[predicted_df["prob_true"] >= score_threshold, :].index.tolist()
+    try:
+        predicted_lines = PARAGRAPH_SEGMENTER_MODEL.predict_proba(feature_df)
+        predicted_df = pandas.DataFrame(predicted_lines, columns=["prob_false", "prob_true"])
+        paragraph_breaks = predicted_df.loc[predicted_df["prob_true"] >= score_threshold, :].index.tolist()
 
-    if len(paragraph_breaks) > 0:
-        # Get first break
-        pos0 = 0
-        pos1 = paragraph_breaks[0]
+        if len(paragraph_breaks) > 0:
+            # Get first break
+            pos0 = 0
+            pos1 = paragraph_breaks[0]
 
-        maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
-        if maybe_paragraph is not None:
-            yield maybe_paragraph
-
-        # Iterate through section breaks
-        for i in range(len(paragraph_breaks) - 1):
-            # Get breaks
-            pos0 = paragraph_breaks[i]
-            pos1 = paragraph_breaks[i + 1]
-            # Get text
             maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
             if maybe_paragraph is not None:
                 yield maybe_paragraph
 
-        # Yield final section
-        pos0 = paragraph_breaks[-1]
-        pos1 = None
-        maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
-        if maybe_paragraph is not None:
-            yield maybe_paragraph
+            # Iterate through section breaks
+            for i in range(len(paragraph_breaks) - 1):
+                # Get breaks
+                pos0 = paragraph_breaks[i]
+                pos1 = paragraph_breaks[i + 1]
+                # Get text
+                maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+                if maybe_paragraph is not None:
+                    yield maybe_paragraph
+
+            # Yield final section
+            pos0 = paragraph_breaks[-1]
+            pos1 = None
+            maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+            if maybe_paragraph is not None:
+                yield maybe_paragraph
+        else:
+            yield text
+    except ValueError as e:
+        if 'Number of features of the model must match the input' in str(e):
+            yield text
+        else:
+            raise e

@@ -14,7 +14,7 @@ from lexnlp.extract.common.dates import DateParser
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -25,7 +25,7 @@ ES_MONTHS = sorted([y.lower() for k, v in info.items() if k in months for y in v
 
 
 class ESDateParser(DateParser):
-    DATEPARSER_SETTINGS = {'PREFER_DAY_OF_MONTH': 'first', 'STRICT_PARSING': False}
+    DATEPARSER_SETTINGS = {'PREFER_DAY_OF_MONTH': 'first', 'STRICT_PARSING': False, 'DATE_ORDER': 'DMY'}
     ENABLE_CLASSIFIER_CHECK = False
     SEQUENTIAL_DATES_RE = re.compile(
         r'(?P<text>(?P<day>\d{{1,2}}) de (?P<month>{es_months})(?:, | y | de (?P<year>\d{{4}})))'.format(
@@ -77,5 +77,5 @@ class ESDateParser(DateParser):
         self.DATES = dates
 
 
-get_dates = ESDateParser().get_dates
-get_date_list = ESDateParser().get_date_list
+get_dates = ESDateParser(enable_classifier_check=False, language='es').get_dates
+get_date_list = ESDateParser(enable_classifier_check=False, language='es').get_date_list

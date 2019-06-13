@@ -14,7 +14,7 @@ Text,Amount,Currency
 ,1000000.0,CHF
 "in the annual amount of RMB 200,000 (TWO HUNDRED THOUSAND CHINESE YUAN), payable",200000.0,CNY
 ,200000,CNY
-credit amounting to RMB 21 million yuan only ,21000000.0,CNY
+credit amounting to RMB 21 million only ,21000000.0,CNY
 "one instance and ,Fifty Thousand and NO/100 Dollars ($50,000.00) ",50000,USD
 ,50000.0,USD
 "There are 20,625.75 USD",20625.75,USD
@@ -28,3 +28,5 @@ There are 5.4.3 dollars
 "test $12,333 M",12333000000.0,USD
 "test USD12,333 M",12333000000.0,USD
 "test USD 12,333 M",12333000000.0,USD
+"test price like 25.0",25.0,USD
+"test cost about 500",500.0,USD

@@ -19,10 +19,12 @@ from lexnlp.extract.en.amounts import (
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
+
+DEFAULT_CURRENCY = 'USD'
 
 CURRENCY_TOKEN_MAP = OrderedDict([
     ('chinese yuans', 'CNY'),
@@ -53,13 +55,19 @@ CURRENCY_PREFIXES = set(
 
 CURR_NUM_PTN = NUM_PTN.replace('(?<=\\W|^)', '')
 
+TRIGGER_WORDS = ['price', 'cost']
+
 CURRENCY_PTN = r"""
+(?r)
 (?P<text>
-(?P<prefix>{currency_prefixes}|[{currency_symbols}])\s*
-(?P<amount>{num_ptn_1})
-|
-(?P<amount>{num_ptn_2})\s*
-(?P<postfix>{currency_tokens}|{currency_abbreviations})(?:\W|$))
+    (?P<prefix>{currency_prefixes}|[{currency_symbols}])\s*
+    (?P<amount>{num_ptn_1})
+    |
+    (?P<amount>{num_ptn_2})\s*
+    (?P<postfix>{currency_tokens}|{currency_abbreviations})(?:\W|$)
+    |
+    (?:\W|^)(?P<trigger_word>{trigger_words})\s[^\d]{{,100}}(?P<amount>\d+\.?\d{{1,2}}?)
+)
 """.format(
     num_ptn_1=CURR_NUM_PTN,
     num_ptn_2=CURR_NUM_PTN,
@@ -67,6 +75,7 @@ CURRENCY_PTN = r"""
     currency_symbols=''.join([re.escape(i) for i in CURRENCY_SYMBOL_MAP]),
     currency_tokens='|'.join([i.replace(' ', '\\s+') for i in CURRENCY_TOKEN_MAP]),
     currency_abbreviations='|'.join(CURRENCY_ABBR_LIST),
+    trigger_words='|'.join(TRIGGER_WORDS)
 )
 CURRENCY_PTN_RE = re.compile(CURRENCY_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
@@ -74,7 +83,7 @@ CURRENCY_PTN_RE = re.compile(CURRENCY_PTN, re.IGNORECASE | re.MULTILINE | re.DOT
 def get_money(text, return_sources=False, float_digits=4) -> Generator:
     for match in CURRENCY_PTN_RE.finditer(text):
         capture = match.capturesdict()
-        if not (capture['prefix'] or capture['postfix']):
+        if not (capture['prefix'] or capture['postfix']) and not (capture['trigger_word']):
             continue
         prefix = capture['prefix']
         postfix = capture['postfix']
@@ -86,9 +95,13 @@ def get_money(text, return_sources=False, float_digits=4) -> Generator:
             currency_type = CURRENCY_SYMBOL_MAP.get(prefix)\
                             or CURRENCY_PREFIX_MAP.get(prefix)\
                             or prefix.upper()
-        else:
+        elif postfix:
             postfix = postfix[0].lower()
             currency_type = CURRENCY_TOKEN_MAP.get(postfix) or (capture['postfix'][0]).upper()
+        else:
+            currency_type = None
+        if not currency_type:
+            currency_type = DEFAULT_CURRENCY
         item = (amount[0], currency_type)
         if return_sources:
             item += (capture['text'][0].strip(

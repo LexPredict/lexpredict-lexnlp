@@ -8,12 +8,12 @@ from typing import List, Tuple, Union, Dict, Generator, Any
 
 from lexnlp.config.en import geoentities_config
 from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id, \
-    prepare_alias_blacklist_dict, conflicts_top_by_priority
+    prepare_alias_blacklist_dict, conflicts_top_by_priority, entity_config, add_aliases_to_entity
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -65,3 +65,26 @@ def get_geoentities(text: str,
                                   text_languages=text_languages,
                                   min_alias_len=min_alias_len,
                                   prepared_alias_black_list=prepared_alias_black_list)
+
+
+def load_entities_dict_by_path(entities_fn: str, aliases_fn: str):
+    entities = {}
+    import csv
+
+    with open(entities_fn, 'r', encoding='utf8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            entities[row['id']] = entity_config(row['id'], row['name'], int(row['priority']) if row['priority'] else 0,
+                                                name_is_alias=True)
+
+    with open(aliases_fn, 'r', encoding='utf8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            entity = entities.get(row['entity_id'])
+            if entity:
+                add_aliases_to_entity(entity,
+                                      row['alias'],
+                                      row['locale'],
+                                      row['type'].startswith('iso') or row['type'] == 'abbreviation')
+
+    return entities.values()
