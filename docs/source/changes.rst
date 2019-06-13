@@ -4,6 +4,13 @@
 Changelog
 ============
 
+0.2.6 - Jun 12, 2019
+----------------
+ * Improved LexNLP handling for dates for all locales.
+ * Improved LexNLP handling for currencies for "EN" locale.
+ * Updated documentation for ReadTheDocs.
+ * Improved LexNLP unit test coverage.
+
 0.2.5 - Mar 1, 2019
 ----------------
  * Improved LexNLP handling for courts for "DE" and "ES" locales.
@@ -23,7 +30,7 @@ Changelog
  * Added acts parser for "EN" locale.
  * Improved LexNLP unit test coverage.
 
-0.2.3 - Jun 10, 2019
+0.2.3 - Jan 10, 2019
 ----------------
  * Updated python requirements.
  * Improved LexNLP handling for definitions and paragraphs.
@@ -39,7 +46,7 @@ Changelog
 ----------------
  * Updated python requirements.
  * Improved LexNLP handling for amounts.
- * Optimized processing sentences and titles.
+ * Optimized processing of sentences and titles.
  * Improved LexNLP unit test coverage.
 
 0.2.0 - Aug 1, 2018
@@ -49,7 +56,7 @@ Changelog
 
 0.1.9 - Jul 1, 2018
 ----------------
- * Improved handling TOC while sentence processing.
+ * Improved handling of TOC during sentence processing.
  * Added contracts locator to LexNLP.
  * Improved LexNLP handling for citations, titles and definitions.
  * Improved LexNLP unit test coverage.

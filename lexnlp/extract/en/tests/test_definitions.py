@@ -23,7 +23,7 @@ from lexnlp.tests.test_utils import load_resource_document, annotate_text, save_
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -38,13 +38,13 @@ adequacy of which are hereby acknowledge by Trustor.'''
         self.assertEqual(definitions[0][0], 'Deed of Trust')
 
     def test_definition_quoted_new_line(self):
-            sentence = '''THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
+        sentence = '''THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
     STATEMENT (this "Deed
 of Trust") dated August 29, 1997, is executed and
     delivered by Trustor for good and valuable consideration, the receipt and
     adequacy of which are hereby acknowledge by Trustor.'''
-            definitions = list(get_definitions_explicit(sentence))
-            self.assertEqual(definitions[0][0], 'Deed of Trust')
+        definitions = list(get_definitions_explicit(sentence))
+        self.assertEqual(definitions[0][0], 'Deed of Trust')
 
     def test_definitions_simple(self):
         sentence = '''Visual Networks Operations, Inc., a Delaware corporation with offices at 2092 Gaither 

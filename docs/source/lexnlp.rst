@@ -9,9 +9,9 @@ LexNLP package
 
 
 .. toctree::
-    :maxdepth: 3
+    :maxdepth: 4
     :caption: Contents:
 
-    modules/extract
-    modules/nlp
+    modules/extract/extract
+    modules/nlp/nlp
 

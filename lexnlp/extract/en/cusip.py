@@ -15,7 +15,7 @@ from typing import Generator
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -53,7 +53,7 @@ CHECKSUM_BASE.update({'*': 36, '@': 37, '#': 38})
 
 def is_cusip_valid(code, return_checksum=False):
     code, _checksum = code[:8], int(code[8])
-    sum = 0
+    _sum = 0
     for pos, char in enumerate(code, start=1):
         if char.isdigit():
             num = int(char)
@@ -63,8 +63,8 @@ def is_cusip_valid(code, return_checksum=False):
             return False
         if pos % 2 == 0:
             num *= 2
-        sum += int(num / 10) + num % 10
-    checksum = (10 - sum % 10) % 10
+        _sum += int(num / 10) + num % 10
+    checksum = (10 - _sum % 10) % 10
     if return_checksum:
         return checksum
     return checksum == _checksum

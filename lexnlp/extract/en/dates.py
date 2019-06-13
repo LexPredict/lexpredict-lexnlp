@@ -8,10 +8,10 @@ This module implements date extraction functionality in English.
 import datetime
 import itertools
 import os
+
 from typing import Generator, List
 
 # Third-party packages
-import datefinder
 import regex as re
 import pandas as pd
 
@@ -20,6 +20,7 @@ import sklearn.pipeline
 import sklearn.feature_selection
 from sklearn.externals import joblib
 
+from lexnlp.extract.common.date_parsing.datefinder import DateFinder
 from lexnlp.extract.en.date_model import MODEL_DATE, DATE_MODEL_CHARS, MODULE_PATH
 from lexnlp.extract.common.dates import DateParser
 
@@ -27,7 +28,7 @@ from lexnlp.extract.common.dates import DateParser
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.5"
+__version__ = "0.2.6"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -128,7 +129,7 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             day=1, month=1, hour=0, minute=0, second=0, microsecond=0)
 
     # Find potential dates
-    date_finder = datefinder.DateFinder(base_date=base_date)
+    date_finder = DateFinder(base_date=base_date)
 
     for extra_token in date_finder.EXTRA_TOKENS_PATTERN.split('|'):
         if extra_token != 't':
@@ -138,6 +139,7 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
     possible_dates = [(date_string, index, date_props) for date_string, index, date_props in
                       date_finder.extract_date_strings(text, strict=strict)]
     possible_matched = []
+
     for i, possible_date in enumerate(possible_dates):
         # Get
         date_string = possible_date[0]

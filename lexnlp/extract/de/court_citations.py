@@ -57,7 +57,6 @@ class CourtCitationsParser:
         reg_split_by_registry = re.compile("|".join(list(registries.keys())))
     # endregion
 
-
     def __init__(self):
         self.locale = 'de'
         self.items = []  # List[CourtCitationAnnotation]
