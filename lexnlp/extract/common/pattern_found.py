@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -17,7 +17,12 @@ class PatternFound:
         self.end = 0
         self.probability = 0
 
-    def pattern_worse_than_target(self, p) -> bool:  # p: PatternFound
+    # pylint: disable=unused-argument
+    def pattern_worse_than_target(self, p, text: str) -> bool:  # p: PatternFound
+        """
+        check what pattern is better then 2 patterns are considered duplicated
+        "text" may be used in derived classes
+        """
         spans = self.start <= p.start <= self.end and \
                 self.start <= p.end <= self.end
         if not spans:

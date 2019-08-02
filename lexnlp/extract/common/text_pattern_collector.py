@@ -4,11 +4,10 @@ from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.extract.common.pattern_found import PatternFound
 from lexnlp.utils.lines_processing.line_processor import LineProcessor, LineSplitParams, LineOrPhrase
 
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -28,7 +27,7 @@ class TextPatternCollector:
         self.parsing_functions = parsing_functions
         self.annotations = [] # type: List[TextAnnotation]
         self.split_params = split_params
-        self.proc = LineProcessor()
+        self.proc = LineProcessor(line_split_params=self.split_params)
         self.prohibited_words = {} # words that are Not definitions per se
 
     def parse(self, text: str, locale: str = None) -> List[TextAnnotation]:
@@ -40,7 +39,7 @@ class TextPatternCollector:
                 "Extracted Entity Text": ""Software" se refiere a: (i) el programa informático"} }
         """
         self.annotations = []  # type: List[TextAnnotation]
-        for phrase in self.proc.split_text_on_line_with_endings(text, self.split_params):
+        for phrase in self.proc.split_text_on_line_with_endings(text):
             matches = []
             for f in self.parsing_functions:
                 ml = f(phrase.text)
@@ -50,9 +49,11 @@ class TextPatternCollector:
             matches = self.remove_prohibited_words(matches)
             if len(matches) > 1:
                 matches = self.choose_best_matches(matches)
-                matches = self.choose_more_precise_matches(matches)
+                matches = self.choose_more_precise_matches(matches, phrase.text)
             # trim parts of matches
             for match in matches:
+                # make_annotation_from_pattrn DOES return data in derived classes
+                # pylint:disable=assignment-from-none
                 ant = self.make_annotation_from_pattrn(locale, match, phrase)
                 ant.coords = (ant.coords[0] + phrase.start, ant.coords[1] + phrase.start)
                 self.annotations.append(ant)
@@ -83,7 +84,9 @@ class TextPatternCollector:
             resulted += same_matches
         return resulted
 
-    def choose_more_precise_matches(self, matches: List[PatternFound]) -> List[PatternFound]:
+    def choose_more_precise_matches(self,
+                                    matches: List[PatternFound],
+                                    text: str) -> List[PatternFound]:
         """
         look for a match "consumed" by other matches and spare the consuming! matches
         """
@@ -97,7 +100,7 @@ class TextPatternCollector:
                 if i == j:
                     continue
                 b = matches[j]
-                if a.pattern_worse_than_target(b):
+                if a.pattern_worse_than_target(b, text):
                     a_worse_b = True
                     break
             if not a_worse_b:

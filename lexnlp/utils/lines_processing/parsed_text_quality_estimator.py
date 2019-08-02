@@ -5,7 +5,7 @@ from lexnlp.utils.lines_processing.line_processor import LineOrPhrase, LineProce
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -62,6 +62,7 @@ class ParsedTextQualityEstimator:
     def __init__(self):
         self.estimate = ParsedTextQualityEstimate()
         self.lines = []
+        self.proc = LineProcessor()
 
     def estimate_text(self, text: str) -> ParsedTextQualityEstimate:
         """
@@ -86,11 +87,11 @@ class ParsedTextQualityEstimator:
 
     def split_text_on_lines(self, text: str):
         self.estimate = ParsedTextQualityEstimate()
-        proc = LineProcessor()
+
         self.lines = [TypedLineOrPhrase.wrap_line(l) for l in
-                      proc.split_text_on_line_with_endings(text)]
-        proc.determine_line_length(text)
-        self.estimate.avg_line_length = proc.line_length
+                      self.proc.split_text_on_line_with_endings(text)]
+        self.proc.determine_line_length(text)
+        self.estimate.avg_line_length = self.proc.line_length
 
         for line in self.lines:
             self.determine_line_type(line)

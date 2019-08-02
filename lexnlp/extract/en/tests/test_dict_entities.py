@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+
 """Dict entity general unit tests.
 
 """
@@ -13,7 +14,7 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -24,9 +25,12 @@ def test_common_search_all_languages():
 
     expected = ((some_entity[1], 'Some Entity'),)
 
-    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text, all_possible_entities=[some_entity],
+    lexnlp_tests.test_extraction_func(expected,
+                                      find_dict_entities,
+                                      text,
+                                      all_possible_entities=[some_entity],
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 
@@ -40,9 +44,10 @@ def test_conflicts_take_longest_match():
 
     expected = ((some_entity1[1], 'Some Entity One'),)
 
-    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text, all_possible_entities=entities,
+    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text,
+                                      all_possible_entities=entities,
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 
@@ -57,10 +62,11 @@ def test_conflicts_equal_length_take_same_language():
 
     expected = ((some_entity[1], 'Some Entity'),)
 
-    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text, all_possible_entities=entities,
+    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text,
+                                      all_possible_entities=entities,
                                       text_languages=['de'],
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 
@@ -82,10 +88,11 @@ def test_equal_aliases_in_dif_languages():
 
     expected = ((mississippi[1], 'MS'), (montserrat[1], 'MS'))
 
-    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text, all_possible_entities=entities,
+    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text,
+                                      all_possible_entities=entities,
                                       text_languages=['en'],
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 
@@ -100,10 +107,11 @@ def test_abbreviations_simple():
 
     expected = ((some_entity[1], 'IT'),)
 
-    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text, all_possible_entities=entities,
+    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text,
+                                      all_possible_entities=entities,
                                       text_languages=['ge'],
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 
@@ -122,10 +130,11 @@ def test_plural_case_matching():
 
     expected = ((table[1], 'Table'), (masloboyka[1], 'masloboyka'),)
 
-    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text, all_possible_entities=entities,
+    lexnlp_tests.test_extraction_func(expected, find_dict_entities, text,
+                                      all_possible_entities=entities,
                                       use_stemmer=True,
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 
@@ -140,7 +149,7 @@ def test_am_pm_abbreviations():
                                       'It is 11:00 AM or 11:00 PM now.',
                                       all_possible_entities=entities,
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
     lexnlp_tests.test_extraction_func([(am[1], 'AM')],
@@ -148,7 +157,7 @@ def test_am_pm_abbreviations():
                                       'It is 11:00am now in (AM). Hello!',
                                       all_possible_entities=entities,
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
     lexnlp_tests.test_extraction_func([],
@@ -156,7 +165,7 @@ def test_am_pm_abbreviations():
                                       'It is 11:00am now.',
                                       all_possible_entities=entities,
                                       actual_data_converter=lambda actual:
-                                      [(get_entity_name(c[0]), c[1][0]) for c in actual],
+                                      [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                       debug_print=True)
 
 

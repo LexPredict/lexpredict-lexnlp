@@ -1,0 +1,18 @@
+ein seltsamer Text und Georgien darin erwähnt
+-------------------------------------------------------------------------------
+total=1
+0)locale=de
+0)coords=(22, 32)
+0)entity_id=83
+0)name=Georgien
+0)name_en=Georgia
+0)source=Georgien
+0)iso_3166_2=GE
+0)iso_3166_3=GEO
+0)get_cite()=/de/geoentity/Georgien
+
+
+-------------------------------------------------------------------------------
+ein seltsamer Text und Georgia darin erwähnt
+-------------------------------------------------------------------------------
+total=0

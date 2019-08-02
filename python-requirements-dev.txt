@@ -19,5 +19,6 @@ pytest-xdist==1.20.1
 reporters-db==1.0.12.1
 scipy==1.0.0
 scikit-learn==0.19.1
+sphinx==2.1.2
 Unidecode==0.4.21
 us==1.0.0

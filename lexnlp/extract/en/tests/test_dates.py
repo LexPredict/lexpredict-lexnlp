@@ -1,5 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: UTF-8 -*-
+
 """Date unit tests for English.
 
 This module implements unit tests for the date extraction functionality in English.
@@ -25,9 +26,10 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 EXAMPLE_TEXT_1 = """Dear Jerry:
 This amended and restated letter agreement sets forth the terms of your employment with Logitech Inc., a California 

@@ -3,11 +3,12 @@ from typing import Generator, List, Union, Tuple
 
 import pandas as pd
 
+from lexnlp.utils.lines_processing.line_processor import LineProcessor
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -46,9 +47,16 @@ class DataframeEntityParser(object):
 
     SEARCH_PTN = r'(?:^|\W)({})(?:\W|$)'
 
-    def __init__(self, dataframe, parse_columns, result_columns=None, preformed_entity=None,
-                 priority_sort_column=None, priority_sort_ascending=True,
-                 cell_values_separator=';', unique_column_values=True):
+    def __init__(self,
+                 dataframe,
+                 parse_columns,
+                 result_columns=None,
+                 preformed_entity=None,
+                 priority_sort_column=None,
+                 priority_sort_ascending=True,
+                 cell_values_separator=';',
+                 unique_column_values=True,
+                 line_processor: LineProcessor = None):
         self.dataframe = dataframe.fillna('')
         self.parse_columns = parse_columns
         self.result_columns = result_columns or {}
@@ -57,9 +65,14 @@ class DataframeEntityParser(object):
         self.priority_sort_ascending = priority_sort_ascending
         self.cell_values_separator = cell_values_separator
         self.unique_column_values = unique_column_values
+        self.line_processor = line_processor
+
+        collection_patterns = \
+            [(col_name, self.get_collection_ptn(self.dataframe[col_name].values))
+            for col_name in parse_columns if col_name]
         self.collection_patterns = {
-            col_name: self.get_collection_ptn(self.dataframe[col_name].values) for col_name in
-            parse_columns}
+                c[0]: c[1] for c in collection_patterns if c[1]
+            }
 
     def get_collection_ptn(self, collection):
         """
@@ -67,9 +80,12 @@ class DataframeEntityParser(object):
         :param collection: list of entities to search in
         :return: compilled regex pattern
         """
+        collection = [c for c in collection if c]
+        if not collection:
+            return None
+
         ptn = self.SEARCH_PTN.format(
-            '|'.join(re.escape(j) for i in collection for j in i.split(self.cell_values_separator)
-                     if i != ''))
+            '|'.join(re.escape(j) for i in collection for j in i.split(self.cell_values_separator) if i))
         return re.compile(ptn)
 
     def get_single_result(self, rows):
@@ -92,9 +108,9 @@ class DataframeEntityParser(object):
         matched_str = match.groups()[0]
         location_start, location_end = match.span()
         formed_entity = {
-            "location_start": location_start,
-            "location_end": location_end,
-            "source": matched_str
+            'location_start': location_start,
+            'location_end': location_end,
+            'source': matched_str
         }
         if self.result_columns:
             matched_rows = self.dataframe[self.dataframe[col_name].str.contains(r'(?:^|;){}(?:$|;)'.format(matched_str), regex=True)]
@@ -113,9 +129,21 @@ class DataframeEntityParser(object):
         formed_entity.update(self.preformed_entity)
         return formed_entity
 
-    def get_entities(self, text):
+    def get_entities(self, text: str):
+        if self.line_processor:
+            # split text on sentences and remove linebreaks within sentences
+            for sent in self.line_processor.split_text_on_line_with_endings(text):
+                for ent in self.get_entities_from_text(sent.text):
+                    ent['location_start'] += sent.start
+                    ent['location_end'] += sent.start
+                    yield ent
+        else:
+            yield from self.get_entities_from_text(text)
+
+    def get_entities_from_text(self, text: str) -> Generator[dict, None, None]:
+        sent_text = text.replace('\n', ' ')
         for col_name, collection_ptn in self.collection_patterns.items():
-            for match in collection_ptn.finditer(text):
+            for match in collection_ptn.finditer(sent_text):
                 yield self.get_formed_entity(match, col_name)
 
     def get_entity_list(self, text):

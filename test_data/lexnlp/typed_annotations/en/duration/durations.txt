@@ -1,0 +1,496 @@
+no more than five-day period
+-------------------------------------------------------------------------------
+total=1
+0)coords=(12, 22)
+0)amount=5.0
+0)prefix=
+0)duration_days=5.0
+0)duration_type=day
+0)get_cite()=/en/duration/5.0/day
+
+
+-------------------------------------------------------------------------------
+no more than twenty-four-day duration
+-------------------------------------------------------------------------------
+total=1
+0)coords=(12, 29)
+0)amount=24.0
+0)prefix=
+0)duration_days=24.0
+0)duration_type=day
+
+
+
+-------------------------------------------------------------------------------
+no more than five days thereafter
+-------------------------------------------------------------------------------
+total=1
+0)coords=(12, 23)
+0)amount=5.0
+0)prefix=
+0)duration_days=5.0
+0)duration_type=day
+
+
+
+-------------------------------------------------------------------------------
+without at least thirty days of delay
+-------------------------------------------------------------------------------
+total=1
+0)coords=(16, 29)
+0)amount=30.0
+0)prefix=
+0)duration_days=30.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most 90 days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 16)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most 90 business days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 25)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most 90 calendar days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 25)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most ninety days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(7, 20)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most ninety calendar days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(7, 29)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most ninety actual days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(7, 27)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most ninety business days shall
+-------------------------------------------------------------------------------
+total=1
+0)coords=(7, 29)
+0)amount=90.0
+0)prefix=
+0)duration_days=90.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+at most forty-five business days shall,day,45.0,45.0
+-------------------------------------------------------------------------------
+total=1
+0)coords=(7, 33)
+0)amount=45.0
+0)prefix=
+0)duration_days=45.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+within a period of one month after
+-------------------------------------------------------------------------------
+total=1
+0)coords=(18, 29)
+0)amount=1.0
+0)prefix=
+0)duration_days=30.0
+0)duration_type=month
+
+
+-------------------------------------------------------------------------------
+before two months pass
+-------------------------------------------------------------------------------
+total=1
+0)coords=(6, 18)
+0)amount=2.0
+0)prefix=
+0)duration_days=60.0
+0)duration_type=month
+
+
+-------------------------------------------------------------------------------
+no more than thirty (30) days
+-------------------------------------------------------------------------------
+total=1
+0)coords=(21, 30)
+0)amount=30.0
+0)prefix=
+0)duration_days=30.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+no more than twenty five days
+-------------------------------------------------------------------------------
+total=1
+0)coords=(12, 30)
+0)amount=25.0
+0)prefix=
+0)duration_days=25.0
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+no more than two (2) quarters
+-------------------------------------------------------------------------------
+total=1
+0)coords=(18, 30)
+0)amount=2.0
+0)prefix=
+0)duration_days=182.5
+0)duration_type=quarter
+
+
+-------------------------------------------------------------------------------
+BEFORE TWO MONTHS PASS
+-------------------------------------------------------------------------------
+total=1
+0)coords=(6, 18)
+0)amount=2.0
+0)prefix=
+0)duration_days=60.0
+0)duration_type=month
+
+
+-------------------------------------------------------------------------------
+Before Two Months Pass
+-------------------------------------------------------------------------------
+total=1
+0)coords=(6, 18)
+0)amount=2.0
+0)prefix=
+0)duration_days=60.0
+0)duration_type=month
+
+
+-------------------------------------------------------------------------------
+two anniversaries after
+-------------------------------------------------------------------------------
+total=1
+0)coords=(0, 18)
+0)amount=2.0
+0)prefix=
+0)duration_days=730.0
+0)duration_type=anniversary
+
+
+-------------------------------------------------------------------------------
+one anniversary after
+-------------------------------------------------------------------------------
+total=1
+0)coords=(0, 16)
+0)amount=1.0
+0)prefix=
+0)duration_days=365.0
+0)duration_type=anniversary
+
+
+
+-------------------------------------------------------------------------------
+At Least One Month And No More Than Two Months
+-------------------------------------------------------------------------------
+total=2
+0)coords=(8, 19)
+0)amount=1.0
+0)prefix=
+0)duration_days=30.0
+0)duration_type=month
+
+1)coords=(35, 47)
+1)amount=2.0
+1)prefix=
+1)duration_days=60.0
+1)duration_type=month
+
+
+
+-------------------------------------------------------------------------------
+After The Passage Of At Least One Year There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(29, 39)
+0)amount=1.0
+0)prefix=
+0)duration_days=365.0
+0)duration_type=year
+
+
+
+-------------------------------------------------------------------------------
+from a period of two years to five years
+-------------------------------------------------------------------------------
+total=2
+0)coords=(16, 27)
+0)amount=2.0
+0)prefix=
+0)duration_days=730.0
+0)duration_type=year
+
+1)coords=(29, 41)
+1)amount=5.0
+1)prefix=
+1)duration_days=1825.0
+1)duration_type=year
+
+
+
+-------------------------------------------------------------------------------
+After The Passage Of At Least 2.5 Years There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(30, 40)
+0)amount=2.5
+0)prefix=
+0)duration_days=912.5
+0)duration_type=year
+
+
+
+-------------------------------------------------------------------------------
+During A Hundred Days There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 22)
+0)amount=100
+0)prefix=
+0)duration_days=100
+0)duration_type=day
+
+
+
+-------------------------------------------------------------------------------
+During A Dozen Days There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 20)
+0)amount=12
+0)prefix=
+0)duration_days=12
+0)duration_type=day
+
+
+
+-------------------------------------------------------------------------------
+This  Agreement  shall  remain in effect for the period  commencing  on theEffective Date
+and ending on the earlier of (i) the date thirty-six months afterthe Effective Date,
+or (ii) the date on which the Employee terminates employmentwith the Bank;
+provided that the  Employee's  rights  hereunder  shall continuefollowing  the  termination  of this
+employment  with the Bank under any of thecircumstances  described in Section 1(a)  hereof.
+-------------------------------------------------------------------------------
+total=1
+0)coords=(131, 150)
+0)amount=36
+0)prefix=
+0)duration_days=1080
+0)duration_type=month
+
+
+
+-------------------------------------------------------------------------------
+Employee shall give PPD written notice of a Constructive Termination, which notice
+shall provide a brief description of the circumstances which Employee asserts gives
+rise to a right of Constructive Termination, and PPD shall have ten (10) days from
+receipt of said notice within which to remedy said circumstances.
+-------------------------------------------------------------------------------
+total=1
+0)coords=(236, 245)
+0)amount=10
+0)prefix=
+0)duration_days=10
+0)duration_type=day
+
+
+
+-------------------------------------------------------------------------------
+1.07 “Disability” means the inability of Employee to perform his assigned duties for PPD for a period of three
+         (3) months due to Employee’s physical or mental illness as determined
+by a reputable medical doctor.
+-------------------------------------------------------------------------------
+total=1
+0)coords=(121, 131)
+0)amount=3
+0)prefix=
+0)duration_days=90
+0)duration_type=month
+
+
+-------------------------------------------------------------------------------
+b. Calculation of Benefits. At least fifteen (15) days prior to the Payment Date, PPD
+shall notify Employee of the aggregate present value of all amounts and benefits
+to which Employee would be entitled under this Agreement and any other plan,
+program or arrangement with PPD as of the Termination Date, together with the
+projected maximum payments, determined as of such Date of Termination, that could
+be paid without Employee being subject to the Excise Tax.
+-------------------------------------------------------------------------------
+total=1
+0)coords=(46, 55)
+0)amount=15
+0)prefix=
+0)duration_days=15
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+6..23 Days
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+,, MONTHS
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+After The Passage Of At Least One Year There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(29, 39)
+0)amount=1
+0)prefix=
+0)duration_days=365.0
+0)duration_type=year
+
+
+-------------------------------------------------------------------------------
+from a period of two years to five years
+-------------------------------------------------------------------------------
+total=2
+0)coords=(16, 27)
+0)amount=2
+0)prefix=
+0)duration_days=730
+0)duration_type=year
+
+1)coords=(29, 41)
+1)amount=5
+1)prefix=
+1)duration_days=1825
+1)duration_type=year
+
+
+-------------------------------------------------------------------------------
+After The Passage Of At Least 2.5 Years There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(30, 40)
+0)amount=2.5
+0)prefix=
+0)duration_days=912.5
+0)duration_type=year
+
+
+-------------------------------------------------------------------------------
+During A Hundred Days There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 22)
+0)amount=100
+0)prefix=
+0)duration_days=100
+0)duration_type=day
+
+
+-------------------------------------------------------------------------------
+During A Dozen Days There Can Be
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 20)
+0)amount=12
+0)prefix=
+0)duration_days=12
+0)duration_type=day
+
+
+
+
+-------------------------------------------------------------------------------
+The term of this license shall be for an initial period of forty-eight (48) months
+("initial term"), commencing on the date of execution of this Agreement. This
+license shall thereafter automatically renew on the anniversary of this execution
+date for additional terms of twelve (12) months ("subsequent terms"), unless
+Licenseesends written notification to US/INTELICOM of Licensee's intention not
+to renew. Such notification must be received by US/INTELICOM not less than ninety
+(90) days preceding the automatic annual renewal.
+-------------------------------------------------------------------------------
+total=3
+0)coords=(72, 83)
+0)amount=48
+0)prefix=
+0)duration_days=1440.0
+0)duration_type=month
+
+1)coords=(280, 291)
+1)amount=12
+1)prefix=
+1)duration_days=360
+1)duration_type=month
+
+2)coords=(482, 491)
+2)amount=90
+2)prefix=
+2)duration_days=90
+2)duration_type=day
+
+
+-------------------------------------------------------------------------------
+Lasted 4 months, three weeks and 1 day, more the 24 hours
+-------------------------------------------------------------------------------
+total=2
+
+0)coords=(7, 39)
+0)amount=142
+0)duration_days=142.0
+0)duration_type=day
+
+1)coords=(49, 58)
+1)amount=24
+1)duration_days=1
+1)duration_type=hour

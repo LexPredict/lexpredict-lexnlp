@@ -11,14 +11,17 @@ import copy
 from typing import Generator
 
 import regex as re
+
+from lexnlp.extract.common.annotations.constraint_annotation import ConstraintAnnotation
 from lexnlp.nlp.en.segments.sentences import get_sentence_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 CONSTRAINT_PHRASES = ['after', 'at least', 'at most', 'before', 'equal to', 'exactly', 'first of', 'greater',
                       'greater of', 'greater than', 'greater than or equal to', 'greatest of', 'last of', 'least of',
@@ -63,7 +66,21 @@ CONSTRAINT_PATTERN = create_constraint_pattern(CONSTRAINT_PATTERN_TEMPLATE, CONS
 RE_CONSTRAINT = re.compile(CONSTRAINT_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
 
-def get_constraints(text, strict=False) -> Generator:
+def get_constraints(text: str, strict=False) -> Generator:
+    """
+    Find possible constraints in natural language.
+    :param text:
+    :param strict:
+    :return:
+    """
+
+    # Iterate through all potential matches
+    for ant in get_constraint_annotations(text, strict):
+        yield (ant.constraint, ant.pre, ant.post)
+
+
+def get_constraint_annotations(text: str, strict=False) \
+        -> Generator[ConstraintAnnotation, None, None]:
     """
     Find possible constraints in natural language.
     :param text:
@@ -93,5 +110,8 @@ def get_constraints(text, strict=False) -> Generator:
                 if combined in CONSTRAINT_PHRASES:
                     constraint = combined
 
-            # Append
-            yield (constraint, pre, post)
+            ant = ConstraintAnnotation(coords=match.span(),
+                                       constraint=constraint,
+                                       pre=pre,
+                                       post=post)
+            yield ant

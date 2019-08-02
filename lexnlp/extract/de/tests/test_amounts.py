@@ -1,12 +1,14 @@
 from unittest import TestCase
 from num2words import num2words
-from lexnlp.extract.de.amounts import get_amounts
 
+from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
+from lexnlp.extract.de.amounts import get_amounts, get_amount_annotations
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -83,5 +85,27 @@ class TestGetAmounts(AssertionMixin):
         text = 'Dort waren 30 Leute und sie hatten in zwei Fällen 2 Millionen Dollar'
         self.assertSortedListEqual(list(get_amounts(text)), [2, 30, 2000000])
 
+    def test_mix_num_written(self):
+        text = "1.5, dreiviertel, eineinviertel Meilen"
+        ants = list(get_amount_annotations(text))
+        self.assertEqual(2, len(ants))  # TODO: check ""1.5, dreiviertel"
+
     def test_wrong_cases(self):
         self.assertSortedListEqual(list(get_amounts('...%')), [])
+
+    def test_annotations(self):
+        text = 'Sein Volumen beträgt 10 Liter und kostet dreißig Dollar'
+        ants = list(get_amount_annotations(text))
+        self.assertEqual(2, len(ants))
+        self.assertEqual(10, ants[0].value)
+        self.assertEqual((21, 24), ants[0].coords)
+
+        self.assertEqual(30, ants[1].value)
+        self.assertEqual(text.find(' dreißig'), ants[1].coords[0])
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_amount_annotations,
+            'lexnlp/typed_annotations/de/amount/amounts.txt',
+            AmountAnnotation)

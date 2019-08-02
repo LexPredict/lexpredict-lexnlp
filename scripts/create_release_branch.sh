@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
 
 # ARGS:
-# 1. '-core' repository DEV RELEASE branch name
-# 2. '-lexnlp' repository OLD release branch name
-# 3. '-lexnlp' repository NEW release branch name
+# 1. '-lexnlp' repository OLD release branch name
+# 2. '-lexnlp' repository NEW release branch name
 
 CORE_REPO_PATH="/home/alex/dev/michael/contraxsuite/lexpredict-contraxsuite-core"
 LEXNLP_REPO_PATH="/home/alex/dev/michael/contraxsuite/lexpredict-lexnlp"
-DEV_RELEASE_BRANCH=$1
-OLD_RELEASE_BRANCH=$2
-NEW_RELEASE_BRANCH=$3
+OLD_RELEASE_BRANCH=$1
+NEW_RELEASE_BRANCH=$2
 LINE="================================================================="
 
 # prompt
-if [ $# -ne 3 ]; then
-    read -p "Enter '-core' repository DEVELOP branch name: " DEV_RELEASE_BRANCH
-    if [ -z ${DEV_RELEASE_BRANCH} ]; then
-        echo "Exiting program."
-        return 1
-    fi
+if [ $# -ne 2 ]; then
     read -p "Enter '-lexnlp' repository OLD release branch name: " OLD_RELEASE_BRANCH
     if [ -z ${OLD_RELEASE_BRANCH} ]; then
         echo "Exiting program."
@@ -33,7 +26,7 @@ fi
 
 # confirm further processing
 echo ${LINE}
-echo "Copy data from core@${DEV_RELEASE_BRANCH} to lexnlp@${NEW_RELEASE_BRANCH}, continue?" yn
+echo "Copy data from core@${NEW_RELEASE_BRANCH} to lexnlp@${NEW_RELEASE_BRANCH}, continue?" yn
 select yn in "Yes" "No"; do
     case ${yn} in
         Yes ) break;;
@@ -43,20 +36,21 @@ done
 
 # check if develop branch exists
 echo ${LINE}
-echo "Update core@${DEV_RELEASE_BRANCH}"
+echo "Update core@${NEW_RELEASE_BRANCH}"
 
 pushd ${CORE_REPO_PATH}
 
-if [ -z "`git branch --list ${DEV_RELEASE_BRANCH}`" ]
+if [ -z "`git branch --list ${NEW_RELEASE_BRANCH}`" ]
 then
-   echo "'-core' branch ${DEV_RELEASE_BRANCH} doesn't exist. Exiting program."
+   echo "'-core' branch ${NEW_RELEASE_BRANCH} doesn't exist. Exiting program."
    return 1
 fi
-git pull origin ${DEV_RELEASE_BRANCH}
+git pull origin ${NEW_RELEASE_BRANCH}
 
 # replace old release number with new one
 echo ${LINE}
-echo "Update version number in core@${DEV_RELEASE_BRANCH} from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
+echo "Update version number in core@${NEW_RELEASE_BRANCH} from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
+
 
 OLD_RELEASE_BRANCH_esc=$(echo ${OLD_RELEASE_BRANCH} | sed 's,\.,\\.,g')
 NEW_RELEASE_BRANCH_esc=$(echo ${NEW_RELEASE_BRANCH} | sed 's,\.,\\.,g')
@@ -66,33 +60,27 @@ find docs/source/conf.py -type f -readable -writable -exec sed -i "s/version = '
 find docs/source/conf.py -type f -readable -writable -exec sed -i "s/release = '$OLD_RELEASE_BRANCH_esc'/release = '$NEW_RELEASE_BRANCH_esc'/g" {} \;
 
 echo ${LINE}
-echo "Update version number in core@${DEV_RELEASE_BRANCH} from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
-git add --all
-git commit -m "CS: updated version from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
-git push origin ${DEV_RELEASE_BRANCH}
-
-# tag latest release commit
-echo ${LINE}
-echo "Tag latest release commit in private@${DEV_RELEASE_BRANCH} branch as ${NEW_RELEASE_BRANCH}"
-#git tag ${NEW_RELEASE_BRANCH}
-#git push origin --tags
+echo "Commit changes"
+#git add --all
+#git commit -m "CS: updated version from ${OLD_RELEASE_BRANCH} to ${NEW_RELEASE_BRANCH}"
+#git push origin ${NEW_RELEASE_BRANCH}
 
 popd
 
 echo ${LINE}
-echo "Update lexnlp@${OLD_RELEASE_BRANCH}"
+echo "Update lexnlp@master"
 
 pushd ${LEXNLP_REPO_PATH}
 
 # check old release branch exists, checkout
-if [ -z "`git branch --list ${OLD_RELEASE_BRANCH}`" ]
+if [ -z "`git branch --list master`" ]
 then
-   echo "'-lexnlp' branch ${OLD_RELEASE_BRANCH} doesn't exist. Exiting program."
+   echo "'lexnlp@master branch doesn't exist. Exiting program."
    return 1
 fi
 
-git fetch origin ${OLD_RELEASE_BRANCH}
-git checkout ${OLD_RELEASE_BRANCH}
+git fetch origin master
+git checkout master
 
 # check that new release branch exists, checkout/create
 echo ${LINE}
@@ -106,19 +94,18 @@ else
    git checkout ${NEW_RELEASE_BRANCH}
 fi
 
-
-find ${CORE_REPO_PATH}/ -name "*pyc" -delete
+# clean .pic, .pio, __pycache__ files
+py3clean .
 
 # copy files from develop to new branch
 echo ${LINE}
 echo "Copy files from -core to -lexnlp local repo"
 
+rsync -av --delete ${CORE_REPO_PATH}/docs/ ${LEXNLP_REPO_PATH}/docs
 rsync -av --delete ${CORE_REPO_PATH}/lexnlp/ ${LEXNLP_REPO_PATH}/lexnlp
 rsync -av --delete ${CORE_REPO_PATH}/libs/ ${LEXNLP_REPO_PATH}/libs
-rsync -av --delete ${CORE_REPO_PATH}/docs/ ${LEXNLP_REPO_PATH}/docs
 rsync -av --delete ${CORE_REPO_PATH}/scripts/ ${LEXNLP_REPO_PATH}/scripts
 rsync -av --delete ${CORE_REPO_PATH}/test_data/ ${LEXNLP_REPO_PATH}/test_data
-rsync -av --delete ${CORE_REPO_PATH}/lexnlp/ ${LEXNLP_REPO_PATH}/lexnlp
 cp -rf ${CORE_REPO_PATH}/python-requirements* ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/setup.py ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/MANIFEST.in ${LEXNLP_REPO_PATH}

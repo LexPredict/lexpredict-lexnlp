@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+
 """Definition unit tests for English.
 
 This module implements unit tests for the definition extraction functionality in English.
@@ -15,21 +16,24 @@ from os import listdir
 from os.path import isfile, join
 from typing import List
 from unittest import TestCase
+
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.en.definitions import NOUN_PTN_RE, \
-    get_definitions_explicit, get_definitions_in_sentence
-from lexnlp.tests.test_utils import load_resource_document, annotate_text, save_test_document
+    get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations
+from lexnlp.tests.utility_for_testing import load_resource_document, annotate_text, save_test_document
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 class TestEnglishDefinitions(TestCase):
-    def test_definition_quoted1(self):
+
+    def test_definition_quoted(self):
         sentence = '''THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
 STATEMENT (this "Deed of Trust") dated August 29, 1997, is executed and
 delivered by Trustor for good and valuable consideration, the receipt and
@@ -82,7 +86,7 @@ of Trust") dated August 29, 1997, is executed and
         definitions = self.parse(text)
         self.assertEqual(0, len(definitions))
 
-    def test_inlude_multitoken_definition(self):
+    def test_include_multitoken_definition(self):
         """
         I think that the text
         (each an “Obligation” and collectively, the “Obligations”)
@@ -149,13 +153,21 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
         defs = self.parse(text)
         self.assertEqual(1, len(defs))
 
+    def test_annotations(self):
+        text = '''""Consolidated EBITDA" means, for any period, for the Company and its Subsidiaries ''' + \
+               '''on a consolidated basis, an amount equal to Consolidated Net Income for such period'''
+        ants = list(get_definition_annotations(text))
+        self.assertEqual(1, len(ants))
+        cite = ants[0].get_cite()
+        self.assertEqual('/en/definition/Consolidated EBITDA', cite)
+
     def test_definitions_in_sentences_text(self):
         text = load_resource_document(
             'lexnlp/extract/en/tests/test_definitions/test_definition_in_sentences.csv',
             'utf-8')
         defs = self.parse(text)
         self.assertGreater(len(defs), 16)
-        self.assertLess(len(defs), 22)
+        self.assertLess(len(defs), 25)
 
     def test_definitions_in_one_sentence(self):
         sentence = 'The "Pope": the head of the Catholic Church.'
@@ -173,7 +185,7 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
             'utf-8')
         defs = self.parse(text)
         self.assertGreater(len(defs), 12)
-        self.assertLess(len(defs), 22)
+        self.assertLess(len(defs), 25)
         for df in defs:
             txt = df["tags"]["Extracted Entity Definition Name"].strip('''"[]'{}.\t ''')
             self.assertGreater(len(txt), 0)
@@ -197,6 +209,103 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
         definitions = self.parse(text)
         self.assertGreater(len(definitions), lines_count)
         self.annotate_document(text, definitions, 'output/pure_definitions.html')
+
+    def test_apostrophe_in_definition(self):
+        text = '''“Bankers’ Acceptance” or “BA” means a time draft'''
+        definitions = sorted(list(get_definitions_explicit(text)), key=lambda i: i[0])
+        self.assertEqual(definitions[0][0], 'BA')
+        self.assertEqual(definitions[1][0], '''Bankers' Acceptance''')
+
+    def test_dot_in_definition(self):
+        text = '''“U.S. Person” means any Person that is a “United States Person” as defined 
+                  in Section 7701(a)(30) of the Code.'''
+        definitions = list(get_definitions_in_sentence(text))
+        self.assertEqual(definitions[0], 'U.S. Person')
+
+    def test_trigger_word_fullmatches(self):
+        text = '''(i)\nThe meanings given to terms defined herein shall be equally applicable to both\n
+                  the singular and plural forms of such terms.'''
+        definitions = list(get_definitions_in_sentence(text))
+        self.assertEqual(len(definitions), 0)
+
+    def test_fp_pronoun(self):
+        text = """
+        This means a
+        vation, packaging, packing and marking; and (2) description of the essential physical characteris-
+        criteria by which the Government can determine tics and functions required to meet minimum
+        whether or not contract requirements have been needs.     
+        """
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(0, len(definitions))
+
+    def test_fp_service_words(self):
+        text = """
+        'Governmentfurnished property').
+        (2) The delivery or performance dates for this contract are based upon the expectation that
+        Government-furnished property suitable for use (except for property furnished ('as is') will be delivered
+        to the Contractor at the times stated in the Schedule or, if not so stated, in sufficient time to enable the
+        Contractor to meet the contract's delivery or performance dates.
+        """
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(0, len(definitions))
+
+    def test_the(self):
+        text = '''The mean-\ning of our English term has shifted\nfrom character to actions-to 
+              external\nacts, manner of life, conduct, or\nhabits.'''
+        definitions = list(get_definitions_in_sentence(text))
+        self.assertEqual(len(definitions), 0)
+
+    def test_parenthesis(self):
+        text = """Understanding SBA (the "Administrator') is directed to refer"""
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 1)
+        self.assertEqual('Administrator', definitions[0].name)
+
+    def test_def_called(self):
+        text = """4. Contracts whereby one party unrelated (___
+        performed (an assignment for past duties is not to the suit agrees with a party to the suit that
+        illegal or against public poiicy - here the harm is they will split the proceeds of the suit and the
+        that the public officer is not as likely to perform one not related to the suit will bear all the
+        as diligently where he knows that his future expenses of the suit (so called "champerty')."""
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 1)
+        self.assertEqual('champerty', definitions[0].name)
+        # normalize quotes?
+        # remove "called, so called, collectively called ..."
+
+    def test_process_ugly_braces_def(self):
+        text = """(1) The term "Contractor's managerial
+            personnel," as used in this paragraph (g), means the Contractor's directors, officers, and any of the
+            Contractor's managers, superintendents, or equivalent representatives who have supervision or direction
+            of--"""
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 1)
+        self.assertEqual("Contractor's managerial personnel",
+                         definitions[0].name)
+
+    def test_abbr_strip(self):
+        text = '“U.S.” mean the United States of America. '
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 1)
+
+    def test_unbal_quotes(self):
+        text = """Buthrzd d"uatc-\nmunicate the acceptance of the offer to the between 
+                so-called 'authorized" and unauthre\nofferor. """
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 1)
+        self.assertEqual('authorized', definitions[0].name)
+
+        text = "(b) In the exercise of the authorities gcanted in subsection (a) of this section, the term \"Agency\n" + \
+               "head' shall mean the Director, the Deputy Director, or the Executive of the Agency."
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 1)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_definitions_sorted,
+            'lexnlp/typed_annotations/en/definition/definitions.txt',
+            DefinitionAnnotation)
 
     def process_a_bunch_of_documents(self):
         path = 'path/to/a/folder/with/a/number/of/files'
@@ -242,3 +351,9 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
                         'Extracted Entity Text': source_text
                     }))
         return ret
+
+
+def get_definitions_sorted(text: str):
+    annotations = list(get_definition_annotations(text))
+    annotations.sort(key=lambda a: a.coords[0])
+    return annotations

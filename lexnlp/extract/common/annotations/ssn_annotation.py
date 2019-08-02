@@ -1,0 +1,40 @@
+from typing import Tuple, List
+from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+
+class SsnAnnotation(TextAnnotation):
+    record_type = 'ssn'
+    """
+    create an object of SsnAnnotation (Social Secutiry Number) like
+    cp = SsnAnnotation(coords=(0, 100), value='1234 4321 1234')
+    """
+    def __init__(self,
+                 coords: Tuple[int, int],
+                 locale: str = 'en',
+                 text: str = None,
+                 number: str = None):
+        super().__init__(
+            name='',
+            locale=locale,
+            coords=coords,
+            text=text)
+        self.number = number
+
+    def get_cite_value_parts(self) -> List[str]:
+        return [self.number]
+
+    def get_dictionary_values(self) -> dict:
+        df = {
+            'tags': {
+                'Extracted Entity SSN': self.number or '',
+                'Extracted Entity Text': self.text
+            }
+        }
+        return df

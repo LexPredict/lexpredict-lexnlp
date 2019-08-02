@@ -2,10 +2,17 @@ from unittest import TestCase
 from lexnlp.nlp.en.segments.sentences import pre_process_document
 from os import listdir
 from os.path import isfile, join
-from lexnlp.tests.test_utils import load_resource_document
+from lexnlp.tests.utility_for_testing import load_resource_document
 from lexnlp.utils.lines_processing.parsed_text_corrector import ParsedTextCorrector
 
 import codecs
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
 
 class TestParsedTextCorrector(TestCase):

@@ -1,19 +1,47 @@
 import os
 from unittest import TestCase
 import pandas as pd
+from typing import List
+
+from lexnlp.extract.common.base_path import lexnlp_test_path
+from lexnlp.extract.common.annotations.law_annotation import LawAnnotation
+# pylint:disable=no-name-in-module
 from lexnlp.extract.de.laws import LawsParser, get_laws
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
+def setup_parser():
+    base_path = os.path.join(lexnlp_test_path, 'lexnlp/extract/de/laws/')
+    gesetze_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
+                                          base_path + 'gesetze_list.csv'),
+                             encoding="utf-8")
+
+    verordnungen_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
+                                               base_path + 'verordnungen_list.csv'),
+                                  encoding="utf-8")
+
+    concept_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
+                                          base_path + 'de_concept_sample.csv'),
+                             encoding="utf-8")
+
+    law_parser = LawsParser(gesetze_df,
+                            verordnungen_df,
+                            concept_df)
+    return law_parser
+
+
+parser = setup_parser()
+
+
 class TestParseDeLaws(TestCase):
     def test_parse_empty_text(self):
-        parser = self.setup_parser()
         ret = parser.parse('')
         self.assertEqual(0, len(ret))
         ret = parser.parse("""
@@ -22,11 +50,13 @@ class TestParseDeLaws(TestCase):
         self.assertEqual(0, len(ret))
 
     def test_parse_simply_phrase(self):
-        parser = self.setup_parser()
         text = "Dies ist durch das AAÜG geschehen."
         ret = parser.parse(text, 'x')
         self.assertEqual(1, len(ret))
         self.assertEqual("x", ret[0].locale)
+        self.assertEqual((18, 24), ret[0].coords)
+        self.assertEqual('AAÜG', ret[0].name)
+        self.assertEqual('AAÜG', ret[0].text)
 
         ret = parser.parse(text)
         self.assertEqual("de", ret[0].locale)
@@ -39,21 +69,15 @@ class TestParseDeLaws(TestCase):
         for _ in get_laws(text):
             pass
 
-    def setup_parser(self):
-        base_path = os.path.dirname(__file__) + '/../../../../test_data/lexnlp/extract/de/laws/'
-        gesetze_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
-                                 base_path + 'gesetze_list.csv'),
-                                 encoding="utf-8")
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_ordered_law_annotations,
+            'lexnlp/typed_annotations/de/law/laws.txt',
+            LawAnnotation)
 
-        verordnungen_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
-                                      base_path + 'verordnungen_list.csv'),
-                                      encoding="utf-8")
 
-        concept_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
-                                 base_path + 'de_concept_sample.csv'),
-                                 encoding="utf-8")
-
-        parser = LawsParser(gesetze_df,
-                            verordnungen_df,
-                            concept_df)
-        return parser
+def get_ordered_law_annotations(text: str) -> List[LawAnnotation]:
+    ants = list(parser.parse(text))
+    ants.sort(key=lambda a: a.coords[0])
+    return ants

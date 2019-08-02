@@ -1,0 +1,61 @@
+sechseinhalb
+-------------------------------------------------------------------------------
+total=1
+0)locale=de
+0)value=6.5
+0)coords=(0, 13)
+
+
+
+-------------------------------------------------------------------------------
+zwei Millionen vierhundertzweiundzwanzigtausendsiebenhundertdreieinhalb,
+eine halbe Million Dollar
+-------------------------------------------------------------------------------
+total=2
+0)value=2422703.5
+0)coords=(0, 72)
+1)value=500000
+1)coords=(72, 92)
+
+
+-------------------------------------------------------------------------------
+1.5, drei viertel, eineinviertel Meilen
+-------------------------------------------------------------------------------
+total=2
+0)value=2.25
+0)coords=(0, 18)
+1)value=1.25
+1)coords=(18, 33)
+
+
+-------------------------------------------------------------------------------
+tausend, tausendzweihundertvierunddreißig, millionen
+-------------------------------------------------------------------------------
+total=3
+0)value=1000
+0)coords=(0, 8)
+1)value=1234
+1)coords=(8, 42)
+2)value=1000000
+2)coords=(42, 53)
+
+
+-------------------------------------------------------------------------------
+Drum links, zwei, drei! Drum links, zwei, drei!
+Wo dein Platz, Genosse ist!
+Reih dich ein, in die Arbeitereinheitsfront,
+weil du auch ein Arbeiter bist.
+-------------------------------------------------------------------------------
+total=6
+0)value=2
+0)coords=(11, 17)
+1)value=3
+1)coords=(17, 23)
+2)value=2
+2)coords=(35, 41)
+3)value=3
+3)coords=(41, 47)
+4)value=1
+4)coords=(85, 90)
+5)value=1
+5)coords=(133, 138)

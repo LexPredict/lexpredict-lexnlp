@@ -1,12 +1,15 @@
 from unittest import TestCase
+
+from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.common.tests.definitions_text_annotator import annotate_definitions_text
-from lexnlp.extract.es.definitions import make_es_definitions_parser, get_definition_list
-from lexnlp.tests.test_utils import load_resource_document
+from lexnlp.extract.es.definitions import make_es_definitions_parser, get_definition_list, get_definition_annotations
+from lexnlp.tests.utility_for_testing import load_resource_document
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -38,6 +41,11 @@ class TestParseSpanishDefinitions(TestCase):
         ret = get_definition_list(text, 'ru')
         self.assertEqual(2, len(ret))
         self.assertEqual('ru', ret[1].locale)
+        self.assertEqual((0, 37), ret[1].coords)
+
+        self.assertEqual('"el Proveedor"', ret[1].name)
+        self.assertEqual('en adelante, "ESET" o "el Proveedor"',
+                         ret[1].text.strip(" ()"))
 
         ret = get_definition_list(text)
         self.assertEqual('es', ret[1].locale)
@@ -108,3 +116,10 @@ class TestParseSpanishDefinitions(TestCase):
         text = "Pico Pico della Mirandola (Ppdm)"
         ret = parser.parse(text)
         self.assertEqual(0, len(ret))
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_definition_annotations,
+            'lexnlp/typed_annotations/es/definition/definitions.txt',
+            DefinitionAnnotation)

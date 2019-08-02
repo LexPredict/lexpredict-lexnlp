@@ -5,6 +5,7 @@ This module implements amount extraction functionality in German.
 Todo:
   * Improved unit tests and case coverage
 """
+
 # pylint: disable=broad-except
 
 import string
@@ -14,11 +15,12 @@ import nltk
 import regex as re
 from num2words import num2words, CONVERTER_CLASSES
 
+from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -156,7 +158,7 @@ class AmountParserDE(object):
         # if written number has integer/float prefix: "25 million", "2.035 thousand tons"
         if self.MIXED_WRIT_RE.search(s):
             p, s = self.MIXED_WRIT_RE.search(s).groups()
-            g = float(p) if p else 0
+            g = float(p.rstrip(string.punctuation + string.whitespace)) if p else 0
 
         d = 0
         # TODO: extract fractions, half, quarter
@@ -194,7 +196,30 @@ class AmountParserDE(object):
 
         return n + g + d
 
-    def parse(self, text, return_sources=False, extended_sources=True, float_digits=4) -> Generator:
+    def parse(self, text: str, return_sources=False,
+              extended_sources=True, float_digits=4) -> Generator:
+        """
+        Find possible amount references in the text.
+        :param text: text
+        :param return_sources: return amount AND source text
+        :param extended_sources: return data around amount itself
+        :param float_digits: round float to N digits, don't round if None
+        :return: list of amounts
+        """
+        for ant in self.parse_annotations(text, return_sources, float_digits):
+            if not return_sources:
+                yield ant.value
+            else:
+                if extended_sources:
+                    yield (ant.value, ant.text, ant.coords)
+                else:
+                    yield (ant.value, ant.text)
+
+    def parse_annotations(self,
+                          text: str,
+                          float_digits=4,
+                          return_sources=True) \
+            -> Generator[AmountAnnotation, None, None]:
         """
         Find possible amount references in the text.
         :param text: text
@@ -216,29 +241,35 @@ class AmountParserDE(object):
                 continue
             if isinstance(amount, float) and float_digits:
                 amount = round(amount, float_digits)
+
+            ant = AmountAnnotation(coords=match.span(),
+                                   value=amount,
+                                   locale=self.language)
+
             if return_sources:
-                if extended_sources:
-                    unit = ''
-                    next_text = text[match.span()[1]:]
-                    if next_text:
-                        for np in get_np(next_text):
-                            if next_text.startswith(np):
-                                unit = np
-                        if unit:
-                            found_item = ' '.join([found_item.strip(), unit])
-                    if not unit:
-                        prev_text = text[:match.span()[0]]
-                        prev_text_tags = nltk.word_tokenize(prev_text)
-                        if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
-                            sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
-                            found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
-                yield (amount, found_item.strip(), match.span())
-                # yield (amount, found_item.strip())
-            else:
-                yield amount
+                unit = ''
+                next_text = text[match.span()[1]:]
+                if next_text:
+                    for np in get_np(next_text):
+                        if next_text.startswith(np):
+                            unit = np
+                    if unit:
+                        found_item = ' '.join([found_item.strip(), unit])
+                if not unit:
+                    prev_text = text[:match.span()[0]]
+                    prev_text_tags = nltk.word_tokenize(prev_text)
+                    if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
+                        sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
+                        found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
+
+                ant.text = found_item.strip()
+            yield ant
 
 
 get_amounts = AmountParserDE().parse
+
+
+get_amount_annotations = AmountParserDE().parse_annotations
 
 
 def get_amount_list(*args, **kwargs):

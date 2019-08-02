@@ -2,26 +2,36 @@ import os
 import codecs
 from html import escape
 from typing import List
+
+from lexnlp.extract.common.base_path import lexnlp_test_path
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
-def load_resource_document(doc_path: str, encoding: str="ascii") -> str:
+
+def load_resource_document(doc_path: str, encoding: str = "ascii") -> str:
     """
     load file as string from test_data folder
     """
-    full_path = os.path.dirname(__file__) + '/../../test_data/' + doc_path
-    with codecs.open(full_path, encoding=encoding, mode='r') as myfile:
-        data = myfile.read()
+    full_path = os.path.join(lexnlp_test_path, doc_path)
+    with codecs.open(full_path, encoding=encoding, mode='r') as fr:
+        data = fr.read()
     return data
 
 
-def save_test_document(doc_path: str, text: str, encoding: str="utf-8") -> None:
+def save_test_document(doc_path: str, text: str,
+                       encoding: str = "utf-8") -> None:
     """
     saves text as a file in test_data folder
     """
-    full_path = os.path.dirname(__file__) + '/../../test_data/' + doc_path
-    with codecs.open(full_path, encoding=encoding, mode='w') as myfile:
-        myfile.write(text)
+    full_path = os.path.join(lexnlp_test_path, doc_path)
+    with codecs.open(full_path, encoding=encoding, mode='w') as fw:
+        fw.write(text)
 
 
 def annotate_text(text: str, annotations: List[TextAnnotation]) -> str:

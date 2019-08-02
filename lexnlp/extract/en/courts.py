@@ -6,10 +6,12 @@ and aliases.
 Todo:
   * Add utilities for loading court data
 """
+
 # pylint: disable=unused-argument
 
 from typing import List, Tuple, Generator, Any
 
+from lexnlp.extract.common.base_path import lexnlp_base_path
 from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id
 
@@ -23,7 +25,7 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -50,17 +52,22 @@ def get_courts(text: str,
      alias of Iceland for English texts.
     :return: Generates tuples: (court entity, court alias)
     """
-    yield from find_dict_entities(text, court_config_list,
+    for ent in find_dict_entities(text, court_config_list,
                                   conflict_resolving_func=conflicts_take_first_by_id if priority else None,
-                                  text_languages=text_languages)
+                                  text_languages=text_languages):
+        yield ent.entity
 
 
 def setup_en_parser():
     ptrs = ParserInitParams()
-    ptrs.dataframe_paths = [os.path.join(os.path.dirname(__file__), "../../config/en/us_state_courts.csv"),
-             os.path.join(os.path.dirname(__file__), "../../config/en/us_courts.csv"),
-             os.path.join(os.path.dirname(__file__), "../../config/en/ca_courts.csv"),
-             os.path.join(os.path.dirname(__file__), "../../config/en/au_courts.csv")]
+    file_path = os.path.join(lexnlp_base_path, 'lexnlp/config/en')
+    ptrs.dataframe_paths = ['us_state_courts.csv',
+                            'us_courts.csv',
+                            'ca_courts.csv',
+                            'au_courts.csv']
+    ptrs.dataframe_paths = [os.path.join(file_path, p)
+                            for p in ptrs.dataframe_paths]
+
     ptrs.split_ptrs = LineSplitParams()
     ptrs.split_ptrs.line_breaks = {'\n', '.', ';', ','}.union(set(EnLanguageTokens.conjunctions))
     ptrs.split_ptrs.abbreviations = EnLanguageTokens.abbreviations
@@ -70,6 +77,10 @@ def setup_en_parser():
 
 
 parser = setup_en_parser()
+
+
+def get_court_annotations(text: str, language: str = None) -> Generator[dict, None, None]:
+    yield from parser.parse(text, language if language else 'en')
 
 
 def _get_court_list(text: str, language: str = None) -> List[CourtAnnotation]:

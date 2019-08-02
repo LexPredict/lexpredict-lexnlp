@@ -1,4 +1,5 @@
 # pylint: disable=unused-import
+
 from typing import Pattern, List, Tuple
 # pylint: enable=unused-import
 import regex as re
@@ -7,11 +8,10 @@ from lexnlp.extract.common.copyrights.copyright_pattern_found import CopyrightPa
 from lexnlp.extract.common.definitions.common_definition_patterns import CommonDefinitionPatterns
 from lexnlp.extract.common.pattern_found import PatternFound
 
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -51,8 +51,8 @@ class CopyrightParsingMethods:
         reg = self.reg_word_c_years
         dfs = CommonDefinitionPatterns. \
             collect_regex_matches(phrase, reg, 100,
-                                  lambda p, m: 0,
-                                  lambda p, m: len(p))
+                                  lambda p, m: m.start(),  # 0 ?
+                                  lambda p, m: m.end())  # len(p) ?
         # 'start' - search for company name from the beginning
         patterns = self.pre_process_found_matches(dfs, 'start')
         return patterns
@@ -69,7 +69,7 @@ class CopyrightParsingMethods:
         dfs = CommonDefinitionPatterns. \
             collect_regex_matches(phrase, reg, 100,
                                   lambda p, m: m.start(),
-                                  lambda p, m: len(p))
+                                  lambda p, m: m.end())  # len(p) ?
         # 'start' - search for company name from the beginning
         patterns = self.pre_process_found_matches(dfs, 'end')
         return patterns

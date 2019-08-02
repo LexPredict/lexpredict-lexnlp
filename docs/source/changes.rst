@@ -4,6 +4,16 @@
 Changelog
 ============
 
+0.2.7 - August 1, 2019
+----------------
+ * Standardized LexNLP methods response to return a generator of Annotation objects or a generator of dictionaries (tuples)
+ * Improved LexNLP handling for definitions for the "EN" locale.
+ * Improved LexNLP handling for companies for the "EN" locale.
+ * Improved sentence splitting logic.
+ * Improved LexNLP unit test coverage.
+ * Updated python requirements in python-requirements*.txt.
+ * Dropped support for python 3.4 and 3.5.
+
 0.2.6 - Jun 12, 2019
 ----------------
  * Improved LexNLP handling for dates for all locales.

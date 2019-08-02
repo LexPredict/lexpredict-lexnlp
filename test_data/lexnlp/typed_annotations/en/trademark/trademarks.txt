@@ -1,0 +1,122 @@
+1.11.SCADA System means a supervisory control and data acquisition system such
+as the S/3 Software or Licensee's OASyS(R) product.
+-------------------------------------------------------------------------------
+total=1
+0)locale=en
+0)trademark=OASyS (R)
+0)coords=(113, 122)
+0)get_cite()=/en/trademark/OASyS (R)
+
+
+
+-------------------------------------------------------------------------------
+ ...  packages containing the NetLOCK(TM) computer programs in executable
+or machine-readable form and written instructional materials.  Licensed Programs
+include a NetLOCK(TM)  Manager for network  security  administration  and one or
+more  NetLOCK(TM)  Clients for use on multiple  computers  ...
+-------------------------------------------------------------------------------
+total=3
+..)locale=en
+0)trademark=NetLOCK (TM)
+0)coords=(30, 42)
+0)get_cite()=/en/trademark/NetLOCK (TM)
+
+1)trademark=NetLOCK (TM)
+1)coords=(165, 177)
+1)get_cite()=/en/trademark/NetLOCK (TM)
+
+2)trademark=NetLOCK (TM)
+2)coords=(242, 254)
+2)get_cite()=/en/trademark/NetLOCK (TM)
+
+
+
+-------------------------------------------------------------------------------
+...  perpetual license in the United States to (a)
+use the StrongBox(TM)  payment authorization and data capture software developed
+and owned by Licensor  ...
+-------------------------------------------------------------------------------
+total=1
+0)trademark=StrongBox (TM)
+0)coords=(59, 73)
+
+
+
+-------------------------------------------------------------------------------
+Solaris(TM)  8  Operating  Environment,   Intel  Platform  Edition.
+Required Solaris patches for Compaq DL 380:
+-------------------------------------------------------------------------------
+total=1
+0)trademark=Solaris (TM)
+0)coords=(0, 12)
+
+
+
+-------------------------------------------------------------------------------
+"AirBoss Software" means Geoworks AirBoss(TM) Application Platform software
+consisting of 5 key software components:
+-------------------------------------------------------------------------------
+total=1
+0)trademark=Geoworks AirBoss (TM)
+0)coords=(25, 46)
+
+
+
+-------------------------------------------------------------------------------
+1.7  "REALimage(TM) Technology" means the REALimage(TM) 1000 rendering
+controller chip technology described in the Documentation, and enhancements and
+improvements to that technology.
+-------------------------------------------------------------------------------
+total=2
+0)trademark=REALimage (TM)
+0)coords=(6, 20)
+1)trademark=REALimage (TM)
+1)coords=(42, 56)
+
+
+
+-------------------------------------------------------------------------------
+... to operate only on or with
+hardware that utilizes the E&S REALimage(TM) technology, (b) to copy,
+distribute, perform and sublicense to end users...
+-------------------------------------------------------------------------------
+total=1
+0)trademark=E&S REALimage (TM)
+0)coords=(58, 76)
+
+
+
+
+-------------------------------------------------------------------------------
+... software for the Licensed Product corresponding to the version
+of the chipset embodying the REALimageTM Technology which is then being
+purchased by Licensee, provided that: (a) Licensee is then ...
+-------------------------------------------------------------------------------
+total=1
+0)trademark=REALimageTM
+0)coords=(96, 107)
+
+
+
+
+-------------------------------------------------------------------------------
+... check the REALimage™ Technology where TM is separate sign...
+-------------------------------------------------------------------------------
+total=1
+0)trademark=REALimage™
+0)coords=(14, 24)
+
+
+
+
+-------------------------------------------------------------------------------
+1.11.SCADA System means a supervisory control and data acquisition system such as
+ the S/3 Software or Licensee's OASyS® product.
+-------------------------------------------------------------------------------
+total=1
+0)trademark=OASyS®
+0)coords=(114, 120)
+
+
+
+

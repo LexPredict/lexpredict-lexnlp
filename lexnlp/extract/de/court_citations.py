@@ -5,6 +5,13 @@ from lexnlp.extract.common.annotations.court_citation_annotation import CourtCit
 from lexnlp.extract.de.dates import get_dates
 from lexnlp.utils.lines_processing.phrase_finder import PhraseFinder
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 
 class PossibleToken:
     def __init__(self, token_type: str, value: str, coords: Tuple[int, int], prob: int):
@@ -177,6 +184,11 @@ class CourtCitationsParser:
 
 
 parser = CourtCitationsParser()
+
+
+def get_court_citation_annotations(text: str, language: str = None) -> \
+        Generator[CourtCitationAnnotation, None, None]:
+    yield from parser.parse(text, language if language else 'de')
 
 
 def get_court_citations(text: str, language: str = None) -> Generator[dict, None, None]:

@@ -6,7 +6,7 @@ import os
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -34,7 +34,10 @@ UNICODE_CHAR_CATEGORY_MAPPING = _load_table(_FN_UNICODE_CHAR_CATEGORY_MAPPING, T
 UNICODE_CHAR_TOP_CATEGORY_MAPPING = _load_table(_FN_UNICODE_CHAR_TOP_CATEGORY_MAPPING, True)
 
 
-def build_lookup_tables(fn_char_categories, fn_char_category_mapping, fn_char_top_category_mapping):
+def build_lookup_tables(fn_char_categories,
+                        fn_char_category_mapping,
+                        fn_char_top_category_mapping,
+                        table_source: str = None):
     """
     https://www.unicode.org/reports/tr44/#General_Category
     https://www.unicode.org/reports/tr44/#General_Category_Values
@@ -83,8 +86,7 @@ def build_lookup_tables(fn_char_categories, fn_char_category_mapping, fn_char_to
     """
     # https://www.unicode.org/reports/tr44/#UnicodeData.txt
 
-    url = 'ftp://ftp.unicode.org/Public/11.0.0/ucd/UnicodeData.txt'
-
+    url = table_source or 'ftp://ftp.unicode.org/Public/11.0.0/ucd/UnicodeData.txt'
     df = pandas.read_table(url, sep=';', header=None)
 
     df.columns = ["value", "name", "general_category", "canonical_combining_class",

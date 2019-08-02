@@ -1,0 +1,99 @@
+Hello!!!!Mississippi!!!(US)!!!
+-------------------------------------------------------------------------------
+total=2
+0)locale=en
+0)coords=(14, 26)
+0)name=Mississippi
+1)locale=en
+1)coords=(34, 37)
+1)name=United States
+
+
+-------------------------------------------------------------------------------
+Abbreviation “MS” can mean either MMMontserrat or Misssssisssssippi. And different
+non-letter symbols should be treated correctly (MS).
+-------------------------------------------------------------------------------
+total=4
+0)coords=(15, 18)
+0)name=Mississippi
+1)coords=(15, 18)
+1)name=Montserrat
+2)coords=(135, 138)
+2)name=Mississippi
+3)coords=(135, 138)
+3)name=Montserrat
+
+
+
+-------------------------------------------------------------------------------
+One Iceland two.
+-------------------------------------------------------------------------------
+total=1
+0)locale=en
+0)coords=(4, 12)
+0)name=Iceland
+0)get_cite()=/en/geoentity/Iceland/2075
+
+
+-------------------------------------------------------------------------------
+One Island two.
+-------------------------------------------------------------------------------
+total=1
+0)locale=en
+0)coords=(4, 11)
+0)name=Iceland
+
+
+-------------------------------------------------------------------------------
+MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict
+resolving is enabled and it should detect MS as the entity having the first id
+in config (geoaliases.csv, entity_id). And this is Monserrat.
+-------------------------------------------------------------------------------
+total=4
+0)locale=en
+0)coords=(0, 3)
+0)name=Mississippi
+
+
+
+-------------------------------------------------------------------------------
+Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+NEITHER AM NOR IN AND OR SHOULD NOT BE DETECTED HERE
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+AM, IN and OR should be detected here
+-------------------------------------------------------------------------------
+total=4
+0)name=Armenia
+1)name=India
+2)name=Indiana
+3)name=Oregon
+
+
+-------------------------------------------------------------------------------
+NO ANDDDORRRAA SHOULD BE DETECTED HERE.
+LESSOR AND LESSEE HAVE CAREFULLY READ AND REVIEWED THIS LEASE AND EACH TERM AND
+PROVISION CONTAINED HEREIN, AND BY THE EXECUTION OF THIS LEASE SHOW THEIR
+INFORMED AND VOLUNTARY CONSENT THERETO. THE PARTIES HEREBY AGREE THAT, AT THE
+TIME THIS LEASE IS EXECUTED, THE TERMS OF THIS LEASE ARE COMMERCIALLY
+REASONABLE AND EFFECTUATE THE INTENT AND PURPOSE OF LESSOR AND LESSEE WITH
+RESPECT TO THE PREMISES.
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+AAnnddoorraa should be detected here because of AND in uppercase having lowercase letters within -20:+20 range around it.
+There should be actually three AAnnddoorrraass - AND AND.
+-------------------------------------------------------------------------------
+total=3
+..)name=Andorra

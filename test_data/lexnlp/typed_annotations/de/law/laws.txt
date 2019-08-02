@@ -1,0 +1,58 @@
+Nach der Allgemeine
+Gebührenverordnung
+-------------------------------------------------------------------------------
+total=1
+0)name=Allgemeine Gebührenverordnung
+0)coords=(8, 39)
+0)text=Allgemeine Gebührenverordnung
+
+
+
+-------------------------------------------------------------------------------
+Dies ist durch das AAÜG geschehen.
+-------------------------------------------------------------------------------
+total=1
+..)locale=de
+0)name=AAÜG
+0)coords=(18, 24)
+0)text=AAÜG
+0)get_cite()=/de/law/AAÜG
+
+
+
+-------------------------------------------------------------------------------
+Nach der Amateurfunkverordnung Ankündigung,
+-------------------------------------------------------------------------------
+total=1
+0)name=Amateurfunkverordnung
+0)coords=(8, 31)
+0)text=Amateurfunkverordnung
+
+
+
+-------------------------------------------------------------------------------
+das Gesetz über die Beaufsichtigung der Versicherungsunternehmen
+(Versicherungsaufsichtsgesetz – VAG) vom 1. April 2015 (BGBl. I S. 434),
+das zuletzt durch Artikel 2 des Gesetzes vom 20. Juli 2017 (BGBl. I S. 2789)
+geändert worden ist, nach Maßgabe der §§ 61 ff. VAG - ,
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+Gemäß Artikel 146 der Solvency-II-Richtlinie (RL 2009/138/EG) unterrichtet
+die BaFin als Aufsichtsbehörde des Aufnahmemitgliedstaats die Aufsichtsbehörden
+der Herkunftsmitgliedstaaten über Gesetze und Rechtsvorschriften, die für
+Versicherungsunternehmen mit Sitz in einem Mitgliedstaat der Europäischen
+Gemeinschaft oder einem anderen Vertragsstaat des Abkommens über den Europäischen
+Wirtschaftsraum aus Gründen des Allgemeininteresses gelten, wenn auf sie die
+Solvency-II-Richtlinie Anwendung findet und sie das Direktversicherungsgeschäft
+in der Bundesrepublik Deutschland durch eine Niederlassung oder im
+Dienstleistungsverkehr durch Mittelspersonen betreiben.
+-------------------------------------------------------------------------------
+total=1
+..)locale=de
+0)name=Deutschland
+0)coords=(563, 576)
+0)text=Deutschland

@@ -1,0 +1,73 @@
+test http://www.demo.com/2/some-url/document.txt in the text
+-------------------------------------------------------------------------------
+total=1
+0)locale=en
+0)url=http://www.demo.com/2/some-url/document.txt
+0)coords=(5, 48)
+
+
+
+-------------------------------------------------------------------------------
+test https - https://alpha.demo.com/document.txt in the text
+-------------------------------------------------------------------------------
+total=1
+0)url=https://alpha.demo.com/document.txt
+0)coords=(13, 48)
+
+
+
+-------------------------------------------------------------------------------
+test get arguments - https://alpha.demo.com/document.txt?arg1=1&arg2=2 in the text
+-------------------------------------------------------------------------------
+total=1
+0)url=https://alpha.demo.com/document.txt?arg1=1&arg2=2
+0)coords=(21, 70)
+
+
+
+-------------------------------------------------------------------------------
+test hash - https://alpha.demo.com#hash in the text
+-------------------------------------------------------------------------------
+total=1
+0)url=https://alpha.demo.com#hash
+0)coords=(12, 39)
+
+
+
+-------------------------------------------------------------------------------
+test 2 urls http://alpha.demo.com/ and http://beta.demo.com/
+-------------------------------------------------------------------------------
+total=2
+0)url=http://alpha.demo.com/
+0)coords=(12, 34)
+1)url=http://beta.demo.com/
+1)coords=(39, 60)
+
+
+
+
+-------------------------------------------------------------------------------
+test UPPERCASE HTTP://WWW.DEMO.COM in the text
+-------------------------------------------------------------------------------
+total=1
+0)url=HTTP://WWW.DEMO.COM
+0)coords=(15, 34)
+
+
+
+
+
+-------------------------------------------------------------------------------
+This is a git://127.0.0.1/mydemo git URL, but we don't take git or
+ws://alfago.megamind.com:8080/socket URLs.
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+test https - https://alpha.demo.com:8080/document.txt in the text
+-------------------------------------------------------------------------------
+total=1
+0)url=https://alpha.demo.com:8080/document.txt
+0)coords=(13, 53)

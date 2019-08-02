@@ -1,0 +1,32 @@
+siemens.com globale Website Siemens © 1996 – 2019
+-------------------------------------------------------------------------------
+total=1
+0)locale=de
+0)company=Website Siemens
+0)year_start=1996
+0)year_end=
+0)coords=(36, 49)
+0)get_cite()=/de/copyright/Website Siemens/1996
+
+
+-------------------------------------------------------------------------------
+Copyright 2019, Siemens
+-------------------------------------------------------------------------------
+total=1
+0)company=Siemens
+0)year_start=2019
+0)year_end=
+0)coords=(0, 23)
+0)get_cite()=/de/copyright/Siemens/2019
+
+
+-------------------------------------------------------------------------------
+Eigentumsrecht 2019, Siemens
+-------------------------------------------------------------------------------
+total=1
+0)company=Siemens
+0)year_start=2019
+0)year_end=
+0)coords=(0, 28)
+0)get_cite()=/de/copyright/Siemens/2019
+

@@ -1,11 +1,14 @@
-from lexnlp.extract.de.durations import get_duration_list
-from lexnlp.extract.de.tests.test_amounts import AssertionMixin
+from typing import List
 
+from lexnlp.extract.common.annotations.duration_annotation import DurationAnnotation
+from lexnlp.extract.de.durations import get_duration_list, get_duration_annotations
+from lexnlp.extract.de.tests.test_amounts import AssertionMixin
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -50,3 +53,34 @@ class TestGetDurations(AssertionMixin):
                                      'unit_prefix': '',
                                      'amount': 25,
                                      'amount_days': 9125}])
+
+        ants = list(get_duration_annotations(text=text))
+        self.assertEqual((4, 26), ants[0].coords)
+        self.assertEqual('fünfundzwanzig Jahren', ants[0].text.strip())
+        self.assertEqual('jahren', ants[0].duration_type)
+        self.assertEqual('year', ants[0].duration_type_en)
+        self.assertEqual('', ants[0].prefix)
+        self.assertEqual(25, ants[0].amount)
+        self.assertEqual(9125, ants[0].duration_days)
+
+    def test_complex_durations(self):
+        text = 'Vier Wochen, 3 Tage und 151 Sekunden.'
+        ants = list(get_duration_annotations(text=text))
+        self.assertEqual(1, len(ants))
+        self.assertEqual(31.0017, ants[0].duration_days)
+        self.assertTrue(ants[0].is_complex)
+        self.assertEqual('second', ants[0].duration_type_en)
+        self.assertEqual('sekunden', ants[0].duration_type)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_ordered_durations,
+            'lexnlp/typed_annotations/de/duration/durations.txt',
+            DurationAnnotation)
+
+
+def get_ordered_durations(text: str) -> List[DurationAnnotation]:
+    ants = list(get_duration_annotations(text))
+    ants.sort(key=lambda a: a.coords[0])
+    return ants

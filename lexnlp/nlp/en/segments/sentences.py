@@ -21,7 +21,7 @@ from sklearn.externals import joblib
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -53,6 +53,11 @@ SENTENCE_SPLITTERS_LOWER_EXCLUDE = re.compile(
     r'(?:\s*and\s*)'
 )
 
+NOT_SENTENCES = re.compile(
+    r'\W+'  # OCR artifacts like some non-alphanumeric chars on separate lines
+    r'|(\W*\w{1,3}(\W+\w{1,3})*\W*)|\W+'  # OCR artifacts like 'a bba af ag ah'
+)
+
 STRIP_GROUP = re.compile(r'^\s*(\S.*?)\s*$', re.DOTALL)
 
 
@@ -68,8 +73,7 @@ def pre_process_document(text: str) -> str:
     return PRE_PROCESS_TEXT_REMOVE.sub('', text)
 
 
-def _trim_span(text: str, span: Tuple[int, int]) -> Union[None, Tuple[int, int]]:
-    span_text = text[span[0]: span[1]]
+def _trim_span(span_text: str, span: Tuple[int, int]) -> Union[None, Tuple[int, int]]:
     m = STRIP_GROUP.search(span_text)
     if m:
         new_span = m.span(1)
@@ -101,19 +105,24 @@ def post_process_sentence(text: str, sent_span: Tuple[int, int]) \
         # If we found text splitter and there is some text between sentence start/prev splitter
         # and the new found splitter - yield it as a separate sentence.
         if full_match_start >= prev_start:
-            span = _trim_span(text, (sent_start + prev_start, sent_start + full_match_start))
-            if span:
-                yield span
-
-        # Set cursor to the end of the found sentence splitting sequence
-        prev_start = full_match_start
+            span = (sent_start + prev_start, sent_start + full_match_start)
+            span_text = text[span[0]: span[1]]
+            if not NOT_SENTENCES.fullmatch(span_text):
+                span = _trim_span(span_text, span)
+                if span:
+                    yield span
+            # Set cursor to the end of the found sentence splitting sequence
+            prev_start = full_match_start
 
     # Yield the last piece of the original sentence: from the end of the last found
     # splitter til the end of the original sentence.
     if prev_start < len(sent):
-        span = _trim_span(text, (sent_start + prev_start, sent_start + len(sent)))
-        if span:
-            yield span
+        span = (sent_start + prev_start, sent_start + len(sent))
+        span_text = text[span[0]: span[1]]
+        if not NOT_SENTENCES.fullmatch(span_text):
+            span = _trim_span(span_text, span)
+            if span:
+                yield span
 
 
 def get_sentence_list(text):
@@ -122,16 +131,7 @@ def get_sentence_list(text):
     :param text:
     :return:
     """
-    return [text[start:end] for start, end in get_sentence_span_list(text)]
-
-
-def get_sentence__with_coords_list(text):
-    """
-    Get sentences + start + end from text.
-    :param text:
-    :return:
-    """
-    return [(text[start:end], start, end) for start, end in get_sentence_span_list(text)]
+    return [ssp[2] for ssp in get_sentence_span_list(text)]
 
 
 def get_sentence_span(text) -> Generator[Tuple[int, int, str], Any, Any]:
@@ -140,7 +140,9 @@ def get_sentence_span(text) -> Generator[Tuple[int, int, str], Any, Any]:
     in the text.
     """
     for span in SENTENCE_SEGMENTER_MODEL.span_tokenize(text):
-        yield from post_process_sentence(text, span)
+        for tspan in post_process_sentence(text, span):
+            subst = text[tspan[0]:tspan[1]]
+            yield (tspan[0], tspan[1], subst)
 
 
 def get_sentence_span_list(text) -> List[Tuple[int, int, str]]:

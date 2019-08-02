@@ -1,0 +1,56 @@
+(C)VTB24
+-------------------------------------------------------------------------------
+total=1
+0)name=VTB24
+
+
+
+-------------------------------------------------------------------------------
+(C)Copyright 1993-1996 Hughes Information Systems Company
+-------------------------------------------------------------------------------
+total=1
+0)sign=Copyright
+0)date=1993-1996
+0)year_start=1993
+0)year_end=1996
+0)name=Hughes Information Systems Company
+0)coords=(0, 58)
+0)locale=en
+
+
+
+-------------------------------------------------------------------------------
+(C)Maverick(R) International Processing Services, Inc. 1999
+-------------------------------------------------------------------------------
+total=1
+0)sign=(C)
+0)date=1999
+0)year_start=1999
+0)name=Maverick (R) International Processing Services, Inc
+0)get_cite()=/en/copyright/Maverick/1999
+
+
+
+
+-------------------------------------------------------------------------------
+Copyright  (C)  1998,  Avid  Technology,  Inc.  and its  licensors.  All  rights
+reserved.
+-------------------------------------------------------------------------------
+total=1
+0)sign=(C)
+0)date=1998
+0)year_start=1998
+0)name=Avid Technology, Inc
+0)text=Copyright (C) 1998, Avid Technology, Inc
+
+
+
+-------------------------------------------------------------------------------
+Test copyrigh symbol © 2017, SIGN LLC
+-------------------------------------------------------------------------------
+total=1
+0)sign=©
+0)date=2017
+0)year_start=2017
+0)name=SIGN LLC
+0)text=© 2017, SIGN LLC

@@ -75,12 +75,14 @@ terms by contacting ContraxSuite Licensing at
 Requirements
 ---------
 
--  Python 3.4, 3.5, 3.6
+-  Python 3.6
 -  see python-requirements.txt file for full information
 
 Releases
 --------
 
+-  0.2.7: August 1, 2019 - Sixteenth scheduled public release;
+   `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.7>`__
 -  0.2.6: June 12, 2019 - Fifteenth scheduled public release;
    `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.6>`__
 -  0.2.5: March 1, 2019 - Fourteenth scheduled public release;
@@ -119,8 +121,8 @@ Releases
 .. |Build Status| image:: https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master
    :target: https://travis-ci.org/LexPredict/lexpredict-lexnlp
 .. |Coverage Status| image:: https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master
-   :target: https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.1.8
+   :target: https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.2.7
 .. |image2| image:: https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code
    :target: https://github.com/lexpredict/lexpredict-lexnlp
-.. |Docs| image:: https://readthedocs.org/projects/lexpredict-lexnlp/badge/?version=docs-0.1.6
-   :target: http://lexpredict-lexnlp.readthedocs.io/en/docs-0.1.6/
+.. |Docs| image:: https://readthedocs.org/projects/lexpredict-lexnlp/badge/?version=docs-0.2.7
+   :target: http://lexpredict-lexnlp.readthedocs.io/en/docs-0.2.7/

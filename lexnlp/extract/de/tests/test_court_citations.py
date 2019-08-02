@@ -1,6 +1,17 @@
 from unittest import TestCase
-from lexnlp.extract.de.court_citations import get_court_citation_list, get_court_citations
-from lexnlp.tests.test_utils import load_resource_document
+
+from lexnlp.extract.common.annotations.court_citation_annotation import CourtCitationAnnotation
+from lexnlp.extract.de.court_citations import get_court_citation_list, get_court_citations, \
+    get_court_citation_annotations
+from lexnlp.tests.utility_for_testing import load_resource_document
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
 
 class TestCourtCitationsParser(TestCase):
@@ -43,7 +54,7 @@ class TestCourtCitationsParser(TestCase):
                 Mit Einreichung der Körperschaftsteuererklärung für das Jahr 2006 im Februar 2008 beantragte die Klägerin unter Bezugnahme auf das Schreiben des Bundesministeriums der Finanzen (BMF) vom 27.3.2003 IV A 6-S 2140-8/03 (BStBl I 2003, 240; - Sanierungserlass -), die Körperschaftsteuer gemäß § 163 der Abgabenordnung (AO) aus Billigkeitsgründen abweichend festzusetzen.
                 """
         item = get_court_citation_list(text)[0]
-        self.assertEqual('court citation', item.type)
+        self.assertEqual('court citation', item.record_type)
         self.assertEqual('BStBl I 2003, 240', item.text)
         self.assertEqual("de", item.locale)
 
@@ -57,3 +68,10 @@ class TestCourtCitationsParser(TestCase):
         items = get_court_citation_list(text, "xz")
         self.assertEqual(2, len(items))
         self.assertEqual("xz", items[0].locale)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_court_citation_annotations,
+            'lexnlp/typed_annotations/de/court_citation/court_citations.txt',
+            CourtCitationAnnotation)

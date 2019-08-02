@@ -1,0 +1,264 @@
+Obligation No. 39, the outstanding Obligations relating to other indebtedness and obligations of the
+Corporation (as described below) and any other Obligations issued in the future under the Master Indenture, including
+the Obligation to be issued to evidence the Corporation’s obligations with respect to the payment of principal of and
+interest on the Taxable Bonds (each an “Obligation” and collectively, the “Obligations”), will be secured by security
+interests in (i) the Gross Revenues of each Member of the Obligated Group and (ii) the moneys on deposit from time
+to time in the Gross Revenue Fund established under the Master Indenture.
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=each an "Obligation" and collectively, the "Obligations"
+
+
+
+-------------------------------------------------------------------------------
+THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
+STATEMENT (this "Deed of Trust") dated August 29, 1997, is executed and
+delivered by Trustor for good and valuable consideration, the receipt and
+adequacy of which are hereby acknowledge by Trustor.
+-------------------------------------------------------------------------------
+total=1
+0)locale=en
+0)coords=(76, 96)
+0)name=Deed of Trust
+0)text=THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING\nSTATEMENT (this "Deed of Trust") dated August 29, 1997, is executed and\ndelivered by Trustor for good and valuable consideration, the receipt and\nadequacy of which are hereby acknowledge by Trustor.
+0)get_cite()=/en/definition/Deed of Trust
+
+
+-------------------------------------------------------------------------------
+THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
+    STATEMENT (this "Deed
+of Trust") dated August 29, 1997, is executed and
+    delivered by Trustor for good and valuable consideration, the receipt and
+    adequacy of which are hereby acknowledge by Trustor.
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Deed of Trust
+
+
+-------------------------------------------------------------------------------
+Visual Networks Operations, Inc., a Delaware corporation with offices at 2092 Gaither
+Road, Rockville, Maryland 20850("Licensor.") and is made retroactive to December 3, 2002
+("Effective Date").
+-------------------------------------------------------------------------------
+total=2
+..)coords.0>=0
+..)coords.1>1
+0)name=Licensor
+1)name=Effective Date
+
+
+-------------------------------------------------------------------------------
+and will be payable from Loan Repayments made by Stanford Health Care (the "Corporation")
+under the Loan Agreement and from certain funds held under the Indenture.
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Corporation
+
+
+-------------------------------------------------------------------------------
+Bonds in a commercial paper mode are remarketed for various periods that can be no longer than
+270 days and are established at the beginning of each commercial paper rate period.
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+Costs incurred by the Corporation in providing these services are reflected in the respective
+categories in the consolidated statements of operations and changes in net assets.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+Bonds in a commercial paper mode are remarketed for various periods that can be no longer than
+270 days and are established at the beginning of each commercial paper rate period.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+Corporation (as described below) and any other Obligations issued
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+Beneficial Owner means any Person which has or shares the power, directly
+or indirectly, to make
+investment decisions
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+### #s# replaces space
+0)name=Beneficial Owner
+
+
+-------------------------------------------------------------------------------
+any such excess being referred to as a "Combined EBIDATA Deficit"
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Combined EBIDATA Deficit
+
+
+-------------------------------------------------------------------------------
+"Aggregate Revolving Loan Commitment" means the combined Revolving Loan Commitments of the United Earth
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Aggregate Revolving Loan Commitment
+
+
+-------------------------------------------------------------------------------
+“Aggregate Delayed Draw Term Loan Ending Commitment” shall mean the combined Revolving Loan
+Commitments of the Revolving Lenders, which shall initially on the Closing Date be in the amount
+of $99,000,000, as such amount may be increased in accordance with Section 9.92(b).
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Aggregate Delayed Draw Term Loan Ending Commitment
+
+
+-------------------------------------------------------------------------------
+any such excess being referred to as a "Combined BISS Deficit Alpha Beta Gamma Cappa Zeta"
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+any such excess being referred to as a "Combined EDITT Deficit Alpha Beta Gamma Cappa"
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Combined EDITT Deficit Alpha Beta Gamma Cappa
+
+
+
+-------------------------------------------------------------------------------
+together with any successor thereto, "Moody's"
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Moody's
+
+
+
+
+-------------------------------------------------------------------------------
+"Consolidated EBITDA" means, for any period, for the Company and its Subsidiaries
+on a consolidated basis, an amount equal to Consolidated Net Income for such period
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Consolidated EBITDA
+0)get_cite()=/en/definition/Consolidated EBITDA
+
+
+
+-------------------------------------------------------------------------------
+The "Pope": the head of the Catholic Church.
+-------------------------------------------------------------------------------
+total=1
+0)coords.0>=0
+0)coords.1>1
+0)name=Pope
+
+
+-------------------------------------------------------------------------------
+These include cases educational and research institutions; contracts
+where the payments exceed the standard percen- for acquisition of facilities at cost and for
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+This means a
+vation, packaging, packing and marking; and (2) description of the essential physical characteris-
+criteria by which the Government can determine tics and functions required to meet minimum
+whether or not contract requirements have been needs.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+If for purposes of the preceding sentence the par-
+ties agree upon a date other than the date of agreement on the price of the contract, the date agreed
+upon by the parties shall be as close to the date of agreement on the price of the contract as is practica-
+ble.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+It may be used as the
+miet contract.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+It includes things such as cars, clothes,
+precedent, then some intervening event must furniture, jewelry, and all other kinds, having
+occur prior to the exercise of the interest.
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+It means that the specification must Such a specification also avoids special retooling
+describe what is needed, not what may be and production starting costs and, hence, results
+desired.
+-------------------------------------------------------------------------------
+total=0
+
+
+
+-------------------------------------------------------------------------------
+“Bankers’ Acceptance” or “BA” means a time draft, drawn by the beneficiary under an
+Acceptance Credit and accepted by the applicable Issuing Lender upon presentation
+of documents by the beneficiary of an Acceptance Credit pursuant to Article III hereof,
+in the standard form for bankers’ acceptances of the applicable Issuing Lender.
+-------------------------------------------------------------------------------
+total=2
+0)coords.0>=0
+0)coords.1>1
+0)name=Bankers' Acceptance
+0)get_cite()=/en/definition/Bankers&#x27; Acceptance
+
+1)coords.0>=0
+1)coords.1>1
+1)name=BA
+1)get_cite()=/en/definition/BA
+
+
+
+-------------------------------------------------------------------------------
+“United States” and “U.S.” mean the United States of America. “
+-------------------------------------------------------------------------------
+total=2
+0)name=United States
+1)name=U.S.
+
+
+-------------------------------------------------------------------------------
+(b) In the exercise of the authorities gcanted in subsection (a) of this section, the term "Agency
+head' shall mean the Director, the Deputy Director, or the Executive of the Agency.
+-------------------------------------------------------------------------------
+total=1
+0)name=Agency head

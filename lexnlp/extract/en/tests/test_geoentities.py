@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+
 """Geo entity unit tests for English.
 
 This module implements unit tests for the geo entity extraction functionality in English.
 
 """
+
 import os
 
+from lexnlp.extract.common.base_path import lexnlp_test_path
 from lexnlp.extract.en.dict_entities import get_entity_name, \
     prepare_alias_blacklist_dict
 from lexnlp.extract.en.geoentities import get_geoentities, load_entities_dict_by_path
@@ -15,14 +18,15 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 def load_entities_dict():
-    entities_fn = os.path.join(os.path.dirname(lexnlp_tests.this_test_data_path()), 'geoentities.csv')
-    aliases_fn = os.path.join(os.path.dirname(lexnlp_tests.this_test_data_path()), 'geoaliases.csv')
+    base_path = os.path.join(lexnlp_test_path, 'lexnlp/extract/en/tests/test_geoentities')
+    entities_fn = os.path.join(base_path, 'geoentities.csv')
+    aliases_fn = os.path.join(base_path, 'geoaliases.csv')
     return load_entities_dict_by_path(entities_fn, aliases_fn)
 
 

@@ -24,6 +24,7 @@ This module supports converting:
 Avoids:
 - skip: "5.3.1.", "1/1/2010"
 """
+
 # pylint: disable=bare-except
 
 # Imports
@@ -34,12 +35,15 @@ import nltk
 import regex as re
 from num2words import num2words
 
+from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 # Define small numbers
 SMALL_NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -234,11 +238,32 @@ def get_np(text) -> Generator:
         yield np, _np
 
 
-def get_amounts(text, return_sources=False, extended_sources=True, float_digits=4) -> Generator:
+def get_amounts(text: str,
+                return_sources=False,
+                extended_sources=True,
+                float_digits=4) -> Generator:
     """
     Find possible amount references in the text.
     :param text: text
     :param return_sources: return amount AND source text
+    :param extended_sources: return data around amount itself
+    :param float_digits: round float to N digits, don't round if None
+    :return: list of amounts
+    """
+    for ant in get_amount_annotations(text, extended_sources, float_digits):
+        if return_sources:
+            yield (ant.value, ant.text)
+        else:
+            yield ant.value
+
+
+def get_amount_annotations(text: str,
+                           extended_sources=True,
+                           float_digits=4) \
+        -> Generator[AmountAnnotation, None, None]:
+    """
+    Find possible amount references in the text.
+    :param text: text
     :param extended_sources: return data around amount itself
     :param float_digits: round float to N digits, don't round if None
     :return: list of amounts
@@ -255,23 +280,29 @@ def get_amounts(text, return_sources=False, extended_sources=True, float_digits=
             continue
         if isinstance(amount, float) and float_digits:
             amount = round(amount, float_digits)
-        if return_sources:
-            if extended_sources:
-                unit = ''
-                next_text = text[match.span()[1]:]
-                if next_text:
-                    for np, _ in get_np(next_text):
-                        if next_text.startswith(np):
-                            unit = np
-                    if unit:
-                        found_item = ' '.join([found_item.strip(), unit])
-                if not unit:
-                    prev_text = text[:match.span()[0]]
-                    prev_text_tags = nltk.word_tokenize(prev_text)
-                    if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
-                        sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
-                        found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
-            # yield (amount, found_item.strip(), match.span())
-            yield (amount, found_item.strip())
+
+        if extended_sources:
+            unit = ''
+            next_text = text[match.span()[1]:]
+            if next_text:
+                for np, _ in get_np(next_text):
+                    if next_text.startswith(np):
+                        unit = np
+                if unit:
+                    found_item = ' '.join([found_item.strip(), unit])
+            if not unit:
+                prev_text = text[:match.span()[0]]
+                prev_text_tags = nltk.word_tokenize(prev_text)
+                if prev_text_tags and prev_text_tags[-1].lower() in allowed_prev_units:
+                    sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
+                    found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
+
+            ant = AmountAnnotation(coords=match.span(),
+                                   value=amount,
+                                   text=found_item.strip())
+            yield ant
         else:
-            yield amount
+            ant = AmountAnnotation(coords=match.span(),
+                                   value=amount,
+                                   text=match.group())
+            yield ant

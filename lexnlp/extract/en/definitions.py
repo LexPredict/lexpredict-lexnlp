@@ -5,6 +5,7 @@ This module implements basic definition extraction functionality in English.
 Todo:
   * Improved unit tests and case coverage
 """
+
 # pylint: disable=broad-except,bare-except
 
 
@@ -13,13 +14,20 @@ import regex as re
 import unidecode as unidecode
 from collections import Counter
 from typing import Generator, Pattern, List, Tuple
-from lexnlp.nlp.en.segments.sentences import get_sentence__with_coords_list
+
+from lexnlp.extract.common.text_beautifier import TextBeautifier
+from lexnlp.extract.en.introductory_words_detector import IntroductoryWordsDetector
+from lexnlp.extract.en.preprocessing.span_tokenizer import SpanTokenizer
+from lexnlp.extract.common.special_characters import SpecialCharacters
+from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
+from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
+from lexnlp.nlp.en.segments.sentences import get_sentence_span
 from lexnlp.utils.lines_processing.line_processor import LineProcessor
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -50,9 +58,9 @@ class DefinitionCaught:
                         self.coords[0] <= target.coords[1])
         if not coords_spans:
             return 0
-        if target.text in self.text:
+        if target.name in self.name:
             return 1
-        if self.text in target.text:
+        if self.name in target.name:
             return -1
         return 0
 
@@ -69,8 +77,8 @@ MAX_QUOTED_TERM_TOKENS = 7
 MAX_TERM_CHARS = 64
 
 # Primary pattern triggers
-STRONG_TRIGGER_LIST = ["shall have the meaning", "includes?", "as including",
-                       "shall mean", "means?", r"shall (?:not\s+)?include",
+STRONG_TRIGGER_LIST = ["shall have the meaning", r"includes?", "as including",
+                       "shall mean", r"means?", r"shall (?:not\s+)?include",
                        "shall for purposes", "have meaning",
                        "referred to", "known as",
                        "refers to", "shall refer to", "as used",
@@ -103,8 +111,13 @@ TRIGGER_WORDS_PTN = r"""
     max_term_chars=MAX_TERM_CHARS,
     trigger_list=join_collection(ALL_TRIGGER_LIST))
 TRIGGER_WORDS_PTN_RE = re.compile(TRIGGER_WORDS_PTN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
-EXTRACT_PTN = r"""['"“](.+?)['"”\.]"""
-EXTRACT_PTN_RE = re.compile(EXTRACT_PTN, re.UNICODE | re.DOTALL | re.MULTILINE)
+
+EXTRACT_PTN = r"""
+“(.+?)“|
+"(.+?)"|
+'(.+?)'
+"""
+EXTRACT_PTN_RE = re.compile(EXTRACT_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
 ARTICLES = ['the', 'a', 'an']
 
@@ -118,10 +131,13 @@ PAREN_PTN_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | r
 # e.g.: "Revolving Loan Commitment means…"; "LIBOR Rate shall mean…"
 # false positive: "This Borrower Joiner Agreement to the extent signed signed and delivered by means of a facsimile..."
 NOUN_PTN = r"""
-^((?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})\b|\b(?:[A-Z][-A-Za-z']))\b\s*(?={trigger_list})""" \
+^((?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})\b|\b(?:[A-Z][-A-Za-z']))\b\s*(?=(?:{trigger_list})\W)""" \
     .format(max_term_tokens=MAX_TERM_TOKENS, trigger_list="|".join([w.replace(" ", r"\s+") for
                                                                     w in STRONG_TRIGGER_LIST]))
 NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
+
+NOUN_ANTI_PTN = r"""the\s*"""
+NOUN_ANTI_PTN_RE = re.compile(NOUN_ANTI_PTN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
 # Case 4: Term inside quotes is preceded by word|term|phrase or :,.^
 # and has a colon after itself.
@@ -167,21 +183,62 @@ QUOTED_DEFINITION_RE = [re.compile(template, options) for template, options in Q
 
 QUOTED_TEXT_RE = re.compile("([\"'“„])(?:(?=(\\\\?))\\2.)+?\\1", re.UNICODE | re.IGNORECASE | re.DOTALL)
 
-SPACES_RE = re.compile(r'\s')
+# used for replacing multiple spaces by single ones
+SPACES_RE = re.compile(r'\s+')
+
+# non significant parts of speech
+# if defined term consists on NON_SIG_POSes only - this is not
+# a definition (like "as is", "this" etc)
+NON_SIG_POS = {'CC', 'CD', 'DT', 'EX', 'IN', 'LS',
+               'MD', 'PDT', 'POS', 'PRP$', 'RB', 'RBR',
+               'RBS', 'RP', 'TO', 'VBZ', 'WDT', 'WP', 'WP$', 'WRB',
+               '.', ',', ':', '-', ';', ')', '(', ']', '{', '}'
+               '[', '*', '/', '\\', '"', '\'', '!', '?', '%',
+               '$', '^', '&', '@'}
+# PDT predeterminer ‘all the kids’
+# POS possessive ending parent’s
+# RB adverb very, silently,
+# RBR adverb, comparative better
+# RBS adverb, superlative best
+
+# text might be enclosed in pair of special symbols
+# and we would remove them
+PAIR_BRACES = {'()', '[]', '{}',
+               '""', "''", '``', '“”'}
+
+# punctuation POS that we have to skip while, e.g., removing introductory words
+PUNCTUATION_POS = {'``', '\t'}.union(SpecialCharacters.punctuation)
+
+# used for stripping strings
+PUNCTUATION_STRIP_STR = ''.join(PUNCTUATION_POS)
+
+# this punctuation should be removed from definition's name
+STRIP_PUNCT_SYMBOLS = ',:-'
 
 
-def get_definition_list_in_sentence(sentence_coords: Tuple[str, int, int],
+ABBREVIATION_PTRN = '|'.join([a.replace('.', '\\.') for a
+                              in EnLanguageTokens.abbreviations])
+# if the term ends with abbreviations, last dot won't be trimmed
+ABBREVIATION_ENDING_RE = re.compile(f'({ABBREVIATION_PTRN})$')
+
+
+def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
                                     decode_unicode=True) -> List[DefinitionCaught]:
     """
         Find possible definitions in natural language in a single sentence.
+        :param sentence_coords: sentence, sentence start, end
         :param decode_unicode:
         :param return_sources: returns a tuple with the extracted term and the source sentence
         :param sentence: an input sentence
         :return:
         """
     definitions = []  # type: List[DefinitionCaught]
-    sentence = sentence_coords[0]
-    sent_start = sentence_coords[1]
+    sentence = sentence_coords[2]
+    # unify quotes and braces
+    # replace excess braces with ' ' so the str length will remain the same
+    sentence = TextBeautifier.unify_quotes_braces(sentence,
+                                                  empty_replacement=' ')
+    sent_start = sentence_coords[0]
     result = set()
 
     if decode_unicode:
@@ -193,6 +250,8 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[str, int, int],
 
     # case 3
     mts = regex_matches_to_word_coords(NOUN_PTN_RE, sentence, sent_start)
+    mts = [i for i in mts if not NOUN_ANTI_PTN_RE.fullmatch(i[0])]
+    mts = [m for m in mts if m[0].lower().strip(' ,;.') not in EnLanguageTokens.pronouns]
     if len(mts) > 0:
         result.update(mts)
 
@@ -207,10 +266,26 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[str, int, int],
         term_processed = trim_defined_term(term_coords[0])
         term_clear = term_processed[0]
         term = term_clear if PICK_DEFINITION_FROM_QUOTES else term_coords[0]
+        term = TextBeautifier.unify_quotes_braces(term)
 
         was_quoted = term_processed[1]
         # check the term is not empty
-        if len(term.strip(''' []'"”().\t''')) == 0:
+        if len(term.strip(PUNCTUATION_STRIP_STR)) == 0:
+            continue
+
+        term = strip_pair_symbols(term)
+        if not term:
+            continue
+
+        term_pos = list(SpanTokenizer.get_token_spans(term))
+        if does_term_are_service_words(term_pos):
+            continue
+
+        term_wo_intro = IntroductoryWordsDetector.remove_term_introduction(
+            term, term_pos)
+        if term_wo_intro != term:
+            term = strip_pair_symbols(term_wo_intro)
+        if not term:
             continue
 
         # check the term is not too long
@@ -231,6 +306,25 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[str, int, int],
     return definitions
 
 
+def strip_pair_symbols(term: str) -> str:
+    while len(term) > 1:
+        closers = term[0] + term[-1]
+        if closers not in PAIR_BRACES:
+            return term.strip(' \t')
+        term = term[1:-1]
+    return term.strip(' \t')
+
+
+def does_term_are_service_words(term_pos: List[Tuple[str, str]]) -> bool:
+    """
+    Does term consist of service words only?
+    """
+    for pos in term_pos:
+        if pos[1] not in NON_SIG_POS:
+            return False
+    return True
+
+
 def trim_defined_term(term: str) -> Tuple[str, str]:
     """
     "trim" terms from definitions' keywords
@@ -247,7 +341,17 @@ def trim_defined_term(term: str) -> Tuple[str, str]:
         flags = 'quoted'
 
     # rip off definition's keyword(s)
+    term = term.replace('\n', ' ')
     term = SPACES_RE.sub(' ', term)
+    term = term.strip(STRIP_PUNCT_SYMBOLS)
+
+    # strip all dots or just left one (if ends with abbreviation)
+    ends_with_abbr = ABBREVIATION_ENDING_RE.search(term)
+    if not ends_with_abbr:
+        term = term.strip('.')
+    else:
+        term = term.lstrip('.')
+
     return term, flags
 
 
@@ -258,6 +362,8 @@ def filter_definitions_for_self_repeating(definitions: List[DefinitionCaught]) -
     """
     for i in range(0, len(definitions)):
         a = definitions[i]
+        if not a.name:
+            continue
         for j in range(i + 1, len(definitions)):
             b = definitions[j]
             consumes = a.does_consume_target(b)
@@ -290,7 +396,20 @@ def regex_matches_to_word_coords(pattern: Pattern[str],
             for m in pattern.finditer(text)]
 
 
-def get_definitions(text, return_sources=False, decode_unicode=True, return_coords=False) -> Generator:
+def get_definition_annotations(text: str, decode_unicode=True) \
+        -> Generator[DefinitionAnnotation, None, None]:
+    for d in get_definition_objects_list(text,
+                                         decode_unicode=decode_unicode):
+        ant = DefinitionAnnotation(coords=d.coords,
+                                   text=d.text,
+                                   name=d.name)
+        yield ant
+
+
+def get_definitions(text: str,
+                    return_sources=False,
+                    decode_unicode=True,
+                    return_coords=False) -> Generator:
     """
     Find possible definitions in natural language in text.
     The text will be split to sentences first.
@@ -312,9 +431,10 @@ def get_definitions(text, return_sources=False, decode_unicode=True, return_coor
             yield df.name
 
 
-def get_definitions_in_sentence(sentence: str, return_sources=False,
+def get_definitions_in_sentence(sentence: str,
+                                return_sources=False,
                                 decode_unicode=True) -> Generator:
-    definitions = get_definition_list_in_sentence((sentence, 0, len(sentence)), decode_unicode)
+    definitions = get_definition_list_in_sentence((0, len(sentence), sentence), decode_unicode)
     for df in definitions:
         if return_sources:
             yield (df.name, df.text)
@@ -329,7 +449,7 @@ def get_definition_objects_list(text, decode_unicode=True) -> List[DefinitionCau
     :return: a list of found definitions - objects of class DefinitionCaught
     """
     definitions = []
-    for sentence in get_sentence__with_coords_list(text):
+    for sentence in get_sentence_span(text):
         definitions += get_definition_list_in_sentence(sentence, decode_unicode)
     definitions = filter_definitions_for_self_repeating(definitions)
     return definitions

@@ -16,15 +16,16 @@
    To avoid typos in development and utilize typization hints in IDE there are few methods in this module for operating
    tuples which represent entities and aliases. They accept named parameters lists and return tuples.
 """
+
 import re
-from typing import Union, List, Dict, Set, Tuple, Callable, Generator
+from typing import Union, List, Dict, Set, Tuple, Callable, Generator, Any
 
 from lexnlp.nlp.en.tokens import get_token_list, get_stem_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -190,14 +191,21 @@ class SearchResultPosition:
     Represents a position in the normalized source text at which one or more entities have been detected.
     One or more entities having equal aliases can be detected on a position in the text.
     """
-    __slots__ = ('entities_dict', 'alias_text', 'start')
+    __slots__ = ('entities_dict', 'alias_text', 'start', 'end')
 
-    def __init__(self, entity: Tuple[int, str, int, List[Tuple]], alias: Tuple[str, str, bool, int], start: int):
+    def __init__(self,
+                 entity: Tuple[int, str, int, List[Tuple]],
+                 alias: Tuple[str, str, bool, int],
+                 start: int,
+                 end: int):
         self.entities_dict = {entity[0]: (entity, alias)}
         self.alias_text = alias[0]
         self.start = start
+        self.end = end
 
-    def add_entity(self, entity: Tuple[int, str, int, List[Tuple]], alias: Tuple[str, str, bool, int]):
+    def add_entity(self,
+                   entity: Tuple[int, str, int, List[Tuple]],
+                   alias: Tuple[str, str, bool, int]):
         if entity:
             self.entities_dict[entity[0]] = (entity, alias)
         return self
@@ -334,12 +342,19 @@ def _find_entity_positions(normalized_text: str,
                 if alias_is_abbreviation and \
                         abbrev_in_uppercase_block(normalized_text_for_alias, start, abbrev_uppercase_check_range):
                     continue
+                end = start + len(normalized_alias) - 1
 
                 already_found = context.get(start)
                 if already_found and len(already_found.alias_text) >= len(alias_text):
                     already_found.add_entity(entity, ea)
                 else:
-                    context[start] = SearchResultPosition(entity, ea, start)
+                    context[start] = SearchResultPosition(entity, ea, start, end)
+
+
+class DictionaryEntity:
+    def __init__(self, entity: Any, coords: Tuple[int, int]):
+        self.entity = entity
+        self.coords = coords
 
 
 def find_dict_entities(text: str,
@@ -351,7 +366,7 @@ def find_dict_entities(text: str,
                        remove_time_am_pm: bool = True,
                        min_alias_len: int = None,
                        prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]] = None)\
-        -> Generator:
+        -> Generator[DictionaryEntity, None, None]:
     """
     Find all entities defined in the 'all_possible_entities' list appeared in the source text.
     This method takes care of leaving only the longest matching search result for the case of multiple
@@ -439,7 +454,7 @@ def find_dict_entities(text: str,
     prev_pos = None
 
     def resolve_conflicts(pos: SearchResultPosition) \
-            -> List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple[str, str, bool, int]]]:
+            -> List[DictionaryEntity]:
         """
         Takes SearchResultPosition (multiple found entities+aliases at the same position in the text)
         and return a single entity+its alias which should be returned for this position or their smaller list.
@@ -458,21 +473,24 @@ def find_dict_entities(text: str,
                 return []
 
         if len(entities_at_pos) == 1:
-            return entities_at_pos
+            return [DictionaryEntity(entities_at_pos[0], (pos.start, pos.end))]
         else:
-            return conflict_resolving_func(entities_at_pos) if conflict_resolving_func else entities_at_pos
+            cfree_ents = conflict_resolving_func(entities_at_pos) \
+                if conflict_resolving_func else entities_at_pos
+            return [DictionaryEntity(ent, (pos.start, pos.end))
+                    for ent in cfree_ents]
 
     for (_index, next_pos) in sorted(search_context.items()):
         if prev_pos and not next_pos.overlaps(prev_pos):
-            for entity, alias in resolve_conflicts(prev_pos):
-                yield entity, alias
+            for entity in resolve_conflicts(prev_pos):
+                yield entity
             prev_pos = next_pos
         else:
             prev_pos = prev_pos if prev_pos and len(prev_pos.alias_text) >= len(next_pos.alias_text) else next_pos
 
     if prev_pos:
-        for entity, alias in resolve_conflicts(prev_pos):
-            yield entity, alias
+        resolved_ents = resolve_conflicts(prev_pos)
+        yield from resolved_ents
 
 
 def conflicts_take_first_by_id(conflicting_entities_aliases: List[Tuple[Tuple[int, str, int, List[Tuple]], Tuple]]) \

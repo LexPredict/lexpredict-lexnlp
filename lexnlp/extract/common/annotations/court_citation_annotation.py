@@ -1,32 +1,50 @@
-from html import escape
+from typing import Tuple, List
+from lexnlp.utils.map import Map
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
 
 class CourtCitationAnnotation(TextAnnotation):
+    record_type = 'court citation'
     """
     create an object of CourtCitationAnnotation like
     cp = CourtCitationAnnotation(name='name', coords=(0, 100), text='text text')
     """
-    def __init__(self, *args, **kwargs):
-        super(CourtCitationAnnotation, self).__init__(record_type='court citation', *args, **kwargs)
-        self.type = 'court citation'
-        self.short_name = ''
-        self.translated_name = ''
+    def __init__(self,
+                 coords: Tuple[int, int],
+                 locale: str = 'en',
+                 name: str = '',
+                 short_name: str = None,
+                 text: str = None,
+                 translated_name: str = None):
+        super().__init__(
+            coords=coords,
+            name=name,
+            locale=locale,
+            text=text)
+        self.short_name = short_name
+        self.translated_name = translated_name
 
-    def get_cite_value_encoded(self) -> str:
-        parts = [escape(self.name),
-                 escape(self.short_name),
-                 escape(self.translated_name)]
-        return "/".join([p for p in parts if p])
+    def get_cite_value_parts(self) -> List[str]:
+        parts = [self.name or '',
+                 self.short_name or '',
+                 self.translated_name or '']
+        return parts
 
-    def to_dictionary(self) -> dict:
-        dc = {'attrs': {'start': self.coords[0], 'end': self.coords[1]},
-              'tags': {
-                  'Extracted Entity Type': 'court citation',
-                  'Extracted Entity Text': self.text if self.text else self.name
-              }}
+    def get_dictionary_values(self) -> dict:
+        dc = Map({
+            'tags': {
+                'Extracted Entity Text': self.text or self.name
+            }
+        })
         if self.name:
-            dc["tags"]["Extracted Entity Name"] = self.name
+            dc.tags["Extracted Entity Name"] = self.name
         if self.short_name:
-            dc["tags"]["Extracted Entity Short Name"] = self.short_name
+            dc.tags["Extracted Entity Short Name"] = self.short_name
         return dc

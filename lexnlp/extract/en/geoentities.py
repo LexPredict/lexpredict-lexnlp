@@ -4,8 +4,11 @@ This module implements extraction functionality for geo entities in English, inc
 and aliases.
 
 """
+
 from typing import List, Tuple, Union, Dict, Generator, Any
 
+from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+from lexnlp.extract.common.annotations.geo_annotation import GeoAnnotation
 from lexnlp.config.en import geoentities_config
 from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id, \
     prepare_alias_blacklist_dict, conflicts_top_by_priority, entity_config, add_aliases_to_entity
@@ -13,9 +16,10 @@ from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_f
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 _ALIAS_BLACK_LIST_PREPARED = prepare_alias_blacklist_dict(geoentities_config.ALIAS_BLACK_LIST)
 
@@ -60,11 +64,49 @@ def get_geoentities(text: str,
     if priority:
         conflict_resolving_func = conflicts_top_by_priority
 
-    yield from find_dict_entities(text, geo_config_list,
+    for ent in find_dict_entities(text,
+                                  geo_config_list,
                                   conflict_resolving_func=conflict_resolving_func,
                                   text_languages=text_languages,
                                   min_alias_len=min_alias_len,
-                                  prepared_alias_black_list=prepared_alias_black_list)
+                                  prepared_alias_black_list=prepared_alias_black_list):
+        yield ent.entity
+
+
+def get_geoentity_annotations(text: str,
+                    geo_config_list: List[Tuple[int, str, List[Tuple[str, str, bool, int]]]],
+                    priority: bool = False,
+                    priority_by_id: bool = False,
+                    text_languages: List[str] = None,
+                    min_alias_len: int = geoentities_config.MIN_ALIAS_LEN,
+                    prepared_alias_black_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
+                    = _ALIAS_BLACK_LIST_PREPARED) -> Generator[GeoAnnotation, None, None]:
+    "See get_geoentities"
+
+    conflict_resolving_func = None
+
+    if priority_by_id:
+        conflict_resolving_func = conflicts_take_first_by_id
+
+    if priority:
+        conflict_resolving_func = conflicts_top_by_priority
+
+    dic_entries = find_dict_entities(text,
+                                     geo_config_list,
+                                     conflict_resolving_func=conflict_resolving_func,
+                                     text_languages=text_languages,
+                                     min_alias_len=min_alias_len,
+                                     prepared_alias_black_list=prepared_alias_black_list)
+
+    for ent in dic_entries:
+        ant = GeoAnnotation(coords=ent.coords)
+        if ent.entity[0]:
+            toponim = ent.entity[0]
+            year = TextAnnotation.get_int_value(toponim[0])
+            if year:
+                ant.year = year
+            ant.name = toponim[1]
+        yield ant
 
 
 def load_entities_dict_by_path(entities_fn: str, aliases_fn: str):

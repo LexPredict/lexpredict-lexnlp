@@ -11,10 +11,12 @@ import re
 
 from typing import Generator
 
+from lexnlp.extract.common.annotations.url_annotation import UrlAnnotation
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -45,12 +47,20 @@ URL_PTN = r"""
 URL_PTN_RE = re.compile(URL_PTN, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
 
-def get_urls(text) -> Generator:
+def get_urls(text: str) -> Generator[str, None, None]:
     """
     Find urls in text.
-    :param text:
-    :return:
     """
-    for match in URL_PTN_RE.findall(text):
-        url = match[0]
-        yield url
+    for ant in get_url_annotations(text):
+        yield ant.url
+
+
+def get_url_annotations(text: str) -> Generator[UrlAnnotation, None, None]:
+    """
+    Find urls in text.
+    """
+    for match in URL_PTN_RE.finditer(text):
+        url = match.group()
+        ant = UrlAnnotation(coords=match.span(),
+                            url=url)
+        yield ant

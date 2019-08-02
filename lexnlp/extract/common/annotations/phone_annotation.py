@@ -1,0 +1,40 @@
+from typing import Tuple, List
+from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+
+class PhoneAnnotation(TextAnnotation):
+    record_type = 'phone'
+    """
+    create an object of PhoneAnnotation (Social Secutiry Number) like
+    cp = PhoneAnnotation(coords=(0, 100), phone='+9 915 710 42 24')
+    """
+    def __init__(self,
+                 coords: Tuple[int, int],
+                 locale: str = 'en',
+                 text: str = None,
+                 phone: str = None):
+        super().__init__(
+            name='',
+            locale=locale,
+            coords=coords,
+            text=text)
+        self.phone = phone
+
+    def get_cite_value_parts(self) -> List[str]:
+        return [self.phone]
+
+    def get_dictionary_values(self) -> dict:
+        df = {
+            'tags': {
+                'Extracted Entity Phone': self.phone or '',
+                'Extracted Entity Text': self.text
+            }
+        }
+        return df

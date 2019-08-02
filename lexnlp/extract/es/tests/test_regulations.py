@@ -1,11 +1,14 @@
 from unittest import TestCase
-from lexnlp.extract.es.regulations import parser, get_regulations
-from lexnlp.tests.test_utils import load_resource_document, annotate_text, save_test_document
+
+from lexnlp.extract.common.annotations.regulation_annotation import RegulationAnnotation
+from lexnlp.extract.es.regulations import parser, get_regulations, get_regulation_annotations
+from lexnlp.tests.utility_for_testing import load_resource_document, annotate_text, save_test_document
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -29,7 +32,12 @@ class TestParseSpanishLawsRegulations(TestCase):
         ret = parser.parse(text)
         self.assertEqual(1, len(ret))
         reg = ret[0]
+        self.assertEqual((144, 172), reg.coords)
+        self.assertEqual('Spain', reg.country)
         self.assertEqual('Registro Nacional de Valores', reg.name)
+        self.assertEqual('Registro Nacional de Valores', reg.text)
+        self.assertEqual('es', reg.locale)
+
 
     def test_parse_ley_del(self):
         text = "Para efectos de lo previsto en la presente Ley, por inversionistas institucionales se entenderá a las " +\
@@ -52,3 +60,10 @@ class TestParseSpanishLawsRegulations(TestCase):
         self.assertGreater(len(ret), 100)
         html = annotate_text(text, ret)
         save_test_document('sample_es_regulations.html', html)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_regulation_annotations,
+            'lexnlp/typed_annotations/es/regulation/regulations.txt',
+            RegulationAnnotation)

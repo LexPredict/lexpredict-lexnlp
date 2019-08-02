@@ -8,11 +8,10 @@ from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.utils.lines_processing.line_processor import LineProcessor, LineSplitParams, LineOrPhrase
 from lexnlp.utils.lines_processing.phrase_finder import PhraseFinder, PhraseMatch
 
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -123,8 +122,7 @@ class UniversalCourtsParser:
         self.court_name_column = ptrs.column_names['name']
         self.court_alias_column = ptrs.column_names['alias']
         self.jurisdiction_column = ptrs.column_names['jurisdiction']
-        self.proc = LineProcessor()
-        self.phrase_split_ptrs = ptrs.split_ptrs
+        self.proc = LineProcessor(line_split_params=ptrs.split_ptrs)
         self.annotations = []  # type: List[CourtAnnotation]
         self.courts = None
         self.load_courts(ptrs.dataframe_paths)
@@ -167,7 +165,7 @@ class UniversalCourtsParser:
             if self.phrase_match_pattern.search(text, re.IGNORECASE) is None:
                 return self.annotations
 
-        for phrase in self.proc.split_text_on_line_with_endings(text, self.phrase_split_ptrs):
+        for phrase in self.proc.split_text_on_line_with_endings(text):
             # if the phrase doesn't contain the key word (e.g., gericht for deutsche) - skip the phrase
             if self.phrase_match_pattern is not None:
                 if self.phrase_match_pattern.search(phrase.text, re.IGNORECASE) is None:
@@ -291,8 +289,10 @@ class UniversalCourtsParser:
             match.jurisdiction if match.jurisdiction is not None else \
                 match.subset[self.jurisdiction_column].values[0] if mlen > 0 else ''
 
-        ant = CourtAnnotation(name=name, coords=(match.entry_start, match.entry_end),
-                              locale=self.locale, text=match.text)
+        ant = CourtAnnotation(name=name,
+                              coords=(match.entry_start, match.entry_end),
+                              locale=self.locale,
+                              text=match.text)
         ant.jurisdiction = jurisdiction
         ant.court_type = court_type
         self.annotations.append(ant)

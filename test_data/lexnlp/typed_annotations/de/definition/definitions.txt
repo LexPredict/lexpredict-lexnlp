@@ -1,0 +1,47 @@
+Vermögensgegenstände im Sinne dieses Gesetzes sind unbewegliches Vermögen im Sinne des Absatzes 8,
+ferner zu dessen Bewirtschaftung erforderliche Gegenstände sowie Bankguthaben, Geldmarktinstrumente,
+Forderungen und Verbindlichkeiten, die aus der Nutzung oder Veräußerung des unbeweglichen Vermögens
+stammen oder zum Zwecke der Wertsicherung, Bewirtschaftung oder Bestandsveränderung dieser
+Vermögensgegenstände bereitgehalten, eingegangen oder begründet werden, sowie Beteiligungen an
+Immobilienpersonengesellschaften, Auslandsobjektgesellschaften, REIT-Dienstleistungsgesellschaften
+sowie Kapitalgesellschaften im Sinne des § 1 Abs. 1 Nr. 5
+-------------------------------------------------------------------------------
+total=2
+..)locale=de
+0)coords=(0, 98)
+0)name=unbewegliches Vermögen im Sinne
+0)get_cite()=/de/definition/unbewegliches Vermögen im Sinne
+1)coords=(0, 98)
+1)name=Vermögensgegenstände#s#
+
+
+-------------------------------------------------------------------------------
+   "Moderne Anatomie Mensch": ein Mensch eines modernen Typs
+-------------------------------------------------------------------------------
+total=1
+0)name="Moderne Anatomie Mensch"
+0)coords=(0, 60)
+
+
+
+-------------------------------------------------------------------------------
+ ist Diensteanbieter jede natürliche oder juristische Person, die eigene oder fremde
+Telemedien zur Nutzung bereithält oder den Zugang zur Nutzung vermittelt;
+-------------------------------------------------------------------------------
+total=1
+0)name=Diensteanbieter
+0)coords=(0, 84)
+
+
+
+-------------------------------------------------------------------------------
+(3b) Ordnungswidrig handelt, wer als Mitglied des Aufsichtsrats oder als Mitglied eines
+Prüfungsausschusses einer Gesellschaft, die kapitalmarktorientiert im Sinne des § 264d des
+Handelsgesetzbuchs, die CRR-Kreditinstitut im Sinne des § 1 Absatz 3d Satz 1 des Kreditwesengesetzes,
+mit Ausnahme der in § 2 Absatz 1 Nummer 1 und 2 des Kreditwesengesetzes genannten Institute, oder
+die Versicherungsunternehmen ist im Sinne des Artikels 2 Absatz 1 der Richtlinie 91/674/EWG des Rates vom 19.
+-------------------------------------------------------------------------------
+total=1
+###0)name=im Sinne
+0)coords=(379, 487)
+0)text=die Versicherungsunternehmen ist im Sinne des Artikels 2 Absatz 1 der Richtlinie 91/674/EWG des Rates vom 19

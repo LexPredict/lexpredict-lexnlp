@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+
 """Court/jurisdiction unit tests for English.
 
 This module implements unit tests for the court/jurisdiction extraction functionality in English.
@@ -8,19 +9,23 @@ Todo:
     * Re-introduce known bad cases with better master data or more flexible approach
     * More pathological and difficult cases
 """
+
 import csv
 import os
 from unittest import TestCase
 from nose.tools import assert_equals
+
+from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.extract.en.courts import get_courts, \
-    _get_court_list, _get_courts
+    _get_court_list, _get_courts, get_court_annotations
 from lexnlp.extract.en.dict_entities import entity_config, add_alias_to_entity
 from lexnlp.tests import lexnlp_tests
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -73,6 +78,13 @@ class TestParseEnCourts(TestCase):
         items = list(_get_courts(text))
         court_name = items[0]["tags"]["Extracted Entity Court Name"]
         self.assertEqual('United States Supreme Court', court_name)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_court_annotations,
+            'lexnlp/typed_annotations/en/court/courts.txt',
+            CourtAnnotation)
 
 
 def test_courts():

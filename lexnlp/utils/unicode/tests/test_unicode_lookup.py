@@ -7,12 +7,13 @@ import unicodedata
 from datetime import datetime
 from tempfile import mkstemp
 
+from lexnlp.extract.common.base_path import lexnlp_test_path
 from lexnlp.utils.unicode.unicode_lookup import UNICODE_CHAR_TOP_CATEGORY_MAPPING, build_lookup_tables, _load_table
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -110,7 +111,11 @@ def test_preparing_tables():
     h3, fn_char_top_category_mapping = mkstemp()
 
     try:
-        build_lookup_tables(fn_categories, fn_char_category_mapping, fn_char_top_category_mapping)
+        path = os.path.join(lexnlp_test_path, 'lexnlp/utils/unicode_data.txt')
+        build_lookup_tables(fn_categories,
+                            fn_char_category_mapping,
+                            fn_char_top_category_mapping,
+                            table_source=path)
 
         tbl_categories = _load_table(fn_categories, False)
 

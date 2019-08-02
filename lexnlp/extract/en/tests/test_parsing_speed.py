@@ -3,6 +3,8 @@ from unittest import TestCase
 import codecs
 import time
 from typing import Callable, Dict
+
+from lexnlp.extract.common.base_path import lexnlp_test_path
 from lexnlp.extract.en.acts import get_acts
 from lexnlp.extract.en.amounts import get_amounts
 from lexnlp.extract.en.citations import get_citations
@@ -27,7 +29,7 @@ from lexnlp.extract.en.urls import get_urls
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -38,12 +40,11 @@ class TestParsingSpeed(TestCase):
     because it is not intended for (automatic) regression tests
     """
     def en_parsers_speed(self):
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_path = dir_path + '/../../../../test_data/long_parsed_text.txt'
+        file_path = os.path.join(lexnlp_test_path, 'long_parsed_text.txt')
         with codecs.open(file_path, 'r', encoding='utf-8') as fr:
             text = fr.read()
 
-        ge_path = dir_path + '/../../../../test_data/lexnlp/extract/en/tests/test_geoentities/'
+        ge_path = os.path.join(lexnlp_test_path, 'lexnlp/extract/en/tests/test_geoentities/')
         entities_fn = ge_path + 'geoentities.csv'
         aliases_fn = ge_path + 'geoaliases.csv'
         geo_config = list(load_entities_dict_by_path(entities_fn, aliases_fn))
@@ -77,6 +78,3 @@ class TestParsingSpeed(TestCase):
         func(text)
         end = time.time()
         times[func_name] = end - start
-
-
-

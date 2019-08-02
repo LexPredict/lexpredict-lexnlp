@@ -1,0 +1,51 @@
+from unittest import TestCase
+
+from typing import Generator
+
+from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
+from lexnlp.extract.en.copyright import get_copyright, get_copyright_annotations
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
+__version__ = "0.2.7"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+
+class TestCopyrightPlain(TestCase):
+
+    def test_copyrights(self):
+        text = '(C)Maverick(R) International Processing Services, Inc. 1999'
+        cs = list(get_copyright(text))
+        self.assertEqual(1, len(cs))
+
+        ant = list(get_copyright_annotations(text))[0]
+        self.assertEqual((0, 61), ant.coords)
+        cite = ant.get_cite()
+        self.assertEqual('/en/copyright/Maverick/1999', cite)
+
+    def test_text_coords(self):
+        text = """
+The provisions contained in Sections 2   through 36, inclusive, which 
+appear after the signature lines below, are a part of this Lease and are 
+incorporated in this Lease by reference. The (C)Tenant(R) and the Landlord have 
+executed or caused to be executed this Lease on the dates shown below their 
+signatures, to be effective as of the date set forth above.
+        """
+        ant = list(get_copyright_annotations(text))[0]
+        start = text.find('(C)Tenant')
+        self.assertEqual(start, ant.coords[0])
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_copyright_verbose_annotations,
+            'lexnlp/typed_annotations/en/copyright/copyrights.txt',
+            CopyrightAnnotation)
+
+
+def get_copyright_verbose_annotations(text: str) -> \
+        Generator[CopyrightAnnotation, None, None]:
+    yield from get_copyright_annotations(text, return_sources=True)

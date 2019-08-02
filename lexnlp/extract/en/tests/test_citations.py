@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+
 """Citation unit tests for English.
 
 This module implements unit tests for the citation extraction functionality in English.
@@ -11,14 +12,14 @@ Todo:
 
 # Imports
 
-from nose.tools import assert_list_equal
 from lexnlp.extract.en.citations import get_citations
 from lexnlp.tests import lexnlp_tests
+from lexnlp.tests.dictionary_comparer import DictionaryComparer
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -56,9 +57,13 @@ def test_get_citations_as_dict():
                  'reporter_full_name': 'Federal Reporter',
                  'volume': 1,
                  'year': 1982}]
-    assert_list_equal(
-        list(lexnlp_tests.benchmark_extraction_func(get_citations, text,
-                                               return_source=True,
-                                               as_dict=True)),
-        expected
-    )
+    actual = list(lexnlp_tests.benchmark_extraction_func(get_citations,
+                                                         text,
+                                                         return_source=True,
+                                                         as_dict=True))
+
+    cmp = DictionaryComparer(check_order=True)
+    errors = cmp.compare_list_of_dicts(expected, actual)
+    if errors:
+        errors_str = '\n'.join(errors)
+        raise Exception('Citations test has errors:\n' + errors_str)

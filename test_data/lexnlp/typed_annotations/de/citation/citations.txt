@@ -1,0 +1,89 @@
+das Gesetz über die Beaufsichtigung der Versicherungsunternehmen (Versicherungsaufsichtsgesetz – VAG)
+vom 1. April 2015 (BGBl. I S. 434), das zuletzt durch Artikel 2 des Gesetzes vom 20. Juli 2017
+(BGBl. I S. 2789) geändert worden ist, nach Maßgabe der §§ 61 ff. VAG - ,
+-------------------------------------------------------------------------------
+total=2
+..)locale=de
+0)coords=(101, 136)
+0)date=1. April 2015
+0)page=434
+0)part=I
+0)text=\nvom 1. April 2015 (BGBl. I S. 434)
+0)volume=
+0)year=
+0)get_cite()=/de/citation/434
+
+1)coords=(156, 214)
+1)date=20. Juli 2017
+1)page=2789
+1)part=I
+1)text=Artikel 2 des Gesetzes vom 20. Juli 2017\n(BGBl. I S. 2789)
+1)volume=
+1)year=
+1)get_cite()=/de/citation/2789
+
+
+-------------------------------------------------------------------------------
+ vom 15. Mai 2007 (BGBl. I S. 733 (1967)), die .
+-------------------------------------------------------------------------------
+total=1
+0)coords=(0, 41)
+0)date=15. Mai 2007
+0)page=733
+0)part=I
+0)text= vom 15. Mai 2007 (BGBl. I S. 733 (1967))
+0)volume=
+0)year=1967
+0)get_cite()=/de/citation/1967/733
+
+
+
+-------------------------------------------------------------------------------
+ vom 26. Juni 2001 (BGBl. I S. 1310, 1322), das
+-------------------------------------------------------------------------------
+total=1
+0)coords=(0, 42)
+0)date=26. Juni 2001
+0)page=
+0)part=I
+0)text= vom 26. Juni 2001 (BGBl. I S. 1310, 1322)
+0)volume=
+0)year=
+0)get_cite()=/de/citation/1310, 1322
+
+
+-------------------------------------------------------------------------------
+ vom 2. Januar 2002 (BGBl. I S. 42, 2909; 2003 I S. 738), das
+-------------------------------------------------------------------------------
+total=2
+0)coords=(0, 40)
+0)date=2. Januar 2002
+0)page=
+0)part=I
+0)text= vom 2. Januar 2002 (BGBl. I S. 42, 2909
+0)volume=
+0)year=
+0)get_cite()=/de/citation/42, 2909
+
+1)coords=(21, 55)
+1)date=
+1)page=738
+1)part=I
+1)text=BGBl. I S. 42, 2909; 2003 I S. 738
+1)volume=
+1)year=2003
+1)get_cite()=/de/citation/2003/738
+
+
+-------------------------------------------------------------------------------
+Artikel 2 Absatz 1 Satz 1 Nr. 1 bis 3 Buchstabe b und c des Gesetzes v. 2. Januar 2002, BGBl. I S. 2477, das
+-------------------------------------------------------------------------------
+total=1
+0)coords=(0, 105)
+0)date=2. Januar 2002
+0)page=2477
+0)part=I
+0)text=Artikel 2 Absatz 1 Satz 1 Nr. 1 bis 3 Buchstabe b und c des Gesetzes v. 2. Januar 2002, BGBl. I S. 2477,#s#
+0)volume=
+0)year=
+0)get_cite()=/de/citation/2477

@@ -1,0 +1,38 @@
+Las instituciones de banca múltiple que se ubiquen en lo dispuesto en esta fracción, deberán
+entregar a la Comisión Nacional Bancaria y de Valores, la información y documentación que acredite
+satisfacer lo antes señalado, dentro de los quince días hábiles siguientes a que se encuentren en dicho supuesto.
+-------------------------------------------------------------------------------
+total=2
+..)locale=es
+0)name=instituciones de banca múltiple que se ubiquen en lo dispuesto en esta fracción
+0)coords=(4, 83)
+0)get_cite()=/es/regulation/Spain/instituciones de banca múltiple que se ubiquen en lo dispuesto en esta fracción
+
+1)name=Comisión Nacional Bancaria y de Valores
+1)coords=(107, 146)
+1)get_cite()=/es/regulation/Spain/Comisión Nacional Bancaria y de Valores
+
+
+
+-------------------------------------------------------------------------------
+Para efectos de lo previsto en la presente Ley, por inversionistas institucionales se entenderá a las
+instituciones de seguros y de fianzas, únicamente cuando inviertan sus reservas técnicas; a las
+sociedades de inversión comunes y a las especializadas de fondos para el retiro; a los fondos de
+pensiones o jubilaciones de personal, complementarios a los que establece la Ley del Seguro Social
+y de primas de antigüedad, que cumplan con los requisitos señalados en la Ley del Impuesto sobre
+la Renta, así como a los demás inversionistas institucionales que autorice expresamente la
+Secretaría de Hacienda y Crédito Público.
+-------------------------------------------------------------------------------
+total=4
+
+0)name=instituciones de seguros y de fianzas
+0)coords=(102, 139)
+
+1)name=Ley del Seguro Social
+1)coords=(372, 393)
+
+2)name=Ley del Impuesto sobre
+2)coords=(468, 490)
+
+3)name=Secretaría de Hacienda y Crédito Público
+3)coords=(582, 622)

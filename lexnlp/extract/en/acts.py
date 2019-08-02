@@ -1,10 +1,13 @@
 import regex as re
+from typing import Generator, Dict, List, Any
 
+from lexnlp.extract.common.annotations.act_annotation import ActAnnotation
+from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -23,19 +26,30 @@ ACT_PARTS_RE = re.compile(r'''
 )''', re.VERBOSE|re.MULTILINE)
 
 
-def get_acts(text):
+def get_acts(text: str) -> Generator[Dict[str, Any], None, None]:
+    for act in get_acts_annotations(text):
+        yield act.to_dictionary_legacy()
+
+
+def get_act_list(*args, **kwargs) -> List[Dict[str, str]]:
+    return list(get_acts(*args, **kwargs))
+
+
+def get_acts_annotations(text: str) -> Generator[ActAnnotation, None, None]:
     for match in ACT_PARTS_RE.finditer(text):
         captures = match.capturesdict()
-        location_start, location_end = match.span()
         act_name = ''.join(captures.get('act_name') or [])
-        yield {'location_start': location_start,
-               'location_end': location_end,
-               'act_name': act_name,
-               'section': ''.join(captures.get('section') or []),
-               'year': ''.join(captures.get('year') or []),
-               'ambiguous': act_name == 'Act',
-               'value': ''.join(captures.get('text') or [])}
+        year_str = ''.join(captures.get('year') or [])
+        year = TextAnnotation.safe_cast(year_str, int)
+        act = ActAnnotation(act_name=act_name,
+                            coords=match.span(),
+                            section=''.join(captures.get('section') or []),
+                            year=year,
+                            ambiguous=act_name == 'Act',
+                            text=''.join(captures.get('text') or []),
+                            locale='en')
+        yield act
 
 
-def get_act_list(*args, **kwargs):
-    return list(get_acts(*args, **kwargs))
+def get_acts_annotations_list(text: str) -> List[ActAnnotation]:
+    return list(get_acts_annotations(text))

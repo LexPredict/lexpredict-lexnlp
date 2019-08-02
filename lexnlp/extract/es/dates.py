@@ -2,6 +2,7 @@
 Date extraction for Spanish.
 Dates parser based on dateparser package
 """
+
 # pylint: disable=bare-except
 
 
@@ -10,11 +11,10 @@ from dateparser.data.date_translation_data.es import info
 
 from lexnlp.extract.common.dates import DateParser
 
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -77,5 +77,10 @@ class ESDateParser(DateParser):
         self.DATES = dates
 
 
+get_date_annotations = ESDateParser(enable_classifier_check=False, language='es').get_date_annotations
+
+
 get_dates = ESDateParser(enable_classifier_check=False, language='es').get_dates
+
+
 get_date_list = ESDateParser(enable_classifier_check=False, language='es').get_date_list

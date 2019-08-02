@@ -4,12 +4,14 @@ from typing import List, Pattern, Generator
 # pylint: enable=unused-import
 import regex as re
 import pandas as pd
+
+from lexnlp.extract.common.base_path import lexnlp_base_path
 from lexnlp.extract.common.annotations.regulation_annotation import RegulationAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -47,7 +49,7 @@ class RegulationsParser:
         dtypes = {'trigger': str,
                   'position': str}
         if not self.regulations_dataframe:
-            path = os.path.join(os.path.dirname(__file__), "../../config/es/es_regulations.csv")
+            path = os.path.join(lexnlp_base_path, 'lexnlp/config/es/es_regulations.csv')
             self.regulations_dataframe = pd.read_csv(path,
                                                      encoding="utf-8",
                                                      error_bad_lines=False,
@@ -58,7 +60,7 @@ class RegulationsParser:
 
     def parse(self, text: str, locale: str = None) -> List[RegulationAnnotation]:
         # find annotations in text passed and return them as a list of objects
-        self.locale = locale
+        self.locale = locale or 'es'
         self.annotations = []
         self.match_start_trigger(text)
         for ant in self.annotations:
@@ -75,7 +77,9 @@ class RegulationsParser:
                 text = match.group()
                 coords = (match.start(), match.end())
                 ant = RegulationAnnotation(
-                    name=text, coords=coords, text=text,
+                    name=text,
+                    coords=coords,
+                    text=text,
                     locale=self.locale)
                 self.annotations.append(ant)
 
@@ -96,6 +100,11 @@ def make_de_regulations_parser():
 
 
 parser = make_de_regulations_parser()
+
+
+def get_regulation_annotations(text: str, language: str = None) -> \
+        Generator[RegulationAnnotation, None, None]:
+    yield from parser.parse(text, language if language else 'es')
 
 
 def get_regulations(text: str, language: str = None) -> Generator[dict, None, None]:

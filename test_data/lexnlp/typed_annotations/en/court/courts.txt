@@ -1,0 +1,55 @@
+Exhibit 99.1
+IN THE UNITED STATES DISTRICT COURT
+FOR THE NORTHERN DISTRICT OF CALIFORNIA
+-------------------------------------------------------------------------------
+total=1
+0)jurisdiction=Colorado
+0)name=District Court
+0)court_type=District Court
+0)get_cite()=/en/court/District Court/Colorado/District Court
+0)coords=(13, 48)
+0)locale=en
+
+
+
+-------------------------------------------------------------------------------
+As previously reported by
+Pilgrim's Pride Corporation (the "Company") on a Current Report on Form 8-K (the "Prior Form 8-K")
+filed with the Securities and Exchange Commission on December 22, 2008, the
+Company entered into an Employment Agreement with Don Jackson (the "Original
+Employment Agreement") pursuant to which Dr. Jackson was appointed as the
+Company's President and Chief Executive Officer, subject to the approval of the
+Bankruptcy Court for the Northern District of Texas, Fort Worth Division (the
+"Bankruptcy Court").  On January 27, 2009, the Company entered into an
+Amended and Restated Employment Agreement with Dr. Jackson (the "Amended
+Employment Agreement").",Northern District of Texas
+"“Bankruptcy Court” shall mean the United States Bankruptcy Court
+for the Southern District of New York or such other court having original jurisdiction
+over the Chapter 11 Case.",Southern District of New York
+I will argue before E.D. Ark. next week.
+-------------------------------------------------------------------------------
+
+total=5
+
+..)locale=en
+..)coords.0>1
+..)coords.1>5
+
+0)jurisdiction=Arkansas
+0)name=Eastern District of Arkansas
+1)jurisdiction=Texas
+1)name=Northern District of Texas
+2)jurisdiction=Alabama
+2)name=Bankruptcy Court
+3)jurisdiction=
+3)name=Bankruptcy Court
+4)jurisdiction=Missouri
+4)name=Southern District
+
+0)get_cite()=/en/court/Eastern District of Arkansas/Arkansas/Federal District Court
+1)get_cite()=/en/court/Northern District of Texas/Texas/Federal District Court
+2)get_cite()=/en/court/Bankruptcy Court/Alabama/Bankruptcy Court
+3)get_cite()=/en/court/Bankruptcy Court/Bankruptcy Court
+4)get_cite()=/en/court/Southern District/Missouri/Appellate Court
+
+

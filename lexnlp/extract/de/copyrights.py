@@ -1,59 +1,64 @@
 # pylint: disable=unused-import
-from typing import Pattern, List, Generator
-# pylint: enable=unused-import
 
+from typing import List, Generator, Tuple
+import regex as re
+from lexnlp.extract.common.copyrights.copyright_en_style_parser import CopyrightEnStyleParser
 from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
-from lexnlp.extract.common.copyrights.copyright_parser import CopyrightParser
-from lexnlp.extract.common.copyrights.copyright_parsing_methods import CopyrightParsingMethods
 from lexnlp.extract.de.language_tokens import DeLanguageTokens
-from lexnlp.utils.lines_processing.line_processor import LineSplitParams
-
+from lexnlp.utils.lines_processing.line_processor import LineSplitParams, LineProcessor
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-class DeutscheCopyrightParsingMethods(CopyrightParsingMethods):
-    def __init__(self):
-        super(DeutscheCopyrightParsingMethods, self).__init__()
-        self.trigger_words = ''
-        self.reg_trigger_words = None # type: Pattern
-        self.reg_word_c_years = None  # type: List[Pattern]
-        self.reg_c_years_word = None  # type: List[Pattern]
-        self.init_trigger_words()
-        self.init_regexes()
+class CopyrightDeParser(CopyrightEnStyleParser):
+    line_processor = None  # LineProcessor
+    copyright_words = ['Copyright', 'Urheberrechte', 'Urheberschutz', 'Eigentumsrecht']
+    copyright_words_ptrn = r'\W\s*|'.join(copyright_words)
 
-    def init_trigger_words(self):
-        self.trigger_words = r'urheberrechte|copyright|©|\(c\)'
+    copyright_ptn = fr"(({copyright_words_ptrn}|\(\s*[Cc]\s*\)\s*|©)+\s*{CopyrightEnStyleParser.year_ptn}?\s*(.+))"
+    copyright_ptn_re = re.compile(copyright_ptn)
 
+    @staticmethod
+    def init_parser():
+        split_params = LineSplitParams()
+        split_params.line_breaks = {'\n', '.', ';', '!', '?'}
+        split_params.abbreviations = DeLanguageTokens.abbreviations
+        split_params.abbr_ignore_case = True
+        CopyrightDeParser.line_processor = LineProcessor(line_split_params=split_params)
 
-def make_de_copyrights_parser():
-    split_params = LineSplitParams()
-    split_params.line_breaks = {'\n', '.', ';', '!', '?'}
-    split_params.abbreviations = DeLanguageTokens.abbreviations
-    split_params.abbr_ignore_case = True
-    methods = DeutscheCopyrightParsingMethods()
-
-    functions = [methods.match_word_c_years,
-                 methods.match_c_years_word]
-
-    prs = CopyrightParser(functions, split_params)
-    prs.prohibited_words = {w for w in DeLanguageTokens.articles + DeLanguageTokens.conjunctions}
-    return prs
+    @classmethod
+    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int]]:
+        return [(t.text, t.start) for t in
+                cls.line_processor.split_text_on_line_with_endings(sentence)]
 
 
-parser = make_de_copyrights_parser()
+CopyrightDeParser.init_parser()
 
 
-def get_copyrights(text: str, language: str = None) -> Generator[dict, None, None]:
-    ants = parser.parse(text, language if language else 'de')
-    for ant in ants:
+def get_copyright_annotations(text: str, return_sources=False) -> \
+        Generator[CopyrightAnnotation, None, None]:
+    for ant in  CopyrightDeParser.get_copyright_annotations(text,
+                                                            return_sources):
+        ant.locale = 'de'
+        yield ant
+
+
+#def get_copyright_annotations(text: str, language: str = None) -> Generator[dict, None, None]:
+#    ants = parser.parse(text, language if language else 'de')
+#    for ant in ants:
+#        yield ant
+
+
+def get_copyrights(text: str, return_sources=False) -> \
+        Generator[dict, None, None]:
+    for ant in get_copyright_annotations(text, return_sources):
         yield ant.to_dictionary()
 
 
-def get_copyright_list(text: str, language: str = None) -> List[CopyrightAnnotation]:
-    return parser.parse(text, language if language else 'de')
+def get_copyright_list(text: str, return_sources=False) -> List[CopyrightAnnotation]:
+    return list(get_copyright_annotations(text, return_sources))

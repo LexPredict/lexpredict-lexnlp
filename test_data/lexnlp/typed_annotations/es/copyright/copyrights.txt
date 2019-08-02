@@ -1,0 +1,73 @@
+Website BBC Mundo © 1996 – 2019
+-------------------------------------------------------------------------------
+total=1
+0)locale=es
+0)company=Website BBC Mundo
+0)year_start=1996
+###0)year_end=2019
+0)coords=(18, 31)
+0)get_cite()=/es/copyright/Website BBC Mundo/1996
+
+
+-------------------------------------------------------------------------------
+tecnologías de (nota de autor: ( c ) 1995, Huawei) permiten que más.
+-------------------------------------------------------------------------------
+total=1
+0)name=Huawei) permiten que más
+0)company=Huawei
+0)year_start=1995
+0)year_end=
+0)coords=(31, 67)
+
+
+
+
+-------------------------------------------------------------------------------
+Copyright  (C)  1998,  Avid  Technology,  Inc.  and its  licensors.  All  rights
+reserved.
+-------------------------------------------------------------------------------
+total=1
+0)sign=(C)
+0)date=1998
+0)year_start=1998
+0)name=Avid  Technology,  Inc
+0)text=Copyright  (C)  1998,  Avid  Technology,  Inc
+
+
+
+-------------------------------------------------------------------------------
+Director Ejecutivo de Microsoft(c)
+-------------------------------------------------------------------------------
+total=0
+
+
+-------------------------------------------------------------------------------
+Póngame ya con el Director Ejecutivo de (c) Microsoft y hacerle desaparecer. Las
+nuevas tecnologías de (nota de autor: ( c ) 1995, Huawei) permiten que más
+aplicaciones de acceso móvil superen las restricciones geográficas.
+-------------------------------------------------------------------------------
+total=2
+0)name=Microsoft y hacerle desaparecer
+0)year_start=
+0)year_end=
+0)coords=(40, 75)
+0)get_cite()=/es/copyright/Microsoft y hacerle desaparecer
+
+1)company=Huawei
+1)year_start=1995
+1)year_end=
+1)coords=(119, 78)
+###1)get_cite()=/es/copyright/Huawei c/ Huawei ( c ) 1995/1995
+
+
+
+-------------------------------------------------------------------------------
+Copyright © 2019 BBC
+-------------------------------------------------------------------------------
+total=1
+0)name=BBC
+0)company=BBC
+0)year_start=2019
+0)year_end=
+0)coords=(0, 20)
+0)get_cite()=/es/copyright/BBC/2019

@@ -2,10 +2,11 @@
 # -*- coding: UTF-8 -*-
 
 # Imports
+
 import string
 
 # Test imports
-from nose.tools import assert_dict_equal, nottest, assert_list_equal
+from nose.tools import assert_dict_equal, nottest, assert_list_equal, assert_tuple_equal
 
 # Project imports
 from lexnlp.nlp.en.segments.paragraphs import get_paragraphs, splitlines_with_spans
@@ -15,9 +16,10 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 DOCUMENT_EXAMPLE_1 = "this is a test 123!"
 DOCUMENT_EXAMPLE_1_RESULT_LC = {'doc_char_s': 0.2727272727272727, 'doc_char_p': 0.0, 'doc_char_a': 0.09090909090909091,
@@ -177,3 +179,9 @@ def run_paragraph_test(text, expected_paragraphs, window_pre=3, window_post=3):
 def test_paragraph_examples():
     for (_i, text, _input_args, expected) in lexnlp_tests.iter_test_data_text_and_tuple():
         run_paragraph_test(text, expected)
+
+
+def test_get_paragraphs_too_small_text_with_spans():
+    text = '\nToo small text\n'
+    spans = list(get_paragraphs(text=text, return_spans=True))
+    assert_tuple_equal((text, 0, len(text)), spans[0])

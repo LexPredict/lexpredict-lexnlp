@@ -2,6 +2,7 @@
 Date extraction
 Dates parser based on dateparser package
 """
+
 # pylint: disable=bare-except,broad-except,unused-argument
 
 import re
@@ -9,13 +10,15 @@ import pandas as pd
 import string
 
 from dateparser.search import search_dates
-from lexnlp.extract.en.date_model import MODEL_DATE, get_date_features
+from typing import Generator
 
+from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
+from lexnlp.extract.en.date_model import MODEL_DATE, get_date_features
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -64,7 +67,6 @@ class DateParser(object):
         :return: None
         """
         # self.DATES += (custom logic)
-        pass
 
     def passed_general_check(self, date_str, date):
         """
@@ -84,7 +86,18 @@ class DateParser(object):
         return date_score[0, 1] > self.CLASSIFIER_THRESHOLD
 
     def get_dates(self, text=None, language=None):
-        self.TEXT = text or self.TEXT
+        for ant in self.get_date_annotations(text, language):
+            yield {'location_start': ant.coords[0],
+                   'location_end': ant.coords[1],
+                   'value': ant.date,
+                   'source': ant.text}
+
+    def get_date_annotations(self,
+                             text: str = None,
+                             language: str = None) -> \
+            Generator[DateAnnotation, None, None]:
+
+        self.TEXT = text.replace('\n', ' ') or self.TEXT
         self.LANGUAGE = language or self.LANGUAGE
 
         if not self.TEXT or not self.LANGUAGE:
@@ -120,10 +133,12 @@ class DateParser(object):
                         not self.passed_classifier_check(location_start, location_end):
                     continue
 
-                yield {'location_start': location_start,
-                       'location_end': location_end,
-                       'value': date,
-                       'source': self.TEXT[location_start:location_end]}
+                ant = DateAnnotation(coords=(location_start, location_end),
+                                     date=date,
+                                     text=self.TEXT[location_start:location_end],
+                                     locale=language or self.LANGUAGE)
+                yield ant
+
 
     def get_date_list(self, *args, **kwargs):
         return list(self.get_dates(*args, **kwargs))

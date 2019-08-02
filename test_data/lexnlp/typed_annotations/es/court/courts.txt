@@ -1,0 +1,23 @@
+Sembré una flor sin interés. Yo la sembré para ver el Tribunal Superior,
+al volver ya estaba seca y ya no quizo retoñar.
+-------------------------------------------------------------------------------
+total=1
+0)locale=es
+0)coords=(28, 71)
+0)jurisdiction=Andalucía
+0)court_type=Tribunal Superior
+0)get_cite()=/es/court/Tribunal Superior/Andalucía/Tribunal Superior
+
+
+
+-------------------------------------------------------------------------------
+El actual Tribunal Superior de Justicia de Madrid fue creado en 1985 a partir
+del artículo 26 de la Ley Orgánica del Poder Judicial, constituyéndose el 23
+de mayo de 1989.
+-------------------------------------------------------------------------------
+total=1
+0)locale=es
+0)coords=(9, 49)
+0)jurisdiction=Comunidad de Madrid
+0)court_type=Tribunal Superior
+0)get_cite()=/es/court/Tribunal Superior de Justicia de Madrid/Comunidad de Madrid/Tribunal Superior

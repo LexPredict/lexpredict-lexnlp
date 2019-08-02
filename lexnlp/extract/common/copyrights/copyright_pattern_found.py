@@ -1,15 +1,17 @@
 from lexnlp.extract.common.pattern_found import PatternFound
-
+import regex as re
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 class CopyrightPatternFound(PatternFound):
+    reg_uppercase = re.compile(r"[\p{Lu}]+", re.UNICODE)
+
     def __init__(self, ptrn: PatternFound = None):
         super(CopyrightPatternFound, self).__init__()
         if ptrn:
@@ -26,11 +28,17 @@ class CopyrightPatternFound(PatternFound):
         self.start_year = 0
         self.end_year = 0
 
+    def __repr__(self):
+        return f'[{self.start}: {self.end}]: "{self.name}", {self.probability}%'
+
     def get_length(self) -> int:
         return self.end - self.start
 
-    def get_detalization_level(self) -> int:
+    def get_detalization_level(self, text: str) -> int:
         level = 0
+        text_part = text[self.start: self.end]
+        if self.reg_uppercase.search(text_part):
+            level += 1
         if self.company:
             level += 1
         if self.start_year > 0:
@@ -40,14 +48,14 @@ class CopyrightPatternFound(PatternFound):
         return level
 
     # override checking when patterns span
-    def pattern_worse_than_target(self, p) -> bool: # p: PatternFound
+    def pattern_worse_than_target(self, p, text: str) -> bool: # p: PatternFound
         spans = self.start <= p.start <= self.end or \
                 self.start <= p.end <= self.end
         if not spans:
             return False
         # what is more detailed?
-        self_level = self.get_detalization_level()
-        p_level = p.get_detalization_level()
+        self_level = self.get_detalization_level(text)
+        p_level = p.get_detalization_level(text)
         if self_level < p_level:
             return True
         elif p_level < self_level:

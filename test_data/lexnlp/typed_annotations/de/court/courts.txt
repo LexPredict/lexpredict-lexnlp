@@ -1,0 +1,45 @@
+Bei dir läuft, deine Boys rauchen Joints vor der Kamera Bundesverfassungsgericht.
+-------------------------------------------------------------------------------
+total=1
+..)locale=de
+0)coords=(55, 80)
+0)court_type=Verfassungsgericht
+0)jurisdiction=Federal
+0)name=Bundesverfassungsgericht
+0)text= Bundesverfassungsgericht
+
+
+
+-------------------------------------------------------------------------------
+Bei dir läuft, deine Verfassungsgerichtshof des Freistaates Sachsen rauchen Joints vor der Kamera. Amtsgerichte - arbeit nicht frei.
+-------------------------------------------------------------------------------
+total=2
+0)coords=(20, 67)
+0)court_type=Verfassungsgericht
+0)jurisdiction=Sachsen
+0)name=Verfassungsgerichtshof des Freistaates Sachsen
+0)text= Verfassungsgerichtshof des Freistaates Sachsen
+
+1)coords=(98, 111)
+1)court_type=Amtsgerichte
+1)jurisdiction=Achern
+1)name=Amtsgerichte
+1)text= Amtsgerichte
+
+
+
+-------------------------------------------------------------------------------
+ vom Amtsgericht Stuttgart als zentralem Mahngericht im automatisierten Verfahren bearbeitet, Amtsgerichte  Pforzheim
+-------------------------------------------------------------------------------
+total=2
+0)coords=(0, 16)
+0)court_type=Amtsgerichte
+0)jurisdiction=
+0)name=Amtsgerichte
+0)text= vom Amtsgericht
+
+1)coords=(93, 106)
+1)court_type=Amtsgerichte
+1)jurisdiction=Pforzheim
+1)name=Amtsgericht Pforzheim
+1)text= Amtsgerichte

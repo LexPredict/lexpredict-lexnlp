@@ -1,12 +1,14 @@
 from unittest import TestCase
-from lexnlp.extract.de.courts import get_court_list, get_courts
-from lexnlp.tests.test_utils import load_resource_document
 
+from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
+from lexnlp.extract.de.courts import get_court_list, get_courts, get_court_annotations
+from lexnlp.tests.utility_for_testing import load_resource_document
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -55,3 +57,10 @@ class TestParseDeCourts(TestCase):
         self.assertEqual(2, len(ret))
         jurisdiction = ret[0]["tags"]["Extracted Entity Court Jurisdiction"]
         self.assertEqual("Federal", jurisdiction)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_court_annotations,
+            'lexnlp/typed_annotations/de/court/courts.txt',
+            CourtAnnotation)

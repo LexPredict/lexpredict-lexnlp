@@ -5,19 +5,22 @@ This module implements ratio extraction functionality in English.
 Todo:
   * Improved unit tests and case coverage
 """
+
 # Imports
 import calendar
 import regex as re
 import string
-from typing import Generator
+from typing import Generator, Dict, Any
 
+from lexnlp.extract.common.annotations.cusip_annotation import CusipAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 CUSIP_PTN = r"""
 (?:\W|^)
@@ -70,7 +73,12 @@ def is_cusip_valid(code, return_checksum=False):
     return checksum == _checksum
 
 
-def get_cusip(text) -> Generator:
+def get_cusip(text: str) -> Generator[Dict[str, Any], None, None]:
+    for ant in get_cusip_annotations(text):
+        yield ant.to_dictionary_legacy()
+
+
+def get_cusip_annotations(text: str) -> Generator[CusipAnnotation, None, None]:
     """
     INFO: https://www.cusip.com/pdf/CUSIP_Intro_03.14.11.pdf
     """
@@ -96,15 +104,16 @@ def get_cusip(text) -> Generator:
         elif PPN_PTN_RE.search(code):
             ppn = True
 
-        yield {'location_start': match.start(1),
-               'location_end': match.end(1),
-               'text': code,
-               'issuer_id': issuer_id,
-               'issue_id': issue_id,
-               'checksum': checksum,
-               'internal': bool(INTERNAL_ISSUER_ID_PTN_RE.match(issuer_id)),
-               'tba': tba,
-               'ppn': ppn}
+        internal = bool(INTERNAL_ISSUER_ID_PTN_RE.match(issuer_id))
+        ant = CusipAnnotation(coords=(match.start(1), match.end(1)),
+                              code=code,
+                              issuer_id=issuer_id,
+                              issue_id=issue_id,
+                              checksum=checksum,
+                              internal=internal,
+                              tba=tba,
+                              ppn=ppn)
+        yield ant
 
 
 def get_cusip_list(text):

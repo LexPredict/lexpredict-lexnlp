@@ -1,0 +1,65 @@
+Mit Einreichung der Körperschaftsteuererklärung für das Jahr 2006 im
+Februar 2008 beantragte die Klägerin unter Bezugnahme auf das Schreiben des
+Bundesministeriums der Finanzen (BMF) vom 27.3.2003 IV A 6-S 2140-8/03 (BStBl I 2003, 240;
+- Sanierungserlass -), die Körperschaftsteuer gemäß § 163 der Abgabenordnung (AO)
+aus Billigkeitsgründen abweichend festzusetzen.
+-------------------------------------------------------------------------------
+total=1
+0)locale=de
+0)coords=(217, 234)
+0)short_name=BStBl I 2003
+0)text=BStBl I 2003, 240
+0)get_cite()=/de/court citation/Bundessteuerblatt (sonstige gebräuchliche Verwendung)/BStBl I 2003
+
+
+-------------------------------------------------------------------------------
+Die Festsetzung einer Steuer ist aus (im Streitfall allein streitigen) sachlichen
+Gründen unbillig, wenn sie zwar dem Wortlaut des Gesetzes entspricht, aber den
+Wertungen des Gesetzes zuwiderläuft (vgl. Urteile des Bundesfinanzhofs - BFH -
+vom 4.6.2014 I R 21/13, BFHE 246, 130, BStBl II 2015, 293, Rz 10; BFH-Beschluss
+vom 12.7.2017 VI R 36/15, BFHE 258, 151, BStBl II 2017, 979)
+-------------------------------------------------------------------------------
+total=2
+0)coords=(198, 304)
+0)short_name=
+0)text=vgl. Urteile des Bundesfinanzhofs - BFH -\nvom 4.6.2014 I R 21/13, BFHE 246, 130, BStBl II 2015, 293, Rz 10
+0)get_cite()=/de/court citation/Deutschland, Rechtswesen: Bundesfinanzhof
+
+1)coords=(306, 379)
+1)short_name=BFH-Beschluss\nvom 12.7.2017 VI R 36/15
+1)text=BFH-Beschluss\nvom 12.7.2017 VI R 36/15, BFHE 258, 151, BStBl II 2017, 979
+1)get_cite()=/de/court citation/Deutschland, Rechtswesen: Bundesfinanzhof/BFH-Beschluss\nvom 12.7.2017 VI R 36/15
+
+
+
+
+-------------------------------------------------------------------------------
+Der IV. Senat des BFH hat im Urteil in BFHE 238, 518, BStBl II 2013, 505
+ebenfalls einen Anspruch auf eine Billigkeitsmaßnahme verneint, obwohl der
+dortige Gewinn auf einem Forderungsverzicht beruhte, durch den der dortigen
+Klägerin keine Liquidität zugeflossen war.
+-------------------------------------------------------------------------------
+total=2
+0)coords=(18, 38)
+0)short_name=
+0)text=BFH hat im Urteil in
+0)get_cite()=/de/court citation/Deutschland, Rechtswesen: Bundesfinanzhof
+
+1)coords=(54, 265)
+1)short_name=BStBl II 2013
+1)get_cite()=/de/court citation/Bundessteuerblatt (sonstige gebräuchliche Verwendung)/BStBl II 2013
+
+
+
+-------------------------------------------------------------------------------
+Mit Einreichung der Körperschaftsteuererklärung für das Jahr 2006 im Februar 2008
+beantragte die Klägerin unter Bezugnahme auf das Schreiben des Bundesministeriums
+der Finanzen (BMF) vom 27.3.2003 IV A 6-S 2140-8/03 (BStBl I 2003, 240;
+- Sanierungserlass -), die Körperschaftsteuer gemäß § 163 der Abgabenordnung (AO)
+aus Billigkeitsgründen abweichend festzusetzen.
+-------------------------------------------------------------------------------
+total=1
+0)coords=(217, 234)
+0)short_name=BStBl I 2003
+0)text=BStBl I 2003, 240
+0)get_cite()=/de/court citation/Bundessteuerblatt (sonstige gebräuchliche Verwendung)/BStBl I 2003

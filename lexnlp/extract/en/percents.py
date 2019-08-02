@@ -4,18 +4,22 @@ This module implements percent extraction functionality in English.
 
 Todo:
 """
+
 # Imports
 import regex as re
 from typing import Generator
+
+from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
 from .amounts import get_amounts, NUM_PTN
 from .money import CURRENCY_SYMBOL_MAP, CURRENCY_PREFIX_MAP
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 PERCENT_UNIT_MAP = {
     "percent": 0.01,
@@ -40,7 +44,7 @@ PERCENT_PTN = r"""
 PERCENT_PTN_RE = re.compile(PERCENT_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 
-def get_percents(text, return_sources=False, float_digits=4) -> Generator:
+def get_percents(text: str, return_sources=False, float_digits=4) -> Generator:
     """
     Get percent usages within text.
     :param text:
@@ -48,8 +52,20 @@ def get_percents(text, return_sources=False, float_digits=4) -> Generator:
     :param float_digits:
     :return:
     """
-    for source_text, number_text, currency_prefix, percent_item \
-            in PERCENT_PTN_RE.findall(text.lower()):
+    for ant in get_percent_annotations(text, float_digits):
+        item = (ant.sign, ant.amount, ant.fraction)
+        if return_sources:
+            item += (ant.text,)
+        yield item
+
+
+def get_percent_annotations(text: str, float_digits=4) \
+        -> Generator[PercentAnnotation, None, None]:
+    """
+    Get percent usages within text.
+    """
+    for match in PERCENT_PTN_RE.finditer(text.lower()):
+        source_text, number_text, currency_prefix, percent_item = match.groups()
         if currency_prefix:
             continue
         number = list(get_amounts(number_text, float_digits=float_digits))
@@ -58,7 +74,9 @@ def get_percents(text, return_sources=False, float_digits=4) -> Generator:
         val = PERCENT_UNIT_MAP[percent_item] * number[0]
         if float_digits:
             val = round(val, float_digits)
-        item = (percent_item, number[0], val)
-        if return_sources:
-            item += (source_text.strip(),)
-        yield item
+        ant = PercentAnnotation(coords=match.span(),
+                                text=source_text.strip(),
+                                amount=number[0],
+                                fraction=val,
+                                sign=percent_item)
+        yield ant

@@ -1,13 +1,16 @@
 from unittest import TestCase
+
+from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.common.tests.definitions_text_annotator \
     import annotate_definitions_text
-from lexnlp.extract.de.definitions import get_definition_list, get_definitions
-from lexnlp.tests.test_utils import load_resource_document
+from lexnlp.extract.de.definitions import get_definition_list, get_definitions, get_definition_annotations
+from lexnlp.tests.utility_for_testing import load_resource_document
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -89,3 +92,10 @@ class TestParseDeutscheDefinitions(TestCase):
         # TODO: sind unbewegliches Vermögen im Sinne is a false positive
         names = {d.name.strip(' "'): True for d in ret}
         self.assertEqual(True, "Vermögensgegenstände" in names)
+
+    def test_file_samples(self):
+        tester = TypedAnnotationsTester()
+        tester.test_and_raise_errors(
+            get_definition_annotations,
+            'lexnlp/typed_annotations/de/definition/definitions.txt',
+            DefinitionAnnotation)

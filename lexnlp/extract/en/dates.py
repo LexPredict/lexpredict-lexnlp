@@ -2,6 +2,7 @@
 
 This module implements date extraction functionality in English.
 """
+
 # pylint: disable=bare-except
 
 # Standard imports
@@ -20,15 +21,15 @@ import sklearn.pipeline
 import sklearn.feature_selection
 from sklearn.externals import joblib
 
+from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.common.date_parsing.datefinder import DateFinder
 from lexnlp.extract.en.date_model import MODEL_DATE, DATE_MODEL_CHARS, MODULE_PATH
 from lexnlp.extract.common.dates import DateParser
 
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -298,7 +299,27 @@ def get_dates_list(text, **kwargs) -> List:
     return list(get_dates(text, **kwargs))
 
 
-def get_dates(text, strict=False, base_date=None, return_source=False, threshold=0.50) -> Generator:
+def get_dates(text: str, strict=False, base_date=None,
+              return_source=False, threshold=0.50) -> Generator:
+    """
+    Find dates after cleaning false positives.
+    :param text: raw text to search
+    :param strict: whether to return only complete or strict matches
+    :param base_date: base date to use for implied or partial matches
+    :param return_source: whether to return raw text around date
+    :param threshold: probability threshold to use for false positive classifier
+    :return:
+    """
+    # Get raw dates
+    for ant in get_date_annotations(text, strict, base_date, threshold):
+        if return_source:
+            yield (ant.date, ant.coords)
+        else:
+            yield ant.date
+
+
+def get_date_annotations(text: str, strict=False, base_date=None, threshold=0.50) \
+        -> Generator[DateAnnotation, None, None]:
     """
     Find dates after cleaning false positives.
     :param text: raw text to search
@@ -315,10 +336,10 @@ def get_dates(text, strict=False, base_date=None, return_source=False, threshold
         row_df = pd.DataFrame([get_date_features(text, raw_date[1][0], raw_date[1][1])])
         date_score = MODEL_DATE.predict_proba(row_df.loc[:, MODEL_DATE.columns])
         if date_score[0, 1] >= threshold:
-            if return_source:
-                yield (raw_date[0], raw_date[1])
-            else:
-                yield raw_date[0]
+            ant = DateAnnotation(coords=raw_date[1],
+                                 date=raw_date[0],
+                                 score=date_score[0, 1])
+            yield ant
 
 
 def build_date_model(input_examples, output_file, verbose=True):

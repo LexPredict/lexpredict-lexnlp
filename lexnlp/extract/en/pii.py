@@ -5,16 +5,22 @@ This module implements PII extraction functionality in English.
 Todo:
   * http://www.doncio.navy.mil/contentview.aspx?id=2428
 """
+
 # Imports
 import regex as re
 from typing import Generator
 
+from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+from lexnlp.extract.common.annotations.phone_annotation import PhoneAnnotation
+from lexnlp.extract.common.annotations.ssn_annotation import SsnAnnotation
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 SSN_PATTERN = r"""
 (?P<block1>[0-9]{3})[\-]?(?P<block2>[0-9]{2})[\-]?(?P<block3>[0-9]{4})
@@ -34,32 +40,46 @@ RE_US_PHONE = re.compile(US_PHONE_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTAL
 def get_ssns(text, return_sources=False) -> Generator:
     """
     Find possible SSN references in the text.
-    :param text:
-    :param return_sources:
-    :return:
     """
 
     # Iterate through all potential matches
+    for ant in get_ssn_annotations(text):
+        if return_sources:
+            yield ant.number, ant.text
+        else:
+            yield ant.number
+
+
+def get_ssn_annotations(text: str) -> Generator[SsnAnnotation, None, None]:
     for match in RE_SSN.finditer(text):
         # Get individual group matches
         captures = match.capturesdict()
-        ssn = "{block1}-{block2}-{block3}".format(block1=captures["block1"].pop(),
-                                                  block2=captures["block2"].pop(),
-                                                  block3=captures["block3"].pop(),
-                                                  )
+        blocks = [int(captures[f'block{i + 1}'].pop()) for i in range(3)]
+        if not all(blocks):
+            continue
 
-        if return_sources:
-            yield ssn, match.group()
-        else:
-            yield ssn
+        ssn = f'{blocks[0]:03d}-{blocks[1]:02d}-{blocks[2]:04d}'
+        ant = SsnAnnotation(coords=match.span(),
+                            number=ssn,
+                            text=match.group())
+        yield ant
 
 
-def get_us_phones(text, return_sources=False) -> Generator:
+def get_us_phones(text: str, return_sources=False) -> Generator:
     """
-    Find possible SSN references in the text.
-    :param text:
-    :param return_sources:
-    :return:
+    Find possible telephone numbers in the text.
+    """
+    for ant in get_us_phone_annotations(text):
+        if return_sources:
+            yield ant.phone, ant.text
+        else:
+            yield ant.phone
+
+
+def get_us_phone_annotations(text: str) \
+        -> Generator[PhoneAnnotation, None, None]:
+    """
+    Find possible telephone numbers in the text.
     """
 
     # Iterate through all potential matches
@@ -70,14 +90,13 @@ def get_us_phones(text, return_sources=False) -> Generator:
                                                           exchange=captures["exchange"].pop(),
                                                           last4=captures["last4"].pop(),
                                                           )
+        ant = PhoneAnnotation(coords=match.span(),
+                              phone=phone,
+                              text=match.group(0))
+        yield ant
 
-        if return_sources:
-            yield phone, match.group()
-        else:
-            yield phone
 
-
-def get_pii(text, return_sources=False) -> Generator:
+def get_pii(text: str, return_sources=False) -> Generator:
     """
     Find possible PII references in the text.
     :param text:
@@ -102,3 +121,13 @@ def get_pii(text, return_sources=False) -> Generator:
             yield tuple(row)
         else:
             yield ('us_phone', phone)
+
+
+def get_pii_annotations(text: str) -> \
+        Generator[TextAnnotation, None, None]:
+    """
+    Find possible PII references in the text.
+    """
+
+    yield from get_ssn_annotations(text)
+    yield from get_us_phone_annotations(text)

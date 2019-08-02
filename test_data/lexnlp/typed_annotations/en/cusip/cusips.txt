@@ -1,0 +1,63 @@
+This is TBA 12F123454 code
+-------------------------------------------------------------------------------
+total=1
+0)locale=en
+0)coords=(12, 21)
+0)ppn=False
+0)tba={'product_code': '12', 'mortgage_type': 'F', 'coupon': '123', 'maturity': '4', 'settlement_month': '5', 'checksum': '4', 'settlement_month_name': 'May'}
+0)get_cite()=/en/cusip/12F123454/45/12F123
+
+
+-------------------------------------------------------------------------------
+This is 837649128
+-------------------------------------------------------------------------------
+
+total=1
+0)locale=en
+0)coords=(8, 17)
+0)ppn=False
+0)tba=
+0)internal=False
+0)checksum=8
+0)issuer_id=837649
+0)issue_id=12
+
+
+
+-------------------------------------------------------------------------------
+This is 392690QT3.
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 17)
+0)ppn=False
+0)tba=
+0)internal=False
+0)checksum=3
+0)issuer_id=392690
+0)issue_id=QT
+
+
+-------------------------------------------------------------------------------
+As previously reported by
+Pilgrim's Pride Corporation (the "Company") on a Current Report on
+39299ZQT0 (the "Prior Form 8-K")
+-------------------------------------------------------------------------------
+total=1
+0)ppn=False
+0)tba=
+0)internal=True
+0)checksum=0
+0)issuer_id=39299Z
+0)issue_id=QT
+
+-------------------------------------------------------------------------------
+This is 39298#QT5 code
+-------------------------------------------------------------------------------
+total=1
+0)coords=(8, 17)
+0)ppn=True
+0)tba=
+0)internal=False
+0)checksum=5
+0)issuer_id=39298#
+0)issue_id=QT

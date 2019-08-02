@@ -1,10 +1,10 @@
-from typing import List, Generator
-import re
+from typing import List, Generator, Tuple
+import regex as re
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -23,7 +23,10 @@ class LineOrPhrase(object):
 
 
 class SingleWord:
-    def __init__(self, text='', start=0, is_separator=False):
+    def __init__(self,
+                 text: str = '',
+                 start: int = 0,
+                 is_separator: bool = False):
         self.text = text
         self.start = start
         self.is_separator = is_separator
@@ -44,7 +47,7 @@ class LineSplitParams:
 
         # abbreviations endin up with '.' (like "Nr.")
         # should not break line on phrases
-        self.abbreviations = []
+        self.abbreviations = {}
 
         self.abbr_ignore_case = True
 
@@ -64,10 +67,21 @@ class LineProcessor:
     word_separator_pattern = re.compile(r"[\w]+[\w-]*")
     default_split_params = LineSplitParams()
 
-    def __init__(self, allow_breaks_in_phrase: bool = True):
+    def __init__(self,
+                 allow_breaks_in_phrase: bool = True,
+                 line_split_params: LineSplitParams = None):
         self.line_length = LineProcessor.default_length
-        self.tail_length = int(self.line_length * LineProcessor.line_tail_percent / 100)
+        self.tail_length = int(self.line_length *
+                               LineProcessor.line_tail_percent / 100)
+        self.line_split_params = line_split_params or self.default_split_params
         self.allow_breaks_in_phrase = allow_breaks_in_phrase
+
+        if self.line_split_params.abbreviations:
+            tokens = self.line_split_params.abbreviations
+            tokens_ptrn = '|'.join([t.replace('.', r'\.') for t in tokens])
+            self.reg_abbreviations = re.compile(tokens_ptrn)
+        else:
+            self.reg_abbreviations = None
 
     # determine line length inside the document
     # enormously large parts of text are considered as fluctuations
@@ -103,31 +117,47 @@ class LineProcessor:
             max_95 = min(LineProcessor.max_possible_length, lens[index_95])
             max_len = max_95 if max_100 > int(1.5 * max_95) else max_100
             self.line_length = max(max_len, LineProcessor.min_possible_length)
-        self.tail_length = int(LineProcessor.line_tail_percent * self.line_length / 100)
+        self.tail_length = int(LineProcessor.line_tail_percent *
+                               self.line_length / 100)
 
     # split text on lines or phrases (LineOrPhrase),
     # returning iterator
-    def split_text_on_line_with_endings(self, text: str, ptrs: LineSplitParams = None) -> Generator[LineOrPhrase, None, None]:
-        if ptrs is None:
-            ptrs = LineProcessor.default_split_params
-
+    def split_text_on_line_with_endings(self,
+                                        text: str,
+                                        line_split_ptrs: LineSplitParams = None) -> \
+            Generator[LineOrPhrase, None, None]:
+        ptrs = line_split_ptrs or self.line_split_params
         line = None
         text_ended = False
         i = -1
 
+        # mark text with abbreviations:
+        # - we doesn't split the text if we are within an abbreviation
+        abr_coords = self.get_abbreviations_in_text(text)
+        coord_index = 0 if abr_coords else -1
+
         for ch in text:
             i += 1
-            if ch in ptrs.line_breaks:
-                if line is not None:
-                    # is this "line break" a part of abbreviation?
-                    # e.g. Abs. or Nr. ?
-                    if self.line_ended_with_abbreviation(line.text + ch, ptrs):
-                        line.text += ch
-                        continue
 
-                    text_ended = True
-                    line.ending += ch
-                continue
+            # should we break the line?
+            if ch in ptrs.line_breaks:
+
+                # are we inside abbreviation?
+                inside_abr = False
+                while coord_index >= 0:
+                    coords = abr_coords[coord_index]
+                    if i >= coords[1]:
+                        coord_index += 1
+                        if coord_index >= len(abr_coords):
+                            coord_index = -1
+                            continue
+                    inside_abr = i >= coords[0]
+                    break
+                if not inside_abr:
+                    if line is not None:
+                        text_ended = True
+                        line.ending += ch
+                    continue
 
             if line is None:
                 line = LineOrPhrase(ch, i)
@@ -145,15 +175,11 @@ class LineProcessor:
             if len(line.text) > 0:
                 yield line
 
-    def line_ended_with_abbreviation(self, line: str, ptrs: LineSplitParams) -> bool:
-        if len(ptrs.abbreviations) == 0:
-            return False
-        if ptrs.abbr_ignore_case:
-            line = line.lower()
-        for abbr in ptrs.abbreviations:
-            if line.endswith(abbr):
-                return True
-        return False
+    def get_abbreviations_in_text(self,
+                                  text: str) -> List[Tuple[int, int]]:
+        if self.reg_abbreviations:
+            return [a.span() for a in self.reg_abbreviations.finditer(text)]
+        return []  # List[Tuple[int, int]]
 
     # split text on words and separators, both are SingleWord instances
     def split_text_on_words(self, text: str) -> WordList:

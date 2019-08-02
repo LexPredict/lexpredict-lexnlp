@@ -26,7 +26,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.2.6',
+    version='0.2.7',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -40,6 +40,9 @@ setup(
 
     # Choose your license
     license='AGPL',
+
+    # version ranges for supported Python distributions
+    python_requires='~=3.6',
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -61,14 +64,7 @@ setup(
 
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        # 'Programming Language :: Python :: 2',
-        # 'Programming Language :: Python :: 2.6',
-        # 'Programming Language :: Python :: 2.7',
-        # 'Programming Language :: Python :: 3',
-        # 'Programming Language :: Python :: 3.2',
-        # 'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
 
         # Topics
         'Natural Language :: English',
@@ -103,7 +99,7 @@ setup(
         'pycountry==18.5.26',
         'regex==2017.9.23',
         'reporters-db==1.0.12.1',
-        'requests==2.21.0',
+        'requests==2.22.0',
         'scipy==1.0.0',
         'scikit-learn==0.19.1',
         'typing==3.6.2',

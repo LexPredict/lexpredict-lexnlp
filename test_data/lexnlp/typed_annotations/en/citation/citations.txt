@@ -1,0 +1,126 @@
+#### Text,Volume,Reporter,Reporter Full Name,Page,Page2,Court,Year,Source Text
+bob lissner v. test 1 F.2d 1, 2-5 (2d Cir., 1982)
+-------------------------------------------------------------------------------
+total=1
+0)source=1 F.2d 1, 2-5 (2d Cir., 1982)
+0)year=1982
+0)court=2d Cir.
+0)page_range=2-5
+0)page=1
+0)reporter_full_name=Federal Reporter
+0)reporter=F.2d
+0)volume=1
+0)coords=(19, 50)
+0)locale=en
+
+-------------------------------------------------------------------------------
+bob lissner v. test 1 F.2d 1, 2-5 (1982)
+-------------------------------------------------------------------------------
+total=1
+0)source=1 F.2d 1, 2-5 (1982)
+0)year=1982
+0)court=
+0)page_range=2-5
+0)page=1
+0)reporter_full_name=Federal Reporter
+0)reporter=F.2d
+0)volume=1
+
+
+
+-------------------------------------------------------------------------------
+bob lissner v. test 1 F.2d 1, 25 (1982)
+-------------------------------------------------------------------------------
+total=1
+0)source=1 F.2d 1, 25 (1982)
+0)year=1982
+0)court=
+0)page_range=25
+0)page=1
+0)reporter_full_name=Federal Reporter
+0)reporter=F.2d
+0)volume=1
+
+
+-------------------------------------------------------------------------------
+bob lissner v. test 1 F.2d 1 (1982)
+-------------------------------------------------------------------------------
+total=1
+0)source=1 F.2d 1 (1982)
+0)year=1982
+0)court=
+0)page_range=
+0)page=1
+0)reporter_full_name=Federal Reporter
+0)reporter=F.2d
+0)volume=1
+
+
+-------------------------------------------------------------------------------
+bob lissner v. test 1 F.2d 1
+-------------------------------------------------------------------------------
+total=1
+0)source=1 F.2d 1
+0)year=
+0)court=
+0)page_range=
+0)page=1
+0)reporter_full_name=Federal Reporter
+0)reporter=F.2d
+0)volume=1
+
+
+-------------------------------------------------------------------------------
+bob lissner v. test 1 F.2d 1, 2-5 (25 Fed. Cl. 20)
+-------------------------------------------------------------------------------
+total=2
+
+0)source=1 F.2d 1, 2-5
+0)year=
+0)court=
+0)page_range=2-5
+0)page=1
+0)reporter_full_name=Federal Reporter
+0)reporter=F.2d
+0)volume=1
+
+1)source=25 Fed. Cl. 20
+1)year=
+1)court=
+1)page_range=
+1)page=20
+1)reporter_full_name=United States Claims Court Reporter
+1)reporter=Fed. Cl.
+1)volume=25
+
+..)coords.0>1
+..)coords.1>1
+..)locale=en
+
+
+-------------------------------------------------------------------------------
+green cow v. boy 1 Wash. 1, 25 (1795)
+-------------------------------------------------------------------------------
+total=1
+0)source=1 Wash. 1, 25 (1795)
+0)year=1795
+0)court=
+0)page_range=25
+0)page=1
+0)reporter_full_name=Virginia Reports, Washington
+0)reporter=Wash.
+0)volume=1
+
+
+-------------------------------------------------------------------------------
+green cow v. boy 1 Wash. 1, 25 (1900)
+-------------------------------------------------------------------------------
+total=1
+0)source=1 Wash. 1, 25 (1900)
+0)year=1900
+0)court=
+0)page_range=25
+0)page=1
+0)reporter_full_name=Washington Reports
+0)reporter=Wash.
+0)volume=1

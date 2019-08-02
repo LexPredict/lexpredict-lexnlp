@@ -24,9 +24,10 @@ from lexnlp.nlp.en.segments.sentences import get_sentence_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 # Commonly re-used regular expression components
 ARTICLES = r'by\ and\ between|by\ and\ among|among|between|with|the|and|to|by|an|a|all'
@@ -45,17 +46,21 @@ COMPANY_NAME_PATTERN = r'[a-z0-9][a-z0-9 \,\.\-&]+?(?:\([a-z0-9][a-z0-9 \,\.\-\&
 COMPANY_PATTERN_TEMPLATE = r'''
 {article_pattern}
 (?P<full_name>
+    (?P<company_name>{company_name_pattern})[\s\,]+
+    (?:
+        (?P<company_description_and>{company_description_pattern})\s+and
+    )
+    |
     (?P<company_name>
+        (?:{company_name_pattern})?
         (?P<company_description_of>{company_description_pattern})\s+of\s+{company_name_pattern})
         (?:\W+|$)(?P<company_type_of>{company_type_pattern})?
     |
     (?P<company_name>{company_name_pattern})[\s\,]+
     (?:
-        (?P<company_description_and>{company_description_pattern})\s+and
-        |
         (?P<company_description>{company_description_pattern})(?:\s\w+)*[\s\,]+(?P<company_type>{company_type_pattern})
         |
-        (?P<company_description_single>{company_description_pattern})
+        (?P<company_description_single>{company_description_pattern})(?!\s+\p{{Lu}})
         |
         (?P<company_type_single>{company_type_pattern})
     )
@@ -122,6 +127,18 @@ PARTY_AS_PATTERN = r'''
 '''
 RE_PARTY_AS = re.compile(PARTY_AS_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.VERBOSE)
 
+FALSE_POS_PTN = r'''
+(?:
+    the\s+Borrower
+    |
+    \p{L}+\s+Agent
+)
+'''
+FALSE_POS_RE = re.compile(FALSE_POS_PTN, re.IGNORECASE | re.UNICODE | re.VERBOSE)
+
+DEFAULT_COMPANY_DESC_RE = re.compile(
+    r'(?:^|\W)(?:{})(?:$|\W)'.format('|'.join(COMPANY_DESCRIPTIONS)), re.I)
+
 
 def get_companies(text: str,
                   use_article: bool = False,
@@ -154,6 +171,7 @@ def get_companies(text: str,
             company_name = "".join(captures["full_name"])
             if company_type:
                 company_name = re.sub(r'%s$' % company_type, '', company_name)
+            company_name = FALSE_POS_RE.sub('', company_name)
             company_name = company_name.strip(
                 string.punctuation.replace('&', '').replace(')', '') + string.whitespace)
             company_name = re.sub(r'^\s*(?:and|&|of)\s+|\s+(?:and|&|of)\s*$', '',
@@ -161,26 +179,31 @@ def get_companies(text: str,
             if not company_name:
                 continue
 
-            # f.e., a Delaware company
+            # catch a Delaware company
             if company_name.lower().startswith('a ') or captures.get('article') == ['a']:
                 continue
 
-            company_description = captures["company_description_of"] or \
-                                  captures["company_description_and"] or \
-                                  captures["company_description"] or \
-                                  captures["company_description_single"]
+            company_description = captures.get("company_description", '')
+            if not company_description:
+                company_description_match = DEFAULT_COMPANY_DESC_RE.findall(company_name)
+                if company_description_match:
+                    company_description = company_description_match[0]
+
             company_description = "".join(company_description).strip(
                 string.punctuation + string.whitespace)
+
             # catch ABC & Company LLC case
             if company_description.lower() == 'company' and \
                     ('& company' in company_name.lower() or 'and company' in company_name.lower()):
                 company_description = None
             company_description = company_description or None
+
+            # catch "The Company"
             if company_description:
-                company_name = re.sub(r'[\s,]%s$' % company_description, '', company_name)
-                if not company_name or \
-                        ARTICLE_RE.fullmatch(company_name) or \
-                        re.match(r'.+?\s(?:of|in)$', company_name.lower()):
+                _company_name = re.sub(r'[\s,]%s$' % company_description, '', company_name)
+                if not _company_name or \
+                        ARTICLE_RE.fullmatch(_company_name) or \
+                        re.match(r'.+?\s(?:of|in)$', _company_name.lower()):
                     continue
             if company_name in COMPANY_DESCRIPTIONS:
                 continue

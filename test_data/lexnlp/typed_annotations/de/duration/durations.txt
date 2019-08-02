@@ -1,0 +1,90 @@
+zur kurzfristigen Betreuung von Kindern im Sinne des § 32 Absatz 1,  die das 14.
+Lebensjahr noch nicht vollendet haben oder die wegen einer vor Vollendung des 25.
+Lebensjahres eingetretenen körperlichen, geistigen oder seelischen Behinderung
+außerstande sind, sich selbst zu unterhalten oder pflegebedürftigen Angehörigen
+des Arbeitnehmers, wenn die Betreuung aus zwingenden und beruflich veranlassten
+Gründen notwendig ist, auch wenn sie im privaten Haushalt des Arbeitnehmers stattfindet,
+soweit die Leistungen 600 Euro im Kalenderjahr nicht übersteigen;
+-------------------------------------------------------------------------------
+total=3
+..)locale=de
+0)amount=14
+0)duration_days=5110
+0)duration_type=jahr
+0)duration_type_en=year
+0)prefix=lebens
+0)coords=(77, 92)
+0)text=14.\nLebensjahr
+0)get_cite()=/de/duration/14.0/jahr
+
+1)amount=25
+1)duration_days=9125
+1)duration_type=jahres
+1)duration_type_en=year
+1)prefix=lebens
+1)coords=(159, 176)
+1)text=25.\nLebensjahres
+1)get_cite()=/de/duration/25.0/jahres
+
+2)amount=1
+2)duration_days=365
+2)duration_type=jahr
+2)duration_type_en=year
+2)prefix=kalender
+2)coords=(525, 538)
+2)text=Kalenderjahr
+2)get_cite()=/de/duration/1.0/jahr
+
+
+
+-------------------------------------------------------------------------------
+seit fünfundzwanzig Jahren
+-------------------------------------------------------------------------------
+total=1
+0)amount=25.0
+0)duration_days=9125.0
+0)duration_type=jahren
+0)duration_type_en=year
+0)prefix=
+0)coords=(4, 27)
+0)text= fünfundzwanzig Jahren
+
+
+
+-------------------------------------------------------------------------------
+Neun Tage später, Senator Brien McMahon,
+-------------------------------------------------------------------------------
+total=1
+0)amount=9
+0)duration_days=9
+0)duration_type=tage
+0)duration_type_en=day
+0)prefix=
+0)coords=(0, 10)
+0)text=Neun Tage
+
+
+
+-------------------------------------------------------------------------------
+viereinhalb Stunden
+-------------------------------------------------------------------------------
+total=1
+0)amount=4.5
+0)duration_days=0.1875
+0)duration_type=stunden
+0)duration_type_en=hour
+0)prefix=
+0)coords=(0, 20)
+0)text=viereinhalb Stunden
+
+
+-------------------------------------------------------------------------------
+Dieses stürmische Wetter dauerte zwei Jahre und einen Tag.
+-------------------------------------------------------------------------------
+total=1
+0)amount=731
+0)duration_days=731
+0)duration_type=tag
+0)duration_type_en=day
+0)coords=(32, 58)
+0)is_complex=True

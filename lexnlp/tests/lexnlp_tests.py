@@ -1,6 +1,7 @@
 """Common routines for testing NLP functions against test data stored
 separately in CSV files.
 """
+
 import csv
 import inspect
 import os
@@ -12,12 +13,15 @@ import nose.tools
 import psutil
 from memory_profiler import memory_usage
 
+from lexnlp.extract.common.base_path import lexnlp_test_path
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.6"
+__version__ = "0.2.7"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 DIR_ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
 DIR_BENCHMARKS = os.path.join(DIR_ROOT, 'benchmarks')
@@ -218,6 +222,7 @@ def test_extraction_func_on_test_data(func: Callable,
                                       test_only_expected_in: bool = False,
                                       debug_print: bool = False,
                                       start_from_csv_line: int = None,
+                                      test_data_path: str = None,
                                       **kwargs):
     """
     Tests the provided function against the test data loaded from external file.
@@ -232,7 +237,14 @@ def test_extraction_func_on_test_data(func: Callable,
 
     problems = []
 
-    file_name = this_test_data_path(create_dirs=False, caller_stack_offset=2)
+    if test_data_path:
+        file_name = test_data_path
+        if not os.path.isfile(file_name):
+            file_name = os.path.join(lexnlp_test_path, file_name)
+        if not os.path.isfile(file_name):
+            raise FileNotFoundError(f'File "{test_data_path}" was not found')
+    else:
+        file_name = this_test_data_path(create_dirs=False, caller_stack_offset=2)
 
     for i, text, input_args, expected in iter_test_data_text_and_tuple(file_name):
         if start_from_csv_line and i < start_from_csv_line - 1:
@@ -247,7 +259,7 @@ def test_extraction_func_on_test_data(func: Callable,
                                                          test_only_expected_in=test_only_expected_in,
                                                          **kwargs)
         if problem:
-            problems.append(problem)
+            problems.append(f'{i+1}) {problem}')
             print(problem)
         elif debug_print:
             print('================================================================================================\n'
@@ -284,10 +296,12 @@ def test_extraction_func(expected, func: Callable, text,
     actual = set(actual) if actual else None
 
     if test_only_expected_in:
-        problem = assert_in(benchmark_name, text, expected, actual, do_raise=do_raise, test_data_file=test_data_file)
+        problem = assert_in(benchmark_name, text, expected, actual,
+                            do_raise=do_raise, test_data_file=test_data_file)
     else:
         expected = set(expected) if expected else None
-        problem = assert_set_equal(benchmark_name, text, actual, expected, do_raise=do_raise,
+        problem = assert_set_equal(benchmark_name, text, actual, expected,
+                                   do_raise=do_raise,
                                    test_data_file=test_data_file,
                                    debug_print=debug_print)
 
