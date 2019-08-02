@@ -81,7 +81,7 @@ def test_ocr_artifacts_in_post_process_sentence3():
     
     ba
      
-    Ba bal
+    Ba ba
     
     Q
     

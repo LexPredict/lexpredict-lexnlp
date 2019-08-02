@@ -55,7 +55,7 @@ SENTENCE_SPLITTERS_LOWER_EXCLUDE = re.compile(
 
 NOT_SENTENCES = re.compile(
     r'\W+'  # OCR artifacts like some non-alphanumeric chars on separate lines
-    r'|(\W*\w{1,3}(\W+\w{1,3})*\W*)|\W+'  # OCR artifacts like 'a bba af ag ah'
+    r'|(\W*\w{1,2}(\W+\w{1,2})*\W*)|\W+'  # OCR artifacts like 'a bba af ag ah'
 )
 
 STRIP_GROUP = re.compile(r'^\s*(\S.*?)\s*$', re.DOTALL)

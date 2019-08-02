@@ -144,7 +144,8 @@ def get_companies(text: str,
                   use_article: bool = False,
                   detail_type: bool = False,
                   parse_name_abbr: bool = False,
-                  return_source: bool = False) -> Generator:
+                  return_source: bool = False,
+                  use_sentence_splitter: bool = True) -> Generator:
     """
     Find company names in text, optionally using the stricter article/prefix expression.
     :param text:
@@ -152,13 +153,15 @@ def get_companies(text: str,
     :param detail_type:
     :param parse_name_abbr:
     :param return_source:
+    :param use_sentence_splitter:
     :return:
     """
     # Select regex
     re_c = RE_ARTICLE_COMPANY if use_article else RE_COMPANY
 
     # Iterate through sentences
-    for sentence in get_sentence_list(text):
+    sent_list = get_sentence_list(text) if use_sentence_splitter else [text]
+    for sentence in sent_list:
         for match in re_c.finditer(sentence):
             captures = match.capturesdict()
             company_type = captures["company_type_of"] or \

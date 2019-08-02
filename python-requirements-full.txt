@@ -46,6 +46,7 @@ six==1.11.0
 scikit-learn==0.19.1
 sphinx==2.1.2
 tika==1.15
+twine==1.13.0
 Unidecode==0.4.21
 urllib3==1.25.3
 us==1.0.0

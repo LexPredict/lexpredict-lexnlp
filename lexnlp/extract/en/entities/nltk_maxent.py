@@ -301,7 +301,8 @@ def get_companies(text: str,
                 if COMPANY_TYPES_RE.search(phrase):
                     for result in nltk_re.get_companies(phrase,
                                                         detail_type=True,
-                                                        parse_name_abbr=True):
+                                                        parse_name_abbr=True,
+                                                        use_sentence_splitter=False):
                         co_name, co_type, co_type_abbr, co_type_label, co_desc, co_abbr = result
 
                         if co_name == co_type or co_name == co_desc:
