@@ -73,7 +73,7 @@ terms by contacting ContraxSuite Licensing at
 <license@contraxsuite.com>.
 
 Requirements
----------
+------------
 
 -  Python 3.6
 -  see python-requirements.txt file for full information
