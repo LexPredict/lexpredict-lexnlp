@@ -93,7 +93,7 @@ setup(
         'datefinder-lexpredict==0.6.2',
         'dateparser==0.7.0',
         'gensim==3.4.0',
-        'nltk==3.2.4',
+        'nltk==3.4.5',
         'num2words==0.5.5',
         'pandas==0.23.4',
         'pycountry==18.5.26',
