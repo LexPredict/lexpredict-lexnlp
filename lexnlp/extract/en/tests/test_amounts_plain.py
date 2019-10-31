@@ -7,7 +7,7 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -28,6 +28,17 @@ class TestAmountsPlain(TestCase):
         self.assertEqual(
             '2.0, 1.0, 1998.0, 18.0, 2002.0, 5, 7.38, 200.0, 5, 23.0, 1998.0, 18.0, 2002.0',
             str_vals)
+
+    def test_fraction_symbol(self):
+        text = "1½ of apple"
+        amts = list(get_amount_annotations(text))
+        self.assertEqual(1, len(amts))
+        self.assertEqual(1.5, amts[0].value)
+
+        text = '2 ⅗'
+        amts = list(get_amount_annotations(text))
+        self.assertEqual(1, len(amts))
+        self.assertEqual(2.6, amts[0].value)
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

@@ -14,7 +14,7 @@ total=1
 0)year_start=1993
 0)year_end=1996
 0)name=Hughes Information Systems Company
-0)coords=(0, 58)
+0)coords=(0, 57)
 0)locale=en
 
 

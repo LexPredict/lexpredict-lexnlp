@@ -14,19 +14,40 @@ Todo:
 # Imports
 import string
 
-from typing import Generator
+from typing import Generator, Tuple
 
 import regex as re
 
+from lexnlp.extract.common.annotations.company_annotation import CompanyAnnotation
 from lexnlp.config.en.company_types import COMPANY_TYPES, COMPANY_DESCRIPTIONS
-from lexnlp.nlp.en.segments.sentences import get_sentence_list
+from lexnlp.nlp.en.segments.sentences import get_sentence_span_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+
+def get_company_type_pipe(company_type_list=None):
+    company_type_list = company_type_list or COMPANY_TYPES
+    if isinstance(company_type_list, dict):
+        company_type_list = list(company_type_list.keys())
+
+    # Setup company type list
+    company_type_list.sort(key=len, reverse=True)
+    company_type_pipe = "|".join([re.escape(c.lower())
+                                  for c in company_type_list])
+    return company_type_pipe
+
+
+def get_company_description_pipe(company_description_list=None):
+    company_description_list = company_description_list or COMPANY_DESCRIPTIONS
+    company_description_list.sort(key=len, reverse=True)
+    company_description_pipe = "|".join([re.escape(c.strip(".").lower())
+                                         for c in company_description_list])
+    return company_description_pipe
 
 
 # Commonly re-used regular expression components
@@ -40,7 +61,21 @@ ARTICLE_PATTERN = r'''
     \s+
 )?
 '''.format(ARTICLES)
-COMPANY_NAME_PATTERN = r'[a-z0-9][a-z0-9 \,\.\-&]+?(?:\([a-z0-9][a-z0-9 \,\.\-\&]+?\))?'
+
+# COMPANY_NAME_PATTERN = r'(?-i:[A-Z0-9])[a-z0-9 \'\,\.\-&]+?(?:\([a-z0-9][a-z0-9 \,\.\-\&]+?\))?'
+
+# !!! Assume that company TYPE or DESCRIPTION shouldn't precede " and"
+COMPANY_NAME_PATTERN = r'''
+    (?:
+        (?:(?-i:[A-Z0-9][A-Z0-9a-z\'\`\-&]+)
+           |of
+           |(?<!(?:{company_type_pattern}|{company_description_pattern})\s+)and(?=\s+(?-i:[A-Z0-9][A-Z0-9a-z\'\`\-&]+))
+        )[,\.& ]*
+    ){{1,5}}
+    (?:\([a-z0-9][a-z0-9 \,\.\-\&]+?\))?
+'''.format(
+    company_type_pattern=get_company_type_pipe(),
+    company_description_pattern=get_company_description_pipe())
 
 # Setup template expression for name matches alone
 COMPANY_PATTERN_TEMPLATE = r'''
@@ -60,7 +95,7 @@ COMPANY_PATTERN_TEMPLATE = r'''
     (?:
         (?P<company_description>{company_description_pattern})(?:\s\w+)*[\s\,]+(?P<company_type>{company_type_pattern})
         |
-        (?P<company_description_single>{company_description_pattern})(?!\s+\p{{Lu}})
+        (?P<company_description_single>{company_description_pattern})(?!\s+\p{{Lu}})(?!\s+&\s+)
         |
         (?P<company_type_single>{company_type_pattern})
     )
@@ -82,31 +117,17 @@ def create_company_pattern(company_pattern_template=None,
     :param article_pattern:
     :param company_type_list:
     :param company_description_list:
-    s:return:
+    :return:
     """
     company_pattern_template = company_pattern_template or COMPANY_PATTERN_TEMPLATE
     company_name_pattern = company_name_pattern or COMPANY_NAME_PATTERN
-    company_type_list = company_type_list or COMPANY_TYPES
-    if isinstance(company_type_list, dict):
-        company_type_list = list(company_type_list.keys())
-
-    # Setup company type list
-    company_type_list.sort(key=len, reverse=True)
-    company_type_pipe = "|".join([re.escape(c.lower())
-                                  for c in company_type_list])
-
-    # Setup description list
-    company_description_list = company_description_list or COMPANY_DESCRIPTIONS
-    company_description_list.sort(key=len, reverse=True)
-    company_description_pipe = "|".join([re.escape(c.strip(".").lower())
-                                         for c in company_description_list])
-
-    # Materialize pattern form intermediate word lists
+    company_type_pattern = get_company_type_pipe(company_type_list)
+    company_description_pattern = get_company_description_pipe(company_description_list)
     return company_pattern_template \
         .format(company_name_pattern=company_name_pattern,
                 article_pattern=article_pattern,
-                company_type_pattern=company_type_pipe,
-                company_description_pattern=company_description_pipe)
+                company_type_pattern=company_type_pattern,
+                company_description_pattern=company_description_pattern)
 
 
 # Create patterns from parameters
@@ -121,20 +142,20 @@ RE_ARTICLE_COMPANY = re.compile(
 
 # Create party...as pattern
 PARTY_AS_PATTERN = r'''
-(?P<party_string>.+?)[\s\,]
-(as\ the\s|as\s|\"|“)
-(?P<party_type>.+?)(?=\,|\;|\.|\"|”|\n|$)
+    (?P<party_string>.+?)[\s\,]
+    (as\ the\s|as\s|\"|“)
+    (?P<party_type>.+?)(?=\,|\;|\.|\"|”|\n|$)
 '''
 RE_PARTY_AS = re.compile(PARTY_AS_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.VERBOSE)
 
-FALSE_POS_PTN = r'''
+FALSE_POS_SUB_PTN = r'''
 (?:
-    the\s+Borrower
+    (?:the\s+)?Borrower
     |
     \p{L}+\s+Agent
 )
 '''
-FALSE_POS_RE = re.compile(FALSE_POS_PTN, re.IGNORECASE | re.UNICODE | re.VERBOSE)
+FALSE_POS_SUB_RE = re.compile(FALSE_POS_SUB_PTN, re.IGNORECASE | re.UNICODE | re.VERBOSE)
 
 DEFAULT_COMPANY_DESC_RE = re.compile(
     r'(?:^|\W)(?:{})(?:$|\W)'.format('|'.join(COMPANY_DESCRIPTIONS)), re.I)
@@ -142,26 +163,16 @@ DEFAULT_COMPANY_DESC_RE = re.compile(
 
 def get_companies(text: str,
                   use_article: bool = False,
-                  detail_type: bool = False,
-                  parse_name_abbr: bool = False,
-                  return_source: bool = False,
-                  use_sentence_splitter: bool = True) -> Generator:
+                  use_sentence_splitter: bool = True) -> Generator[CompanyAnnotation, None, None]:
     """
     Find company names in text, optionally using the stricter article/prefix expression.
-    :param text:
-    :param use_article:
-    :param detail_type:
-    :param parse_name_abbr:
-    :param return_source:
-    :param use_sentence_splitter:
-    :return:
     """
     # Select regex
     re_c = RE_ARTICLE_COMPANY if use_article else RE_COMPANY
 
     # Iterate through sentences
-    sent_list = get_sentence_list(text) if use_sentence_splitter else [text]
-    for sentence in sent_list:
+    sent_list = get_sentence_span_list(text) if use_sentence_splitter else [(0, len(text), text)]
+    for start, _, sentence in sent_list:
         for match in re_c.finditer(sentence):
             captures = match.capturesdict()
             company_type = captures["company_type_of"] or \
@@ -174,7 +185,7 @@ def get_companies(text: str,
             company_name = "".join(captures["full_name"])
             if company_type:
                 company_name = re.sub(r'%s$' % company_type, '', company_name)
-            company_name = FALSE_POS_RE.sub('', company_name)
+            company_name = FALSE_POS_SUB_RE.sub('', company_name)
             company_name = company_name.strip(
                 string.punctuation.replace('&', '').replace(')', '') + string.whitespace)
             company_name = re.sub(r'^\s*(?:and|&|of)\s+|\s+(?:and|&|of)\s*$', '',
@@ -213,16 +224,14 @@ def get_companies(text: str,
 
             abbr_name = "".join(captures["abbr_name"]) or None
 
-            ret = (company_name,
-                   company_type)
-            if detail_type:
-                ret += (COMPANY_TYPES[company_type.lower()]['abbr'] if company_type else None,
-                        COMPANY_TYPES[company_type.lower()]['label'] if company_type else None)
-            ret += (company_description,)
-            if parse_name_abbr:
-                ret += (abbr_name,)
-            if return_source:
-                ret += (sentence,)
+            ret = CompanyAnnotation(
+                (match.start() + start, match.end() + start),
+                name=company_name, company_type_full=company_type)
+            ret.company_type_abbr = COMPANY_TYPES[company_type.lower()]['abbr'] if company_type else None
+            ret.company_type_label = COMPANY_TYPES[company_type.lower()]['label'] if company_type else None
+            ret.description = company_description
+            ret.name_abbr = abbr_name
+            ret.text = sentence
             # no args:         = [company_name, company_type, company_description]
             # detail_type:     + [company_type_abbr, company_type_label]
             # parse_name_abbr: + [abbr_name]
@@ -230,9 +239,13 @@ def get_companies(text: str,
             yield ret
 
 
-def get_parties_as(text, detail_type=False) -> Generator:
+# pylint: disable=unused-argument
+def get_parties_as(text: str, detail_type=False) -> \
+        Generator[Tuple[str, str, str, str], None, None]:
     """
-    Return parties.
+    :param text: source text to search for companies
+    :param detail_type: obsolete
+    :return: parties: [(name, company type, company description, party type), ...]
     """
     # Iterate through matches
     for match in RE_PARTY_AS.finditer(text):
@@ -245,5 +258,6 @@ def get_parties_as(text, detail_type=False) -> Generator:
         if party_type.lower().startswith("of "):
             continue
 
-        for co_name, co_type, co_desc in get_companies(party_string, detail_type=detail_type):
-            yield co_name, co_type, co_desc, party_type
+        # noinspection PyTypeChecker
+        for ant in get_companies(party_string):  # type: CompanyAnnotation
+            yield ant.name, ant.company_type, ant.description, party_type

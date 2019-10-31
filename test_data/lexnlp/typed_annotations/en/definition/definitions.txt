@@ -5,10 +5,12 @@ interest on the Taxable Bonds (each an “Obligation” and collectively, the �
 interests in (i) the Gross Revenues of each Member of the Obligated Group and (ii) the moneys on deposit from time
 to time in the Gross Revenue Fund established under the Master Indenture.
 -------------------------------------------------------------------------------
-total=1
+total=3
 0)coords.0>=0
 0)coords.1>1
-0)name=each an "Obligation" and collectively, the "Obligations"
+0)name=Obligations
+
+1)name="Obligation"
 
 
 
@@ -20,7 +22,7 @@ adequacy of which are hereby acknowledge by Trustor.
 -------------------------------------------------------------------------------
 total=1
 0)locale=en
-0)coords=(76, 96)
+0)coords=(82, 95)
 0)name=Deed of Trust
 0)text=THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING\nSTATEMENT (this "Deed of Trust") dated August 29, 1997, is executed and\ndelivered by Trustor for good and valuable consideration, the receipt and\nadequacy of which are hereby acknowledge by Trustor.
 0)get_cite()=/en/definition/Deed of Trust

@@ -56,7 +56,7 @@ total=2
 1)company=Huawei
 1)year_start=1995
 1)year_end=
-1)coords=(119, 78)
+1)coords=(119, 155)
 ###1)get_cite()=/es/copyright/Huawei c/ Huawei ( c ) 1995/1995
 
 

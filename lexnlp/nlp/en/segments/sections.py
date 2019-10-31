@@ -16,15 +16,18 @@ from typing import Generator
 
 # Packages
 import pandas
+import regex as re
 from sklearn.externals import joblib
 
 # Project imports
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
+from lexnlp.utils.map import Map
+from lexnlp.utils.decorators import safe_failure
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -107,9 +110,11 @@ def build_section_break_features(lines, line_id, line_window_pre, line_window_po
     return feature_vector
 
 
+@safe_failure
 def get_sections(text, window_pre=3, window_post=3, score_threshold=0.5) -> Generator:
     """
     Get sections from text.
+    NLP-based detection of sections.
     :param text:
     :param window_pre:
     :param window_post:
@@ -153,3 +158,156 @@ def get_sections(text, window_pre=3, window_post=3, score_threshold=0.5) -> Gene
         section = "\n".join(lines[section_breaks[-1]:])
         if len(section.strip()) > 0:
             yield section
+
+
+SECTION_TITLE_PTN = r"""
+\s*
+(
+    (?i:(?:appendix|part|section|article|(?:sub)?title|EXHIBIT|SCHEDULE)\s+)?
+    (?-i:\d+(?:\.\d+)?
+         |
+         \p{Lu}(?:-\d+(?:\.\d+)?)?
+         |
+         [XVILCM]+
+         |
+         \((?:\d{1,3}|\p{L}+)\)
+    )
+)
+(?:\.|\s|$)
+"""
+SECTION_TITLE_RE1 = re.compile(r'(?<=[,\.:>;\d\n\s]\n)' + SECTION_TITLE_PTN, re.M | re.X)
+SECTION_TITLE_RE2 = re.compile(r'\A' + SECTION_TITLE_PTN, re.M | re.X)
+
+
+@safe_failure
+def get_sections_re(text) -> Generator:
+    """
+    Get sections from text.
+    Regex-based detection of text sections.
+    :param text: str - source full text
+    :return: generator of str
+    """
+    prev_start = None
+    for match in SECTION_TITLE_RE1.finditer(text):
+        start = match.start()
+        if prev_start:
+            yield text[prev_start:start]
+        elif start != 0:
+            yield text[0:start]
+        prev_start = start
+    if prev_start:
+        yield text[prev_start:]
+
+
+@safe_failure
+def get_section_spans(text, use_ml=True,
+                      return_text=True, skip_empty_headers=False,
+                      sections_hierarchy=None) -> Generator:
+    """
+    Get sections from text.
+    Use NLP-based detection OR regex-bases detection of sections - see use_ml param.
+    :param text: str - source full text
+    :param use_ml: bool - use sklearn classifier otherwise use regex-based detection
+    :param return_text: bool - return section text
+    :param skip_empty_headers: bool - return results containing headers only
+    :param sections_hierarchy: list of regexes
+    :return: Generator of dicts
+    """
+
+    _start_index_counter = 0
+    level_parser = SectionLevelParser(sections_hierarchy=sections_hierarchy)
+    sections_detector = get_sections if use_ml else get_sections_re
+
+    for section in sections_detector(text):
+        start_index = _start_index_counter + text[_start_index_counter:].index(section)
+        end_index = start_index + len(section)
+        _start_index_counter = end_index
+        try:
+            title = SECTION_TITLE_RE2.findall(section)[0]
+            title_start = start_index + section.index(title)
+            title_end = title_start + len(title)
+        except IndexError:
+            # wrong number of features (short text or smth similar)
+            title = title_start = title_end = None
+        if skip_empty_headers and not title:
+            continue
+
+        # try to get level
+        level, abs_level = level_parser.detect(title)
+
+        res = dict(
+            start=start_index,
+            end=end_index,
+            title=title,
+            title_start=title_start,
+            title_end=title_end,
+            level=level,
+            abs_level=abs_level,
+        )
+        if return_text:
+            res['text'] = section
+        yield res
+
+
+class SectionLevelParser:
+
+    DEFAULT_SECTION_HIERARCHY = [
+        r'(?i:(appendix|exhibit|schedule|part|title)\s+\S+)',
+        r'(?i:subtitle\s+\S+)',
+        r'(?i:section\s+\S+)',
+        r'(?i:subsection\s+\S+)',
+        r'(?i:article\s+\S+)',
+        r'\p{Lu}+(?:-\d+(?:\.\d+)?)?',
+        r'[\d\.]+',
+        r'\p{L}+(?:-\d+(?:\.\d+)?)?',
+        r'\([\p{L}\d]+\)'
+    ]
+
+    def __init__(self, sections_hierarchy=None):
+        if not sections_hierarchy:
+            sections_hierarchy = self.DEFAULT_SECTION_HIERARCHY
+        self.default_sections_hierarchy = [Map(regex=re.compile(i),
+                                               abs_level=n,
+                                               rel_level=None)
+                                           for n, i in enumerate(sections_hierarchy, start=1)]
+        self.level = 1        # represents previous->current relative level (new custom hierarchy)
+        self.abs_level = 1    # represents previous->current absolute level from sections_hierarchy
+        self.prev_level_re = None
+        self.title = ''
+
+    @property
+    def current_sections_hierarchy(self):
+        return [i for i in self.default_sections_hierarchy if i.rel_level]
+
+    def detect(self, title):
+        self.title = title
+        if not title:
+            return 0, 0
+        elif self.prev_level_re and self.prev_level_re.match(title):
+            return self.level, self.abs_level
+        elif self.current_sections_hierarchy:
+            levels = self.get_from_detected()
+            if levels is not None:
+                return levels
+        self.get_from_default()
+        return self.level, self.abs_level
+
+    def get_from_detected(self):
+        for level_data in self.current_sections_hierarchy:
+            if level_data.regex.match(self.title):
+                self.level = level_data.rel_level
+                self.abs_level = level_data.abs_level
+                self.prev_level_re = level_data.regex
+                return self.level, self.abs_level
+
+    def get_from_default(self):
+        for level_data in self.default_sections_hierarchy:
+            if level_data.regex.match(self.title):
+                if level_data.abs_level > self.abs_level:
+                    self.level += 1
+                elif level_data.abs_level < self.abs_level:
+                    self.level -= 1
+                level_data.rel_level = self.level
+                self.abs_level = level_data.abs_level
+                self.prev_level_re = level_data.regex
+                break

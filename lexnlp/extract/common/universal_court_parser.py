@@ -11,7 +11,7 @@ from lexnlp.utils.lines_processing.phrase_finder import PhraseFinder, PhraseMatc
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -234,7 +234,7 @@ class UniversalCourtsParser:
                            phrase.start + start,
                            phrase.start + end,
                            phrase.text[start:end])
-        return (match, found_substrings)
+        return match, found_substrings
 
     def find_court_by_type_and_jurisdiction(self, phrase: LineOrPhrase) -> List[MatchFound]:
         court_types = self.finder_court_type.find_word(phrase.text, True)

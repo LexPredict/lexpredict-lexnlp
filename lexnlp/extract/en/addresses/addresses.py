@@ -7,15 +7,14 @@ import pickle
 import re
 from typing import Generator, Tuple, List
 
-import nltk
-from nltk.tokenize.treebank import TreebankWordTokenizer
+from lexnlp.extract.en.preprocessing.span_tokenizer import SpanTokenizer
 
 from lexnlp.extract.en.addresses import address_features
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -62,7 +61,7 @@ class NGramType:
     ADDR_END = 3
 
 
-TOKENIZER = TreebankWordTokenizer()
+TOKENIZER = SpanTokenizer()
 
 
 def _safe_index(sentence, token, point, safe: bool = False):
@@ -72,7 +71,9 @@ def _safe_index(sentence, token, point, safe: bool = False):
         if safe:
             return None
         else:
-            raise ValueError('substring "{}" not found in "{}"'.format(token, sentence))
+            raise ValueError(f'Substring "{token}" not found in:\n'
+                             f'"{sentence}"\n'
+                             f'Search start pos: {point}')
 
 
 def align_tokens(tokens, sentence):
@@ -103,37 +104,33 @@ def load_classifier():
 
 
 NGRAM_CLASSIFIER = load_classifier()
-NGRAM_N = 5
+NGRAM_WINDOW_HALF_WIDTH = 10
+NGRAM_WINDOW_STEP = 1
 
 
-def prepare_ngrams_in_text(text: str, n: int) \
+def prepare_ngrams_in_text(text: str, window_half_width: int, window_step: int) \
         -> Generator[Tuple[List[int], List[str], int, int], None, None]:
-    tokens = TOKENIZER.tokenize(text)
-    token_spans = align_tokens(tokens, text)
-    tagged_words = nltk.pos_tag(tokens)
-
     words2 = []
-    for i in range(len(tagged_words)):
-        span = token_spans[i]
-        word = text[span[0]:span[1]]
-        pos = tagged_words[i][1]
-        features = address_features.get_word_features(word, pos)
-        words2.append((word, span, pos, features))
 
-    for i in range(len(words2)):
-        word = words2[i][0]
-        word_start_pos = words2[i][1][0]
-        word_end_pos = words2[i][1][1]
+    for word, pos_token, word_start_pos, word_end_pos in TOKENIZER.get_token_spans(text):
+        features = address_features.get_word_features(word, pos_token)
+        # our tokenizer returns exact word_end_pos and we need it so that text[word_start_pos:word_end_pos] == word
+        words2.append((word, pos_token, word_start_pos, word_end_pos + 1, features))
+
+    i = 0
+    while i < len(words2):
+        word, pos_token, word_start_pos, word_end_pos, features = words2[i]
         features = list()
-        for j in range(i - n, i + n - 1):
+        for j in range(i - window_half_width, i + window_half_width):
             if 0 <= j < len(words2):
-                features.extend(words2[j][3])
+                features.extend(words2[j][4])
             else:
                 features.extend(address_features.ZERO_FEATURES)
         yield features, word, word_start_pos, word_end_pos
+        i += window_step
 
 
-_MARGIN_TOLERANCE = 3
+_MARGIN_TOLERANCE = 2
 
 
 def cleanup(address: str) -> str:
@@ -143,11 +140,16 @@ def cleanup(address: str) -> str:
 
 
 def get_addresses(text: str) -> Generator[str, None, None]:
+    for addr, _start, _end in get_address_spans(text):
+        yield addr
+
+
+def get_address_spans(text: str) -> Generator[Tuple[str, int, int], None, None]:
     possible_address_start = None
     possible_address_end = None
     margin = 0
     for ngram_features, _word, word_start_pos, word_end_pos \
-            in prepare_ngrams_in_text(text, NGRAM_N):
+            in prepare_ngrams_in_text(text, NGRAM_WINDOW_HALF_WIDTH, NGRAM_WINDOW_STEP):
         ngram_type = NGRAM_CLASSIFIER.predict([ngram_features])
 
         if possible_address_start is None:
@@ -163,7 +165,7 @@ def get_addresses(text: str) -> Generator[str, None, None]:
                 if margin >= _MARGIN_TOLERANCE:
                     if possible_address_end - possible_address_start >= 20:
                         possible_address = text[possible_address_start:possible_address_end]
-                        yield cleanup(possible_address)
+                        yield cleanup(possible_address), possible_address_start, possible_address_end
                     possible_address_end = None
                     possible_address_start = None
                     margin = 0
@@ -176,4 +178,4 @@ def get_addresses(text: str) -> Generator[str, None, None]:
 
     if possible_address_start is not None:  # text ends with address
         possible_address = text[possible_address_start:possible_address_end]
-        yield cleanup(possible_address)
+        yield cleanup(possible_address), possible_address_start, possible_address_end

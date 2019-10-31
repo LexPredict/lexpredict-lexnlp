@@ -3,7 +3,6 @@
 
 import os
 import tempfile
-from typing import List, Dict
 from datetime import datetime
 
 from nose.tools import assert_equals, assert_is_none
@@ -13,7 +12,7 @@ from lexnlp.tests import lexnlp_tests, upload_benchmarks
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -32,10 +31,9 @@ def test_process_data():
             lexnlp_tests.benchmark(lexnlp_tests.build_extraction_func_name(fff), fff, benchmark_file=benchmark_file)
         res = []
 
-        def process(actions: List[Dict]):
-            res.extend(actions)
-
-        upload_benchmarks.process_data(benchmark_file, 'index2', process)
+        # pylint: disable=unnecessary-lambda
+        upload_benchmarks.process_data(benchmark_file, 'index2',
+                                       lambda actions: res.extend(actions))
 
         d1 = res[0]
         assert_equals('fff(text)', d1['_source']['function'])

@@ -14,20 +14,22 @@ Todo:
 import re
 import string
 
-from typing import Generator
+from typing import Generator, Dict, Tuple
 
 import nltk
 
+from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
+from lexnlp.extract.common.annotations.company_annotation import CompanyAnnotation
 from lexnlp.config.en.company_types import COMPANY_TYPES, COMPANY_DESCRIPTIONS
 from lexnlp.extract.en.entities import nltk_re
 from lexnlp.extract.en.utils import strip_unicode_punctuation, NPExtractor
-from lexnlp.nlp.en.segments.sentences import get_sentence_list
+from lexnlp.nlp.en.segments.sentences import get_sentence_list, get_sentence_span_list
 from lexnlp.nlp.en.tokens import get_token_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -44,21 +46,18 @@ PERSONS_STOP_WORDS = re.compile(
 
 def contains_companies(person:str, companies) -> bool:
     if COMPANY_TYPES_RE.search(person):
-        for result in nltk_re.get_companies(person,
-                                            detail_type=True,
-                                            parse_name_abbr=True):
-            co_name, co_type, co_type_abbr, co_type_label, co_desc, co_abbr = result
-
-            if co_name == co_type or co_name == co_desc:
+        # noinspection PyTypeChecker
+        for ant in nltk_re.get_companies(person):  # type: CompanyAnnotation
+            if ant.name == ant.company_type or ant.name == ant.description:
                 continue
             return True
 
-    for co_name, co_type in companies:
+    for ant in companies:
         # Solving this scenario: This Amendment to Employment Agreement ("Amendment") is entered into
         # between Marsh Supermarkets, Inc. (the "Company"), and Don E. Marsh (the "Executive").
         # because that is pretty common , even though it screws up this scenario
         # "This is an agreement between John Smith and John Smith, LLC"
-        if person in co_name:
+        if person in ant.name:
             return True
     return False
 
@@ -76,7 +75,7 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
     for sentence in get_sentence_list(text):
         # Tag sentence
         sentence_pos = nltk.pos_tag(get_token_list(sentence))
-        companies = get_companies(text)
+        companies = list(get_company_annotations(text))
 
         # Iterate through chunks
         persons = []
@@ -245,6 +244,27 @@ def get_noun_phrases(text, strict=False, return_source=False, window=3, valid_pu
 
 class CompanyNPExtractor(NPExtractor):
 
+    def __init__(self, grammar=None):
+        grammar = grammar or r"""
+            NBAR:
+                {<DT>?<NNP.*|JJ|POS|\(|\)|,>*<NNP.*>}  # DeTerminer, Proper Noun, Adjective, brackets, terminated by Proper Noun
+            IN:
+                {<CC|IN>}   # Coordinating Conjunction, Preposition/Subordinating Conjunction
+            NP:
+                {(<NBAR><IN>)*<NBAR><VBD>*}  # Delaver Housing Incorporated (NNP-NNP-VBD)
+        """
+        super().__init__(grammar)
+
+    def get_tokenizer(self):
+        tokenizer = nltk.tokenize.TreebankWordTokenizer
+        tokenizer.PUNCTUATION[4] = (re.compile(r'[;@#$%]', re.UNICODE), ' \\g<0> ')
+        # for case like "McDonald\'s Incorporated: Burgers" when POS tokenizer treats
+        # "Incorporated:" as VBN instead of NNP and NP extractor fails to recognize such grammar
+        tokenizer.PUNCTUATION.append((re.compile(r':'), r';'))
+        # for case when apostrophe is in company name like Moody`s
+        tokenizer.STARTING_QUOTES = [(re.compile(r'`s '), r'-ES-')] + tokenizer.STARTING_QUOTES + [(re.compile(r'-ES-'), r'`s ')]
+        return tokenizer().tokenize
+
     @staticmethod
     def strip_np(np):
         return np.strip(string.punctuation + string.whitespace)
@@ -257,6 +277,76 @@ class CompanyNPExtractor(NPExtractor):
 
 
 np_extractor = CompanyNPExtractor()
+
+
+def get_company_annotations(
+        text: str,
+        strict: bool = False,
+        use_gnp: bool = False,
+        count_unique: bool = False,
+        name_upper: bool = False,
+        ) -> Generator[CompanyAnnotation, None, None]:
+    """
+    Find company names in text, optionally using the stricter article/prefix expression.
+    :param parse_name_abbr:
+    :param text:
+    :param strict:
+    :param use_gnp: use get_noun_phrases or NPExtractor
+    :param name_upper: return company name in upper case.
+    :param count_unique: return only unique companies - case insensitive.
+    :return:
+    """
+    # skip if all text is in uppercase
+    if text == text.upper():
+        return
+    valid_punctuation = VALID_PUNCTUATION + ["(", ")"]
+
+    unique_companies = {}  # type: Dict[Tuple[str, str], CompanyAnnotation]
+
+    if COMPANY_TYPES_RE.search(text):
+        # Iterate through sentences
+        for s_start, s_end, sentence in get_sentence_span_list(text):
+            # skip if whole phrase is in uppercase
+            if sentence == sentence.upper():
+                continue
+            if use_gnp:
+                phrases = list(get_noun_phrases(sentence, strict=strict,
+                                                valid_punctuation=valid_punctuation))
+            else:
+                phrases = list(np_extractor.get_np(sentence))
+            phrase_spans = PhrasePositionFinder.find_phrase_in_source_text(sentence, phrases)
+
+            for phrase, p_start, p_end in phrase_spans:
+                if COMPANY_TYPES_RE.search(phrase):
+                    # noinspection PyTypeChecker
+                    for ant in nltk_re.get_companies(
+                            phrase, use_sentence_splitter=False):  # type: CompanyAnnotation
+
+                        if ant.name == ant.company_type or ant.name == ant.description:
+                            continue
+                        ant.coords = (ant.coords[0] + s_start + p_start,
+                                      ant.coords[1] + s_start + p_start)
+
+                        if name_upper:
+                            ant.name = ant.name.upper()
+
+                        if count_unique:
+                            unique_key = (ant.name.lower() if ant.name else None, ant.company_type_abbr)
+                            existing_result = unique_companies.get(unique_key)
+
+                            if existing_result:
+                                existing_result.counter += 1
+                            else:
+                                unique_companies[unique_key] = ant
+                        else:
+                            yield ant
+
+        if count_unique:
+            for company in unique_companies.values():
+                yield company
+
+    # search for acronyms in text ("[A-Z]" or (A-Z))
+    # try to merge annotations (in one sentence!) in acronyms
 
 
 def get_companies(text: str,
@@ -280,56 +370,19 @@ def get_companies(text: str,
     :return:
     """
     # skip if all text is in uppercase
-    if text == text.upper():
-        return
-    valid_punctuation = VALID_PUNCTUATION + ["(", ")"]
-
-    unique_companies = dict()
-
-    if COMPANY_TYPES_RE.search(text):
-        # Iterate through sentences
-        for sentence in get_sentence_list(text):
-            # skip if whole phrase is in uppercase
-            if sentence == sentence.upper():
-                continue
-            if use_gnp:
-                phrases = get_noun_phrases(sentence, strict=strict,
-                                           valid_punctuation=valid_punctuation)
-            else:
-                phrases = np_extractor.get_np(sentence)
-            for phrase in phrases:
-                if COMPANY_TYPES_RE.search(phrase):
-                    for result in nltk_re.get_companies(phrase,
-                                                        detail_type=True,
-                                                        parse_name_abbr=True,
-                                                        use_sentence_splitter=False):
-                        co_name, co_type, co_type_abbr, co_type_label, co_desc, co_abbr = result
-
-                        if co_name == co_type or co_name == co_desc:
-                            continue
-                        if name_upper:
-                            co_name = co_name.upper()
-
-                        result = (co_name, co_type)
-
-                        if detail_type:
-                            result += (co_type_abbr, co_type_label, co_desc)
-                        if parse_name_abbr:
-                            result += (co_abbr,)
-                        if return_source and not count_unique:
-                            result = result + (sentence,)
-
-                        if count_unique:
-                            unique_key = (result[0].lower() if result[0] else None, co_type_abbr)
-                            existing_result = unique_companies.get(unique_key)
-
-                            if existing_result:
-                                unique_companies[unique_key] = existing_result[:-1] + (existing_result[-1] + 1,)
-                            else:
-                                unique_companies[unique_key] = result + (1,)
-                        else:
-                            yield result
-
+    # noinspection PyTypeChecker
+    for ant in get_company_annotations(text,
+                                       strict,
+                                       use_gnp,
+                                       count_unique,
+                                       name_upper):  # type:CompanyAnnotation
+        result = (ant.name, ant.company_type)
+        if detail_type:
+            result += (ant.company_type_abbr, ant.company_type_label, ant.description)
+        if parse_name_abbr:
+            result += (ant.name_abbr,)
+        if return_source and not count_unique:
+            result = result + (ant.text,)
         if count_unique:
-            for company in unique_companies.values():
-                yield company
+            result = result + (ant.counter,)
+        yield result

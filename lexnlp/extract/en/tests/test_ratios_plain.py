@@ -7,7 +7,7 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -20,11 +20,16 @@ class TestRatiosPlain(TestCase):
         self.assertEqual(1, len(ds))
 
         ants = list(get_ratio_annotations(text))
-        self.assertEqual(1, len(ds))
+        self.assertEqual(1, len(ants))
         self.assertEqual('en', ants[0].locale)
         self.assertEqual(3.0, ants[0].left)
         self.assertEqual(1.5, ants[0].right)
         self.assertEqual(2.0, ants[0].ratio)
+
+    def test_ratio_slash(self):
+        text = "Ratio of not greater than 3/1.."
+        ants = list(get_ratio_annotations(text))
+        self.assertEqual(1, len(ants))
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

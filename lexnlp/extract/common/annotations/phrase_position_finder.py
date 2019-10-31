@@ -1,10 +1,13 @@
 import regex as re
+import unidecode
 from typing import List, Tuple
+
+from lexnlp.extract.common.text_beautifier import TextBeautifier
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -14,19 +17,32 @@ class PhrasePositionFinder:
     space_symbols = {' ', '\t'}
 
     @staticmethod
-    def find_phrase_int_source_text(text: str,
-                                    phrases: List[str]) -> List[Tuple[str, int]]:
+    def find_phrase_in_source_text(text: str,
+                                   phrases: List[str],
+                                   pos_start: int = 0,
+                                   pos_end: int = 0) -> List[Tuple[str, int, int]]:
         """
         Though phrase is taken from text, it could be changed - e.g.,
         extra or removed spaces...
 
         Returns a list of (phrase, phrase_start) tuples
+        :param text: text where to find phrases ([phrases])
+        :param phrases: words or phrases to be found inside text
+        :param pos_start: where to start (in source text)
+        :param pos_end: where to stop searching
+        :return: [('phrase A', 10, 18), ... ]
         """
+
+        text = TextBeautifier.normalize_smb_preserve_len(text)
         condensed = ''
         ctos = []  # condensed-to-source indices
         stoc = [0] * len(text)  # source-to-condensed indices
         cindex = 0
-        for i in range(len(text)):
+        end_index = len(text)
+        if pos_end:
+            end_index = min(pos_end, end_index)
+
+        for i in range(pos_start, end_index):
             a = text[i]
             if a not in PhrasePositionFinder.space_symbols:
                 stoc[i] = cindex
@@ -36,18 +52,23 @@ class PhrasePositionFinder:
                 continue
             stoc[i] = cindex
 
-        phrases = [(p, 0) for p in phrases]
+        phrases = [(p, 0, 0) for p in phrases]
         start = 0
         for i in range(len(phrases)):
             if start >= len(stoc):
                 break
             phrase = phrases[i]
-            word = phrase[0]
+            word = TextBeautifier.normalize_smb_preserve_len(phrase[0])
             src_word = word
             pstart = text.find(word, start)
+            if pstart < 0:
+                transf_word = TextBeautifier.find_transformed_word(
+                    text, word, start)
+                if transf_word:
+                    word, pstart = transf_word
             if pstart >= 0:
-                phrases[i] = (src_word, pstart)
                 start = pstart + len(word)
+                phrases[i] = (phrase[0], pstart, start)
                 continue
             # phrase is modified = extra spaces were added or removed
             word = PhrasePositionFinder.reg_space.sub('', word)
@@ -55,7 +76,12 @@ class PhrasePositionFinder:
             con_word_start = condensed.find(word, cstart)
             con_word_start = con_word_start if con_word_start >= 0 else cstart
             src_index = ctos[con_word_start]
-            start = src_index + len(word)
-            phrases[i] = (src_word, src_index)
+            w_end = src_index + len(src_word)
+            if w_end < len(ctos):
+                w_end = ctos[w_end]
+            else:
+                w_end = ctos[-1]
+            start = src_index + len(src_word)
+            phrases[i] = (phrase[0], src_index, w_end)
 
         return phrases

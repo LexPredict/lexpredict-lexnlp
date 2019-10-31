@@ -9,12 +9,12 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-class TestParseDeCourts(TestCase):
+class TestParseEsCourts(TestCase):
     def test_parse_empty_text(self):
         ret = get_copyright_list('')
         self.assertEqual(0, len(ret))
@@ -27,7 +27,7 @@ class TestParseDeCourts(TestCase):
         text = "Website BBC Mundo © 1996 – 2019   "
         ret = get_copyright_list(text)
         self.assertEqual(1, len(ret), 'test_parse_simply_phrase failed')
-        self.assertEqual((18, 31), ret[0].coords)
+        self.assertEqual((18, 34), ret[0].coords)
         self.assertEqual(1996, ret[0].year_start)
 
     def test_two_symbols(self):

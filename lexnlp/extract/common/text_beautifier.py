@@ -1,9 +1,9 @@
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -19,6 +19,76 @@ class TextBeautifier:
     APOS_SEPARATORS = APOS_SEPARATORS.union(BRACES_O)
     APOS_SEPARATORS = APOS_SEPARATORS.union(BRACES_C)
 
+    # POS tokenizer often replaces words with some other
+    # "standard" words - e.g., a pair of backticks for double quotes
+    # <transformed>:<original>
+    TRANSFORMED_WORDS = {"''": ['"', '``', '“', '”'],
+                         '(': ['(', '[', '{'],
+                         ')': [')', ']', '}'],
+                         '``': ['"', '``', '“', '”'],
+                         ':': [':', ';', '|']}
+
+    # text might be enclosed in pair of special symbols
+    # and we would remove them
+    PAIR_BRACES = {'()', '[]', '{}',
+                   '""', "''", '``', '“”'}
+
+    @staticmethod
+    def normalize_smb_preserve_len(text: str) -> str:
+        """
+        Normalize some of the string characters, preserving original length
+        :param text: string to normalize
+        :return: normalized string
+        """
+        if not text:
+            return text
+        resulted = ''
+        for c in text:
+            if c in TextBeautifier.QUOTES:
+                c = '"'
+            resulted += c
+        return resulted
+
+    @staticmethod
+    def strip_pair_symbols(term: str) -> str:
+        # build stack of pair quotes and brackets
+        term = term.strip()
+        if not term:
+            return term
+
+        if term[0] in TextBeautifier.QUOTES:
+            open_set = TextBeautifier.QUOTES
+            close_set = TextBeautifier.QUOTES
+            flip_stack = True
+        elif term[0] in TextBeautifier.BRACES_O:
+            open_set = TextBeautifier.BRACES_O
+            close_set = TextBeautifier.BRACES_C
+            flip_stack = False
+        else:
+            return term
+
+        stack = 0
+        counter = 0
+        for c in term:
+            counter += 1
+            if c in close_set:
+                if flip_stack:
+                    stack = 1 if not stack else 0
+                else:
+                    stack -= 1
+            elif c in open_set:
+                if flip_stack:
+                    stack = 1 if not stack else 0
+                else:
+                    stack += 1
+            if not stack:
+                if counter < len(term):
+                    return term
+        if stack:
+            return term
+        term = term[1:-1]
+        return TextBeautifier.strip_pair_symbols(term)
+
     @staticmethod
     def unify_quotes_braces(text: str,
                             empty_replacement: str = ''):
@@ -30,11 +100,17 @@ class TextBeautifier:
 
     @staticmethod
     def unify_quotes_braces_unsafe(text: str,
-                                   empty_replacement: str = ''):
+                                   empty_replacement: str = '') -> str:
+        """
+        :param text: source text to "beautify"
+        :param empty_replacement: replace unbalanced braces / quotes with this substring
+        :return: str with all quotes and braces replaced with their "normal" forms
+        """
+
         last_quote = None  # or ('"', 9)
         apos_coords = []  # type:List[int]
-        braces_stack = [] # [("(", 18), ("[", 41)]
-        replacements = [] # [(18, '{'), (82, '')]
+        braces_stack = []  # [("(", 18), ("[", 41)]
+        replacements = []  # [(18, '{'), (82, '')]
 
         for i in range(len(text)):
             c = text[i]
@@ -118,3 +194,24 @@ class TextBeautifier:
         # get the candidate (apostrophe coords) with min weight
         apos_weighted.sort(key=lambda c: c[1])
         return apos_weighted[0][0]
+
+    @staticmethod
+    def find_transformed_word(txt: str, word: str, offset: int) \
+            -> Optional[Tuple[str, int]]:
+        """
+        Searches for transformed word into text, returns
+        transformed words with its start position
+        """
+        trans_set = TextBeautifier.TRANSFORMED_WORDS.get(word)
+        if not trans_set:
+            return None
+
+        indices = [(tw, txt.find(tw, offset)) for tw in trans_set]
+        indices = [i for i in indices if i[1] >= 0]
+        indices.sort(key=lambda w: w[1])
+        if indices:
+            new_offset = indices[0][1]
+            leap_size = new_offset - offset
+            if leap_size < len(word) + 2:
+                return indices[0]
+        return None

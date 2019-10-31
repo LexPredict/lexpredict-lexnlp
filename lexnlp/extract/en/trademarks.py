@@ -10,15 +10,13 @@ Todo: -
 import re
 from typing import Generator
 
-from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.common.annotations.trademark_annotation import TrademarkAnnotation
-from lexnlp.nlp.en.segments.sentences import get_sentence_span
 from lexnlp.extract.en.utils import NPExtractor
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -51,19 +49,19 @@ def get_trademark_annotations(text: str) -> \
     Find trademarks in text.
     """
     # Iterate through sentences
-    if TRADEMARK_PTN_RE.search(text):
-        for scd in get_sentence_span(text):
-            sentence = scd[2]
-            phrases = list(np_extractor.get_np(sentence))
-            tagged_phrases = PhrasePositionFinder.find_phrase_int_source_text(
-                sentence, phrases)
-            for phrase in tagged_phrases:
-                for tm in TRADEMARK_PTN_RE.finditer(phrase[0]):
-                    coords = tm.span()
-                    coords = (coords[0] + scd[0] + phrase[1],
-                              coords[1] + scd[0] + phrase[1])
-                    if coords[1] >= len(text):
-                        coords = (coords[0], len(text) - 1)
-                    ant = TrademarkAnnotation(coords=coords,
-                                              trademark=tm.group())
-                    yield ant
+    if not TRADEMARK_PTN_RE.search(text):
+        return
+
+    # for scd in get_sentence_span(text):
+    # sentence = scd[2]
+    tagged_phrases = list(np_extractor.get_np_with_coords(text))
+    for phrase in tagged_phrases:
+        for tm in TRADEMARK_PTN_RE.finditer(phrase[0]):
+            coords = tm.span()
+            coords = (coords[0] + phrase[1],
+                      coords[1] + phrase[1])
+            if coords[1] >= len(text):
+                coords = (coords[0], len(text) - 1)
+            ant = TrademarkAnnotation(coords=coords,
+                                      trademark=tm.group())
+            yield ant

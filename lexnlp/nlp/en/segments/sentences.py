@@ -18,12 +18,15 @@ from typing import Tuple, List, Generator, Any, Union
 from nltk.tokenize.punkt import PunktTrainer, PunktSentenceTokenizer
 from sklearn.externals import joblib
 
+from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
+
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 # Setup module path
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -31,8 +34,10 @@ MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 # Load segmenters
 SENTENCE_SEGMENTER_MODEL = joblib \
     .load(os.path.join(MODULE_PATH, "./sentence_segmenter.pickle"))  # type: PunktSentenceTokenizer
-extra_abbreviations = ['no', 'l']
+extra_abbreviations = [a.rstrip('.') for a in EnLanguageTokens.abbreviations]
 SENTENCE_SEGMENTER_MODEL._params.abbrev_types.update(extra_abbreviations)
+SENTENCE_SEGMENTER_MODEL._params.abbrev_types.update(['no', 'l'])
+
 
 PRE_PROCESS_TEXT_REMOVE = re.compile(
     r'(?:^\s*\d+\s*$)'
@@ -59,6 +64,10 @@ NOT_SENTENCES = re.compile(
 )
 
 STRIP_GROUP = re.compile(r'^\s*(\S.*?)\s*$', re.DOTALL)
+
+
+# are used in normalize_text for better splitting text on sentences
+PRETOKENIZE_REPLACEMENTS = [('“', '"'), ('”', '"')]
 
 
 def pre_process_document(text: str) -> str:
@@ -134,15 +143,29 @@ def get_sentence_list(text):
     return [ssp[2] for ssp in get_sentence_span_list(text)]
 
 
-def get_sentence_span(text) -> Generator[Tuple[int, int, str], Any, Any]:
+def get_sentence_span(text: str) -> Generator[Tuple[int, int, str], Any, Any]:
     """
     Given a text, returns a list of the (start, end) spans of sentences
     in the text.
     """
-    for span in SENTENCE_SEGMENTER_MODEL.span_tokenize(text):
+    text_unified = normalize_text(text)
+    for span in SENTENCE_SEGMENTER_MODEL.span_tokenize(text_unified, realign_boundaries=True):
         for tspan in post_process_sentence(text, span):
-            subst = text[tspan[0]:tspan[1]]
+            subst = text[tspan[0]:tspan[1]]  # we take fragments from original text
             yield (tspan[0], tspan[1], subst)
+
+
+def normalize_text(text: str) -> str:
+    """
+    Simple text pre-processing: replacing "not-quite unicode" symbols
+    by their common equivalents for better parsing sentences with
+    get_sentence_span function.
+    :param text: “U.S. Person” means any Person
+    :return: "U.S. Person" means any Person
+    """
+    for orig, nc in PRETOKENIZE_REPLACEMENTS:
+        text = text.replace(orig, nc)
+    return text
 
 
 def get_sentence_span_list(text) -> List[Tuple[int, int, str]]:

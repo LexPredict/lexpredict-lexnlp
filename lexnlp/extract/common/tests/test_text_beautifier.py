@@ -5,7 +5,7 @@ from lexnlp.extract.common.text_beautifier import TextBeautifier
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -62,3 +62,30 @@ class TestTextBeautifier(TestCase):
         text = 'called "champerty\''
         cleared = TextBeautifier.unify_quotes_braces(text)
         self.assertEqual('called "champerty"', cleared)
+
+    def test_strip_pair_symbols(self):
+        text = '"(A right of set-off; B)"'
+        cleared = TextBeautifier.strip_pair_symbols(text)
+        self.assertEqual('A right of set-off; B', cleared)
+
+        text = '("A right" of set-off; "B")'
+        cleared = TextBeautifier.strip_pair_symbols(text)
+        self.assertEqual('"A right" of set-off; "B"', cleared)
+
+    def test_strip_pair_symbols_untouched(self):
+        text = '(A) right of set-off; (B)'
+        cleared = TextBeautifier.strip_pair_symbols(text)
+        self.assertEqual(text, cleared)
+
+        text = '(A ( right) of set-off; (B)'
+        cleared = TextBeautifier.strip_pair_symbols(text)
+        self.assertEqual(text, cleared)
+
+        text = '"(A ( right)" "of set-off; (B)"'
+        cleared = TextBeautifier.strip_pair_symbols(text)
+        self.assertEqual(text, cleared)
+
+    def test_find_transformed_word(self):
+        text = '(each an “Obligation” and collectively, the “Obligations”)'
+        wrd = TextBeautifier.find_transformed_word(text, '"Obligation"', 0)
+        self.assertEqual(None, wrd)

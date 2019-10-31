@@ -18,7 +18,7 @@ from lexnlp.extract.common.base_path import lexnlp_test_path
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -313,6 +313,14 @@ def benchmark_extraction_func(func: Callable, text, **kwargs):
     return benchmark(benchmark_name, func, text, **kwargs)
 
 
+def benchmark_decorator(function, *args, **kwargs):
+    def wrapper():
+        benchmark_name = '{}(args={} kwargs={})'.format(function.__name__, args, kwargs)
+        res = benchmark(benchmark_name, function, *args, **kwargs)
+        return res
+    return wrapper
+
+
 def benchmark(benchmark_name: str, func: Callable, *args, benchmark_file: str = FN_BENCHMARKS, **kwargs):
     ts = time.time()
     mem_res = memory_usage((func, args, kwargs), max_usage=True, retval=True)
@@ -348,7 +356,8 @@ def assert_set_equal(function_name: str,
                      do_raise: bool = True,
                      do_write_to_file: bool = True,
                      debug_print: bool = True,
-                     test_data_file: str = None) -> Union[str, None]:
+                     test_data_file: str = None,
+                     treat_empty_str_like_none: bool = True) -> Union[str, None]:
     if not expected_results and not actual_results:
         return None
     exx = None

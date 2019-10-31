@@ -12,14 +12,16 @@ Todo:
 """
 
 from nose.tools import assert_list_equal
+from typing import List
 
+from lexnlp.extract.common.annotations.company_annotation import CompanyAnnotation
 from lexnlp.extract.en.entities.nltk_re import get_companies, get_parties_as
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -40,11 +42,12 @@ def test_company_article_regex():
     Test company regular expressions.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_companies,
-                                                   expected_data_converter=lambda row: row[0],
-                                                   test_only_expected_in=True,
-                                                   use_article=True,
-                                                   detail_type=True)
+    lexnlp_tests.test_extraction_func_on_test_data(
+        get_companies,
+        expected_data_converter=lambda row: row[0],
+        actual_data_converter=company_annotation_to_tuple_converter_detailed,
+        test_only_expected_in=True,
+        use_article=True)
 
 
 def test_company_regex():
@@ -52,10 +55,33 @@ def test_company_regex():
     Test company regular expressions.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_companies,
-                                                   expected_data_converter=lambda row: row[0],
-                                                   test_only_expected_in=True,
-                                                   use_article=False)
+    lexnlp_tests.test_extraction_func_on_test_data(
+        get_companies,
+        expected_data_converter=lambda row: row[0],
+        actual_data_converter=company_annotation_to_tuple_converter_short,
+        test_only_expected_in=True,
+        use_article=False)
+
+
+def company_annotation_to_tuple_converter_short(ants: List[CompanyAnnotation]):
+    return company_annotation_to_tuple_converter(ants, False)
+
+
+def company_annotation_to_tuple_converter_detailed(ants: List[CompanyAnnotation]):
+    return company_annotation_to_tuple_converter(ants, True)
+
+
+def company_annotation_to_tuple_converter(ants: List[CompanyAnnotation],
+                                          need_detail: bool):
+    resulted = []
+    for ant in ants:
+        if not need_detail:
+            resulted.append((ant.name, ant.company_type_full, ant.description))
+        else:
+            resulted.append((ant.name, ant.company_type_full,
+                             ant.company_type_abbr, ant.company_type_label, ant.description))
+    return resulted
+
 
 
 def test_company_as():

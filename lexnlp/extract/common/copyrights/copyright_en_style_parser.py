@@ -10,12 +10,11 @@ import string
 from typing import Generator, List, Tuple
 
 from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
-from lexnlp.nlp.en.segments.sentences import get_sentence_span_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -46,7 +45,7 @@ class CopyrightEnStyleParser:
             yield ret
 
     @classmethod
-    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int]]:
+    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int, int]]:
         raise NotImplementedError()
 
     @classmethod
@@ -62,34 +61,35 @@ class CopyrightEnStyleParser:
         if not cls.copyright_ptn_re.search(text):
             return
 
-        for sent_start, _, sentence in get_sentence_span_list(text):
-            tagged_phrases = cls.extract_phrases_with_coords(sentence)
+        tagged_phrases = cls.extract_phrases_with_coords(text)
 
-            for phrase, phrase_start in tagged_phrases:
-                for match in cls.copyright_ptn_re.finditer(phrase):
-                    cp_text, cp_sign, cp_date, cp_name = match.groups()
+        for phrase, phrase_start, phrase_end in tagged_phrases:
+            for match in cls.copyright_ptn_re.finditer(phrase):
+                cp_text, cp_sign, cp_date, cp_name = match.groups()
 
-                    # TODO: catch in the general regex
-                    if not cp_date:
-                        cp_date_at_end = cls.year_ptn_re.search(cp_name)
-                        if cp_date_at_end:
-                            cp_date = cp_date_at_end.group()
-                            cp_name = re.sub(r'{}$'.format(cp_date), '', cp_name)
+                # TODO: catch in the general regex
+                if not cp_date:
+                    cp_date_at_end = cls.year_ptn_re.search(cp_name)
+                    if cp_date_at_end:
+                        cp_date = cp_date_at_end.group()
+                        cp_name = re.sub(r'{}$'.format(cp_date), '', cp_name)
 
-                    start, end = match.span()
-                    start += phrase_start + sent_start
-                    end += phrase_start
-                    ant = CopyrightAnnotation(coords=(start, end),
-                                              sign=cp_sign.strip(),
-                                              date=cp_date,
-                                              name=cp_name.strip(string.punctuation +
-                                                                 string.whitespace))
+                start, end = match.span()
+                if end > (phrase_end - phrase_start):
+                    end = phrase_end - phrase_start
+                start += phrase_start
+                end += phrase_start
+                ant = CopyrightAnnotation(coords=(start, end),
+                                          sign=cp_sign.strip(),
+                                          date=cp_date,
+                                          name=cp_name.strip(string.punctuation +
+                                                             string.whitespace))
 
-                    if return_sources:
-                        ant.text = cp_text.strip()
-                    cls.split_copyright_date(ant)
-                    cls.derive_company_name(ant, phrase)
-                    yield ant
+                if return_sources:
+                    ant.text = cp_text.strip()
+                cls.split_copyright_date(ant)
+                cls.derive_company_name(ant, phrase)
+                yield ant
 
     @classmethod
     def derive_company_name(cls,

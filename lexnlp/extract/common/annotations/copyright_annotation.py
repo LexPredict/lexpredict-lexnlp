@@ -5,7 +5,7 @@ from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -36,6 +36,10 @@ class CopyrightAnnotation(TextAnnotation):
         self.date = date
         self.year_start = TextAnnotation.get_int_value(year_start)
         self.year_end = TextAnnotation.get_int_value(year_end)
+
+    def __repr__(self):
+        text = self.company or self.name or self.text or ''
+        return f'{text}, ({self.coords[0]}, {self.coords[1]})'
 
     def get_cite_value_parts(self) -> List[str]:
         parts = [self.company or self.name,

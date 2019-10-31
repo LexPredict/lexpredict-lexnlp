@@ -7,7 +7,7 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -29,6 +29,19 @@ class TestTrademarksPlain(TestCase):
         start = text.find('OASyS(R)')
         self.assertGreater(ants[0].coords[1], ants[0].coords[0])
         self.assertEqual((start, ants[0].coords[1]), ants[0].coords)
+
+    def test_annotation_coords(self):
+        text = """...  packages containing the NetLOCK(TM) computer programs in executable
+or machine-readable form and written instructional materials.  Licensed Programs
+include a NetLOCK(TM)  Manager for network  security  administration  and one or
+more  NetLOCK(TM)  Clients for use on multiple  computers  ..."""
+
+        ants = list(get_trademark_annotations(text))
+        self.assertEqual(3, len(ants))
+        for ant in ants:
+            ant_text = text[ant.coords[0]: ant.coords[1]]
+            self.assertEqual(ant.trademark.replace(' ', ''),
+                             ant_text.replace(' ', ''))
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

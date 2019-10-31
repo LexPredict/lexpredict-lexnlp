@@ -12,13 +12,12 @@ from typing import Generator, List, Tuple
 
 from lexnlp.extract.common.copyrights.copyright_en_style_parser import CopyrightEnStyleParser
 from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
-from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.en.utils import NPExtractor
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -48,11 +47,8 @@ np_extractor = CopyrightNPExtractor(grammar=grammar)
 
 class CopyrightEnParser(CopyrightEnStyleParser):
     @classmethod
-    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int]]:
-        phrases = list(np_extractor.get_np(sentence))
-        tagged_phrases = PhrasePositionFinder.find_phrase_int_source_text(
-            sentence, phrases)
-        return tagged_phrases
+    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int, int]]:
+        return np_extractor.get_np_with_coords(sentence)
 
 
 def get_copyright(text: str,

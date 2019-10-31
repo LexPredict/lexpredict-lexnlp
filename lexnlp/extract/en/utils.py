@@ -8,11 +8,14 @@ import unicodedata
 from itertools import groupby
 
 import nltk
+from typing import Generator, List, Tuple
+
+from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -35,9 +38,9 @@ def strip_unicode_punctuation(text, valid_punctuation=None):
 
 default_grammar = r"""
     NBAR:
-        {<DT>?<NNP.*|JJ|\(|\)|,>*<NNP.*>}  # Nouns, Adj-s, brackets, terminated with Nouns
+        {<DT>?<NNP.*|JJ|POS|\(|\)|,>*<NNP.*>}  # DeTerminer, Proper Noun, Adjective, brackets, terminated by Proper Noun
     IN:
-        {<CC|IN>}   # &, and, of
+        {<CC|IN>}   # Coordinating Conjunction, Preposition/Subordinating Conjunction
     NP:
         {(<NBAR><IN>)*<NBAR>}
 """
@@ -48,7 +51,7 @@ class NPExtractor(object):
     exception_sym = ['&', 'and', 'of']
     exception_pos = ['IN', 'CC']
     sym_with_space = ['(', '&']
-    sym_without_space = ''.join([i for i in string.punctuation if i not in ['(', '&']])
+    sym_without_space = [i for i in string.punctuation if i not in ['(', '&']] + ["'s"]
 
     def __init__(self, grammar=None):
         grammar = grammar or default_grammar
@@ -66,7 +69,7 @@ class NPExtractor(object):
                   if l[0][1] not in self.exception_pos or l[0][0] in self.exception_sym]
         return leaves
 
-    def get_np(self, text):
+    def get_np(self, text: str) -> Generator[str, None, None]:
         tokenizer_func = self.get_tokenizer()
         tokens = tokenizer_func(text)
         pos_tokens = nltk.tag.pos_tag(tokens)
@@ -76,6 +79,12 @@ class NPExtractor(object):
             leaves = self.cleanup_leaves(tree.leaves())
             for np_items in leaves:
                 yield self.join(np_items)
+
+    def get_np_with_coords(self, text: str) -> List[Tuple[str, int, int]]:
+        phrases = list(self.get_np(text))
+        tagged_phrases = PhrasePositionFinder.find_phrase_in_source_text(
+            text, phrases)
+        return tagged_phrases
 
     def join(self, np_items):
         np = ''

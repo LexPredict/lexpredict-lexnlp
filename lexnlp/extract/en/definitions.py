@@ -15,6 +15,7 @@ import unidecode as unidecode
 from collections import Counter
 from typing import Generator, Pattern, List, Tuple
 
+from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.common.text_beautifier import TextBeautifier
 from lexnlp.extract.en.introductory_words_detector import IntroductoryWordsDetector
 from lexnlp.extract.en.preprocessing.span_tokenizer import SpanTokenizer
@@ -27,7 +28,7 @@ from lexnlp.utils.lines_processing.line_processor import LineProcessor
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -53,9 +54,9 @@ class DefinitionCaught:
         :return: 1 if self consumes the target, -1 if the target consumes self, overwise 0
         """
         coords_spans = (target.coords[0] >= self.coords[0] and
-                        target.coords[0] <= self.coords[1]) or \
-                       (self.coords[0] >= target.coords[0] and
-                        self.coords[0] <= target.coords[1])
+            target.coords[0] <= self.coords[1]) or \
+            (self.coords[0] >= target.coords[0] and
+            self.coords[0] <= target.coords[1])
         if not coords_spans:
             return 0
         if target.name in self.name:
@@ -122,18 +123,40 @@ EXTRACT_PTN_RE = re.compile(EXTRACT_PTN, re.UNICODE | re.DOTALL | re.MULTILINE |
 ARTICLES = ['the', 'a', 'an']
 
 # Case 2. Term inside quotes and brackets (the "Term") or ("Term")
-PAREN_PTN = r"""\((?:each(?:,)?\s+)?(?:(?:{articles})\s+)?['"“](.{{1,{max_term_chars}}}?)\.?['"”]\)""" \
+PAREN_QUOTE_PTN = r"""\((?:each(?:,)?\s+)?(?:(?:{articles})\s+)?['"“](.{{1,{max_term_chars}}}?)\.?['"”]\)""" \
     .format(articles=join_collection(ARTICLES), max_term_chars=MAX_TERM_CHARS)
-PAREN_PTN_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
+PAREN_QUOTE_PTN_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
+
+# Case 2.5. Term inside brackets (TERM) or (Term), starts with uppercase
+PAREN_PTN = r"""\((?:E|each(?:,)?\s+)?(?:(?:{articles})\s+)?([A-Z][^\)]{{1,{max_term_chars}}}?)\.?\)""" \
+    .format(articles=join_collection(ARTICLES), max_term_chars=MAX_TERM_CHARS)
+PAREN_PTN_RE_OPTIONS = re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
 
 # Case 3. Term is without quotes, is preceded by word|term|phrase or :,.^
 # and has TRIGGER_LIST item after itself.
 # e.g.: "Revolving Loan Commitment means…"; "LIBOR Rate shall mean…"
 # false positive: "This Borrower Joiner Agreement to the extent signed signed and delivered by means of a facsimile..."
+NOUN_PTN_BASE = r"""
+(
+    (?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})
+    |
+    (?:[A-Z][-A-Za-z'])
+)
+""".format(max_term_tokens=MAX_TERM_TOKENS)
+
 NOUN_PTN = r"""
-^((?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})\b|\b(?:[A-Z][-A-Za-z']))\b\s*(?=(?:{trigger_list})\W)""" \
-    .format(max_term_tokens=MAX_TERM_TOKENS, trigger_list="|".join([w.replace(" ", r"\s+") for
-                                                                    w in STRONG_TRIGGER_LIST]))
+(?:^|\s)
+(?:
+    {noun_ptn_base}
+    |
+    "{noun_ptn_base}"
+    |
+    “{noun_ptn_base}”
+)
+\s+(?=(?:{trigger_list})\W)
+""".format(noun_ptn_base=NOUN_PTN_BASE,
+           trigger_list="|".join([w.replace(" ", r"\s+") for w in STRONG_TRIGGER_LIST]))
+
 NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
 NOUN_ANTI_PTN = r"""the\s*"""
@@ -170,15 +193,17 @@ ANCHOR_SUBJECT_QUOTES_PTN = r"(?:(?:{anchor})\s+?)(?:.{{1,{max_term_chars}}}\s+?
     .format(anchor=join_collection(ANCHOR), articles=join_collection(ARTICLES), max_term_chars=MAX_TERM_CHARS)
 ANCHOR_SUBJECT_QUOTES_RE_OPTIONS = re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
 
-TRIGGER_QUOTED_DEFINITION_PATTERN = r"""['"“].{{1,{max_term_chars}}}['"”]""".format(max_term_chars=MAX_TERM_CHARS)
+TRIGGER_QUOTED_DEFINITION_PATTERN = r"""['"“][^'"“]{{1,{max_term_chars}}}['"”]""".format(max_term_chars=MAX_TERM_CHARS)
 TRIGGER_QUOTED_DEFINITION_RE = re.compile(TRIGGER_QUOTED_DEFINITION_PATTERN, re.DOTALL)
 
 QUOTED_DEFINITION_RE_PARAMS = [
     (PAREN_PTN, PAREN_PTN_RE_OPTIONS),
+    (PAREN_QUOTE_PTN, PAREN_QUOTE_PTN_RE_OPTIONS),
     (COLON_PTN, COLON_PTN_RE_OPTIONS),
     (ANCHOR_QUOTES_PTN, ANCHOR_QUOTE_RE_OPTIONS),
     (ANCHOR_SUBJECT_QUOTES_PTN, ANCHOR_SUBJECT_QUOTES_RE_OPTIONS)
 ]
+
 QUOTED_DEFINITION_RE = [re.compile(template, options) for template, options in QUOTED_DEFINITION_RE_PARAMS]
 
 QUOTED_TEXT_RE = re.compile("([\"'“„])(?:(?=(\\\\?))\\2.)+?\\1", re.UNICODE | re.IGNORECASE | re.DOTALL)
@@ -201,11 +226,6 @@ NON_SIG_POS = {'CC', 'CD', 'DT', 'EX', 'IN', 'LS',
 # RBR adverb, comparative better
 # RBS adverb, superlative best
 
-# text might be enclosed in pair of special symbols
-# and we would remove them
-PAIR_BRACES = {'()', '[]', '{}',
-               '""', "''", '``', '“”'}
-
 # punctuation POS that we have to skip while, e.g., removing introductory words
 PUNCTUATION_POS = {'``', '\t'}.union(SpecialCharacters.punctuation)
 
@@ -220,6 +240,12 @@ ABBREVIATION_PTRN = '|'.join([a.replace('.', '\\.') for a
                               in EnLanguageTokens.abbreviations])
 # if the term ends with abbreviations, last dot won't be trimmed
 ABBREVIATION_ENDING_RE = re.compile(f'({ABBREVIATION_PTRN})$')
+
+# split one phrase containing several definitions into definitions
+SPLIT_SUBDEFINITIONS_PTRN = r'''["“](?:[^"“]{{1,{max_term_chars}}})["“]'''.format(
+    max_term_chars=MAX_TERM_CHARS)
+
+SPLIT_SUBDEFINITIONS_RE = re.compile(SPLIT_SUBDEFINITIONS_PTRN, re.DOTALL)
 
 
 def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
@@ -241,8 +267,10 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
     sent_start = sentence_coords[0]
     result = set()
 
+    # it really transforms string, e.g. replaces “ with "
     if decode_unicode:
         sentence = unidecode.unidecode(sentence)
+        sentence_coords = sentence_coords[0], sentence_coords[1], sentence
 
     # case 1
     for item in TRIGGER_WORDS_PTN_RE.finditer(sentence):
@@ -273,7 +301,7 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
         if len(term.strip(PUNCTUATION_STRIP_STR)) == 0:
             continue
 
-        term = strip_pair_symbols(term)
+        term = TextBeautifier.strip_pair_symbols(term)
         if not term:
             continue
 
@@ -284,7 +312,7 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
         term_wo_intro = IntroductoryWordsDetector.remove_term_introduction(
             term, term_pos)
         if term_wo_intro != term:
-            term = strip_pair_symbols(term_wo_intro)
+            term = TextBeautifier.strip_pair_symbols(term_wo_intro)
         if not term:
             continue
 
@@ -301,18 +329,48 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
         if words_in_term > possible_tokens_count:
             continue
 
-        definitions.append(DefinitionCaught(term, sentence, (term_coords[1], term_coords[2])))
+        split_definitions_lst = split_definitions_inside_term(
+            term, sentence_coords, term_coords[1], term_coords[2])
+
+        for definition, start, end in split_definitions_lst:
+            definitions.append(DefinitionCaught(definition, sentence, (start, end,)))
 
     return definitions
 
 
-def strip_pair_symbols(term: str) -> str:
-    while len(term) > 1:
-        closers = term[0] + term[-1]
-        if closers not in PAIR_BRACES:
-            return term.strip(' \t')
-        term = term[1:-1]
-    return term.strip(' \t')
+def split_definitions_inside_term(term: str,
+                                  src_with_coords: Tuple[int, int, str],
+                                  term_start: int,
+                                  term_end: int) -> List[Tuple[str, int, int]]:
+    """
+    The whole phrase can be considered definition ("MSRB", "we", "us" or "our"),
+    but in fact the phrase can be a collection of definitions.
+    Here we split definition phrase to a list of definitions.
+
+    Source string could be pre-processed, that's why we search for each
+    sub-phrase's coordinates (PhrasePositionFinder)
+    :param term: a definition or, probably, a set of definitions ("MSRB", "we", "us" or "our")
+    :param src_with_coords: a sentence (probably), containing the term + its coords
+    :param term_start: "term" start coordinate within the source sentence
+    :param term_end: "term" end coordinate within the source sentence
+    :return: [(definition, def_start, def_end), ...]
+    """
+    src_start = src_with_coords[0]
+    src_text = src_with_coords[2]
+
+    matches = [m.group() for m in SPLIT_SUBDEFINITIONS_RE.finditer(term)]
+    if len(matches) < 2:
+        matches = [term]
+
+    match_coords = PhrasePositionFinder.find_phrase_in_source_text(
+        src_text, matches, term_start - src_start, term_end - src_start)
+
+    if len(match_coords) < len(matches):
+        return [(term, term_start, term_end,)]
+
+    match_coords = [(m[0], m[1] + src_start, m[2] + src_start, ) for m in match_coords]
+
+    return match_coords
 
 
 def does_term_are_service_words(term_pos: List[Tuple[str, str]]) -> bool:

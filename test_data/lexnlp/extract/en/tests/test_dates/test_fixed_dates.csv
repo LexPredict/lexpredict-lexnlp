@@ -81,3 +81,4 @@ Company”) and Rick Updyke (the “Employee”) effective as of June 20, 2008."
 4.5.66 Date Date,
 "test odd 10.01 date like float",
 "test odd 10 01 date like two separate numbers"
+"test 'day of' in 16th day of November 1999 - day should be captured",1999-11-16

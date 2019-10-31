@@ -11,22 +11,16 @@ Todo:
 """
 
 # Project imports
-import codecs
-from os import listdir
-from os.path import isfile, join
-from typing import List
 from unittest import TestCase
 
-from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.en.definitions import NOUN_PTN_RE, \
     get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations
-from lexnlp.tests.utility_for_testing import load_resource_document, annotate_text, save_test_document
-from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
+from lexnlp.tests.utility_for_testing import load_resource_document
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -54,13 +48,13 @@ of Trust") dated August 29, 1997, is executed and
         sentence = '''Visual Networks Operations, Inc., a Delaware corporation with offices at 2092 Gaither 
                     Road, Rockville, Maryland 20850("Licensor.") and is made retroactive to December 3, 2002 
                     ("Effective Date").'''
-        definitions = self.parse(sentence)
+        definitions = list(get_definition_annotations(sentence))
         self.assertEqual(2, len(definitions))
 
     def test_obvious_embraced_definition(self):
         text = "and will be payable from Loan Repayments made by Stanford Health Care (the \"Corporation\") " + \
                "under the Loan Agreement and from certain funds\n" + "held under the Indenture."
-        definitions = self.parse(text)
+        definitions = list(get_definition_annotations(text))
         self.assertEqual(1, len(definitions))
 
     def test_noun_pattern_false_positive(self):
@@ -73,17 +67,17 @@ of Trust") dated August 29, 1997, is executed and
     def test_capitalized_false_positive(self):
         text = "Costs incurred by the Corporation in providing these services are reflected in the respective " + \
                "categories in the consolidated statements of operations and changes in net assets."
-        definitions = self.parse(text)
+        definitions = list(get_definition_annotations(text))
         self.assertEqual(0, len(definitions))
 
         text = "Bonds in a commercial paper mode are remarketed for various periods that can be no longer than " + \
                "270 days and are established at the beginning of each commercial paper rate period."
-        definitions = self.parse(text)
+        definitions = list(get_definition_annotations(text))
         self.assertEqual(0, len(definitions))
 
     def test_the_corporation_false_positive(self):
         text = "Corporation (as described below) and any other Obligations issued"
-        definitions = self.parse(text)
+        definitions = list(get_definition_annotations(text))
         self.assertEqual(0, len(definitions))
 
     def test_include_multitoken_definition(self):
@@ -103,54 +97,70 @@ the Obligation to be issued to evidence the Corporation’s obligations with res
 interest on the Taxable Bonds (each an “Obligation” and collectively, the “Obligations”), will be secured by security 
 interests in (i) the Gross Revenues of each Member of the Obligated Group and (ii) the moneys on deposit from time 
 to time in the Gross Revenue Fund established under the Master Indenture. """
-        definitions = self.parse(text)
-        self.assertEqual(1, len(definitions))
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(3, len(definitions))
+        for df in definitions:
+            self.assertTrue('Obligation' in df.name)
 
     def test_capitalized_with_trigger(self):
         text = "Beneficial Owner means any Person which has or shares the power, directly " + \
                "or indirectly, to make\ninvestment decisions"
-        definitions = self.parse(text)
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(1, len(definitions))
+
+    def test_capitalized_with_trigger_in_the_middle_of_sentense(self):
+        text = "This is the intro Required Lenders means the people that agree to do the thing " \
+               "with the detectthis and the quick brown fox jumps over the lazy dog."
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(1, len(definitions))
+        text = 'This is the intro\n"Required Lenders" means the people that agree to do the thing ' \
+               'with the detectthis and the quick brown fox jumps over the lazy dog.'
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(1, len(definitions))
+        text = 'This is the intro “Required Lenders” means the people that agree to do the thing ' \
+               'with the detectthis and the quick brown fox jumps over the lazy dog.'
+        definitions = list(get_definition_annotations(text))
         self.assertEqual(1, len(definitions))
 
     def test_start_word_shall_be_false_positive(self):
         text = "Bonds shall be deemed to have been paid pursuant to the provisions of the Indenture"
-        _ = self.parse(text)
+        _ = list(get_definition_annotations(text))
         # self.assertEqual(0, len(definitions))
         print('Bonds shall be deemed to: false positive but OK for now')
 
     def test_reffered_to_def(self):
         text = """any such excess being referred to as a "Combined EBIDATA Deficit" """
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
         text = '"Aggregate Revolving Loan Commitment" means the combined Revolving Loan Commitments of the United Earth'
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
         text = '“Aggregate Delayed Draw Term Loan Ending Commitment” shall mean the combined Revolving Loan ' + \
                'Commitments of the Revolving Lenders, which shall initially on the Closing Date be in the amount ' + \
                'of $99,000,000, as such amount may be increased in accordance with Section 9.92(b).'
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
     def test_too_long_definition(self):
         text = '''any such excess being referred to as a "Combined BISS Deficit Alpha Beta Gamma Cappa Zeta"'''
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(0, len(defs))
 
         text = '''any such excess being referred to as a "Combined EDITT Deficit Alpha Beta Gamma Cappa"'''
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
     def test_parse_moodys(self):
         text = '''together with any successor thereto, "Moody's"'''
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
     def test_parse_in_extra_quotes(self):
         text = '''""Consolidated EBITDA" means, for any period, for the Company and its Subsidiaries ''' + \
                '''on a consolidated basis, an amount equal to Consolidated Net Income for such period'''
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
     def test_annotations(self):
@@ -165,7 +175,7 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
         text = load_resource_document(
             'lexnlp/extract/en/tests/test_definitions/test_definition_in_sentences.csv',
             'utf-8')
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertGreater(len(defs), 16)
         self.assertLess(len(defs), 25)
 
@@ -183,49 +193,31 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
         text = load_resource_document(
             'lexnlp/extract/en/tests/test_definitions/test_definition_fixed.csv',
             'utf-8')
-        defs = self.parse(text)
+        defs = list(get_definition_annotations(text))
         self.assertGreater(len(defs), 12)
         self.assertLess(len(defs), 25)
         for df in defs:
-            txt = df["tags"]["Extracted Entity Definition Name"].strip('''"[]'{}.\t ''')
+            txt = df.name.strip('''"[]'{}.\t ''')
             self.assertGreater(len(txt), 0)
-            txt = df["tags"]["Extracted Entity Text"].strip('''"[]'{}.\t ''')
+            txt = df.name.strip('''"[]'{}.\t ''')
             self.assertGreater(len(txt), 0)
-
-    def test_hit_or_miss_samples(self):
-        text = load_resource_document('lexnlp/extract/en/definitions/definitions_hit_or_miss.txt', 'utf-8')
-        definitions = self.parse(text)
-        self.assertGreater(len(definitions), 0)
-        self.annotate_document(text, definitions, 'output/definitions_hit_or_miss.html')
-
-    def test_definitions_sample_doc(self):
-        text = load_resource_document('lexnlp/extract/en/definitions/en_definitions_sample_doc.txt', 'utf-8')
-        definitions = self.parse(text)
-        self.assertGreater(len(definitions), 2)  # 10)
-        self.annotate_document(text, definitions, 'output/en_definitions_sample_doc.html')
-
-        text = load_resource_document('lexnlp/extract/en/definitions/pure_definitions.txt', 'utf-8')
-        lines_count = text.count('\n\n') + 1
-        definitions = self.parse(text)
-        self.assertGreater(len(definitions), lines_count)
-        self.annotate_document(text, definitions, 'output/pure_definitions.html')
 
     def test_apostrophe_in_definition(self):
         text = '''“Bankers’ Acceptance” or “BA” means a time draft'''
-        definitions = sorted(list(get_definitions_explicit(text)), key=lambda i: i[0])
-        self.assertEqual(definitions[0][0], 'BA')
-        self.assertEqual(definitions[1][0], '''Bankers' Acceptance''')
+        definitions = sorted(list(get_definition_annotations(text)), key=lambda i: i.coords[0])
+        self.assertEqual(definitions[0].name, "Bankers' Acceptance")
+        self.assertEqual(definitions[1].name, 'BA')
 
     def test_dot_in_definition(self):
         text = '''“U.S. Person” means any Person that is a “United States Person” as defined 
                   in Section 7701(a)(30) of the Code.'''
-        definitions = list(get_definitions_in_sentence(text))
-        self.assertEqual(definitions[0], 'U.S. Person')
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(definitions[0].name, 'U.S. Person')
 
     def test_trigger_word_fullmatches(self):
         text = '''(i)\nThe meanings given to terms defined herein shall be equally applicable to both\n
                   the singular and plural forms of such terms.'''
-        definitions = list(get_definitions_in_sentence(text))
+        definitions = list(get_definition_annotations(text))
         self.assertEqual(len(definitions), 0)
 
     def test_fp_pronoun(self):
@@ -295,65 +287,58 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
         self.assertEqual(len(definitions), 1)
         self.assertEqual('authorized', definitions[0].name)
 
-        text = "(b) In the exercise of the authorities gcanted in subsection (a) of this section, the term \"Agency\n" + \
-               "head' shall mean the Director, the Deputy Director, or the Executive of the Agency."
+        text = "(b) In the exercise of the authorities gcanted in subsection ' + \
+            '(a) of this section, the term \"Agency\n" + \
+            "head' shall mean the Director, the Deputy Director, or the Executive of the Agency."
         definitions = list(get_definition_annotations(text))
-        self.assertEqual(len(definitions), 1)
+        self.assertEqual(len(definitions), 0)
 
-    def test_file_samples(self):
-        tester = TypedAnnotationsTester()
-        tester.test_and_raise_errors(
-            get_definitions_sorted,
-            'lexnlp/typed_annotations/en/definition/definitions.txt',
-            DefinitionAnnotation)
+    def test_emma(self):
+        text = '''This website, emma.msrb.org, including the Electronic Municipal 
+        Market Access (EMMA®) system and all subdomains and areas of this website, (the "Website")  
+        is administered by the Municipal Securities Rulemaking Board ("MSRB", "we", "us" or "our").'''
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(len(definitions), 6)
 
-    def process_a_bunch_of_documents(self):
-        path = 'path/to/a/folder/with/a/number/of/files'
-        for file_path in [join(path, f) for f in listdir(path) if isfile(join(path, f))]:
-            with codecs.open(file_path, encoding='utf-8', mode='r') as myfile:
-                data = myfile.read()
-            _ = self.parse(data)
+    def test_misbrackets(self):
+        text = '''
+(bq) Subject to paragraph (e) below, a party may not take any step to:
+(i) have an administrator appointed to the Trustee;
+(ii) have a receiver appointed to the Trustee, other than a receiver of all or part of the assets of the Fund only;
+(iii) have the Trustee wound up, or prove in any winding up of the Trustee;
+(iv) obtain a judgement against the Trustee for the payment of money;
+(v) carry out any distress or execution on any property of the Trustee; or
+(A) right of set-off;
+(B) right to combine or consolidate accounts; or
+(C) banker's lien,
+against the Trustee in connection with the Trustee's obligations under or in connection with this document.
+        '''
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(0, len(definitions))
 
-    def process_big_document_with_false_positives(self):
-        text = load_resource_document('lexnlp/extract/en/definitions/definitions_fp_collections.txt', 'utf-8')
-        definitions = self.parse(text)
-        self.assertGreater(len(definitions), 0)
-        self.annotate_document(text, definitions, 'output/definitions_fp_collections.html')
+    def test_unpared_brackets(self):
+        text = '''
+         FATCA Application Date means:                                                                                                                                                                                                            
+         0. in relation to a "withholdable payment" described in s 1473(1)(A)(i) of the Code (which relates
+         to payments of interest and certain other payments from sources within the US), 1 July 2014;
+         in relation to a "withholdable payment" described in s 1473(1)(A)(ii) of the Code (which relates to 
+         "gross proceeds" from the disposition of property of a type that can produce interest from sources within 
+         the US), 1 January 2019; or
+         in relation to a "passthru payment" described in s 1471(d)(7) of the Code not falling within paragraphs
+         (a) or (b), 1 January 2019,
+         or, in each case, such other date from which such payment may become subject to a deduction or withholding
+         required by FATCA as a result of any change in FATCA after the date of this Agreement.
+        '''
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(1, len(definitions))
+        self.assertEqual('FATCA Application Date', definitions[0].name)
 
-    def annotate_document(self, text: str, definitions: List[dict], output_path: str) -> None:
-        annotations = []
-        index = 0
-        for df in definitions:
-            index += 1
-            ant_text = df["tags"]["Extracted Entity Text"]
-            ant = DefinitionAnnotation(
-                name=df["tags"]["Extracted Entity Definition Name"],
-                coords=(df["attrs"]["start"], df["attrs"]["end"]),
-                text=ant_text,
-                locale="en")
-            annotations.append(ant)
+    def test_merge_defs(self):
+        text = '("MSRB", "we", "us" or "our").'
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(4, len(definitions))
 
-        html = annotate_text(text, annotations)
-        save_test_document(output_path, html)
-
-    def parse(self, text):
-        found = list(get_definitions_explicit(text))
-        ret = []
-        for definition, source_text, coords in set(found):
-            ret.append(
-                dict(
-                    attrs={
-                        'start': coords[0],
-                        'end': coords[1]},
-                    tags={
-                        'Extracted Entity Type': 'definition',
-                        'Extracted Entity Definition Name': definition,
-                        'Extracted Entity Text': source_text
-                    }))
-        return ret
-
-
-def get_definitions_sorted(text: str):
-    annotations = list(get_definition_annotations(text))
-    annotations.sort(key=lambda a: a.coords[0])
-    return annotations
+    def test_merge_defs_consumed(self):
+        text = '(each an “Obligation” and collectively, the “Obligations”)'
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(2, len(definitions))

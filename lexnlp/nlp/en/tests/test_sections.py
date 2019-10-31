@@ -15,15 +15,16 @@ import codecs
 
 # Project imports
 from nose.tools import assert_equal
+from unittest import TestCase
 
 from lexnlp import get_module_path
-from lexnlp.nlp.en.segments.sections import get_sections
+from lexnlp.nlp.en.segments.sections import get_sections, get_section_spans
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -83,3 +84,57 @@ def test_file_3():
         num_sections = len(sections)
 
         assert_equal(num_sections, 72)
+
+
+class TestSectionSpans(TestCase):
+
+    @staticmethod
+    def get_text(path):
+        base_path = get_module_path()
+        with open(os.path.join(base_path, "../test_data", path), "rb") as f:
+            return f.read().decode("utf-8")
+
+    def test_file_4_use_ml(self):
+        text = self.get_text('test_get_section_spans_1.txt')
+
+        # test all sections
+        sections = list(get_section_spans(text))
+        self.assertEqual(len(sections), 207)
+
+        # test only sections with titles
+        sections = list(get_section_spans(text, skip_empty_headers=True))
+        self.assertEqual(len([i for i in sections if i['title'] is None]), 0)
+
+        self.assertDictEqual(
+            sections[1],
+            {'start': 2280,
+             'end': 2340,
+             'title': 'SECTION 2',
+             'title_start': 2280,
+             'title_end': 2289,
+             'level': 1,
+             'abs_level': 3,
+             'text': 'SECTION 2.  Letters of Credit........................... 15\n'})
+
+    def test_file_4_use_regex(self):
+        text = self.get_text('test_get_section_spans_1.txt')
+
+        # test all sections
+        sections = list(get_section_spans(text, use_ml=False))
+        self.assertEqual(len(sections), 554)
+
+        self.assertDictEqual(
+            sections[2],
+            {'start': 1378,
+             'end': 1438,
+             'title': 'SECTION 1',
+             'title_start': 1378,
+             'title_end': 1387,
+             'level': 2,
+             'abs_level': 3,
+             'text': 'SECTION 1.  Amount and Terms of Credit..................  1\n'})
+
+    def test_bad_text(self):
+        text = 'text'
+        sections = list(get_section_spans(text))
+        self.assertEqual(sections, [])

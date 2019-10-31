@@ -10,6 +10,7 @@ Todo:
     * Better testing for exact test in return sources
     * More pathological and difficult cases
 """
+from typing import List, Any
 
 from lexnlp.extract.en.entities.nltk_maxent import get_noun_phrases, get_companies, get_persons, \
     get_geopolitical
@@ -18,7 +19,7 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -36,7 +37,10 @@ def test_companies():
     Test get_companies methods.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_companies, detail_type=True)
+    lexnlp_tests.test_extraction_func_on_test_data(get_companies,
+                                                   detail_type=True,
+                                                   expected_data_converter=empty_string_converter,
+                                                   actual_data_converter=empty_string_converter)
 
 
 def test_companies_count():
@@ -44,11 +48,26 @@ def test_companies_count():
     Test get_companies with counting uniques.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_companies, detail_type=True,
+    lexnlp_tests.test_extraction_func_on_test_data(get_companies,
+                                                   detail_type=True,
                                                    count_unique=True,
                                                    actual_data_converter=lambda actual: [
                                                        (c[0], c[2], str(c[-1]))
                                                        for c in actual])
+
+
+def empty_string_converter(data: List[Any]):
+    # [('AMERICAN RESIDENTIAL GAP', 'LLC', 'LLC', 'Company', ''), ... ]  =>
+    # # [('AMERICAN RESIDENTIAL GAP', 'LLC', 'LLC', 'Company', None), ... ]
+    if not data:
+        return data
+    resulted = []
+    for tupl in data:
+        t = ()
+        for item in tupl:
+            t += (None if item == '' else item,)
+        resulted.append(t)
+    return resulted
 
 
 def test_company_upper_name():

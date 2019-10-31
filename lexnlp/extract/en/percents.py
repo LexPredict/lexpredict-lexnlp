@@ -9,6 +9,7 @@ Todo:
 import regex as re
 from typing import Generator
 
+from lexnlp.extract.en.ratios import get_ratio_annotations
 from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
 from .amounts import get_amounts, NUM_PTN
 from .money import CURRENCY_SYMBOL_MAP, CURRENCY_PREFIX_MAP
@@ -16,7 +17,7 @@ from .money import CURRENCY_SYMBOL_MAP, CURRENCY_PREFIX_MAP
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -52,7 +53,7 @@ def get_percents(text: str, return_sources=False, float_digits=4) -> Generator:
     :param float_digits:
     :return:
     """
-    for ant in get_percent_annotations(text, float_digits):
+    for ant in get_percent_annotations(text, float_digits):  # type:PercentAnnotation
         item = (ant.sign, ant.amount, ant.fraction)
         if return_sources:
             item += (ant.text,)
@@ -68,15 +69,23 @@ def get_percent_annotations(text: str, float_digits=4) \
         source_text, number_text, currency_prefix, percent_item = match.groups()
         if currency_prefix:
             continue
-        number = list(get_amounts(number_text, float_digits=float_digits))
-        if len(number) != 1:
-            continue
-        val = PERCENT_UNIT_MAP[percent_item] * number[0]
+
+        val = 0  # type:float
+        numbers = list(get_amounts(number_text, float_digits=float_digits))
+        if len(numbers) == 1:
+            val = numbers[0]
+        else:
+            ratios = list(get_ratio_annotations(number_text, float_digits=float_digits))
+            if len(ratios) == 1:
+                val = ratios[0].ratio
+            else:
+                continue
+        fraction = PERCENT_UNIT_MAP[percent_item] * val
         if float_digits:
-            val = round(val, float_digits)
+            fraction = round(fraction, float_digits)
         ant = PercentAnnotation(coords=match.span(),
                                 text=source_text.strip(),
-                                amount=number[0],
-                                fraction=val,
+                                amount=val,
+                                fraction=fraction,
                                 sign=percent_item)
         yield ant

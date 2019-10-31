@@ -40,7 +40,7 @@ from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -90,14 +90,33 @@ CURRENCY_PREFIX_MAP = {
 }
 allowed_prev_units = list(CURRENCY_SYMBOL_MAP) + list(CURRENCY_PREFIX_MAP)
 
+fraction_smb_to_value = {
+    '½': 1.0/2, '⅓': 1.0/3, '⅔': 2.0/3,
+    '¼': 1.0/4, '¾': 3.0/4, '⅕': 1.0/5,
+    '⅖': 2.0/5, '⅗': 3.0/5, '⅘': 4.0/5,
+    '⅙': 1.0/6, '⅚': 5.0/6, '⅐': 1.0/7,
+    '⅛': 1.0/8, '⅜': 3.0/8, '⅝': 5.0/8,
+    '⅞': 7.0/8, '⅑': 1.0/9, '⅒': 1.0/10
+}
+fraction_smb_to_string = {k: str(fraction_smb_to_value[k])[1:]
+                          for k in fraction_smb_to_value}
+
+fraction_symbols = ''.join([k for k in fraction_smb_to_value])
+FRACTION_TAIL = rf'\s{{0,2}}[{fraction_symbols}]+'
+FRACTION_TAIL_RE = re.compile(FRACTION_TAIL,
+                              re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
+
 NUM_PTN = r"""
-(?:(?:(?:(?:[\.\d][\d\.,]*\s*|\W|^)
+(?:(?:(?:(?:(?:[\.\d][\d\.,]*\s*|\W|^)
 (?:(?:{written_small_numbers}|{written_big_numbers}
 |hundred(?:th(?:s)?)?|dozen|and|a\s+half|quarters?)[\s-]*)+)
-(?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)(?:[\.\d][\d\.,/]*))(?:\W|$)""".format(
+(?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)(?:[\.\d][\d\.,/]*))(?:\W|$))(?:{fraction_tail})*""".format(
     written_small_numbers='|'.join(small_numbers),
-    written_big_numbers='|'.join(big_numbers))
+    written_big_numbers='|'.join(big_numbers),
+    fraction_tail=FRACTION_TAIL)
+
 NUM_PTN_RE = re.compile(NUM_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
+
 NON_WRIT_RE = re.compile(r'[\d\.]+')
 MIXED_WRIT_RE = re.compile(r'(^[\d\.]*)(.+)', re.DOTALL)
 ONLY_BIG_WRIT_RE = re.compile(r'^\s*(?:{}|hundred|dozen)'.format('|'.join(MAGNITUDE_MAP)))
@@ -241,7 +260,7 @@ def get_np(text) -> Generator:
 def get_amounts(text: str,
                 return_sources=False,
                 extended_sources=True,
-                float_digits=4) -> Generator:
+                float_digits=4) -> Generator[float, None, None]:
     """
     Find possible amount references in the text.
     :param text: text
@@ -250,7 +269,7 @@ def get_amounts(text: str,
     :param float_digits: round float to N digits, don't round if None
     :return: list of amounts
     """
-    for ant in get_amount_annotations(text, extended_sources, float_digits):
+    for ant in get_amount_annotations(text, extended_sources, float_digits):  # type: AmountAnnotation
         if return_sources:
             yield (ant.value, ant.text)
         else:
@@ -270,6 +289,15 @@ def get_amount_annotations(text: str,
     """
     for match in NUM_PTN_RE.finditer(text):
         found_item = match.group()
+        fract_tail_items = FRACTION_TAIL_RE.finditer(found_item)
+        for fract_tail in fract_tail_items:
+            fract_tail_smb = fract_tail.group().strip(' ')
+            if fract_tail_smb in fraction_smb_to_string:
+                fract_ending = fraction_smb_to_string[fract_tail_smb]
+                found_item = found_item[:fract_tail.span()[0]]
+                found_item += fract_ending
+            break
+
         if AND_RE.fullmatch(found_item):
             continue
         try:

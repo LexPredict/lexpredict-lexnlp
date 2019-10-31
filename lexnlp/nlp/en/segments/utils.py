@@ -12,7 +12,7 @@ import string
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -79,6 +79,6 @@ def build_document_line_distribution(text, characters=string.printable, norm=Tru
             if character.startswith("doc_char"):
                 feature_vector[character] = feature_vector[character] / total_char
             elif character.startswith("doc_startchar"):
-                feature_vector[character] = feature_vector[character] / total_startchar
+                feature_vector[character] = feature_vector[character] / total_startchar if total_startchar != 0 else 0
 
     return feature_vector

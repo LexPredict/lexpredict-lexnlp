@@ -10,7 +10,7 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams, LinePr
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -32,8 +32,8 @@ class CopyrightDeParser(CopyrightEnStyleParser):
         CopyrightDeParser.line_processor = LineProcessor(line_split_params=split_params)
 
     @classmethod
-    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int]]:
-        return [(t.text, t.start) for t in
+    def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int, int]]:
+        return [(t.text, t.start, t.get_end()) for t in
                 cls.line_processor.split_text_on_line_with_endings(sentence)]
 
 

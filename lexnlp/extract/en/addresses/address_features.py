@@ -12,13 +12,13 @@ from typing import List
 
 import nltk
 import pycountry
-import us
 from dateutil import parser as dateparser
+import pickle
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "0.2.7"
+__version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -124,6 +124,11 @@ def build_provinces_words():
     return res
 
 
+def _pickle_load(fn: str):
+    with open(fn, 'rb') as f:
+        return pickle.load(f)
+
+
 POS_TAG_SET_INDEX_FN = os.path.join(cwd, 'nltk_pos_tag_indexes.json')
 
 POS_TAG_SET_INDEX = json.load(open(POS_TAG_SET_INDEX_FN, 'r'))
@@ -132,7 +137,9 @@ COUNTRY_WORDS = build_country_words()
 
 PROVINCES_WORDS = build_provinces_words()
 
-FEATURE_WORD_LEN = 23
+CITY_NAME_WORDS = _pickle_load(os.path.join(cwd, 'city_name_words.pickle'))
+
+FEATURE_WORD_LEN = 21
 
 ZERO_FEATURES = [0 for _i in range(FEATURE_WORD_LEN)]
 
@@ -143,30 +150,33 @@ def get_word_features(word: str, part_of_speech: str) -> List[int]:
 
     word_norm = _norm(word)
     word_no_dots = word_norm.strip('.')
+    is_upper = word.isupper()
+    all_digits = all(ch.isdigit() for ch in word)
     res = [
         POS_TAG_SET_INDEX.get(part_of_speech or '') or 0,  # part of speech
-        int(word.istitle()),  # init_cap
-        int(word.isupper()),  # all_caps
-        int(any(ch.isdigit() for ch in word)),  # contains_digits
-        int(all(ch.isdigit() for ch in word)),  # all_digits
+        int(is_upper or word.istitle()),  # init_cap
+        int(is_upper),  # all_caps
+        int(all_digits or any(ch.isdigit() for ch in word)),  # contains_digits
+        int(all_digits),  # all_digits
         int(all(ch == '.' or ch.isupper() for ch in word)),  # acronym
         int(all(ch in string.punctuation for ch in word)),  # punctuation
         int(is_datetime(word)),  # datetime
-        int(is_url(word)),  # url
+        # int(is_url(word)),  # url
         int('\'' in word),  # contraction
         int(is_single_initial(word)),
         int(is_uppercase_char(word)),  # uppercase_char
         int(is_lowercase_char(word)),  # lowercase_char
         int('-' in word),  # contains_dash
         int(len(word) > 5 and all(ch.isdigit() or ch in ' -()' for ch in word)),  # phone
-        int(is_email(word)),  # email
-        int(bool(us.states.lookup(word))),  # us_state
+        # int(is_email(word)),  # email
         int(word_no_dots in STREET_SUFFIXES),  # street_suffix
         int(word_no_dots in BUILDING_SUFFIXES),  # building
         int(word_norm in STREET_DIRECTIONS),  # street directions
         int(is_zip_code(word)),
         int(word_norm in COUNTRY_WORDS),
-        int(word_norm in PROVINCES_WORDS)]
+        int(word_norm in PROVINCES_WORDS),
+        int(word_norm in CITY_NAME_WORDS)
+        ]
 
     return res
 

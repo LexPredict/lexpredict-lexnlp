@@ -1,0 +1,1347 @@
+
+
+
+
+
+
+
+mack-ex109_321.htm
+
+
+
+Exhibit 10.9
+
+SUBLEASE AGREEMENT
+
+This Sublease Agreement ("Sublease"), dated as of April 3, 2017 (the "Effective Date"), is by and between MERRIMACK PHARMACEUTICALS, INC., a Delaware corporation, having a mailing address at One Kendall Square, Suite B7201, Cambridge, MA 02139 ("Sublandlord"), and IPSEN BIOSCIENCE, INC., a Massachusetts corporation, domiciled at 650 East Kendall Street, Cambridge, MA 02142 ("Subtenant").
+
+WHEREAS, Sublandlord is the tenant under that certain Indenture of Lease dated August 24, 2012 (the "Original Lease"), by and between ARE-MA Region No. 59, LLC (as successor to DWF IV ONE KENDALL, LLC, a Delaware limited liability company, who is in turn the successor to RB KENDALL FEE, LLC, a Delaware limited liability company) ("Prime Landlord") and Sublandlord, as amended by that certain First Amendment of Lease dated March 18, 2013 (the "First Amendment"), Second Amendment of Lease dated September 12, 2013 (the "Second Amendment"), Third Amendment of Lease dated February 23, 2015 (the "Third Amendment"), Fourth Amendment of Lease dated July 22, 2015 (the "Fourth Amendment") and Fifth Amendment of Lease dated April 3, 2017 (the "Fifth Amendment" and collectively with the Original Lease, the First Amendment, the Second Amendment, the Third Amendment and the Fourth Amendment, and as may be further amended, the "Primary Lease"); and
+
+WHEREAS, pursuant to the Primary Lease, Sublandlord leases certain premises located in Buildings 600/650/700 (the "Building") at One Kendall Square, Cambridge, MA 02139, as more particularly described in the Primary Lease (the "Demised Premises"), consisting of approximately 163,102 rentable square feet (excluding basement and storage space); and
+
+WHEREAS, Sublandlord desires to sublease a portion of the Demised Premises to Subtenant together with the non-exclusive right to use certain common areas made available to Sublandlord under the Primary Lease, and Subtenant desires to sublease a portion of the Demised Premises from Sublandlord, in accordance with the terms and conditions of this Sublease.
+
+NOW, THEREFORE, in consideration of the mutual covenants, terms and conditions set forth herein, and for other good and valuable consideration, the receipt and sufficiency of which are hereby acknowledged, the parties agree as follows:
+
+1.Demise. Sublandlord hereby leases to Subtenant, and Subtenant hereby leases from Sublandlord, for the Term (defined in Section 2(a) below) and upon the conditions
+
+
+
+
+
+
+
+hereinafter provided, that portion of the Demised Premises comprising approximately 70,237 rentable square feet located in the Building (the "Subleased Premises"), as depicted and as further described on the floor plans attached hereto as Exhibit A.
+
+2.Term.
+
+(a)The term of this Sublease ("Term") shall commence on the Effective Date and shall expire at midnight on June 30, 2019 ("Sublease Expiration Date"), unless sooner terminated in accordance with the terms and conditions of this Sublease.
+
+(b)In the event that Sublandlord shall, in its sole discretion, exercise its option to extend the term of the Primary Lease (per section 29.14 of the Primary Lease), Sublandlord shall deliver to Subtenant a copy of the Extension Notice delivered to Prime Landlord. Provided that Subtenant is not in default of any of its obligations under this Sublease beyond applicable notice and cure periods, Subtenant shall have the option to extend the Term of this Sublease for such additional period as indicated in the Extension Notice (the "Extended Term") by giving Sublandlord written notice no later than 60 days after receipt from Sublandlord of a copy of the Extension Notice. The final date of the Term as extended by this Section 2(b) shall be deemed to be the new Sublease Expiration Date.
+
+(c)Without limiting Subtenant's rights set forth in Section 2(b) hereof, Subtenant shall not be entitled to exercise any options to extend or renew the term of the Primary Lease. These options are expressly retained by Sublandlord and may be exercised or waived by Sublandlord in its sole and absolute discretion.
+
+(d)If for any reason the term of the Primary Lease is terminated prior to the Sublease Expiration Date, this Sublease shall terminate on the date of such termination and Sublandlord and Subtenant shall thereupon be relieved of all liability and obligation hereunder, except (i) liabilities and obligations which accrued or arose prior to the date of such termination or expiration,  (ii) liabilities and obligations relating to any breach hereof or default hereunder prior to said date (which shall include, but not be limited to, a breach of or default under Section 8(b) hereof), and (iii) subject to the foregoing, Sublandlord shall return to Subtenant that portion of the Rent (as hereinafter defined) paid in advance by Subtenant, if any, prorated as of the date of such termination.  In the event that the termination of the Primary Lease described in this Section 2(d) was caused solely by Sublandlord's default under the Primary Lease (excluding defaults in the performance or observance of any obligations delegated to Subtenant pursuant to this Sublease) or a voluntary termination (other than a voluntary termination following a casualty or condemnation as permitted in the Primary Lease and referred to in Section 8(b)(ii) hereof), then, without limiting Subtenant's rights set forth in subparagraph (ii) above,  Sublandlord shall provide reasonable assistance to Subtenant in pursuing a direct lease with Prime Landlord for the Subleased Premises, pursuant to Section 14 hereof.
+
+
+
+
+
+
+
+(e)To the extent that Sublandlord has received written notice of any termination or threatened termination of the Primary Lease or otherwise has actual knowledge that the Primary Lease will be terminated prior to the Sublease Expiration Date, Sublandlord shall promptly provide written notice to Subtenant.
+
+3.Permitted Use. Subtenant shall use and occupy the Subleased Premises solely in accordance with, and for any purpose that is permitted under, the terms of the Primary Lease and for no other purpose.
+
+4.Payment of Base Rent and Additional Rent.
+
+(a)Subject to Section 9(b) below, Subtenant agrees to pay base rent ("Base Rent") for the use and occupancy of the Subleased Premises in an amount equal to the Yearly Rent (as defined in the Primary Lease) required to be paid by Sublandlord as tenant under the Primary Lease for the Subleased Premises as set forth on Schedule 1 hereto. Base Rent is triple net.
+
+(b)Base Rent for any Extended Term shall be equal to the Yearly Rent required to be paid by Sublandlord as tenant under the Primary Lease for the Subleased Premises for the Extended Term (which shall include any retroactive payment Sublandlord is required to pay to Prime Landlord pursuant to Section 29.15(B) in the event the Yearly Rent for such Extended Term is not determined until a date later than the commencement of the Extended Term).
+
+(c)Base Rent shall be paid in equal monthly installments in advance, on the first (1st) day of each calendar month during the Term of the Sublease, except that the first monthly installment of Base Rent shall be paid by Subtenant to Sublandlord at the time of execution and delivery of this Sublease.
+
+(d)In addition to Base Rent, commencing on the Effective Date and continuing throughout the Term, Subtenant shall pay to Sublandlord the following: (i) the Subtenant's Pro Rata Share (as defined below) of all amounts required to be paid under the Primary Lease, other than the "Yearly Rent", on account of Operating Costs (including Building Operating Costs and Common Area Operating Costs) and Taxes (including Building Taxes and Common Area Taxes); (ii) utilities billed to or paid by Sublandlord under the Primary Lease to the extent relating solely to the Subleased Premises and not otherwise paid directly by Subtenant or through Subtenant's Pro Rata Share of Operating Costs and Taxes; (iii) any other costs and expenses incurred or payable by Sublandlord attributable solely to the Subleased Premises due to Subtenant's activity in the Subleased Premises which are not paid directly by Subtenant or through Subtenant's Pro Rata Share of Operating Costs and Taxes, provided, however, Subtenant shall not be responsible for the cost of any additional charge for services unless such services were provided to the Subleased Premises at Subtenant's request; and (iv) monthly parking payment, as described in Section 21 below (all the foregoing amounts
+
+
+
+
+
+
+
+plus any other amounts payable by Subtenant hereunder are collectively referred to as "Additional Rent" and together with the Base Rent, the "Rent"). The "Subtenant's Pro Rata Share" is the quotient derived by dividing the rentable square footage of the Subleased Premises by that of the Building or the Complex, as applicable, and approximately equates to: (i) for amounts applicable to the Building, 29.0% (derived by dividing the rentable square footage of the Subleased Premises (70,237) by that of the Building (242,236) (the "Building Share")), and (ii) for amounts applicable to the Common Area, 11.0% (derived by dividing the rentable square footage of the Subleased Premises (70,237) by that of the Complex (639,586) (the "Common Area Share")). The Subtenant's Pro Rata Share shall be subject to equitable adjustment to account for any changes to the applicable square footages.
+
+(e)Except as otherwise set forth herein, all Rent shall be due and payable without demand therefor unless otherwise designated by Sublandlord and, unless expressly set forth herein, without any deduction, offset, abatement, counterclaim or defense. The monthly installments of Rent payable on account of any partial calendar month during the Term of this Sublease, if any, shall be prorated.
+
+(f)The Additional Rent described in Section 4(d)(i) shall be based on the projected Operating Costs and Taxes calculated by the Prime Landlord under the Primary Lease. The Additional Rent described in Section 4(d)(i) and 4(d)(iv) shall be payable to Sublandlord in equal monthly installments on the same schedule as payment of the Base Rent; all other Additional Rent shall be paid to Sublandlord within twenty (20) days after Sublandlord's written request therefor.  Payments for any partial years shall be equitably prorated. Promptly after receipt by Sublandlord of any Tax or Operating Cost statement from the Prime Landlord, Sublandlord shall deliver a comparable statement to Subtenant, together with copies of any relevant statements and tax bills, if any, received by Sublandlord from Prime Landlord, setting forth the actual amount of Subtenant's Pro Rata Share of Operating Costs and Taxes. Any resulting difference between amounts paid by Subtenant pursuant to Section 4(d)(i) above and the actual Subtenant's Pro Rata Share of such expenses during the applicable period shall promptly be equitably trued up by the parties, whether by additional payment owed to Sublandlord or by refund owed to Subtenant, which shall be issued as a credit against the next monthly installment of Rent then due and payable or as a reimbursement if determined after the end of the Term. In the event that Subtenant disputes the correctness of any such accounting, Subtenant shall notify Sublandlord thereof and Subtenant shall have the right to request such additional information from Sublandlord as is reasonably necessary to verify the correctness of Subtenant's Pro Rata Share of Operating Costs and Taxes. If it is determined that Sublandlord overstated Subtenant's Pro Rata Share, Sublandlord shall credit such overstatement against the monthly installments of Rent next due and payable under this Sublease (or refund such amount if the Term has ended); similarly, if it is determined that Sublandlord understated Subtenant's Pro Rata Share, Subtenant shall pay such
+
+
+
+
+
+
+
+understatement together with the monthly installment next due and payable under this Sublease (or as a cash payment if the Term has ended).
+
+(g)Subtenant shall not be responsible for any penalties, interest or other costs incurred by Sublandlord under the Primary Lease that are caused by (i) Sublandlord's failure to pay rent to Prime Landlord in a timely manner in accordance with the Primary Lease, unless such failure is caused by Subtenant's default or failure to make timely payments to Sublandlord in accordance with this Sublease, or (ii) a breach of the Primary Lease or this Sublease by, or the acts or negligence of Sublandlord or its agents, representatives, sublessees, employees or invitees (except to the extent such breach, negligence or acts were caused by Subtenant or its agents, representatives, sublessees, employees or invitees).
+
+(h)If Sublandlord shall receive a refund or credit of any Additional Rent amounts from Prime Landlord pursuant to the terms of the Primary Lease, Sublandlord shall promptly notify Subtenant thereof and shall, within ten (10) days after receipt of such refund or credit, refund or credit to Subtenant the applicable portion thereof, if any, constituting amounts paid by Subtenant to Sublandlord (or directly by Subtenant to Prime Landlord) hereunder.
+
+(i)If Subtenant fails to pay any installment of Rent within five (5) days after the due date of such payment, Subtenant shall pay to Sublandlord, as Additional Rent, interest at the Default Rate (hereinafter defined) from the due date of such payment to the date payment is made. "Default Rate" shall mean a rate per annum equal to the lesser of: (i) 5% in excess of the prime rate then currently charged to customers of the largest national bank (N.A.) located within Boston on the due date of such Base Rent or Additional Rent; and (ii) the highest rate of interest permitted by applicable laws.
+
+5.Security Deposit.
+
+(a)Within fifteen (15) business days of the execution and delivery of this Sublease, Subtenant shall deposit with Sublandlord a security deposit ("Security Deposit") in the amount of Two Hundred Seventy Five Thousand and Forty Five Dollars ($275,045) as security for the full and faithful performance by Subtenant of Subtenant's obligations hereunder. The Security Deposit may be in the form of cash or a clean, stand-by, irrevocable letter of credit, in form and substance and issued by and drawn on a bank reasonably satisfactory to Sublandlord.
+
+(b)In the event that Subtenant is in default of its obligations under the Sublease, which default continues beyond the applicable notice and cure period, then the Sublandlord shall have the right, at any time after such event, without giving any further notice to Subtenant, to draw down from said Security Deposit (a) the amount necessary to cure such default or (b) if such default cannot reasonably be cured by the expenditure of money, the amount which, in Sublandlord's reasonable opinion, is necessary to satisfy
+
+
+
+
+
+
+
+Subtenant's liability on account thereof. In the event of any such draw by the Sublandlord, Subtenant shall, within fifteen (15) business days of written demand therefor, deliver to Sublandlord additional funds to restore the Security Deposit to its original amount. In addition, in the event of a termination of this Sublease based upon the default of Subtenant, or a rejection of the Sublease pursuant to the provisions of the Federal Bankruptcy Code (in connection with Subtenant's bankruptcy), Sublandlord shall have the right to draw upon the Security Deposit (from time to time, if necessary) to cover the full amount of damages and other amounts due from Subtenant to Sublandlord under the Sublease. Any amounts so drawn shall, at Sublandlord's election, be applied first to any unpaid rent and other charges which were due prior to the filing of the petition for protection under the Federal Bankruptcy Code. Subtenant hereby covenants and agrees not to oppose, contest or otherwise interfere with any attempt by Sublandlord to draw down from said Security Deposit in accordance with this Section 5(b) including, without limitation, by commencing an action seeking to enjoin or restrain Sublandlord. Subtenant also hereby expressly waives any right or claim it may have to seek such equitable relief in such an instance. In addition to whatever other rights and remedies Sublandlord may have against Subtenant, if Subtenant breaches its obligations under this paragraph, Subtenant hereby acknowledges that it shall be liable for any and all damages which Sublandlord may actually suffer as a result of any such breach.
+
+(c)Upon request of Sublandlord or any (prospective) purchaser or mortgagee of the Building, Subtenant shall, at its expense, reasonably cooperate with Sublandlord in obtaining an amendment to or replacement of any letter of credit which Sublandlord is then holding so that the amended or new letter of credit reflects the name of the new owner of the Building.
+
+(d)To the extent that Sublandlord has not previously drawn upon the Security Deposit and to the extent that Subtenant is not otherwise in default of its obligations under the Sublease as of the termination date of the Sublease, Sublandlord shall return same to Subtenant within thirty (30) days after the later of (i) the termination of the Term and (ii) Subtenant's vacation of the Subleased Premises.
+
+6.Primary Lease.
+
+(a)Subtenant hereby covenants to perform the covenants and undertakings of "Tenant" under the Primary Lease and to abide by the terms of the Primary Lease to the extent the same are applicable to the Subleased Premises during the term of this Sublease, and shall not do or permit to be done any act which shall result in a violation of any of the terms and conditions of the Primary Lease, including, without limitation, complying with the use provisions set forth in Section 5 of the Primary Lease, insurance and indemnity provisions set forth in Section 15 of the Primary Lease and the hazardous material provisions set forth in Section 29.11 of the Primary Lease. Subject to Section 12 hereof, Subtenant acknowledges and agrees that performance by Sublandlord of its obligations hereunder are conditioned upon due performance by Prime Landlord of its corresponding
+
+
+
+
+
+
+
+obligations under the Primary Lease and that Sublandlord shall not be in default under this Sublease for failure to render services or to perform obligations that are the responsibility of the Prime Landlord under the Primary Lease except as otherwise set forth herein. Sublandlord shall have all of the rights and privileges of the Prime Landlord under the Primary Lease as against Subtenant and, as between the parties hereto, Subtenant agrees to observe and perform all of the terms, covenants and conditions on Sublandlord's part to be observed and performed under the Primary Lease incorporated herein and applicable to the Subleased Premises.  As between Sublandlord and Subtenant, subject to Section 6(b) hereof, Subtenant shall be entitled to all of the rights and privileges of the Sublandlord as tenant under the terms of the Primary Lease as and to the extent expressly incorporated by reference into this Sublease and solely with respect to the Subleased Premises.
+
+(b)Provisions of the Primary Lease which do not directly or indirectly pertain to the Subleased Premises or which are expressly addressed within provisions of this Sublease shall not apply to this Sublease, and, in any case, the following numbered paragraphs of the Primary Lease shall not apply to this Sublease: Exhibit 1, Sheet 1 and Sections 4.1(a)(1) and (2); 4.1(c); 4.2(B),(C),(D) and (F); 4.4; 4.5; 8.1(b) and (c); 9.7; the third sentence of 14.1, 29.13, 29.14 (except as applicable to Section 2(b) hereof), 29.15, 29.16; 29.19 (except as applicable to Section 21 hereof); 29.20 of the Original Lease; the First Amendment; the Second Amendment; the Third Amendment (except for Schedule 1) and Sections 1, 3, 4, 5, 6, 9, 10, 12 and 13 of the Fourth Amendment. In addition, the time limits contained in the Primary Lease for Sublandlord, as "Tenant", to give notices, make demands or perform any act, covenant or condition or to exercise any right, remedy or option, are, as applied to Subtenant, modified herein by shortening the same in each instance by three (3) days. In case such time limits in the Primary Lease are for less than seven (7) days, those time limits are instead modified herein by shortening the same by two (2) business days; provided, however, in no event shall the time limits imposed be less than one (1) business day.
+
+7.Subordination to Primary Lease.
+
+This Sublease is subject and subordinate to the Primary Lease. A redacted copy of the Primary Lease is attached hereto as Exhibit B.
+
+8.Representations, Warranties and Covenants of Sublandlord.
+
+(a)Sublandlord represents and warrants the following is true and correct as of the date hereof:
+
+(i)Sublandlord is the tenant under the Primary Lease, has the capacity to enter into this Sublease with Subtenant, and has obtained Prime Landlord's consent to this Sublease.
+
+
+
+
+
+
+
+(ii)The Primary Lease attached hereto as Exhibit B is a true, correct and complete copy of the Primary Lease, is in full force and effect, and has not been further modified, amended or supplemented except as expressly set forth herein.
+
+(iii)Sublandlord has not received any written notice, and has no actual knowledge, of any default, or any condition which, with the giving of notice or passage of time, would give rise to a default, by Sublandlord or Prime Landlord under the Primary Lease.
+
+(iv)Sublandlord has not received any written notice that any work is required under the Primary Lease or by applicable law to be done in the Subleased Premises.
+
+(v)Sublandlord has not received any written notice that the Subleased Premises are in violation of any applicable laws, ordinances, codes, rules or regulations.
+
+(vi)Sublandlord has the right to sublease to Subtenant the Subleased Premises.
+
+(b)Sublandlord covenants and agrees that so long as Subtenant is not in default hereunder, Sublandlord:
+
+(i)shall observe and perform the terms, provisions, covenants, and conditions of the Primary Lease to be observed and performed by Sublandlord, except to the extent that such terms, provisions, covenants, and conditions are Subtenant's responsibility hereunder; and
+
+(ii)shall not cause the Primary Lease to terminate, except pursuant to a right of termination arising out of casualty or condemnation expressly set forth in the Primary Lease (provided that nothing herein shall require Sublandlord to exercise any extension option under the Primary Lease); and
+
+(iii)shall not amend the Primary Lease in a manner that is more adverse to the Subleased Premises than to the entirety of the Demised Premises or which denies Subtenant the right to use and occupy the Subleased Premises for the purpose and as provided under this Sublease.
+
+9.AS-IS Condition; Decommissioning.
+
+(a)Subject to Section 9(c), as of the Effective Date, the Subleased Premises shall be delivered to Subtenant in broom clean, "as-is" condition and free of all personal property not otherwise being transferred or temporarily consigned to Subtenant in connection with Subtenant's acquisition of certain aspects of Sublandlord's business. Subject to Section 9(b), Sublandlord shall have no obligation to furnish or supply any
+
+
+
+
+
+
+
+work, services, furniture, fixtures, equipment or decorations or to prepare the same for Subtenant's occupancy or to pay any allowances therefor.
+
+(b)By the dates set forth below in this paragraph, Sublandlord, at its sole cost and expense, shall deliver to Subtenant a decommissioning report evidencing that the laboratories approximated on Exhibit C hereto (the "Former Labs") have been decommissioned in accordance with applicable laws and the standards set by the American National Standards Institute ("ANSI") in Publication "Z9.11-2016 Laboratory Decommissioning" or any successor standards published by ANSI, and which report shall also include the radiation decommissioning of the Subleased Premises as required per Section 29.11(f)(1) of the Primary Lease (the "Decommissioning Report(s)"). Subtenant shall permit reasonable access to the Former Labs for Sublandlord and its service providers to complete the Decommissioning Reports, provided that such access shall be subject to adherence to Subtenant's reasonable requirements for access by third parties, and provided, further, that Sublandlord, its agents, employees, or contractors shall  use reasonable efforts to minimize any interference with Subtenant's operations within the Subleased Premises during any access. The deadline for completion of the Decommissioning Report for the laboratories on the "blue" side of the 4th Floor Space in Building 700 (the "Blue Labs", approximated on Exhibit C-1) is May 15, 2017. The deadline for completion of the Decommissioning Reports for the laboratory on the "orange" side of the 4th floor in Building 700 and the "upstream" process development laboratories in the 4th Floor Space in Building 600 (all as approximated on Exhibit C-2) is June 15, 2017.  Pending delivery of the required Decommissioning Reports covering the laboratories comprising the Former Labs, Rent on the Former Labs shall be adjusted, prorated daily and on a laboratory-by-laboratory basis, as follows: (a) from the Effective Date until the relevant deadline for the Decommissioning Report, Ipsen shall be obligated to pay 50% of the Rent that would otherwise be due on each laboratory for which the relevant Decommissioning Report has not been delivered; (b) from the deadline for the Decommissioning Report until delivery of the relevant Decommissioning Report, Ipsen shall not be obligated to pay Rent that would otherwise be due on each laboratory for which the relevant Decommissioning Report has not been delivered; and (c) notwithstanding (a) and (b), from the date of delivery of the Decommissioning Report covering any of the relevant laboratories for which a Decommissioning Report is required, whether before or after the deadline for such report, Ipsen's obligation to pay full Rent on each such laboratory shall resume. For purposes of the Rent adjustment described in the preceding sentence, the parties have agreed on the approximate square footage of each of the Former Labs as indicated on Exhibit C; the parties may agree to verify such square footages within thirty (30) days following the Effective Date.  Square footage of the Former Labs will be calculated in accordance with the American National Standard Method of Measuring Floor Area in Office Buildings, ANSI/BOMA Z65.1-2010.
+
+
+
+
+
+
+
+(c)Notwithstanding Section 9(a), Sublandlord shall be permitted to keep laboratory furniture, equipment and materials in the Former Labs beyond the Effective Date. Sublandlord shall, at its sole cost and expense, remove such laboratory furniture, equipment and materials as soon as reasonably possible following the Effective Date, but in no event later than April 30, 2017. Subtenant shall permit reasonable access to the Former Labs for Sublandlord and its service providers to complete its removal of such laboratory furniture, equipment and materials, provided that such access shall be subject to adherence to Subtenant's reasonable requirements for access by third parties, provided, further, that Sublandlord, its agents, employees, or contractors shall  use reasonable efforts to minimize any interference with Subtenant's operations within the Subleased Premises during any access. Sublandlord shall, at its sole cost and expense, repair any damage resulting from the removal of Sublandlord's laboratory furniture, equipment and materials.
+
+10.Leasehold Improvements.
+
+Without limiting any other provisions of this Sublease, Subtenant shall obtain Sublandlord's prior written consent for all leasehold improvements to the Subleased Premises ("Subtenant's Work") and in connection with such approval shall submit to Sublandlord all Plans and Specifications (as defined below) therefor, and the names of all contractors, engineers, architects, technicians and mechanics effecting same. Sublandlord's prior consent shall not be unreasonably withheld, conditioned or delayed, and, if required under the Primary Lease, shall be further subject to the prior written consent of the Prime Landlord. All Subtenant's Work shall be completed in accordance with the terms and conditions of this Sublease and the Primary Lease. Subtenant shall be responsible for the preparation of construction plans and specifications, including but not limited to architectural, mechanical, electrical, plumbing, life-safety and other building systems and interfaces therewith (collectively, the "Plans and Specifications"), and any specialty engineering necessary for the completion of Subtenant's Work. All third-party out-of-pocket costs for reviewing and approving the Plans and Specifications incurred by Sublandlord and, to the extent Sublandlord or Subtenant receives an invoice relating thereto from Prime Landlord, by Prime Landlord, in connection with Subtenant's Work, shall be deemed Additional Rent hereunder and due promptly following delivery of detailed invoices for same to Subtenant. Without limitation, Sublandlord may condition its consent on Subtenant's delivery of customary insurance and indemnities from Subtenant and its contractors.
+
+11.End of Term.
+
+Upon the expiration or other termination of this Sublease, Subtenant shall peaceably quit and surrender to Sublandlord the Subleased Premises and all alterations and additions thereto made by Subtenant, broom clean, in the same order, repair and condition which Sublandlord is required to maintain such premises pursuant to the
+
+
+
+
+
+
+
+Primary Lease. Subtenant shall not be required to remove or restore any alterations or improvements that were made by Subtenant as a part of Subtenant's Work except to the extent that Prime Landlord has provided written notice in advance (at the time the Subtenant's Work is approved) that such Subtenant's Work be removed. On or before the Sublease Expiration Date, Subtenant shall remove all of its personal property and shall repair any damages to the Subleased Premises or the Building caused by the removal thereof or of any other systems or infrastructure installed by Subtenant. On or before the Sublease Expiration Date or earlier termination or expiration of this Sublease, all laboratory space shall be returned to Sublandlord appropriately decontaminated and decommissioned (with applicable reports delivered to Sublandlord) and in the same good working order and condition as they were on the Effective Date, reasonable wear and tear, fire or other casualty excepted. The obligations of Subtenant hereunder shall survive the expiration or earlier termination of this Sublease.
+
+12.Performance By Sublandlord.
+
+Notwithstanding any other provision of this Sublease, Sublandlord shall have no obligation (a) to furnish or provide, or cause to be furnished or provided, any repairs, restoration, alterations or other work, or electricity, heating, ventilation, air-conditioning, water, elevator, cleaning or other utilities or services, or (b) to comply with or perform or, except as expressly provided in this Sublease, to cause the compliance with or performance of, any of the terms and conditions required to be performed by Prime Landlord pursuant to the terms of the Primary Lease; provided, however, that Subtenant shall expressly be afforded the rights and remedies set forth in Section 8.6 of the Primary Lease with respect to the Subleased Premises but only to the extent that Sublandlord has first been afforded such rights and remedies by Prime Landlord. Subtenant hereby agrees that Prime Landlord is solely responsible for the performance of the foregoing obligations. Notwithstanding the foregoing, upon the written request of Subtenant, Sublandlord shall make a written demand upon Prime Landlord to perform its obligations under the Primary Lease with respect to the Subleased Premises if Prime Landlord fails to perform same within the time frame and in the manner required pursuant to the Primary Lease; provided that Subtenant shall reimburse Sublandlord for any and all reasonable out of pocket costs and expenses (including reasonable out of pocket attorneys' fees) actually incurred by Sublandlord in connection therewith. If Subtenant is not permitted to do so independently, Sublandlord, at Subtenant's sole cost and expense, agrees upon written request from Subtenant to promptly exercise commercially reasonable efforts to pursue all remedies available to Sublandlord under the Primary Lease as requested by the Subtenant.
+
+13.No Privity of Estate; No Privity of Contract.
+
+Nothing in this Sublease shall be construed to create privity of estate or privity of contract between Subtenant and Prime Landlord.
+
+
+
+
+
+
+
+14.No Breach of Primary Lease.
+
+
+
+Neither Sublandlord nor Subtenant shall do or permit to be done any act or thing, or omit to do anything, which constitutes a breach or violation of any term, covenant or condition of the Primary Lease, notwithstanding such act, thing or omission is permitted under the terms of this Sublease.
+
+
+
+During the Term, nothing in this Sublease shall prohibit Subtenant from negotiating directly with the Prime Landlord for a direct lease for the Subleased Premises which shall be effective upon the expiration or early termination of the Term, and upon Subtenant's request, Sublandlord shall reasonably cooperate in good faith with, and reasonably assist Subtenant, at Subtenant's expense, in Subtenant's efforts to obtain a direct lease from the Prime Landlord for the Subleased Premises.
+
+15.Defaults.
+
+(a)If Subtenant fails to cure a default under this Sublease within any applicable grace or cure period contained in the Primary Lease (including any applicable grace and cure periods set forth in Section 21.7 of the Original Lease, and as any such applicable grace or cure period is modified by Section 6 herein), Sublandlord, after ten (10) days' notice to Subtenant, shall have the right, but not the obligation, to seek to remedy any such default on the behalf of, and at the expense of, Subtenant, provided, however, that in the case of: (i) a life safety or property related emergency; or (ii) a default which must be cured within a time frame set forth in the Primary Lease which does not allow sufficient time for prior notice to be given to Subtenant, Sublandlord may remedy any such default without being required first to give notice to Subtenant. Any reasonable out of pocket cost and expense (including without limitation reasonable out of pocket attorneys' fees and expenses) so incurred by Sublandlord shall be deemed Additional Rent and shall be due and payable by Subtenant to Sublandlord within twenty (20) days after notice from Sublandlord.
+
+(b)If Sublandlord defaults under any of the material terms or provisions of this Sublease and does not seek to cure the same within a period of thirty (30) days after written notice from Subtenant that such a default exists, or within a reasonable period of time thereafter if such default cannot reasonably be cured within thirty (30) days, then Subtenant may seek to cure such breach in any manner, or exercise any remedy, in each case which is provided by law, in equity, or under this Sublease (including, but not limited to, the right of specific performance, damages, or mandamus). All reasonable and necessary sums expended by Subtenant to cure any such defaults of Sublandlord shall be payable within twenty (20) days after demand and presentation of supporting documentation to Subtenant by Sublandlord. If Sublandlord fails to reimburse Subtenant within such twenty (20) day period, then in addition to any other remedies that Subtenant
+
+
+
+
+
+
+
+may have in law or in equity, Subtenant may deduct such amounts from subsequent installments of Rent due to Sublandlord under this Sublease.
+
+16.Consents.
+
+Whenever the consent or approval of Sublandlord is required, Subtenant shall also be obligated to obtain the written consent or approval of Prime Landlord, if required pursuant to the terms of the Primary Lease. Sublandlord shall make such consent request to Prime Landlord on behalf of Subtenant and Subtenant shall provide any information or documentation that Prime Landlord is entitled to request under the Primary Lease. Subject to the limitations set forth in this Sublease, Subtenant shall reimburse Sublandlord, not later than twenty (20) days after written demand by Sublandlord, for any fees and disbursements of attorneys, architects, engineers or others charged by Prime Landlord in connection with any consent or approval requested by Subtenant. Sublandlord shall have no liability to Subtenant for Prime Landlord's failure to give its consent or approval. Sublandlord shall promptly notify Subtenant when Prime Landlord has agreed or declined to provide any such consent.
+
+17.Right to Additional Space. Should Sublandlord determine that it no longer requires the use of any portions of the Demised Premises which it then leases from Prime Landlord, then Sublandlord shall not enter into any binding agreement to sublease such space to any unaffiliated third party without first offering, in writing, to sublease such space to Subtenant at then market terms for such space. Subtenant shall have ten (10) days to elect to exercise its right to sublease the entirety of such space after receiving written notice from Sublandlord, and upon such election the parties will promptly enter into an amendment to this Sublease on mutually agreeable terms (subject to Prime Landlord's prior written consent, as applicable). If Subtenant fails to exercise its right to additional space within the time period set forth above, then Sublandlord shall have the right to sublease such space or any portion thereof to any third party on terms that are not materially more favorable to the sublessee than those offered to Subtenant. Notwithstanding the foregoing, Subtenant's right described in this Section 17 shall not apply to the 5th floor of the Building.
+
+18.Assignment or Subletting.
+
+Subtenant shall not sublet all or any portion of the Subleased Premises or assign, encumber, mortgage, pledge or otherwise transfer this Sublease (by operation of law or otherwise) or any interest therein, without the prior written consent of: (a) Prime Landlord, if required under any the Primary Lease, or (b) Sublandlord, not to be unreasonably withheld, conditioned or delayed, provided that Sublandlord's consent shall not be required for assignment or sublease of the Subleased Premises, or any portion thereof, by Subtenant to a Permitted Transferee of Subtenant, as described in Section 16 of the Primary Lease.
+
+
+
+
+
+
+
+19.Holdover; Indemnity; Insurance.
+
+(a) Any holding over by Subtenant beyond the expiration date of this Sublease shall be deemed unlawful unless expressly consented to by Sublandlord in writing.  In the event of any such holding over by Subtenant, Subtenant shall pay to Sublandlord all rental and other charges due to Prime Landlord pursuant to Section 22 of the Primary Lease and Sublandlord shall be entitled to any and all remedies in law or in equity by reason of such unlawful holding over by Subtenant.
+
+(b) Subtenant shall indemnify and hold harmless Sublandlord from any claims, liabilities, damages, costs and expenses (including reasonable out of pocket attorneys' fees) ("Claims") that Sublandlord incurs as a result of a breach by Subtenant of this Sublease, provided however that such indemnification liability shall be reduced to the extent that Sublandlord's negligence or willful misconduct caused such Claims.  Sublandlord shall indemnify and hold harmless Subtenant from any Claims that Subtenant incurs as a result of a breach by Sublandlord of this Sublease or the Primary Lease, provided however that such indemnification liability shall be reduced to the extent that Subtenant's negligence or willful misconduct caused such Claims.  Notwithstanding the foregoing, in no event will either Sublandlord or Subtenant be liable to the other for any indirect, special, consequential or incidental damages, including loss of profit and loss of goodwill, however caused and on any theory of liability, arising in any way out of this Sublease, except in a case of gross negligence or willful misconduct.
+
+(d) Subtenant shall procure, and keep in force and pay for, insurance coverage in accordance with the coverages and conditions (including waiver of subrogation and right of recovery) required under the Primary Lease, and shall provide certificates of insurance to Sublandlord at or prior to the Effective Date.
+
+(e) The provisions of this Section 19 shall survive the termination of this Sublease.
+
+20.Release; Waiver of Subrogation.
+
+Subtenant hereby releases Sublandlord or anyone claiming through or under Sublandlord by way of subrogation or otherwise to the extent that Sublandlord so releases Prime Landlord pursuant to the terms of the Primary Lease. Subtenant hereby releases Prime Landlord or anyone claiming through or under Prime Landlord by way of subrogation or otherwise to the extent that Sublandlord releases Prime Landlord pursuant to the terms of the Primary Lease.  Subtenant shall cause its insurance carriers to include any clauses in, or endorsements on, any insurance policy in favor of Sublandlord, Prime Landlord and any additional parties, which Sublandlord is required to include pursuant to the provisions of the Primary Lease.
+
+
+
+
+
+
+
+21.Parking.
+
+Subtenant shall have the right, but not the obligation, to sublease a total of 71 parking spaces from Sublandlord in the OKS Garage that serves the Subleased Premises. Subtenant shall pay Sublandlord fair market rates, such rate being the rate then charged to Sublandlord without mark-up pursuant to Section 12 of the Fourth Amendment and Section 29.19 of the Original Lease, which may change from time to time in accordance with the terms of the Primary Lease, for such spaces, which as of the Effective Date is $310/space. Nothing in this Sublease shall prohibit Subtenant from negotiating directly with OKS Garage for the use of the required parking spaces. In the event Subtenant enters into a direct parking agreement with OKS Garage for the spaces described in this Section 21, Subtenant shall be permitted to pay the applicable rates for such parking spaces directly to Prime Landlord rather than to Sublandlord.
+
+22.Janitorial Services; Signage; Access; Loading Dock; Other Amenities.
+
+Subtenant shall supply its own cleaning and rubbish removal from the Subleased Premises. Subject to the Primary Lease, (i) Subtenant shall be allowed standard signage (consistent with that of other tenants in the Building) at the entrance to the Subleased Premises, (ii) Subtenant's employees shall have access to the Subleased Premises and any Common Areas consistent with that of other tenants in the Building, which is currently, twenty-four (24) hours per day, seven (7) days per week; (iii) as applicable, Subtenant shall have shared access to the common area loading dock and the Rooftop Mechanical Area (subject to the terms of the Primary Lease regarding the use of such rooftop space, including all consent and notice requirements), and (iv) Subtenant shall be permitted to use the Complex fitness center at times and on terms consistent with that of other tenants in the Building.
+
+23.Electricity; Gas Service; Emergency Generator.
+
+Subtenant shall contract and pay for electricity and natural gas directly to the applicable utility company. Subtenant and Sublandlord shall each be responsible for the upkeep and maintenance of the emergency generators listed in the table below as indicated in the column entitled "Primary Responsibility for Upkeep", but each shall be entitled to pass through some of the expenses of such upkeep and maintenance to the other party to the extent indicated in the parentheticals in such column (if any) for the period of time that such party is using the generators listed in the table below.  Sublandlord represents and warrants that the emergency generators listed below are in good working condition in all material respects as of the Effective Date.  To the extent the spaces served by such existing generators (or new generators) are changed during the Term, the maintenance responsibilities and/or pass-through allowances shall be equitably adjusted to reflect actual use of the existing (or new) generators by the respective party.
+
+
+
+
+
+
+
+
+
+
+
+
+Spaces served
+
+Generator description
+
+Location of generator
+
+% of generator capacity
+
+Primary Responsibility for Upkeep
+
+
+Nano manufacturing suite
+
+Cummings 100kW
+
+Roof, Bldg 500
+
+100% Subtenant
+
+Subtenant
+
+
+4th floor 600 (QC & QA labs)
+
+Kohler 80 KW
+
+Roof, Bldg 600
+
+100% Subtenant
+
+Subtenant
+
+
+2nd floor 600/700
+
+Cummings 450KW
+
+Roof, Bldg 600
+
+95% Sublandlord (2nd floor); 5% Subtenant (mfg warehouse)
+
+Sublandlord (pass through 5% of expenses to Subtenant)
+
+
+4th /5th Floor 700
+
+CPI 115KW
+
+Roof, Bldg 700
+
+75% Subtenant (Bldg 700 labs-4th floor); 25% Sublandlord (Bldg 700 labs-5th floor)
+
+Subtenant (pass through 25% of expenses to Sublandlord)
+
+
+
+
+
+
+24.Notices.
+
+All notices and other communications required or permitted under this Sublease shall be given in the same manner as in the Primary Lease. Notices shall be addressed to the addresses set forth below:
+
+
+
+To Subtenant at:
+
+Ipsen Bioscience, Inc.
+
+650 East Kendall Street
+
+Cambridge, MA 02142
+
+Attn: John Kehoe
+
+
+with a copy to:
+
+Francois Garnier, EVP General Counsel
+
+65 quai Georges Gorse
+
+92100 Boulogne Billancourt
+
+France
+Email: francois.garnier@ipsen.com
+
+
+With a copy (which shall not constitute notice) to:
+
+Dechert LLP
+
+1900 K Street, NW
+
+Washington, DC 20006
+
+Email: tony.chan@dechert.com
+
+Attn: Tony Chan
+
+
+
+
+To Sublandlord at:
+
+Merrimack Pharmaceuticals, Inc.
+
+One Kendall Square, Suite B7201
+
+Cambridge, MA 02139
+
+Attn: Brian Kickham
+
+
+
+
+
+
+
+
+
+
+
+
+25.Brokers.
+
+Sublandlord and Subtenant each represent to the other that it has not dealt with any broker in connection with this Sublease, except that Subtenant has been represented by, and shall be responsible for any fees due to, Jones Lang LaSalle ("JLL") arising from Subtenant's representation by JLL. Sublandlord and Subtenant each indemnify and hold harmless the other from and against all Claims incurred by one party resulting from a breach of this representation and warranty by the other party. This Section 25 shall survive the expiration or earlier termination of this Sublease.
+
+26.Entire Agreement.
+
+This Sublease contains the entire agreement between the parties with respect to the subject matter contained herein and all prior negotiations and agreements are merged herein. In the event any provisions of this Sublease are held to be invalid or unenforceable in any respect, the validity, legality or enforceability of the remaining provisions of this Sublease shall remain unaffected.
+
+27.Amendments and Modifications.
+
+This Sublease may not be modified or amended in any manner other than by a written agreement signed by Sublandlord and Subtenant.
+
+28.Successors and Assigns.
+
+The covenants and agreements contained in this Sublease shall bind and inure to the benefit of Sublandlord and Subtenant and their respective permitted successors and assigns.
+
+29.Counterparts.
+
+This Sublease may be executed in any number of counterparts, each of which when so executed and delivered shall be deemed an original for all purposes, and all such counterparts shall together constitute but one and the same instrument. A signed copy of this Sublease delivered by either facsimile or e-mail shall be deemed to have the same legal effect as delivery of an original signed copy of this Sublease.
+
+30.Defined Terms.
+
+All capitalized terms not otherwise defined in this Sublease shall have the definitions contained in the Primary Lease.
+
+
+
+
+
+
+
+31.Choice of Law.
+
+This Sublease shall be governed by, and construed in accordance with, the laws of the Commonwealth of Massachusetts, without regard to conflict of law rules.
+
+32.Purchase Agreement. Nothing in this Sublease shall abrogate or abridge any rights or responsibilities arising from that certain Asset Purchase and Sale Agreement, dated as of January 7, 2017, between Sublandlord and Ipsen S.A., a societe anonyme duly organized and existing under the laws of France. Subtenant is a subsidiary of Ipsen S.A.
+
+33.Confidentiality.
+
+Sublandlord and Subtenant acknowledge that their respective businesses require maintaining the confidentiality of information, correspondence and records pertaining to such businesses. Sublandlord and Subtenant agree to cause their respective employees and persons visiting the Demised Premises and Subleased Premises to respect such confidentiality at all times.
+
+
+
+
+
+[SIGNATURE PAGE FOLLOWS]
+
+
+
+
+
+
+
+
+
+IN WITNESS WHEREOF, the parties hereto have executed this Sublease as of the date first above written.
+
+
+
+
+
+
+
+
+SUBLANDLORD:
+
+MERRIMACK PHARMACEUTICALS, INC.
+
+
+
+
+By
+
+/s/ Jeffrey A. Munsie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Name:
+
+Jeffrey A. Munsie
+
+
+
+
+
+
+Title:
+
+General Counsel
+
+
+
+
+
+
+
+
+
+
+
+
+
+SUBTENANT:
+
+IPSEN BIOSCIENCE, INC.
+
+
+
+
+By
+
+/ s/ Alexandre Lebeaut
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Name:
+
+Alexandre Lebeaut
+
+
+
+
+
+
+Title:
+
+President
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Schedule 1
+
+Basement
+
+Storage Space (1,894 sq. ft.)*
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-6/30/19
+
+ $           1,894.00
+
+ $       1.00
+
+
+
+
+
+
+1st Floor
+
+1st Floor Space (Nano-manufacturing) (8,437 sq. ft.)
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+ $           33,748.00
+
+ $       4.00
+
+
+5/1/17-4/30/18
+
+ $           34,451.00
+
+ $       4.08
+
+
+5/1/18-6/30/19
+
+ $           35,154.17
+
+ $       4.17
+
+
+
+
+
+
+Additional 1st Floor Space (249 sq. ft.)
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+ $                 996.00
+
+ $       4.00
+
+
+5/1/17-4/30/18
+
+ $             1,016.75
+
+ $       4.08
+
+
+5/1/18-6/30/19
+
+ $             1,245.00
+
+ $       5.00
+
+
+
+
+
+
+Former OmniGuide Space (5,687 sq. ft.)
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+$             20,378.42
+
+$        3.58
+
+
+5/1/17-4/30/18
+
+$             20,852.33
+
+$        3.67
+
+
+5/1/18-6/30/19
+
+$             21,326.25
+
+$        3.75
+
+
+
+
+
+
+Chemical Storage Space (1st floor) (491 sq. ft.)
+
+
+
+
+Period
+
+Monthly  Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+ $             1,923.08
+
+ $       3.92
+
+
+5/1/17-4/30/18
+
+ $             1,964.00
+
+ $       4.00
+
+
+5/1/18-6/30/19
+
+ $             2,004.92
+
+ $       4.08
+
+
+
+
+
+
+2nd Floor
+
+600 Expansion Space & Hallway Space (2nd floor) (7,964 sq. ft.)*
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+ $           32,519.67
+
+ $       4.08
+
+
+5/1/17-4/30/18
+
+ $           33,183.33
+
+ $       4.17
+
+
+5/1/18-6/30/19
+
+ $           33,847.00
+
+ $       4.25
+
+
+
+
+
+
+
+
+
+
+
+
+4th Floor
+
+4th Floor Space (30,626 sq. ft.)
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+ $           120,589.88
+
+ $       3.94
+
+
+5/1/17-4/30/18
+
+ $           123,142.04
+
+ $       4.02
+
+
+5/1/18-6/30/19
+
+ $           125,694.21
+
+ $       4.10
+
+
+
+
+
+
+Additional Space (4,773 sq. ft.)
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+ $           18,694.25
+
+ $       3.92
+
+
+5/1/17-4/30/18
+
+ $           19,092.00
+
+ $       4.00
+
+
+5/1/18-6/30/19
+
+ $           19,489.75
+
+ $       4.08
+
+
+
+
+
+
+Expansion Space I (8,763 sq. ft.)
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+$           34,321.75
+
+ $       3.92
+
+
+5/1/17-4/30/18
+
+$           35,052.00
+
+ $       4.00
+
+
+5/1/18-6/30/19
+
+$           35,782.25
+
+ $       4.08
+
+
+
+
+
+
+Expansion Space II (1,353 sq. ft.)*
+
+
+
+
+Period
+
+Monthly Rent
+
+Monthly Base Rent per Rentable Square Foot
+
+
+Effective Date-4/30/17
+
+$           4,284.50
+
+ $       3.17
+
+
+5/1/17-4/30/18
+
+$           4,397.25
+
+ $       3.25
+
+
+5/1/18-6/30/19
+
+$           4,510.00
+
+ $       3.33
+
+
+
+
+
+
+*represents partial space from description in Primary Lease
+
+
+
+Total
+
+
+
+Square feet
+
+70,237
+
+
+Effective Date - 4/30/17
+
+ $           269,349.55 Base Rent/month
+
+
+5/1/17-4/30/18
+
+ $           275,044.70 Base Rent/month
+
+
+5/1/18-6/30/19
+
+ $           280,947.55 Base Rent/month
+
+
+
+
+
+
+
+
+
+
+EXHIBIT A
+
+DESCRIPTION OF SUBLEASED PREMISES
+
+
+
+Basement, 1st floor
+
+*         Nano-liposome suite and warehouse
+
+*         Limited operator office space
+
+*         Chemical Storage Space
+
+*         Storage
+
+
+
+2nd floor
+
+*         Warehouse space
+
+*         Office space
+
+
+
+4th floor
+
+*         QC Labs
+
+*         Nano PD labs
+
+*         Office space
+
+*         Document storage for QA
+
+*         Additional Warehouse Space
+
+
+
+
+
+[Floorplans attached]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Storage Space
+
+Exhibit 2b lease plan (storage Space)
+
+Not included
+
+Merrimack98rsf
+
+Included
+
+Storage 1,234rsf
+
+Not included
+
+Storage 9,30rsf
+
+Included
+
+
+
+One kendall square-building 700 basement floor
+
+July 2,2012
+
+Total 2,922rsf
+
+
+
+One kendall square
+
+
+
+
+
+
+
+
+
+59
+
+
+
+
+
+
+
+
+
+
+
+First Floor Space First Floor Space Exhibit 2 lease plan (existing lab\office premises) 1 One kendall square - building 600,650,700-1st floor (8,437rsf) 1 st floor space One kendall square nano faculty (all included)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Additional First Floor Space Exhibit a-2, first amendment lease plan for additional 1 st floor space  Addgene 7145(*feb 2016) Omniguide(june 2013)5687 rsf  Minepoint (Dec 2016)76rsf Liberty mutual (Feb 2017) 1,692rsf Liberty mutual (feb 2017)971rsf Vacant 1,531rsf Sports & physical therapy (dec 2014) 1,745 rsf Merrimack 491 rsf Omnigude 200rsf (june 2013) Merrimack 8,437 rsf rsf (june 2019) Igem 4,4681rsf (mar 2016) Sports & physical therapy (dec 2014) 1,745rsf One kendall square - building 600,650,700-1st floor Jan 02, 2013 One kendall square 00440158.doc\6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EXHIBIT B-OUTLINE OF FORMER OMNIGUIDE SPACE This plan is intended only to show the general outline of the Fonner OmniGuide Space as of the date of this Amendment. Any depiction of interior windows, walls, cubicles, modules, furniture and equipment on this plan is for illustrative purposes only, but does not mean that such items exist. Landlord is not required to provide, install or construct any such items. It does not in any way supersede any of Landlord's rights set forth in the Lease or this Amendment with respect to arrangements and/or locations of public parts of the Building. It is not necessarily to scale; any measurements or distances shown should be taken as approximate. The inclusion of elevators, stairways, electrical and mechanical closets, and other similar facilities for the benefit of occupants of the Building does not mean such items are part of the Fonner OmniGuide Space. Former OmniGuide Space  Former omeniguide space  Lease exhibit:bulding 700-floor 1 Dincowest, one kendall square, Cambridge, na,  R.e. dinneen architects & planners,inc.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chemical Storage Space 2 Exhibit 2d lease plan (chemical storage space) Exbit 2d Lease plan  (chemical storage space) Merrimack Chemical storage  491 rsf One kendall square- building 600,650,700-1st floor
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+600 Expansion Space + Hallway Space 600 Expansion Space (2nd floor) 4 Exhibit a-1,frist amendment lease plan for 600 expansion space and hallway space Expanses space  2nd floor  Excluding hatched space 7964 of 8939 sq.ft  Warehouse and office   second floor plan building 600,650,700 one Kendall square Feb. 15.2013 8155rsf 784rsf    00440158.doc\6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4th Floor Space 4th floor mezzanine B6004th floor 11,878rsf Proposed premises B700 one kendall sqjare  the beal companies  Harrison mulhern architects  may 16,2012 b600 4th floor 18,748rsf total 30,676rsf 00416396.docx\11
+
+
+
+
+
+00416396.DOCX/11
+
+57
+
+
+
+
+
+
+
+
+
+
+
+
+
+Additional Space (4th Floor) 4th floor mezzanine Proposed premises B700 one kendall sqjare  the beal companies  Harrison mulhern architects  may 16,2012 b650 4th floor 4.773rsf additional space allow mfg ware house  6 00416396.docx\11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Expansion Space I 4th floor mezzanine 8,763rsf Proposed premises B700 one kendall sqjare  the beal companies  Harrison mulhern architects  may 16,2012 expansion spaceI 00416396.docx\11
+
+
+
+
+
+00416396.DOCX/11
+
+60
+
+
+
+
+
+
+
+
+
+
+
+Expansion Space II Not including mezzanine space 2,035rsf 4th floor mezzanine 2,0354th flr mezz(b650) 1,353rsf 4th flr (b650) 3,388rsf Proposed premises B700 one kendall sqjare  the beal companies  Harrison mulhern architects  may 16,2012 expansion spaceII 00416396.docx\11
+
+
+
+
+
+00416396.DOCX/11
+
+61
+
+
+
+
+
+EXHIBIT B
+
+PRIMARY LEASE + AMENDMENTS
+
+
+
+[To be attached]
+
+
+
+
+
+
+1
+
+
+
+
+
+
+
+EXHIBIT C
+
+APPROXIMATE LOCATION OF FORMER LABS
+
+
+
+[Floorplan attached]
+
+
+
+
+
+
+
+
+
+2
+
+
+
+
+
+
+
+
+
+
+
+
+
+Exhibit C-1 Former Labs Blue Labs 5,413 RSF Proposed premises B700 one kendall sqjare  the beal companies  Harrison mulhern architects  may 16,2012 b6004th floor 18,748rsf total 30,676rsf 00416396.docx\11
+
+
+
+
+
+00416396.DOCX/11
+
+57
+
+
+
+
+
+
+
+
+
+
+
+Exhibit C-2 Former Labs 4 th floor mezzonine Laboratory on 'orange' side of 4th floor of Building 7003,873 RSF B6004th floor 11,878rsf Proposed premises B700 one kendall sqjare  the beal companies  Harrison mulhern architects  may 16,2012 b6004th floor 18,748rsf total 30,676rsf "Upstream" laboratories in 4th Floor Space of Building 600 3,330 RSF 00416396.docx\11
+
+
+
+
+
+
+
+00416396.DOCX/11
+
+58
