@@ -64,7 +64,7 @@ def entity_config(entity_id: int,
 
 
 def entity_alias(alias: str, language: str = None, is_abbreviation: bool = False, alias_id: int = None) \
-        -> Tuple[str, str, bool, int]:
+        -> Tuple[str, str, bool, int, str]:
     """
     Create entity alias tuple. This method is just for ensuring type safety of alias components in IDE.
     :param alias_id: Alias id. None if there is no id.
@@ -74,7 +74,8 @@ def entity_alias(alias: str, language: str = None, is_abbreviation: bool = False
     of searching.
     :return: A tuple representing the alias in format: (alias_text, lang, is_abbreviation, alias_id)
     """
-    return alias, language, is_abbreviation, alias_id
+    normalized_alias = normalize_text(alias, lowercase=not is_abbreviation)
+    return alias, language, is_abbreviation, alias_id, normalized_alias
 
 
 def get_entity_name(entity: Tuple[int, str, int, List[Tuple]]) -> str:
@@ -316,18 +317,17 @@ def _find_entity_positions(normalized_text: str,
             alias_lang = ea[1]
             alias_is_abbreviation = ea[2]
 
+            # get or create normalized alias
+            normalized_alias = ea[4] if len(ea) == 5 and ea[4] is not None\
+                else normalize_text(alias_text, lowercase=not alias_is_abbreviation, use_stemmer=use_stemmer)
+
             if not alias_text or (
                             text_languages and alias_lang and alias_lang not in text_languages):
                 continue
             if min_alias_len and len(alias_text) < min_alias_len:
                 continue
 
-            if alias_is_abbreviation:
-                normalized_alias = normalize_text(alias_text, lowercase=False, use_stemmer=use_stemmer)
-                normalized_text_for_alias = normalized_text
-            else:
-                normalized_alias = normalize_text(alias_text, lowercase=True, use_stemmer=use_stemmer)
-                normalized_text_for_alias = normalized_text_lowercase
+            normalized_text_for_alias = normalized_text if alias_is_abbreviation else normalized_text_lowercase
 
             if alias_is_blacklisted(alias_black_list, normalized_alias, alias_lang, alias_is_abbreviation):
                 continue
