@@ -99,6 +99,17 @@ class TestDatesPlain(TestCase):
         dates = get_dates_list(text)
         self.assertEqual(2, len(dates))
 
+    def test_one_date_this(self):
+        text = """made this November 16, 2009. This is a paragraph which has multiple sentences."""
+        dates = get_dates_list(text)
+        self.assertEqual(1, len(dates))
+
+    def test_august(self):
+        text = """Commencement Date: August 1, 2013."""
+        dates = get_dates_list(text)
+        self.assertEqual(1, len(dates))
+        self.assertEqual(8, dates[0].month)
+
     def test_date_first_aug(self):
         dates = list(get_dates_list("second of August 2014"))
         self.assertEqual(1, len(dates))

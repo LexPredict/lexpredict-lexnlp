@@ -160,10 +160,6 @@ FALSE_POS_SUB_RE = re.compile(FALSE_POS_SUB_PTN, re.IGNORECASE | re.UNICODE | re
 DEFAULT_COMPANY_DESC_RE = re.compile(
     r'(?:^|\W)(?:{})(?:$|\W)'.format('|'.join(COMPANY_DESCRIPTIONS)), re.I)
 
-BACKTRACK_CATASTROPHY_COMPANY_PATTERN = r'[0-9A-Za-z]{80,}'
-
-BACKTRACK_CATASTROPHY_COMPANY_RE = re.compile(BACKTRACK_CATASTROPHY_COMPANY_PATTERN)
-
 
 def get_companies(text: str,
                   use_article: bool = False,
@@ -177,9 +173,6 @@ def get_companies(text: str,
     # Iterate through sentences
     sent_list = get_sentence_span_list(text) if use_sentence_splitter else [(0, len(text), text)]
     for start, _, sentence in sent_list:
-        if check_backtrack_catastrophy(sentence):
-            continue
-
         for match in re_c.finditer(sentence):
             captures = match.capturesdict()
             company_type = captures["company_type_of"] or \
@@ -268,7 +261,3 @@ def get_parties_as(text: str, detail_type=False) -> \
         # noinspection PyTypeChecker
         for ant in get_companies(party_string):  # type: CompanyAnnotation
             yield ant.name, ant.company_type, ant.description, party_type
-
-
-def check_backtrack_catastrophy(text: str) -> bool:
-    return BACKTRACK_CATASTROPHY_COMPANY_RE.search(text)

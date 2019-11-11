@@ -149,11 +149,3 @@ class TestGetCompanies(TestCase):
         text = 'Sitwell Housing Busted'
         res = list(get_company_annotations(text))
         self.assertEqual(0, len(res))
-
-    def test_reg_back(self):
-        # here we check that the test doesn't hang
-        text = """
-        /NOR <FEFF004200720075006b00200064006900730073006500200069006e006e007300740069006c006c0069006e00670065006e006500.
-        """
-        res = list(get_company_annotations(text))
-        self.assertEqual(0, len(res))
