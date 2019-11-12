@@ -113,6 +113,24 @@ class TestDictEntities(TestCase):
                                           [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                           debug_print=True)
 
+    def test_am_pm_none(self):
+        am = entity_config(1, 'America', aliases=[entity_alias('AM', is_abbreviation=True)], name_is_alias=False)
+        pm = entity_config(2, 'Postmodernism', aliases=[entity_alias('PM', is_abbreviation=True)], name_is_alias=False)
+
+        entities = [am, pm]
+        ents = list(find_dict_entities('It is 11:00 AM or 11:00 PM now.',
+            all_possible_entities=entities))
+        self.assertEqual(0, len(ents))
+
+        ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
+                                       all_possible_entities=entities))
+        self.assertEqual(1, len(ents))
+        self.assertEqual('America', ents[0].entity[0][1])
+
+        ents = list(find_dict_entities('It is 11:00am now.',
+                                       all_possible_entities=entities))
+        self.assertEqual(0, len(ents))
+
     def test_plural_case_matching(self):
         table = entity_config(1, 'Table', aliases=[entity_alias('tbl.', is_abbreviation=True)], name_is_alias=True)
 
@@ -126,41 +144,11 @@ class TestDictEntities(TestCase):
                'Unfortunately our stemmer is not able to convert word "men" to singular number yet :(. ' \
                'But it works for word "masloboykas" - a non existing word in English in plural case.'
 
-        expected = ((table[1], 'Table'), (masloboyka[1], 'masloboyka'),)
+        expected = ((masloboyka[1], 'masloboyka'),)
 
         lexnlp_tests.test_extraction_func(expected, find_dict_entities, text,
                                           all_possible_entities=entities,
                                           use_stemmer=True,
-                                          actual_data_converter=lambda actual:
-                                          [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
-                                          debug_print=True)
-
-    def test_am_pm_abbreviations(self):
-        am = entity_config(1, 'America', aliases=[entity_alias('AM', is_abbreviation=True)], name_is_alias=False)
-        pm = entity_config(2, 'Postmodernism', aliases=[entity_alias('PM', is_abbreviation=True)], name_is_alias=False)
-
-        entities = [am, pm]
-
-        lexnlp_tests.test_extraction_func([],
-                                          find_dict_entities,
-                                          'It is 11:00 AM or 11:00 PM now.',
-                                          all_possible_entities=entities,
-                                          actual_data_converter=lambda actual:
-                                          [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
-                                          debug_print=True)
-
-        lexnlp_tests.test_extraction_func([(am[1], 'AM')],
-                                          find_dict_entities,
-                                          'It is 11:00am now in (AM). Hello!',
-                                          all_possible_entities=entities,
-                                          actual_data_converter=lambda actual:
-                                          [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
-                                          debug_print=True)
-
-        lexnlp_tests.test_extraction_func([],
-                                          find_dict_entities,
-                                          'It is 11:00am now.',
-                                          all_possible_entities=entities,
                                           actual_data_converter=lambda actual:
                                           [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                           debug_print=True)

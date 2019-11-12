@@ -22,7 +22,6 @@ __version__ = "1.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
-
 cwd = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
 
 
@@ -54,9 +53,7 @@ def is_datetime(word: str) -> bool:
         if dt < DATE_MIN or dt > DATE_MAX:
             return False
         return True
-    except ValueError:
-        return False
-    except OverflowError:
+    except Exception:
         return False
 
 
@@ -176,7 +173,7 @@ def get_word_features(word: str, part_of_speech: str) -> List[int]:
         int(word_norm in COUNTRY_WORDS),
         int(word_norm in PROVINCES_WORDS),
         int(word_norm in CITY_NAME_WORDS)
-        ]
+    ]
 
     return res
 

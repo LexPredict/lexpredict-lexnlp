@@ -356,8 +356,7 @@ def assert_set_equal(function_name: str,
                      do_raise: bool = True,
                      do_write_to_file: bool = True,
                      debug_print: bool = True,
-                     test_data_file: str = None,
-                     treat_empty_str_like_none: bool = True) -> Union[str, None]:
+                     test_data_file: str = None) -> Union[str, None]:
     if not expected_results and not actual_results:
         return None
     exx = None
