@@ -61,8 +61,7 @@ class TestParseEnCourts(TestCase):
     def test_parse_empty_text(self):
         ret = _get_court_list('')
         self.assertEqual(0, len(ret))
-        ret = _get_court_list("""
-
+        _get_court_list("""
          """)
         #self.assertEqual(0, len(ret))
 
@@ -146,11 +145,18 @@ def test_court_config_setup():
     """
     # Test setup 1
     cc = entity_config(0, 'Test Court', 0, ['Alias'])
-    assert_equals(str(cc), "(0, 'Test Court', 0, [('Test Court', None, False, None), ('Alias', None, False, None)])")
+    assert_equals(
+        "(0, 'Test Court', 0, [('Test Court', None, False, None, ' test court '), " + \
+        "('Alias', None, False, None, ' alias ')])",
+        str(cc))
 
+
+def test_court_config_setup_wo_alias():
     # Test setup 2
     cc = entity_config(0, 'Test Court', 0)
-    assert_equals(str(cc), "(0, 'Test Court', 0, [('Test Court', None, False, None)])")
+    assert_equals(
+        "(0, 'Test Court', 0, [('Test Court', None, False, None, ' test court ')])",
+        str(cc))
 
 
 def test_courts_longest_match():

@@ -14,7 +14,7 @@ Todo:
 from unittest import TestCase
 
 from lexnlp.extract.en.definitions import NOUN_PTN_RE, \
-    get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations
+    get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations, trim_defined_term
 from lexnlp.tests.utility_for_testing import load_resource_document
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
@@ -27,13 +27,18 @@ __email__ = "support@contraxsuite.com"
 
 class TestEnglishDefinitions(TestCase):
 
+    def test_trim_defined_term(self):
+        term = 'this "Deed of Trust"'
+        term_cleared, start, end, was_quoted = trim_defined_term(term, 5, 31)
+        self.assertEqual('Deed of Trust', term_cleared)
+
     def test_definition_quoted(self):
         sentence = '''THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
 STATEMENT (this "Deed of Trust") dated August 29, 1997, is executed and
 delivered by Trustor for good and valuable consideration, the receipt and
 adequacy of which are hereby acknowledge by Trustor.'''
         definitions = list(get_definitions_explicit(sentence))
-        self.assertEqual(definitions[0][0], 'Deed of Trust')
+        self.assertEqual('Deed of Trust', definitions[0][0])
 
     def test_definition_quoted_new_line(self):
         sentence = '''THIS DEED OF TRUST, ASSIGNMENT, SECURITY AGREEMENT AND FINANCING
@@ -137,11 +142,12 @@ to time in the Gross Revenue Fund established under the Master Indenture. """
         defs = list(get_definition_annotations(text))
         self.assertEqual(1, len(defs))
 
+    def test_reffered_to_def_excess_words(self):
         text = '“Aggregate Delayed Draw Term Loan Ending Commitment” shall mean the combined Revolving Loan ' + \
                'Commitments of the Revolving Lenders, which shall initially on the Closing Date be in the amount ' + \
                'of $99,000,000, as such amount may be increased in accordance with Section 9.92(b).'
         defs = list(get_definition_annotations(text))
-        self.assertEqual(1, len(defs))
+        self.assertEqual(0, len(defs))
 
     def test_too_long_definition(self):
         text = '''any such excess being referred to as a "Combined BISS Deficit Alpha Beta Gamma Cappa Zeta"'''
@@ -342,3 +348,40 @@ against the Trustee in connection with the Trustee's obligations under or in con
         text = '(each an “Obligation” and collectively, the “Obligations”)'
         definitions = list(get_definition_annotations(text))
         self.assertEqual(2, len(definitions))
+
+    def test_newlines(self):
+        text = """
+“Interest Coverage Ratio” means, for any period of four consecutive fiscal quarters of the Borrower, the ratio of
+Adjusted Funds From Operations for such period to Net Interest Expense for such period.
+“Interest Expense” means, for any
+period, “interest expense” as shown on a consolidated statement of income of the Borrower for such period prepared in accordance with GAAP plus Interest Expense to Affiliates for such period.
+“Interest Expense to Affiliates” means, for any period, “Interest Expense to Affiliates” as shown on a consolidated statement
+of income of the Borrower for such period.        
+        """
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(3, len(definitions))
+
+        text = "“Interest Coverage Ratio” means, for any period of four consecutive fiscal quarters of the Borrower, " + \
+               "the ratio of Adjusted Funds From Operations for such period to Net Interest Expense for such period. " + \
+               "“Interest Expense” means, for any " + \
+               "period, “interest expense” as shown on a consolidated statement of income of the Borrower for such " + \
+               "period prepared in accordance with GAAP plus Interest Expense to Affiliates for such period. " + \
+               "“Interest Expense to Affiliates” means, for any period, “Interest Expense to Affiliates” as shown " + \
+               "on a consolidated statement of income of the Borrower for such period."
+
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(3, len(definitions))
+
+    def test_enquoted(self):
+        text = 'increase or otherwise modify Facility LCs ("Modify," and each such action a "Modification") ' + \
+               'for the Borrower, from time to time from the date'
+        definitions = list(get_definition_annotations(text))
+        self.assertEqual(3, len(definitions))
+
+    def test_quotes_removed(self):
+        text = '(each an “Obligation” and collectively, the “Obligations”)'
+        definitions = list(get_definition_annotations(text))
+        definitions.sort(key=lambda d: d.coords[0])
+        self.assertEqual(2, len(definitions))
+        self.assertEqual((10, 20), definitions[0].coords)
+        self.assertEqual((45, 56), definitions[1].coords)

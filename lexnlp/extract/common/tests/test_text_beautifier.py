@@ -43,6 +43,11 @@ class TestTextBeautifier(TestCase):
         cleared = TextBeautifier.unify_quotes_braces(text)
         self.assertEqual('"Consolidated EBITDA" means, for any period', cleared)
 
+    def test_quotes_coords(self):
+        text = '"Consolidated EBITDA means, for any period'
+        cleared = TextBeautifier.unify_quotes_braces_coords(text, 10, 93)
+        self.assertEqual(('Consolidated EBITDA means, for any period', 11, 93), cleared)
+
     def test_misplaced_quotes(self):
         text = '”Consolidated EBITDA“'
         cleared = TextBeautifier.unify_quotes_braces(text)
@@ -72,6 +77,19 @@ class TestTextBeautifier(TestCase):
         cleared = TextBeautifier.strip_pair_symbols(text)
         self.assertEqual('"A right" of set-off; "B"', cleared)
 
+    def test_strip_pair_symbols_coords(self):
+        text = ' "(A right of set-off; B)"'
+        cleared = TextBeautifier.strip_pair_symbols((text, 2, 23))
+        self.assertEqual(('A right of set-off; B', 5, 21), cleared)
+
+        text = '("A right" of set-off; "B")'
+        cleared = TextBeautifier.strip_pair_symbols((text, 100, 119))
+        self.assertEqual(('"A right" of set-off; "B"', 101, 118), cleared)
+
+        text = '  "A right" of set-off; "B" '
+        cleared = TextBeautifier.strip_pair_symbols((text, 100, 119))
+        self.assertEqual(('"A right" of set-off; "B"', 102, 118), cleared)
+
     def test_strip_pair_symbols_untouched(self):
         text = '(A) right of set-off; (B)'
         cleared = TextBeautifier.strip_pair_symbols(text)
@@ -84,6 +102,22 @@ class TestTextBeautifier(TestCase):
         text = '"(A ( right)" "of set-off; (B)"'
         cleared = TextBeautifier.strip_pair_symbols(text)
         self.assertEqual(text, cleared)
+
+    def test_strip_text_coords(self):
+        text = '    (A) right of set-off; (B) '
+        stripped = TextBeautifier.strip_string_coords(
+            text, 100, 127)
+        self.assertEqual(('(A) right of set-off; (B)', 104, 126), stripped)
+
+        text = '    (A) right of set-off; (B) '
+        stripped = TextBeautifier.lstrip_string_coords(
+            text, 100, 127)
+        self.assertEqual(('(A) right of set-off; (B) ', 104, 127), stripped)
+
+        text = '    (A) right of set-off; (B) '
+        stripped = TextBeautifier.rstrip_string_coords(
+            text, 100, 127)
+        self.assertEqual(('    (A) right of set-off; (B)', 100, 126), stripped)
 
     def test_find_transformed_word(self):
         text = '(each an “Obligation” and collectively, the “Obligations”)'

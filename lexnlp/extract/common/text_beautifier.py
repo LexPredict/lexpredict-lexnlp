@@ -1,4 +1,4 @@
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Optional, Union
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
@@ -50,11 +50,31 @@ class TextBeautifier:
         return resulted
 
     @staticmethod
-    def strip_pair_symbols(term: str) -> str:
+    def strip_pair_symbols(term_coords: Union[str, Tuple[str, int, int]]) -> \
+            Union[str, Tuple[str, int, int]]:
+        if not term_coords:
+            return term_coords
         # build stack of pair quotes and brackets
-        term = term.strip()
+        if type(term_coords) is str:
+            term = term_coords
+            coords = None
+        else:
+            term = term_coords[0]
+            coords = [term_coords[1], term_coords[2]]
+
+        stripped = term.lstrip()
+        if stripped != term:
+            if coords:
+                coords[0] = coords[0] + len(term) - len(stripped)
+                term = stripped
+        stripped = term.rstrip()
+        if stripped != term:
+            if coords:
+                coords[1] = coords[1] - len(term) + len(stripped)
+                term = stripped
+        term_coords = (term, coords[0], coords[1], ) if coords else term
         if not term:
-            return term
+            return term_coords
 
         if term[0] in TextBeautifier.QUOTES:
             open_set = TextBeautifier.QUOTES
@@ -65,7 +85,7 @@ class TextBeautifier:
             close_set = TextBeautifier.BRACES_C
             flip_stack = False
         else:
-            return term
+            return term_coords
 
         stack = 0
         counter = 0
@@ -83,30 +103,44 @@ class TextBeautifier:
                     stack += 1
             if not stack:
                 if counter < len(term):
-                    return term
+                    return term_coords
         if stack:
-            return term
+            return term_coords
+
         term = term[1:-1]
-        return TextBeautifier.strip_pair_symbols(term)
+        if coords:
+            coords = [coords[0] + 1, coords[1] - 1]
+        term_coords = (term, coords[0], coords[1],) if coords else term
+        return TextBeautifier.strip_pair_symbols(term_coords)
 
     @staticmethod
     def unify_quotes_braces(text: str,
-                            empty_replacement: str = ''):
+                            empty_replacement: str = '') -> str:
         try:
-            return TextBeautifier.unify_quotes_braces_unsafe(text,
-                                                             empty_replacement)
+            return TextBeautifier.unify_quotes_braces_unsafe(
+                text, 0, len(text), empty_replacement)[0]
         except:  # pylint:disable=bare-except
             return text
 
     @staticmethod
-    def unify_quotes_braces_unsafe(text: str,
-                                   empty_replacement: str = '') -> str:
+    def unify_quotes_braces_coords(
+            text: str, start: int, end: int, empty_replacement: str = '') -> Tuple[str, int, int]:
+        try:
+            return TextBeautifier.unify_quotes_braces_unsafe(
+                text, start, end, empty_replacement)
+        except:  # pylint:disable=bare-except
+            return text, start, end
+
+    @staticmethod
+    def unify_quotes_braces_unsafe(text: str, start: int, end: int,
+                                   empty_replacement: str = '') -> Tuple[str, int, int]:
         """
         :param text: source text to "beautify"
+        :param start: start coordinate of the text
+        :param end: end coordinate of the text
         :param empty_replacement: replace unbalanced braces / quotes with this substring
         :return: str with all quotes and braces replaced with their "normal" forms
         """
-
         last_quote = None  # or ('"', 9)
         apos_coords = []  # type:List[int]
         braces_stack = []  # [("(", 18), ("[", 41)]
@@ -167,10 +201,14 @@ class TextBeautifier:
         # apply replacements
         if replacements:
             clear_text = [c for c in text]
-            for rep in replacements:
-                clear_text[rep[0]] = rep[1]
+            for rep_coord, rep_word in replacements:
+                if rep_coord == 0:
+                    start = start + 1 - len(rep_word)
+                elif rep_coord == len(clear_text) - 1:
+                    end = end - 1 + len(rep_word)
+                clear_text[rep_coord] = rep_word
             text = ''.join(clear_text)
-        return text
+        return text, start, end
 
     @staticmethod
     def find_pair_among_apostrophe(text: str,
@@ -215,3 +253,37 @@ class TextBeautifier:
             if leap_size < len(word) + 2:
                 return indices[0]
         return None
+
+    @staticmethod
+    def strip_string_coords(text: str,
+                            start: int,
+                            end: int,
+                            trim_symbols: Optional[str] = None) -> Tuple[str, int, int]:
+        text_trimmed = text.lstrip(trim_symbols) if trim_symbols else text.lstrip()
+        start = start + len(text) - len(text_trimmed)
+        text = text_trimmed
+
+        text_trimmed = text.rstrip(trim_symbols) if trim_symbols else text.rstrip()
+        end = end - len(text) + len(text_trimmed)
+        text = text_trimmed
+        return text, start, end
+
+    @staticmethod
+    def lstrip_string_coords(text: str,
+                            start: int,
+                            end: int,
+                            trim_symbols: Optional[str] = None) -> Tuple[str, int, int]:
+        text_trimmed = text.lstrip(trim_symbols) if trim_symbols else text.lstrip()
+        start = start + len(text) - len(text_trimmed)
+        text = text_trimmed
+        return text, start, end
+
+    @staticmethod
+    def rstrip_string_coords(text: str,
+                            start: int,
+                            end: int,
+                            trim_symbols: Optional[str] = None) -> Tuple[str, int, int]:
+        text_trimmed = text.rstrip(trim_symbols) if trim_symbols else text.rstrip()
+        end = end - len(text) + len(text_trimmed)
+        text = text_trimmed
+        return text, start, end

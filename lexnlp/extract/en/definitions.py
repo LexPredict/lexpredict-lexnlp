@@ -13,7 +13,7 @@ Todo:
 import regex as re
 import unidecode as unidecode
 from collections import Counter
-from typing import Generator, Pattern, List, Tuple
+from typing import Generator, Pattern, List, Tuple, Set
 
 from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.common.text_beautifier import TextBeautifier
@@ -24,6 +24,7 @@ from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.nlp.en.segments.sentences import get_sentence_span
 from lexnlp.utils.lines_processing.line_processor import LineProcessor
+from lexnlp.utils.iterating_helpers import count_sequence_matches
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
@@ -265,7 +266,7 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
     sentence = TextBeautifier.unify_quotes_braces(sentence,
                                                   empty_replacement=' ')
     sent_start = sentence_coords[0]
-    result = set()
+    result = set()  # type: Set[Tuple[str, int, int]]
 
     # it really transforms string, e.g. replaces “ with "
     if decode_unicode:
@@ -290,21 +291,25 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
         break
 
     # make definitions out of entries
-    for term_coords in result:
-        term_processed = trim_defined_term(term_coords[0])
-        term_clear = term_processed[0]
-        term = term_clear if PICK_DEFINITION_FROM_QUOTES else term_coords[0]
-        term = TextBeautifier.unify_quotes_braces(term)
+    for term, start, end in result:
+        term_cleared = TextBeautifier.strip_pair_symbols((term, start, end))
+        term_cleared = trim_defined_term(term_cleared[0], term_cleared[1], term_cleared[2])
+        was_quoted = term_cleared[3]
 
-        was_quoted = term_processed[1]
+        if PICK_DEFINITION_FROM_QUOTES:
+            term, start, end = term_cleared[0], term_cleared[1], term_cleared[2]
+
+        if not term_cleared[0]:
+            continue
+
+        term, start, end = TextBeautifier.unify_quotes_braces_coords(
+            term, start, end)
+
         # check the term is not empty
         if len(term.strip(PUNCTUATION_STRIP_STR)) == 0:
             continue
 
-        term = TextBeautifier.strip_pair_symbols(term)
-        if not term:
-            continue
-
+        # returns [('word', 'token', (word_start, word_end)), ...] ...
         term_pos = list(SpanTokenizer.get_token_spans(term))
         if does_term_are_service_words(term_pos):
             continue
@@ -321,19 +326,20 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
         if was_quoted:
             max_words_per_definition = MAX_QUOTED_TERM_TOKENS
 
-        words_in_term = sum(1 for w in word_processor.split_text_on_words(term_clear)
+        words_in_term = sum(1 for w in word_processor.split_text_on_words(term_cleared[0])
                             if not w.is_separator)
-        quotes_in_text = get_quotes_count_in_string(term_clear)
+        quotes_in_text = get_quotes_count_in_string(term_cleared[0])
         possible_definitions = quotes_in_text // 2 if quotes_in_text > 1 else 1
         possible_tokens_count = max_words_per_definition * possible_definitions
         if words_in_term > possible_tokens_count:
             continue
 
         split_definitions_lst = split_definitions_inside_term(
-            term, sentence_coords, term_coords[1], term_coords[2])
+            term, sentence_coords, start, end)
 
-        for definition, start, end in split_definitions_lst:
-            definitions.append(DefinitionCaught(definition, sentence, (start, end,)))
+        for definition, s, e in split_definitions_lst:
+            definition, s, e = TextBeautifier.strip_pair_symbols((definition, s, e))
+            definitions.append(DefinitionCaught(definition, sentence, (s, e,)))
 
     return definitions
 
@@ -373,44 +379,62 @@ def split_definitions_inside_term(term: str,
     return match_coords
 
 
-def does_term_are_service_words(term_pos: List[Tuple[str, str]]) -> bool:
+def does_term_are_service_words(term_pos: List[Tuple[str, str, int, int]]) -> bool:
     """
     Does term consist of service words only?
     """
-    for pos in term_pos:
-        if pos[1] not in NON_SIG_POS:
+    for _, pos, _, _ in term_pos:
+        if pos not in NON_SIG_POS:
             return False
     return True
 
 
-def trim_defined_term(term: str) -> Tuple[str, str]:
+def trim_defined_term(term: str, start: int, end: int) -> \
+        Tuple[str, int, int, bool]:
     """
-    "trim" terms from definitions' keywords
-    extract text from quotes
-    :param term: 'referred to as a "Combined EBITDA Deficit"'
-    :return: ('Combined EBITDA Deficit', 'quoted')
+    Remove pair of quotes / brackets framing text
+    Replace N-grams of spaces with single spaces
+    Replace line breaks with spaces
+    :param term: a phrase that may contain excess framing symbols
+    :param start: original term's start position, may be changed
+    :param end: original term's end position, may be changed
+    :return: updated term, start, end and the flag indicating that the whole phrase was inside quotes
     """
-    flags = ''
+    was_quoted = False
 
+    # pick text from quotes
     # pick text from quotes
     quoted_parts = [m.group() for m in QUOTED_TEXT_RE.finditer(term)]
     if len(quoted_parts) == 1:
         term = quoted_parts[0].strip('''\"'“„''')
-        flags = 'quoted'
+        was_quoted = True
 
-    # rip off definition's keyword(s)
+    orig_term_len = len(term)
+    orig_term_quotes = count_sequence_matches(term, lambda c: c in TextBeautifier.QUOTES)
+    term, start, end = TextBeautifier.strip_pair_symbols((term, start, end))
+    if len(term) < orig_term_len:
+        # probably we removed quotes
+        updated_term_quotes = count_sequence_matches(term, lambda c: c in TextBeautifier.QUOTES)
+        was_quoted = was_quoted or orig_term_quotes - updated_term_quotes > 1
+
     term = term.replace('\n', ' ')
     term = SPACES_RE.sub(' ', term)
-    term = term.strip(STRIP_PUNCT_SYMBOLS)
+
+    term, start, end = TextBeautifier.strip_string_coords(
+        term, start, end, STRIP_PUNCT_SYMBOLS)
 
     # strip all dots or just left one (if ends with abbreviation)
     ends_with_abbr = ABBREVIATION_ENDING_RE.search(term)
     if not ends_with_abbr:
-        term = term.strip('.')
+        term, start, end = TextBeautifier.strip_string_coords(
+            term, start, end, '.')
     else:
-        term = term.lstrip('.')
+        term, start, end = TextBeautifier.lstrip_string_coords(
+            term, start, end, '.')
 
-    return term, flags
+
+
+    return term, start, end, was_quoted
 
 
 def filter_definitions_for_self_repeating(definitions: List[DefinitionCaught]) -> List[DefinitionCaught]:

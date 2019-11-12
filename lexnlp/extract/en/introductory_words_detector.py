@@ -30,10 +30,12 @@ class IntroductoryWordsDetector:
     PUNCTUATION_POS = {'``', '\t'}.union(SpecialCharacters.punctuation)
 
     @staticmethod
-    def remove_term_introduction(term: str,
-                                 term_pos: List[Tuple[str, str]]) -> str:
+    def remove_term_introduction(
+            term: str, term_pos: List[Tuple[str, str, int, int]]) -> str:
         """
         so called "champerty' => "champerty'
+        :param term: source phrase
+        :param term_pos: sourse phrase
         """
         trim_pos = 0
         # index of significant word within the term (not punctuation)

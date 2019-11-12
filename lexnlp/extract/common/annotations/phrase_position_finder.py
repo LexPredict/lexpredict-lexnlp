@@ -1,5 +1,4 @@
 import regex as re
-import unidecode
 from typing import List, Tuple
 
 from lexnlp.extract.common.text_beautifier import TextBeautifier
