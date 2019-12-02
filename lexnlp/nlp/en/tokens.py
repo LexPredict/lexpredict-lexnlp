@@ -190,43 +190,43 @@ def get_nouns(text, lowercase=False, lemmatize=False) -> Generator:
     """
     tokens = get_token_list(text)
     pos = nltk.pos_tag(tokens)
-    verb_index = [i for i in range(len(pos)) if pos[i][1].startswith("N")]
+    noun_index = [i for i in range(len(pos)) if pos[i][1].startswith("N")]
     if lemmatize:
         lemmas = get_lemma_list(text, lowercase=lowercase)
-        for j in verb_index:
+        for j in noun_index:
             yield lemmas[j]
     else:
-        for j in verb_index:
+        for j in noun_index:
             yield tokens[j].lower() if lowercase else tokens[j]
 
 
 def get_adverbs(text, lowercase=False, lemmatize=False) -> Generator:
     """
-    Get only nouns from text.
+    Get only adverbs from text.
     """
     tokens = get_token_list(text)
     pos = nltk.pos_tag(tokens)
-    verb_index = [i for i in range(len(pos)) if pos[i][1].startswith("RB")]
+    adverb_index = [i for i in range(len(pos)) if pos[i][1].startswith("RB")]
     if lemmatize:
         lemmas = get_lemma_list(text, lowercase=lowercase)
-        for j in verb_index:
+        for j in adverb_index:
             yield lemmas[j]
     else:
-        for j in verb_index:
+        for j in adverb_index:
             yield tokens[j].lower() if lowercase else tokens[j]
 
 
 def get_adjectives(text, lowercase=False, lemmatize=False) -> Generator:
     """
-    Get only nouns from text.
+    Get only adjectives from text.
     """
     tokens = get_token_list(text)
     pos = nltk.pos_tag(tokens)
-    verb_index = [i for i in range(len(pos)) if pos[i][1].startswith("JJ")]
+    adj_index = [i for i in range(len(pos)) if pos[i][1].startswith("JJ")]
     if lemmatize:
         lemmas = get_lemma_list(text, lowercase=lowercase)
-        for j in verb_index:
+        for j in adj_index:
             yield lemmas[j]
     else:
-        for j in verb_index:
+        for j in adj_index:
             yield tokens[j].lower() if lowercase else tokens[j]
