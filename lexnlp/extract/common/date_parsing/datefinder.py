@@ -7,7 +7,7 @@ from typing import Tuple, List, Dict
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -95,7 +95,7 @@ class DateFinder(object):
         timezones=ALL_TIMEZONES_PATTERN
     )
 
-    DATES_PATTERN = """
+    DATES_PATTERN = r"""
     (
         (
             {time}
@@ -115,7 +115,7 @@ class DateFinder(object):
             |
             ## These tokens could be in phrases that dateutil does not yet recognize
             ## Some are US Centric
-            (?P<extra_tokens>({extra_tokens})[\s\.$]+)
+            (?P<extra_tokens>({extra_tokens})[\s\.$,;]+)
         ## We need at least three items to match for minimal datetime parsing
         ## ie 10pm
         ){{1,1}}
@@ -183,6 +183,8 @@ class DateFinder(object):
             match_str = match.group(0)
             indices = match.span(0)
             captures = match.capturesdict()
+            for capt_key in captures:
+                captures[capt_key] = [c.strip() for c in captures[capt_key]]
             group = self.get_token_group(captures)
 
             if indices[0] > last_index:

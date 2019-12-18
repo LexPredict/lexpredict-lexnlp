@@ -69,7 +69,7 @@ Licensing
 LexNLP is available under a dual-licensing model. By default, this
 library can be used under AGPLv3 terms as detailed in the repository
 LICENSE file; however, organizations can request a release from the AGPL
-terms by contacting ContraxSuite Licensing at
+terms or a non-GPL evaluation license by contacting ContraxSuite Licensing at
 <license@contraxsuite.com>.
 
 Requirements
@@ -81,6 +81,8 @@ Requirements
 Releases
 --------
 
+-  1.4.0: December 20, 2019 - Eighteenth scheduled public release;
+   `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/1.4.0>`__
 -  1.3.0: November 1, 2019 - Seventeenth scheduled public release;
    `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/1.3.0>`__
 -  0.2.7: August 1, 2019 - Sixteenth scheduled public release;
@@ -123,8 +125,8 @@ Releases
 .. |Build Status| image:: https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master
    :target: https://travis-ci.org/LexPredict/lexpredict-lexnlp
 .. |Coverage Status| image:: https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master
-   :target: https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=1.3.0
+   :target: https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=1.4.0
 .. |image2| image:: https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code
    :target: https://github.com/lexpredict/lexpredict-lexnlp
-.. |Docs| image:: https://readthedocs.org/projects/lexpredict-lexnlp/badge/?version=docs-1.3.0
-   :target: http://lexpredict-lexnlp.readthedocs.io/en/docs-1.3.0/
+.. |Docs| image:: https://readthedocs.org/projects/lexpredict-lexnlp/badge/?version=docs-1.4.0
+   :target: http://lexpredict-lexnlp.readthedocs.io/en/docs-1.4.0/

@@ -37,15 +37,17 @@ Please note that ContraxSuite installations generally require trained models or 
 
 ## Licensing
 LexNLP is available under a dual-licensing model.  By default, this library can be used under AGPLv3 terms as detailed
-in the repository LICENSE file; however, organizations can request a release from the AGPL terms by contacting
-ContraxSuite Licensing at <<license@contraxsuite.com>>.
+in the repository LICENSE file; however, organizations can request a release from the AGPL terms or a non-GPL
+evaluation license
+by contacting ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
 ## Requirements
 * Python 3.6
 * see python-requirements.txt file for full information
 
 ## Releases
-* 1.3.0: November 1, 2019 - Sixteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.3.0)
+* 1.4.0: December 20, 2019 - Eighteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.4.0)
+* 1.3.0: November 1, 2019 - Seventeenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.3.0)
 * 0.2.7: August 1, 2019 - Sixteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.7)
 * 0.2.6: June 12, 2019 - Fifteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.6)
 * 0.2.5: March 1, 2019 - Fourteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.5)

@@ -4,11 +4,17 @@
 Changelog
 ============
 
+1.4.0 - December 20, 2019
+----------------
+ * Made massive improvements to EN definitions and companies parsers.
+ * Updated EN dates parser to catch more date formats.
+ * Made company parsing strongly typed
+
 1.3.0 - November 1, 2019
 ----------------
  * Made massive improvements to EN definitions and companies parsers.
  * Updated EN dates parser to catch more date formats.
- * Made company parsing strongly typed.
+ * Made company parsing strongly typed
 
 0.2.7 - August 1, 2019
 ----------------

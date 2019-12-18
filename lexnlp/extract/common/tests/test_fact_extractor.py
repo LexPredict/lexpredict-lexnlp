@@ -8,7 +8,7 @@ from lexnlp.extract.en.geoentities import load_entities_dict_by_path
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -56,7 +56,8 @@ class TestFactExtractor(TestCase):
                                          include_types={AnnotationType.money})
         self.assertTrue(AnnotationType.money in facts)
         facts = facts[AnnotationType.money]
-        self.assertEqual(5.0, float(facts[0]['tags']['Extracted Entity Value']))
+        facts.sort(key=lambda f: f['attrs']['start'])
+        self.assertEqual(5.0, float(facts[-1]['tags']['Extracted Entity Value']))
 
     def test_one_fact_de(self):
         text = """

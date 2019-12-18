@@ -3,40 +3,40 @@
 
 # Imports
 
-from nose.tools import assert_true, assert_equal
+from unittest import TestCase
 
 from lexnlp.nlp.en.transforms.characters import get_character_distribution
-from lexnlp.nlp.en.transforms.tokens import get_token_distribution
+from lexnlp.nlp.en.transforms.tokens import get_token_distribution, get_stem_distribution
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-def test_character_distribution_example_1():
-    """
-    Test with example 1.
-    :return:
-    """
-    distribution = get_character_distribution("abc")
-    assert_true("a" in distribution)
-    assert_equal(distribution["a"], 1)
-    assert_true("b" in distribution)
-    assert_equal(distribution["b"], 1)
-    assert_true("c" in distribution)
-    assert_equal(distribution["c"], 1)
+class TestTransforms(TestCase):
+    def test_character_distribution_example(self):
+        distribution = get_character_distribution("abc")
+        self.assertTrue("a" in distribution)
+        self.assertEqual(1, distribution["a"])
+        self.assertTrue("b" in distribution)
+        self.assertEqual(1, distribution["b"])
+        self.assertTrue("c" in distribution)
+        self.assertEqual(1, distribution["c"])
 
 
-def test_token_distribution_example_1():
-    """
-    Test with example 1.
-    :return:
-    """
-    distribution = get_token_distribution("abc 123")
-    assert_true("abc" in distribution)
-    assert_equal(distribution["abc"], 1)
-    assert_true("123" in distribution)
-    assert_equal(distribution["123"], 1)
+    def test_token_distribution_example_1(self):
+        distribution = get_token_distribution("abc 123")
+        self.assertTrue("abc" in distribution)
+        self.assertEqual(1, distribution["abc"])
+        self.assertTrue("123" in distribution)
+        self.assertEqual(1, distribution["123"])
+
+
+    def test_stem_distribution_example_1(self):
+        distribution = get_stem_distribution("Trump trumps to entrump trumped intrumpable")
+        self.assertTrue("trump" in distribution)
+        self.assertTrue("intrump" in distribution)
+        self.assertEqual(3, distribution["trump"])

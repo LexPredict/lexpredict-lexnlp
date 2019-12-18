@@ -26,7 +26,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.3.0',
+    version='1.4.0',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -94,14 +94,14 @@ setup(
         'dateparser==0.7.0',
         'gensim==3.4.0',
         'nltk==3.4.5',
-        'num2words==0.5.5',
+        'num2words==0.5.7',
         'pandas==0.23.4',
         'pycountry==18.5.26',
         'regex==2017.9.23',
         'reporters-db==1.0.12.1',
         'requests==2.22.0',
         'scipy==1.0.0',
-        'scikit-learn==0.19.1',
+        'scikit-learn==0.21.3',
         'typing==3.6.2',
         'Unidecode==0.4.21',
         'us==1.0.0'
