@@ -25,7 +25,7 @@ from lexnlp.nlp.en.tokens import get_token_list, get_stem_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -204,6 +204,11 @@ class SearchResultPosition:
         self.start = start
         self.end = end
 
+    def __repr__(self):
+        ent_str = f'{self.entities_dict}'
+        ending = f'alias="{self.alias_text}", @[{self.start}, {self.end}]'
+        return f'{ent_str}; {ending}'
+
     def add_entity(self,
                    entity: Tuple[int, str, int, List[Tuple]],
                    alias: Tuple[str, str, bool, int]):
@@ -356,6 +361,17 @@ class DictionaryEntity:
         self.entity = entity
         self.coords = coords
 
+    def __repr__(self):
+        ent_str = 'None'
+        if self.entity:
+            ent_str = str(self.entity[0])
+            if len(self.entity) > 1:
+                ent_str += f', {self.entity[1]}'
+        coord_str = ', -'
+        if self.coords:
+            coord_str = f', @[{self.coords[0]}, {self.coords[1]}]'
+        return ent_str + coord_str
+
 
 def find_dict_entities(text: str,
                        all_possible_entities: List[Tuple[int, str, int, List[Tuple]]],
@@ -463,7 +479,6 @@ def find_dict_entities(text: str,
         :return:
         """
         entities_at_pos = pos.get_entities_aliases()
-
         if remove_time_am_pm and pos.alias_text.lower() in ('am', 'pm'):
             # We should check if this is not something like 11:45 am or 11:45.123 pm
             maybe_time1 = normalized_text_lowercase[max(0, pos.start - 3):pos.start + 1]

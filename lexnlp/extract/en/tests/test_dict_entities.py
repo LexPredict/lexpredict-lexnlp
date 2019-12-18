@@ -16,7 +16,7 @@ from lexnlp.tests import lexnlp_tests
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -113,24 +113,6 @@ class TestDictEntities(TestCase):
                                           [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                           debug_print=True)
 
-    def test_am_pm_none(self):
-        am = entity_config(1, 'America', aliases=[entity_alias('AM', is_abbreviation=True)], name_is_alias=False)
-        pm = entity_config(2, 'Postmodernism', aliases=[entity_alias('PM', is_abbreviation=True)], name_is_alias=False)
-
-        entities = [am, pm]
-        ents = list(find_dict_entities('It is 11:00 AM or 11:00 PM now.',
-            all_possible_entities=entities))
-        self.assertEqual(0, len(ents))
-
-        ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
-                                       all_possible_entities=entities))
-        self.assertEqual(1, len(ents))
-        self.assertEqual('America', ents[0].entity[0][1])
-
-        ents = list(find_dict_entities('It is 11:00am now.',
-                                       all_possible_entities=entities))
-        self.assertEqual(0, len(ents))
-
     def test_plural_case_matching(self):
         table = entity_config(1, 'Table', aliases=[entity_alias('tbl.', is_abbreviation=True)], name_is_alias=True)
 
@@ -158,7 +140,8 @@ class TestDictEntities(TestCase):
                                                        actual_data_converter=lambda text: (text,), debug_print=True)
 
     def test_prepare_alias_blacklist_dict(self):
-        src = [('Alias1', 'lang1', False), ('ABBREV1', 'lang1', True), ('Alias2', None, False), ('Alias3', 'lang1', False)]
+        src = [('Alias1', 'lang1', False), ('ABBREV1', 'lang1', True), ('Alias2', None, False),
+               ('Alias3', 'lang1', False)]
         actual = prepare_alias_blacklist_dict(src, use_stemmer=False)
         expected = {
             'lang1': ([' alias1 ', ' alias3 '], [' ABBREV1 ']),
@@ -169,7 +152,8 @@ class TestDictEntities(TestCase):
         assert_true(prepare_alias_blacklist_dict([]) is None)
 
     def test_alias_is_blacklisted(self):
-        src = [('Alias1', 'lang1', False), ('ABBREV1', 'lang1', True), ('Alias2', None, False), ('Alias3', 'lang1', False)]
+        src = [('Alias1', 'lang1', False), ('ABBREV1', 'lang1', True), ('Alias2', None, False),
+               ('Alias3', 'lang1', False)]
         prepared = prepare_alias_blacklist_dict(src, use_stemmer=False)
         assert_true(alias_is_blacklisted(prepared, ' ABBREV1 ', 'lang1', True))
         assert_false(alias_is_blacklisted(prepared, ' AAA ', 'lang1', True))
@@ -193,3 +177,21 @@ class TestDictEntities(TestCase):
     def test_get_alias_text(self):
         alias = entity_alias('alias', 'lang', False, 123)
         assert_equals('alias', get_alias_text(alias))
+
+    def test_am_pm_none(self):
+        am = entity_config(1, 'America', aliases=[entity_alias('AM', is_abbreviation=True)], name_is_alias=False)
+        pm = entity_config(2, 'Postmodernism', aliases=[entity_alias('PM', is_abbreviation=True)], name_is_alias=False)
+
+        entities = [am, pm]
+        ents = list(find_dict_entities('It is 11:00 AM or 11:00 PM now.',
+            all_possible_entities=entities))
+        self.assertEqual(0, len(ents))
+
+        ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
+                                       all_possible_entities=entities))
+        self.assertEqual(1, len(ents))
+        self.assertEqual('America', ents[0].entity[0][1])
+
+        ents = list(find_dict_entities('It is 11:00am now.',
+                                       all_possible_entities=entities))
+        self.assertEqual(0, len(ents))

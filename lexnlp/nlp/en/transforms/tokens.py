@@ -4,15 +4,16 @@
 # Imports
 import collections
 import os
+from typing import Dict
 
 import nltk
 
-from lexnlp.nlp.en.tokens import get_tokens
+from lexnlp.nlp.en.tokens import get_tokens, get_stems
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -20,14 +21,9 @@ __email__ = "support@contraxsuite.com"
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
-def get_token_distribution(text, lowercase=False, stopword=False):
+def get_token_distribution(text: str, lowercase=False, stopword=False) -> Dict[str, int]:
     """
     Get token distribution of text, potentially lowercasing and stopwording first.
-
-    :param text:
-    :param lowercase:
-    :param stopword:
-    :return:
     """
     # Iterate through tokens
     tokens = list(get_tokens(text, lowercase=lowercase, stopword=stopword))
@@ -37,14 +33,22 @@ def get_token_distribution(text, lowercase=False, stopword=False):
     return token_distribution
 
 
-def get_ngram_distribution(text, n, lowercase=False, stopword=False):
+def get_stem_distribution(text: str, lowercase=False, stopword=False) -> Dict[str, int]:
+    """
+    Get stemmed token distribution of text, potentially lowercasing and stopwording first.
+    """
+    # Iterate through token stems
+    tokens = list(get_stems(text, lowercase=lowercase, stopword=stopword))
+
+    # Calculate distribution
+    token_distribution = dict([(t, tokens.count(t)) for t in set(tokens)])
+    return token_distribution
+
+
+def get_ngram_distribution(text: str, n: int,
+                           lowercase=False, stopword=False) -> Dict[str, int]:
     """
     Get n-gram distribution of text, potentially lowercasing and stopwording first.
-
-    :param text:
-    :param lowercase:
-    :param stopword:
-    :return:
     """
 
     # Return structure
@@ -59,7 +63,7 @@ def get_ngram_distribution(text, n, lowercase=False, stopword=False):
     return token_ngram_distribution
 
 
-def get_bigram_distribution(text, lowercase=False, stopword=False):
+def get_bigram_distribution(text: str, lowercase=False, stopword=False) -> Dict[str, int]:
     """
     Get bigram distribution from text.
     :param text:
@@ -70,7 +74,7 @@ def get_bigram_distribution(text, lowercase=False, stopword=False):
     return get_ngram_distribution(text, 2, lowercase=lowercase, stopword=stopword)
 
 
-def get_trigram_distribution(text, lowercase=False, stopword=False):
+def get_trigram_distribution(text: str, lowercase=False, stopword=False) -> Dict[str, int]:
     """
     Get trigram distribution from text.
     :param text:
@@ -81,7 +85,8 @@ def get_trigram_distribution(text, lowercase=False, stopword=False):
     return get_ngram_distribution(text, 3, lowercase=lowercase, stopword=stopword)
 
 
-def get_skipgram_distribution(text, n, k, lowercase=False, stopword=False):
+def get_skipgram_distribution(text: str, n: int, k: int,
+                              lowercase=False, stopword=False) -> Dict[str, int]:
     """
     Get skipgram distribution from text.
 

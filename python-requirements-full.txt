@@ -5,6 +5,7 @@ certifi==2017.7.27.1
 chardet==3.0.4
 coverage==4.0.3
 Cython==0.29.12
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz
 https://github.com/LexPredict/datefinder/archive/master.zip
 dateparser==0.7.0
 elasticsearch==5.4.0
@@ -18,7 +19,7 @@ mccabe==0.6.1
 memory-profiler==0.47
 nltk==3.4.5
 nose==1.3.7
-num2words==0.5.5
+num2words==0.5.7
 numpy==1.15.1
 pandas==0.23.4
 pep8==1.7.0
@@ -36,14 +37,13 @@ pytest-xdist==1.30.0
 python-coveralls==2.9.1
 python-dateutil==2.6.1
 pytz==2017.2
-PyYAML==5.1
+PyYAML==5.1.2
 regex==2017.9.23
 reporters-db==1.0.12.1
 requests==2.22.0
-scikit-learn==0.19.1
+scikit-learn==0.21.3
 scipy==1.0.0
 six==1.11.0
-scikit-learn==0.19.1
 sphinx==2.1.2
 tika==1.15
 twine==1.13.0

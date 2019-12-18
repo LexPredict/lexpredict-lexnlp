@@ -9,8 +9,9 @@ This module implements date extraction functionality in English.
 import datetime
 import itertools
 import os
+import calendar
 
-from typing import Generator, List
+from typing import Generator, List, Dict, Any
 
 # Third-party packages
 import regex as re
@@ -29,7 +30,7 @@ from lexnlp.extract.common.dates import DateParser
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -51,6 +52,25 @@ of[\s]+?
 """.format(max_length=DATE_MAX_LENGTH)
 
 RE_AS_OF = re.compile(AS_OF_PATTERN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
+
+# 'january|february|march|april|may|june|july|august|september|october|november|december|jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec'
+EN_MONTHS = [['january', 'jan'], ['february', 'feb', 'febr'], ['march', 'mar'],
+             ['april', 'apr'], ['may'], ['june', 'jun'],
+             ['july', 'jul'], ['august', 'aug'], ['september', 'sep', 'sept'],
+             ['october', 'oct'], ['november', 'nov'], ['december', 'dec']]
+
+
+def get_month_by_name():
+    month_by_name = {}  # type: Dict[str, int]
+    for mn_index in range(len(EN_MONTHS)):
+        for mn in EN_MONTHS[mn_index]:
+            month_by_name[mn] = mn_index + 1
+    return month_by_name
+
+
+MONTH_BY_NAME = get_month_by_name()
+
+MONTH_FULLS = {v.lower(): k for k,v in enumerate(calendar.month_name)}
 
 
 def get_date_features(text, start_index, end_index, include_bigrams=True, window=5, characters=None,
@@ -262,6 +282,7 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
                         date_string = ' '.join(_date_string_tokens)
                     try:
                         date = date_finder.parse_date_string(date_string, date_props)
+                    # pylint: disable=broad-except
                     except:
                         date = None
                     if date:
@@ -272,6 +293,9 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
         except TypeError:
             possible_matched.append(False)
             continue
+
+        if date and not check_date_parts_are_in_date(date, date_props):
+            date = None
 
         if not date:
             possible_matched.append(False)
@@ -293,6 +317,32 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             yield (date, index)
         else:
             yield date
+
+
+def check_date_parts_are_in_date(date: datetime.datetime,
+                                 date_props: Dict[str, List[Any]]) -> bool:
+    """
+    Checks that when we transformed "possible date" into date, we found
+    place for each "token" from the initial phrase
+    :param date:
+    :param date_string: "13.2 may"
+    :param date_props: {'time': [], 'hours': [] ... 'digits': ['13', '2'] ...}
+    :return: True if date is OK
+    """
+    short_year = (date.year - 100 * (date.year // 100)) if date.year > 1000 else date.year
+    date_values = [date.year, short_year, date.month, date.day,
+        date.hour, date.minute, date.second]
+
+    for digit in [int(d) for d in date_props['digits']]:
+        if digit not in date_values:
+            return False
+        date_values.remove(digit)
+
+    for month in date_props['months']:
+        mn = MONTH_BY_NAME.get(month.lower())
+        if not mn or date.month != mn:
+            return False
+    return True
 
 
 def get_dates_list(text, **kwargs) -> List:
@@ -367,6 +417,7 @@ def build_date_model(input_examples, output_file, verbose=True):
 
         try:
             l_diff = set(dates) - set(example[1])
+        # pylint: disable=broad-except
         except:
             print(dates)
             print(example)

@@ -18,6 +18,7 @@ from typing import Generator, Dict, Tuple
 
 import nltk
 
+from lexnlp.extract.en.entities.nltk_tokenizer import NltkTokenizer
 from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.common.annotations.company_annotation import CompanyAnnotation
 from lexnlp.config.en.company_types import COMPANY_TYPES, COMPANY_DESCRIPTIONS
@@ -29,7 +30,7 @@ from lexnlp.nlp.en.tokens import get_token_list
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -256,14 +257,18 @@ class CompanyNPExtractor(NPExtractor):
         super().__init__(grammar)
 
     def get_tokenizer(self):
-        tokenizer = nltk.tokenize.TreebankWordTokenizer
-        tokenizer.PUNCTUATION[4] = (re.compile(r'[;@#$%]', re.UNICODE), ' \\g<0> ')
+        orig_tokenizer = nltk.tokenize.TreebankWordTokenizer
+        punctuation = list(orig_tokenizer.PUNCTUATION)
+        punctuation[4] = (re.compile(r'[;@#$%]', re.UNICODE), ' \\g<0> ')
         # for case like "McDonald\'s Incorporated: Burgers" when POS tokenizer treats
         # "Incorporated:" as VBN instead of NNP and NP extractor fails to recognize such grammar
-        tokenizer.PUNCTUATION.append((re.compile(r':'), r';'))
+        punctuation.append((re.compile(r':'), r';'))
         # for case when apostrophe is in company name like Moody`s
-        tokenizer.STARTING_QUOTES = [(re.compile(r'`s '), r'-ES-')] + tokenizer.STARTING_QUOTES + [(re.compile(r'-ES-'), r'`s ')]
-        return tokenizer().tokenize
+        starting_quotes = [(re.compile(r'`s '), r'-ES-')] + list(orig_tokenizer.STARTING_QUOTES) + [
+            (re.compile(r'-ES-'), r'`s ')]
+
+        tokenizer = NltkTokenizer(punctuation, starting_quotes)
+        return tokenizer.tokenize
 
     @staticmethod
     def strip_np(np):

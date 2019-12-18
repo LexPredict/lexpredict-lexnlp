@@ -13,13 +13,37 @@ Todo:
 
 from lexnlp.extract.en.money import get_money
 from lexnlp.tests import lexnlp_tests
+from unittest import TestCase
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+
+class MoneyTest(TestCase):
+
+    def test_get_money_order(self):
+        """
+        At some moment there was a problem: get_money() was returning money in reversed order.
+        This test is ensures the order is straight.
+        :return:
+        """
+        text = ''' $96,844.00 per month ($31.00 per square foot per year), beginning on the date which is 90 days after 
+        the Commencement Date and ending on the Expiration Date.'''
+        actual = list(get_money(text, return_sources=False, float_digits=6))
+        self.assertEqual(actual[0][0], 96844.0)
+
+    def test_get_money_problem1(self):
+        """
+        Problem: it was returning 23.6 instead of 23.62 for such cases.
+        :return:
+        """
+        text = '''Exercise Price per Share: 23.62'''
+        actual = list(get_money(text, return_sources=False, float_digits=6))
+        self.assertEqual(actual[0][0], 23.62)
 
 
 def test_get_money():

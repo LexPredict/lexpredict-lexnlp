@@ -8,7 +8,7 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -32,7 +32,7 @@ class TestDatesPlain(TestCase):
         self.assertEqual(datetime.date(2002, 7, 18), dates[3])
 
     def test_dates_times(self):
-        text = "From 12:01 a.m. on March 1, 1999 (the 'Commencement Date') through " +\
+        text = "From 12:01 a.m. on March 1, 1999 (the 'Commencement Date') through " + \
                "1l:59 p.m. on November 30, 2002 (the 'Expiration Date')"
         dates = get_raw_date_list(text)
 
@@ -116,6 +116,31 @@ class TestDatesPlain(TestCase):
 
         dates = get_dates_list("2nd of August 2014")
         self.assertEqual(1, len(dates))
+
+    def test_fp(self):
+        text = """ this Section 13.2 may exercise all"""
+        dates = list(get_dates_list(text, strict=True))
+        self.assertEqual(0, len(dates))
+
+    def test_section(self):
+        text = "Section 7.7.10 may be made"
+        dates = list(get_dates_list(text, strict=True))
+        self.assertEqual(0, len(dates))
+
+    def test_another_may(self):
+        text = "Sections 12.1, 12.2, 12.3, 12.4, 12.6, 12.7 and 12.12\n" + \
+               "may be amended only"
+        dates = list(get_dates_list(text, strict=True))
+        self.assertEqual(0, len(dates))
+
+    def test_should_be_fixed(self):
+        text = """
+        This Amendment to the Employment Agreement (the "Amendment") is made as of
+        the 20th day of May, 2003 between Premcor Inc. (the "Company") and [Executive's
+        Name - See Schedule A attached hereto] (the "Executive").
+        """
+        dates = list(get_dates_list(text, strict=True))
+        self.assertEqual(0, len(dates))
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()
