@@ -6,9 +6,9 @@ Changelog
 
 1.4.0 - December 20, 2019
 ----------------
- * Made massive improvements to EN definitions and companies parsers.
- * Updated EN dates parser to catch more date formats.
- * Made company parsing strongly typed
+ * Improved accuracy of locating and converting date phrases into typed format.
+ * Introduced new text vectorizing and classifying models.
+ * Implemented ML-based definitions locator.
 
 1.3.0 - November 1, 2019
 ----------------
