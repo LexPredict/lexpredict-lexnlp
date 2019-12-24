@@ -131,8 +131,7 @@ PAREN_PTN = r"""\((?:E|each(?:,)?\s+)?(?:(?:{articles})\s+)?([A-Z][^\)]{{1,{max_
     .format(articles=join_collection(ARTICLES), max_term_chars=MAX_TERM_CHARS)
 PAREN_PTN_RE_OPTIONS = re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
 
-# Case 3. Term is without quotes, is preceded by word|term|phrase or :,.^
-# and has TRIGGER_LIST item after itself.
+# Case 3. Term is without quotes, and has TRIGGER_LIST item after itself.
 # e.g.: "Revolving Loan Commitment means…"; "LIBOR Rate shall mean…"
 # false positive: "This Borrower Joiner Agreement to the extent signed signed and delivered by means of a facsimile..."
 NOUN_PTN_BASE = r"""
