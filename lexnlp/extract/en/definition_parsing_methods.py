@@ -154,7 +154,7 @@ NOUN_PTN = r"""
 )
 \s+(?=(?:{trigger_list})\W)
 """.format(noun_ptn_base=NOUN_PTN_BASE,
-           trigger_list="|".join([w.replace(" ", r"\s+") for w in STRONG_TRIGGER_LIST]))
+           trigger_list=join_collection(STRONG_TRIGGER_LIST))
 
 NOUN_PTN_RE = re.compile(NOUN_PTN, re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
