@@ -10,7 +10,7 @@ nltk==3.4.5
 nose==1.3.7
 num2words==0.5.7
 pandas==0.21.0
-psutil==5.4.0
+psutil==5.6.6
 pycountry==18.5.26
 pytest-cov==2.5.1
 pytest-pep8==1.0.6

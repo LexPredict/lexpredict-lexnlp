@@ -16,9 +16,9 @@ from dateutil import parser as dateparser
 import pickle
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.4.0"
+__version__ = "1.6.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -54,6 +54,7 @@ def is_datetime(word: str) -> bool:
         if dt < DATE_MIN or dt > DATE_MAX:
             return False
         return True
+
     # pylint: disable=broad-except
     except Exception:
         return False

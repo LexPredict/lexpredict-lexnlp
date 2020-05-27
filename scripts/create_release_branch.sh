@@ -112,6 +112,8 @@ cp -rf ${CORE_REPO_PATH}/MANIFEST.in ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/index.rst ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/README.rst ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/README.md ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/LICENSE ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/readthedocs.yml ${LEXNLP_REPO_PATH}
 
 # create commit and push
 echo ${LINE}

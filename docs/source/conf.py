@@ -21,13 +21,13 @@ print(os.path.abspath('../../'))
 # -- Project information -----------------------------------------------------
 
 project = 'LexNLP'
-copyright = '2017-2019, ContraxSuite, LLC'
+copyright = '2015-2020, ContraxSuite, LLC'
 author = 'ContraxSuite, LLC'
 
 # The short X.Y version
-version = '1.4.0'
+version = '1.6.0'
 # The full version, including alpha/beta/rc tags
-release = '1.4.0'
+release = '1.6.0'
 
 # -- General configuration ---------------------------------------------------
 

@@ -14,9 +14,9 @@ from lexnlp.extract.en.dict_entities import find_dict_entities, entity_config, e
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2019, ContraxSuite, LLC"
+__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.4.0"
+__version__ = "1.6.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -113,6 +113,24 @@ class TestDictEntities(TestCase):
                                           [(get_entity_name(c.entity[0]), c.entity[1][0]) for c in actual],
                                           debug_print=True)
 
+    def test_am_pm_none(self):
+        am = entity_config(1, 'America', aliases=[entity_alias('AM', is_abbreviation=True)], name_is_alias=False)
+        pm = entity_config(2, 'Postmodernism', aliases=[entity_alias('PM', is_abbreviation=True)], name_is_alias=False)
+
+        entities = [am, pm]
+        ents = list(find_dict_entities('It is 11:00 AM or 11:00 PM now.',
+            all_possible_entities=entities))
+        self.assertEqual(0, len(ents))
+
+        ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
+                                       all_possible_entities=entities))
+        self.assertEqual(1, len(ents))
+        self.assertEqual('America', ents[0].entity[0][1])
+
+        ents = list(find_dict_entities('It is 11:00am now.',
+                                       all_possible_entities=entities))
+        self.assertEqual(0, len(ents))
+
     def test_plural_case_matching(self):
         table = entity_config(1, 'Table', aliases=[entity_alias('tbl.', is_abbreviation=True)], name_is_alias=True)
 
@@ -177,21 +195,3 @@ class TestDictEntities(TestCase):
     def test_get_alias_text(self):
         alias = entity_alias('alias', 'lang', False, 123)
         assert_equals('alias', get_alias_text(alias))
-
-    def test_am_pm_none(self):
-        am = entity_config(1, 'America', aliases=[entity_alias('AM', is_abbreviation=True)], name_is_alias=False)
-        pm = entity_config(2, 'Postmodernism', aliases=[entity_alias('PM', is_abbreviation=True)], name_is_alias=False)
-
-        entities = [am, pm]
-        ents = list(find_dict_entities('It is 11:00 AM or 11:00 PM now.',
-            all_possible_entities=entities))
-        self.assertEqual(0, len(ents))
-
-        ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
-                                       all_possible_entities=entities))
-        self.assertEqual(1, len(ents))
-        self.assertEqual('America', ents[0].entity[0][1])
-
-        ents = list(find_dict_entities('It is 11:00am now.',
-                                       all_possible_entities=entities))
-        self.assertEqual(0, len(ents))

@@ -4,6 +4,10 @@
 Changelog
 ============
 
+1.6.0 - May 27, 2020
+----------------
+ * Update psutil package version from 5.4.0 to 5.6.6.
+
 1.4.0 - December 20, 2019
 ----------------
  * Improved accuracy of locating and converting date phrases into typed format.
