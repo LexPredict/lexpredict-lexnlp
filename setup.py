@@ -95,6 +95,7 @@ setup(
         'gensim==3.4.0',
         'nltk==3.4.5',
         'num2words==0.5.7',
+        'numpy==1.15.1',
         'pandas==0.23.4',
         'pycountry==18.5.26',
         'regex==2017.9.23',
