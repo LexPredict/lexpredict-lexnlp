@@ -41,7 +41,7 @@ Information
 
 -  ContraxSuite: https://contraxsuite.com/
 -  LexPredict: https://lexpredict.com/
--  Official Website: https://lexnlp.com/
+-  Official Website: https://contraxsuite.com/lexnlp/
 -  Documentation: http://lexpredict-lexnlp.readthedocs.io/en/latest/
    (in progress)
 -  Contact: support@contraxsuite.com
