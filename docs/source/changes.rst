@@ -4,6 +4,13 @@
 Changelog
 ============
 
+1.7.0 - August 27, 2020
+----------------
+ * Improved LexNLP handling for dates for the "EN" locale.
+ * Implemented lists of exceptions for entity extractors.
+ * Implemented strongly typed response for entity extractors.
+ * Updated third-party python requirements.
+
 1.6.0 - May 27, 2020
 ----------------
  * Update psutil package version from 5.4.0 to 5.6.6.
