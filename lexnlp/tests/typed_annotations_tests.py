@@ -14,8 +14,8 @@ from datetime import date, datetime
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -222,6 +222,8 @@ class TypedAnnotationsTester:
         self.tests_passed = 0
         self.tests_failed = 0
 
+        self.now = datetime.now()
+
     def test_and_raise_errors(self,
                               parsing_method: Callable,
                               file_name: str,
@@ -392,9 +394,17 @@ total=1
                 self.test_case.text += '\n'
                 continue
 
+            line = self.substitute_spec_entries(line)
+
             fcheck = TypedFieldCheck.parse(line)
             if fcheck:
                 self.test_case.field_checks.append(fcheck)
 
         if self.test_case.text_filled:
             self.test_cases.append(self.test_case)
+
+    def substitute_spec_entries(self, line: str) -> str:
+        line = line.replace('$YEAR$', str(self.now.date().year))
+        line = line.replace('$MONTH$', str(self.now.date().month))
+        line = line.replace('$DAY$', str(self.now.date().day))
+        return line

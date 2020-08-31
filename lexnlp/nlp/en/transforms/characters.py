@@ -11,8 +11,8 @@ from lexnlp.nlp.en.tokens import get_token_list, get_tokens
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -23,7 +23,7 @@ MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 def get_character_distribution(text, lowercase=False, stopword=False):
     """
     Get character distribution of text, potentially lowercasing and stopwording first.
-    N.B. This method does not include or count whitespace.
+    N.B. This method does not include or count blank spaces.
 
     :param text:
     :param lowercase:
@@ -43,7 +43,7 @@ def get_character_distribution(text, lowercase=False, stopword=False):
 def get_character_ngram_distribution(text, n, lowercase=False, stopword=False):
     """
     Get character distribution of text, potentially lowercasing and stopwording first.
-    N.B. This method does not include or count whitespace.
+    N.B. This method does not include or count blank spaces.
 
     :param text:
     :param lowercase:

@@ -12,7 +12,7 @@ from typing import Generator
 # Packages
 import pandas
 import sklearn.ensemble
-from sklearn.externals import joblib
+import joblib
 
 # Project
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
@@ -21,8 +21,8 @@ from lexnlp.utils.unicode.unicode_lookup import UNICODE_CHAR_TOP_CATEGORY_MAPPIN
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -72,12 +72,12 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
         feature_vector["line_title_case_" + index_str] = line == line.title()
         feature_vector["line_upper_case_" + index_str] = line.isupper()
 
-        alpha_count, number_count, punct_count, whitespace_count = 0, 0, 0, 0
+        alpha_count, number_count, punct_count, blankspace_count = 0, 0, 0, 0
         for c in line:
             if UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'L':
                 alpha_count += 1
             elif UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'Z':
-                whitespace_count += 1
+                blankspace_count += 1
             elif UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'N':
                 number_count += 1
             elif UNICODE_CHAR_TOP_CATEGORY_MAPPING[c] == 'P':
@@ -87,7 +87,7 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
         feature_vector["line_n_alpha_" + index_str] = alpha_count
         feature_vector["line_n_number_" + index_str] = number_count
         feature_vector["line_n_punct_" + index_str] = punct_count
-        feature_vector["line_n_whitespace_" + index_str] = whitespace_count
+        feature_vector["line_n_whitespace_" + index_str] = blankspace_count
 
     # Simple checks
     line = lines[line_id]

@@ -13,11 +13,11 @@ Todo:
 # Imports
 import re
 import string
-
-from typing import Generator, Dict, Tuple
-
+import os
+from typing import Generator, Dict, Tuple, Optional, List
 import nltk
 
+from lexnlp.extract.common.entities.entity_banlist import BanListUsage, default_banlist_usage, EntityBanListItem
 from lexnlp.extract.en.entities.nltk_tokenizer import NltkTokenizer
 from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.common.annotations.company_annotation import CompanyAnnotation
@@ -29,8 +29,8 @@ from lexnlp.nlp.en.tokens import get_token_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -285,12 +285,13 @@ np_extractor = CompanyNPExtractor()
 
 
 def get_company_annotations(
-        text: str,
-        strict: bool = False,
-        use_gnp: bool = False,
-        count_unique: bool = False,
-        name_upper: bool = False,
-        ) -> Generator[CompanyAnnotation, None, None]:
+    text: str,
+    strict: bool = False,
+    use_gnp: bool = False,
+    count_unique: bool = False,
+    name_upper: bool = False,
+    banlist_usage: BanListUsage = default_banlist_usage
+) -> Generator[CompanyAnnotation, None, None]:
     """
     Find company names in text, optionally using the stricter article/prefix expression.
     :param parse_name_abbr:
@@ -299,56 +300,59 @@ def get_company_annotations(
     :param use_gnp: use get_noun_phrases or NPExtractor
     :param name_upper: return company name in upper case.
     :param count_unique: return only unique companies - case insensitive.
+    :param banlist_usage: a banlist or hints on using the default BL
     :return:
     """
     # skip if all text is in uppercase
     if text == text.upper():
         return
+    banlist = get_company_banlist(banlist_usage)
     valid_punctuation = VALID_PUNCTUATION + ["(", ")"]
+    unique_companies: Dict[Tuple[str, str], CompanyAnnotation] = {}
 
-    unique_companies = {}  # type: Dict[Tuple[str, str], CompanyAnnotation]
+    if not COMPANY_TYPES_RE.search(text):
+        return
+    # iterate through sentences
+    for s_start, s_end, sentence in get_sentence_span_list(text):
+        # skip if whole phrase is in uppercase
+        if sentence == sentence.upper():
+            continue
+        if use_gnp:
+            phrases = list(get_noun_phrases(sentence, strict=strict, valid_punctuation=valid_punctuation))
+        else:
+            phrases = list(np_extractor.get_np(sentence))
+        phrase_spans = PhrasePositionFinder.find_phrase_in_source_text(sentence, phrases)
 
-    if COMPANY_TYPES_RE.search(text):
-        # Iterate through sentences
-        for s_start, s_end, sentence in get_sentence_span_list(text):
-            # skip if whole phrase is in uppercase
-            if sentence == sentence.upper():
-                continue
-            if use_gnp:
-                phrases = list(get_noun_phrases(sentence, strict=strict,
-                                                valid_punctuation=valid_punctuation))
-            else:
-                phrases = list(np_extractor.get_np(sentence))
-            phrase_spans = PhrasePositionFinder.find_phrase_in_source_text(sentence, phrases)
-
-            for phrase, p_start, p_end in phrase_spans:
-                if COMPANY_TYPES_RE.search(phrase):
-                    # noinspection PyTypeChecker
-                    for ant in nltk_re.get_companies(
-                            phrase, use_sentence_splitter=False):  # type: CompanyAnnotation
-
-                        if ant.name == ant.company_type or ant.name == ant.description:
+        for phrase, p_start, p_end in phrase_spans:
+            if COMPANY_TYPES_RE.search(phrase):
+                ant: CompanyAnnotation
+                for ant in nltk_re.get_companies(phrase, use_sentence_splitter=False):
+                    if ant.name == ant.company_type or ant.name == ant.description:
+                        continue
+                    # check against banlist
+                    if banlist:
+                        if EntityBanListItem.check_list(ant.name, banlist):
                             continue
-                        ant.coords = (ant.coords[0] + s_start + p_start,
-                                      ant.coords[1] + s_start + p_start)
+                    ant.coords = (ant.coords[0] + s_start + p_start,
+                                  ant.coords[1] + s_start + p_start)
 
-                        if name_upper:
-                            ant.name = ant.name.upper()
+                    if name_upper:
+                        ant.name = ant.name.upper()
 
-                        if count_unique:
-                            unique_key = (ant.name.lower() if ant.name else None, ant.company_type_abbr)
-                            existing_result = unique_companies.get(unique_key)
+                    if count_unique:
+                        unique_key = (ant.name.lower() if ant.name else None, ant.company_type_abbr)
+                        existing_result = unique_companies.get(unique_key)
 
-                            if existing_result:
-                                existing_result.counter += 1
-                            else:
-                                unique_companies[unique_key] = ant
+                        if existing_result:
+                            existing_result.counter += 1
                         else:
-                            yield ant
+                            unique_companies[unique_key] = ant
+                    else:
+                        yield ant
 
-        if count_unique:
-            for company in unique_companies.values():
-                yield company
+    if count_unique:
+        for company in unique_companies.values():
+            yield company
 
     # search for acronyms in text ("[A-Z]" or (A-Z))
     # try to merge annotations (in one sentence!) in acronyms
@@ -361,7 +365,8 @@ def get_companies(text: str,
                   count_unique: bool = False,
                   name_upper: bool = False,
                   parse_name_abbr: bool = False,
-                  return_source: bool = False):
+                  return_source: bool = False,
+                  banlist_usage: BanListUsage = default_banlist_usage):
     """
     Find company names in text, optionally using the stricter article/prefix expression.
     :param text:
@@ -372,6 +377,7 @@ def get_companies(text: str,
     :param count_unique: return only unique companies - case insensitive.
     :param parse_name_abbr: return company abbreviated name if exists.
     :param return_source:
+    :param banlist_usage: a banlist or hints on using the default BL
     :return:
     """
     # skip if all text is in uppercase
@@ -380,7 +386,8 @@ def get_companies(text: str,
                                        strict,
                                        use_gnp,
                                        count_unique,
-                                       name_upper):  # type:CompanyAnnotation
+                                       name_upper,
+                                       banlist_usage):  # type:CompanyAnnotation
         result = (ant.name, ant.company_type)
         if detail_type:
             result += (ant.company_type_abbr, ant.company_type_label, ant.description)
@@ -391,3 +398,25 @@ def get_companies(text: str,
         if count_unique:
             result = result + (ant.counter,)
         yield result
+
+
+default_company_banlist = None
+
+
+def get_company_banlist(banlist_usage: BanListUsage) -> Optional[List[EntityBanListItem]]:
+    # pylint: disable=global-statement
+    global default_company_banlist
+
+    if banlist_usage.banlist and not banlist_usage.append_to_default:
+        return banlist_usage.banlist
+    if not banlist_usage.append_to_default and not banlist_usage.use_default_banlist:
+        return None
+    if default_company_banlist is None:
+        path = os.path.join(os.path.dirname(__file__),
+                            '../data/en_company_banlist.csv')
+        default_company_banlist = EntityBanListItem.read_from_csv(path)
+
+    if banlist_usage.append_to_default and banlist_usage.banlist:
+        return default_company_banlist + banlist_usage.banlist
+
+    return default_company_banlist

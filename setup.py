@@ -26,7 +26,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.6.0',
+    version='1.7.0',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -91,21 +91,20 @@ setup(
     install_requires=[
         # 'datefinder @ https://github.com/LexPredict/datefinder/archive/master.zip',
         'datefinder-lexpredict==0.6.2',
-        'dateparser==0.7.0',
-        'gensim==3.4.0',
-        'nltk==3.4.5',
-        'num2words==0.5.7',
-        'numpy==1.15.1',
-        'pandas==0.23.4',
-        'pycountry==18.5.26',
-        'regex==2017.9.23',
-        'reporters-db==1.0.12.1',
-        'requests==2.22.0',
-        'scipy==1.0.0',
-        'scikit-learn==0.21.3',
-        'typing==3.6.2',
-        'Unidecode==0.4.21',
-        'us==1.0.0'
+        'dateparser==0.7.2',
+        'gensim==3.8.3',
+        'nltk==3.5',
+        'num2words==0.5.10',
+        'numpy==1.19.1',
+        'pandas==0.24.2',
+        'pycountry==20.7.3',
+        'regex==2020.7.14',
+        'reporters-db==2.0.3',
+        'requests==2.24.0',
+        'scipy==1.5.1',
+        'scikit-learn==0.23.1',
+        'Unidecode==1.1.1',
+        'us==2.0.2'
     ],
     dependency_links=[
         'git+https://github.com/LexPredict/datefinder.git@master#egg=datefinder-0.6.2'

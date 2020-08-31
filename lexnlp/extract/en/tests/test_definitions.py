@@ -18,13 +18,14 @@ from lexnlp.extract.common.annotation_locator_type import AnnotationLocatorType
 from lexnlp.extract.ml.environment import ENV_EN_DATA_DIRECTORY
 from lexnlp.extract.en.definition_parsing_methods import trim_defined_term, NOUN_PTN_RE
 from lexnlp.extract.en.definitions import \
-    get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations, parser_ml_classifier
+    get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations, parser_ml_classifier, \
+    get_definitions
 from lexnlp.tests.utility_for_testing import load_resource_document
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -403,3 +404,9 @@ of income of the Borrower for such period.
                                             locator_type=AnnotationLocatorType.MlWordVectorBased))
         # self.assertGreater(len(definitions), 0)
         # self.assertEqual('Deed of Trust', definitions[0].name)
+
+    def test_overlapping_defs(self):
+        text = load_resource_document(
+            'lexnlp/extract/en/tests/test_definitions/bad_def.txt', 'utf-8')
+        defs = list(get_definitions(text))
+        self.assertGreater(len(defs), 12)

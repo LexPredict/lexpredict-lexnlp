@@ -5,8 +5,8 @@ import os
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -87,7 +87,7 @@ def build_lookup_tables(fn_char_categories,
     # https://www.unicode.org/reports/tr44/#UnicodeData.txt
 
     url = table_source or 'ftp://ftp.unicode.org/Public/11.0.0/ucd/UnicodeData.txt'
-    df = pandas.read_table(url, sep=';', header=None)
+    df = pandas.read_csv(url, sep=';', header=None)
 
     df.columns = ["value", "name", "general_category", "canonical_combining_class",
                   "bidi_class", "decomposition_type", "decomposition_mapping",
@@ -132,10 +132,10 @@ def build_lookup_tables(fn_char_categories,
     # symbol_character_set[0:10]
 
     # Get all math characters
-    whitespace_category_list = ["Zs", "Zl", "Zp", "Cc", "Cf", "Cs"]
-    whitespace_character_set = df.loc[df["general_category"].isin(whitespace_category_list), "value"].apply(
+    blankspace_category_list = ["Zs", "Zl", "Zp", "Cc", "Cf", "Cs"]
+    blankspace_character_set = df.loc[df["general_category"].isin(blankspace_category_list), "value"].apply(
         lambda x: chr(int(x, 16))).tolist()
-    print(whitespace_character_set[0:10])
+    print(blankspace_character_set[0:10])
 
     # Get all math characters
     space_category_list = ["Zs"]
@@ -161,7 +161,7 @@ def build_lookup_tables(fn_char_categories,
                                     "symbol": symbol_character_set,
                                     "symbol_currency": symbol_currency_character_set,
                                     "symbol_math": symbol_math_character_set,
-                                    "whitespace": whitespace_character_set,
+                                    "whitespace": blankspace_character_set,
                                     "space": space_character_set,
                                     "line": line_character_set
                                     }

@@ -6,8 +6,8 @@ from typing import Tuple, List, Dict
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -16,11 +16,11 @@ logger = logging.getLogger('datefinder')
 
 
 class DateFragment:
-    '''
+    """
     This class describes big chunks of text that may contain date strings
     Each chunk includes of one of more tokens
     Each token is build upon DATE_REGEX matches
-    '''
+    """
 
     def __init__(self):
         self.match_str = ''
@@ -110,7 +110,7 @@ class DateFinder(object):
             (?P<months>{months})
             |
             ## Delimiters, ie Tuesday[,] July 18 or 6[/]17[/]2008
-            ## as well as whitespace
+            ## as well as blank space
             (?P<delimiters>{delimiters})
             |
             ## These tokens could be in phrases that dateutil does not yet recognize
@@ -144,8 +144,7 @@ class DateFinder(object):
     # split ranges
     RANGE_SPLIT_PATTERN = r'\Wto\W|\Wthrough\W'
 
-    RANGE_SPLIT_REGEX = re.compile(RANGE_SPLIT_PATTERN,
-                                   re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL)
+    RANGE_SPLIT_REGEX = re.compile(RANGE_SPLIT_PATTERN, re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL)
 
     ## These tokens can be in original text but dateutil
     ## won't handle them without modification
@@ -175,9 +174,8 @@ class DateFinder(object):
         self.base_date = base_date
 
     def tokenize_string(self, text: str) -> List[Tuple[str, str, Dict[str, List[str]]]]:
-        items = []  # type:List[Tuple[str, str, Dict[str, List[str]]]]
-
-        last_index = 0
+        last_index: int = 0
+        items: List[Tuple[str, str, Dict[str, List[str]]]] = []
 
         for match in self.DATE_REGEX.finditer(text):
             match_str = match.group(0)
@@ -197,7 +195,7 @@ class DateFinder(object):
 
     def merge_tokens(self, tokens: List[Tuple[str, str]]) -> List[DateFragment]:
         MIN_MATCHES = 3
-        fragments = []  # type:List[DateFragment]
+        fragments: List[DateFragment] = []
         frag = DateFragment()
 
         start_char, total_chars = 0, 0
@@ -298,7 +296,7 @@ class DateFinder(object):
                     continue
 
             ## sanitize date string
-            ## replace unhelpful whitespace characters with single whitespace
+            ## replace unhelpful blank space characters with single blank space
             match_str = re.sub(r'[\n\t\s\xa0]+', ' ', match_str)
             match_str = match_str.strip(self.STRIP_CHARS)
 
@@ -395,7 +393,7 @@ class DateFinder(object):
 
         date_string = date_string.lower()
         for key, replacement in cloned_replacements.items():
-            # we really want to match all permutations of the key surrounded by whitespace chars except one
+            # we really want to match all permutations of the key surrounded by blank space chars except one
             # for example: consider the key = 'to'
             # 1. match 'to '
             # 2. match ' to'

@@ -9,8 +9,8 @@ from lexnlp.nlp.en.segments.sentences import get_sentence_span
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -49,7 +49,7 @@ def get_definition_annotations(text: str,
 
     if locator_type == AnnotationLocatorType.MlWordVectorBased:
         if not parser_ml_classifier.initialized:
-            raise Exception(f'"parser_ml_classifier" object should be initialized (call load_compressed method)')
+            raise Exception('"parser_ml_classifier" object should be initialized (call load_compressed method)')
         ants = parser_ml_classifier.get_annotations(text)
         for ant in ants:
             yield ant
@@ -81,7 +81,7 @@ def get_definitions(text: str,
     """
     if locator_type == AnnotationLocatorType.MlWordVectorBased:
         if not parser_ml_classifier.initialized:
-            raise Exception(f'"parser_ml_classifier" object should be initialized (call load_compressed method)')
+            raise Exception('"parser_ml_classifier" object should be initialized (call load_compressed method)')
         definitions = parser_ml_classifier.get_annotations(text)
     else:
         definitions = get_definition_objects_list(text, decode_unicode)

@@ -26,8 +26,8 @@ from lexnlp.utils.iterating_helpers import count_sequence_matches
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -58,9 +58,9 @@ class DefinitionCaught:
             self.coords[0] <= target.coords[1])
         if not coords_spans:
             return 0
-        if target.name in self.name:
+        if (target.name or '') in (self.name or ''):
             return 1
-        if self.name in target.name:
+        if (self.name or '') in (target.name or ''):
             return -1
         return 0
 

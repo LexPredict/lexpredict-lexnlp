@@ -6,12 +6,12 @@ This module implements date extraction functionality in English.
 # pylint: disable=bare-except
 
 # Standard imports
-import datetime
-import itertools
 import os
+import datetime
 import calendar
-
-from typing import Generator, List, Dict, Any
+import itertools
+import joblib
+from typing import Any, Dict, Generator, List, Optional, Set, Tuple
 
 # Third-party packages
 import regex as re
@@ -20,8 +20,8 @@ import pandas as pd
 # sklearn imports
 import sklearn.pipeline
 import sklearn.feature_selection
-from sklearn.externals import joblib
 
+# LexNLP imports
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.common.date_parsing.datefinder import DateFinder
 from lexnlp.extract.en.date_model import MODEL_DATE, DATE_MODEL_CHARS, MODULE_PATH
@@ -29,8 +29,8 @@ from lexnlp.extract.common.dates import DateParser
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -60,6 +60,45 @@ EN_MONTHS = [['january', 'jan'], ['february', 'feb', 'febr'], ['march', 'mar'],
              ['october', 'oct'], ['november', 'nov'], ['december', 'dec']]
 
 
+class FeatureTemplate:
+    # The class stores date features DataFrame for not to
+    # recreate this dataframe each time we're parsing a date.
+    # "keys" variable is the features "dimension" vector
+    # DateFeaturesDataframeBuilder uses this class
+
+    def __init__(self, df: pd.DataFrame = None, keys: List[str] = None):
+        self.df = df
+        self.keys = keys
+
+
+class DateFeaturesDataframeBuilder:
+    # the class build a pd.DataFrame out of dictionary like
+    # { "char_a": 0.0050, ... "char_ac": 0.0, ... }
+    # The class does it faster than just pandas ctor because
+    # the DataFrame doesn't get recreated each time
+
+    # features count: empty dataframe with columns serialized
+    # there may be different feature sets: e.g. whether we include N-grams or not
+    feature_df_by_key_count = {}  # type: Dict[int, FeatureTemplate]
+
+    @classmethod
+    def build_feature_df(cls, dic: Dict[str, float]) -> pd.DataFrame:
+        features_count = len(dic)
+        template = cls.feature_df_by_key_count.get(features_count)
+        if not template:
+            keys = [k for k in dic]
+            df = pd.DataFrame(columns=keys, dtype=float)
+            template = FeatureTemplate(df, keys)
+            cls.feature_df_by_key_count[features_count] = template
+
+        values = []
+        for k in template.keys:
+            values.append(dic[k])
+        df = template.df
+        df.loc[0] = values
+        return df
+
+
 def get_month_by_name():
     month_by_name = {}  # type: Dict[str, int]
     for mn_index in range(len(EN_MONTHS)):
@@ -70,7 +109,7 @@ def get_month_by_name():
 
 MONTH_BY_NAME = get_month_by_name()
 
-MONTH_FULLS = {v.lower(): k for k,v in enumerate(calendar.month_name)}
+MONTH_FULLS = {v.lower(): k for k, v in enumerate(calendar.month_name)}
 
 
 def get_date_features(text, start_index, end_index, include_bigrams=True, window=5, characters=None,
@@ -157,8 +196,9 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             date_finder.REPLACEMENTS[extra_token] = ' '
 
     # Iterate through possible matches
-    possible_dates = [(date_string, index, date_props) for date_string, index, date_props in
-                      date_finder.extract_date_strings(text, strict=strict)]
+    possible_dates = [(date_string, index, date_props)
+                      for date_string, index, date_props
+                      in date_finder.extract_date_strings(text, strict=strict)]
     possible_matched = []
 
     for i, possible_date in enumerate(possible_dates):
@@ -172,8 +212,12 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             num_dig_mod = len(possible_dates[i - 1][2]["digits_modifier"])
             if i > 0 and not possible_matched[i - 1] and num_dig_mod == 1:
                 date_props["digits_modifier"].extend(possible_dates[i - 1][2]["digits_modifier"])
-                date_string = possible_dates[i - 1][2]["digits_modifier"].pop().replace("st", "").replace("nd", "") \
-                                  .replace("rd", "").replace("th", "") + date_string
+                date_string = possible_dates[i - 1][2]["digits_modifier"].pop()\
+                                  .replace("st", "")\
+                                  .replace("nd", "")\
+                                  .replace("rd", "")\
+                                  .replace("th", "")\
+                              + date_string
 
         # Skip only digits modifiers
         num_dig_mod = len(date_props["digits_modifier"])
@@ -181,8 +225,8 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
         num_days = len(date_props["days"])
         num_month = len(date_props["months"])
         num_slash = date_props["delimiters"].count("/")
-        num_hyphen = date_props["delimiters"].count("-")
         num_point = date_props["delimiters"].count(".")
+        num_hyphen = date_props["delimiters"].count("-")
 
         # Remove double months
         if num_month > 1:
@@ -242,8 +286,17 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             possible_matched.append(False)
             continue
 
-        # Skip " may " alone
+        # Skip "may" alone
         if num_dig == 0 and num_days == 0 and "".join(date_props["months"]).lower() == "may":
+            possible_matched.append(False)
+            continue
+
+        # Skip cases like "13.2 may" or "12.12may"
+        if (
+            num_dig > 0
+            and (num_point + num_slash + num_hyphen) > 0
+            and "".join(date_props["months"]).lower() == "may"
+        ):
             possible_matched.append(False)
             continue
 
@@ -319,8 +372,10 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             yield date
 
 
-def check_date_parts_are_in_date(date: datetime.datetime,
-                                 date_props: Dict[str, List[Any]]) -> bool:
+def check_date_parts_are_in_date(
+    date: datetime.datetime,
+    date_props: Dict[str, List[Any]]
+) -> bool:
     """
     Checks that when we transformed "possible date" into date, we found
     place for each "token" from the initial phrase
@@ -329,18 +384,58 @@ def check_date_parts_are_in_date(date: datetime.datetime,
     :param date_props: {'time': [], 'hours': [] ... 'digits': ['13', '2'] ...}
     :return: True if date is OK
     """
-    short_year = (date.year - 100 * (date.year // 100)) if date.year > 1000 else date.year
-    date_values = [date.year, short_year, date.month, date.day,
-        date.hour, date.minute, date.second]
+    def _ordinal_to_cardinal(s: str) -> Optional[int]:
+        n: str = ''
+        for char in s:
+            if char.isdigit():
+                n: str = f'{n}{char}'
+        return int(n) if n else None
 
-    for digit in [int(d) for d in date_props['digits']]:
-        if digit not in date_values:
-            return False
-        date_values.remove(digit)
+    units_of_time: Tuple[str, ...] = ('year', 'month', 'day', 'hour', 'minute')
+    date_values: Dict[str, int] = {
+        unit: getattr(date, unit)
+        for unit in units_of_time
+    }
 
-    for month in date_props['months']:
-        mn = MONTH_BY_NAME.get(month.lower())
-        if not mn or date.month != mn:
+    date_prop_digits: List[int] = [int(d) for d in date_props['digits']]
+    date_prop_months: List[int] = [
+        MONTH_BY_NAME.get(month.lower())
+        for month in date_props['months']
+    ]
+    date_prop_days: List[int] = [
+        day for day in
+        (_ordinal_to_cardinal(n) for n in date_props['digits_modifier'])
+        if day
+    ]
+
+    # skip cases like "Section 7.7.10 may"
+    if date_prop_months:
+        month = date_values.get('month')
+        if month:
+            if month not in date_prop_months:
+                return False
+
+    combined: List[int] = [*date_prop_digits, *date_prop_months, *date_prop_days]
+    difference: Set[int] = set(combined).difference(date_values.values())
+
+    removeable: List[int] = []
+    reassembled_date: Dict[str, int] = {}
+    for k, v in date_values.items():
+        if k == 'year':
+            short_year = (v - 100 * (v // 100)) if v > 1000 else v
+            if short_year in combined:
+                reassembled_date[k] = v
+                removeable.append(short_year)
+                continue
+        if v in combined:
+            reassembled_date[k] = v
+            removeable.append(v)
+
+    diff_digits: List[int] = [digit for digit in difference if digit not in removeable]
+    diff_units: Set[str] = date_values.keys() - reassembled_date.keys()
+
+    if any(k for k in diff_units if k in units_of_time[:3]):
+        if diff_digits:
             return False
     return True
 
@@ -383,7 +478,9 @@ def get_date_annotations(text: str, strict=False, base_date=None, threshold=0.50
     raw_date_results = get_raw_date_list(text, strict=strict, base_date=base_date, return_source=True)
 
     for raw_date in raw_date_results:
-        row_df = pd.DataFrame([get_date_features(text, raw_date[1][0], raw_date[1][1])])
+        features_dict = get_date_features(text, raw_date[1][0], raw_date[1][1])
+        row_df = DateFeaturesDataframeBuilder.build_feature_df(features_dict)
+        # row_df = pd.DataFrame([get_date_features(text, raw_date[1][0], raw_date[1][1])])
         date_score = MODEL_DATE.predict_proba(row_df.loc[:, MODEL_DATE.columns])
         if date_score[0, 1] >= threshold:
             ant = DateAnnotation(coords=raw_date[1],

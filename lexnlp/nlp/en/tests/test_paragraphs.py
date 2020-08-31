@@ -15,8 +15,8 @@ from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -158,7 +158,7 @@ def run_paragraph_test(text, expected_paragraphs, window_pre=3, window_post=3):
     Base test method to run against text with given results.
     """
 
-    def remove_whitespace(r: str):
+    def remove_blankspace(r: str):
         r = r.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
         while '  ' in r:
             r = r.replace('  ', ' ')
@@ -170,8 +170,8 @@ def run_paragraph_test(text, expected_paragraphs, window_pre=3, window_post=3):
                                                                     window_pre=window_pre,
                                                                     window_post=window_post))
 
-    actual_paragraphs = [remove_whitespace(p) for p in actual_paragraphs]
-    expected_paragraphs = [remove_whitespace(p) for p in expected_paragraphs]
+    actual_paragraphs = [remove_blankspace(p) for p in actual_paragraphs]
+    expected_paragraphs = [remove_blankspace(p) for p in expected_paragraphs]
 
     assert_list_equal(actual_paragraphs, expected_paragraphs)
 
