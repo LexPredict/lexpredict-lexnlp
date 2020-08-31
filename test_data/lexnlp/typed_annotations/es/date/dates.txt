@@ -28,4 +28,4 @@ total=1
 0)date.month=7
 0)date.day=4
 0)coords=(16, 26)
-0)get_cite()=/es/date/2019-07-04 00:00:00
+0)get_cite()=/es/date/$YEAR$-07-04 00:00:00

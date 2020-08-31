@@ -14,21 +14,21 @@ from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePosit
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-# Default punctuation to whitelist
+# Default punctuation to accept
 VALID_PUNCTUATION = [".", ",", "'", "-", "&", "(", ")"]
 
 
 def strip_unicode_punctuation(text, valid_punctuation=None):
     """
-    This method strips all unicode punctuation that is not whitelisted.
+    This method strips all unicode punctuation that is not accepted.
     :param text: text to strip
-    :param valid_punctuation: valid punctuation to whitelist
+    :param valid_punctuation: valid punctuation to accept
     :return:
     """
     valid_punctuation = valid_punctuation or VALID_PUNCTUATION
@@ -51,7 +51,10 @@ class NPExtractor(object):
     exception_sym = ['&', 'and', 'of']
     exception_pos = ['IN', 'CC']
     sym_with_space = ['(', '&']
-    sym_without_space = [i for i in string.punctuation if i not in ['(', '&']] + ["'s"]
+    sym_without_space = [i for i in string.punctuation if i not in '(&/'] + ["'s"]
+    replacements = [
+        [(r'(\w)&(\w)', r'\1-=AND=-\2'), ('-=AND=-', '&')]
+    ]
 
     def __init__(self, grammar=None):
         grammar = grammar or default_grammar
@@ -70,6 +73,7 @@ class NPExtractor(object):
         return leaves
 
     def get_np(self, text: str) -> Generator[str, None, None]:
+        text = self.replace(text)
         tokenizer_func = self.get_tokenizer()
         tokens = tokenizer_func(text)
         pos_tokens = nltk.tag.pos_tag(tokens)
@@ -78,7 +82,13 @@ class NPExtractor(object):
         for tree in chunks.subtrees(filter=lambda t: t.label() == 'NP'):
             leaves = self.cleanup_leaves(tree.leaves())
             for np_items in leaves:
-                yield self.join(np_items)
+                yield self.replace(self.join(np_items), back=True)
+
+    def replace(self, text, back=False):
+        for _in, _out in self.replacements:
+            _from, _to = _out if back else _in
+            text = re.sub(_from, _to, text)
+        return text
 
     def get_np_with_coords(self, text: str) -> List[Tuple[str, int, int]]:
         phrases = list(self.get_np(text))

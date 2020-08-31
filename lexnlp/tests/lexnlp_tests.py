@@ -17,8 +17,8 @@ from lexnlp.extract.common.base_path import lexnlp_test_path
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -326,7 +326,8 @@ def benchmark(benchmark_name: str, func: Callable, *args, benchmark_file: str = 
     mem_res = memory_usage((func, args, kwargs), max_usage=True, retval=True)
     exec_time = time.time() - ts
     res = mem_res[1]
-    max_memory_usage = mem_res[0][0]
+    print(mem_res)
+    max_memory_usage = mem_res[0] if isinstance(mem_res[0], (float, int)) else mem_res[0][0]
 
     benchmark_dir = os.path.dirname(benchmark_file)
     os.makedirs(benchmark_dir, exist_ok=True)

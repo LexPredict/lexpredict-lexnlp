@@ -55,6 +55,7 @@ echo "Update version number in core@${NEW_RELEASE_BRANCH} from ${OLD_RELEASE_BRA
 OLD_RELEASE_BRANCH_esc=$(echo ${OLD_RELEASE_BRANCH} | sed 's,\.,\\.,g')
 NEW_RELEASE_BRANCH_esc=$(echo ${NEW_RELEASE_BRANCH} | sed 's,\.,\\.,g')
 find ./ -type f -readable -writable -exec sed -i "s/__version__ = \"$OLD_RELEASE_BRANCH_esc\"/__version__ = \"$NEW_RELEASE_BRANCH_esc\"/g" {} \;
+find ./ -type f -readable -writable -exec sed -i "s/blob\/$OLD_RELEASE_BRANCH_esc\/LICENSE/blob\/$NEW_RELEASE_BRANCH_esc\/LICENSE/g" {} \;
 find setup.py -type f -readable -writable -exec sed -i "s/version='$OLD_RELEASE_BRANCH_esc'/version='$NEW_RELEASE_BRANCH_esc'/g" {} \;
 find docs/source/conf.py -type f -readable -writable -exec sed -i "s/version = '$OLD_RELEASE_BRANCH_esc'/version = '$NEW_RELEASE_BRANCH_esc'/g" {} \;
 find docs/source/conf.py -type f -readable -writable -exec sed -i "s/release = '$OLD_RELEASE_BRANCH_esc'/release = '$NEW_RELEASE_BRANCH_esc'/g" {} \;

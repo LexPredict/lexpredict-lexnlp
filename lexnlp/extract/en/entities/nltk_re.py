@@ -1,9 +1,9 @@
 """Entity extraction for English using NLTK and basic regular expressions with
-master data.
+main data.
 
 This module implements basic entity extraction functionality in English, but does NOT
 rely on the pre-trained NLTK maximum entropy classifier.  Instead, it uses the NLTK English
-grammar in combination with regular expressions and tested master data re: company types and
+grammar in combination with regular expressions and tested main data re: company types and
 abbreviations (e.g., LLC).
 
 Todo:
@@ -24,8 +24,8 @@ from lexnlp.nlp.en.segments.sentences import get_sentence_span_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 

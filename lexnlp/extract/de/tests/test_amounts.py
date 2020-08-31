@@ -7,8 +7,8 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -36,7 +36,7 @@ class TestGetAmounts(AssertionMixin):
     Test prepared for lexnlp method get_amounts
     """
 
-    test_nums = (2, 15, 67, 128, 709, 1234, 3005, 16070, 735900, 900100, 999999, 1234567, 2000000)
+    test_nums = (2, 15, 67, 128, 709, 1234, 3005, 16070, 735900, 900100, 999999, 1234567)
 
     def assertOneOK(self, num, writ_num):
         parsed_num = list(get_amounts(writ_num))
@@ -51,6 +51,7 @@ class TestGetAmounts(AssertionMixin):
     def test_writ_numbers_ord(self):
         for num in self.test_nums:
             writ_num = num2words(num, ordinal=True, lang='de')
+            print(num, writ_num)
             self.assertOneOK(num, writ_num)
 
     def test_writ_half(self):

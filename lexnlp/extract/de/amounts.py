@@ -19,8 +19,8 @@ from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -78,12 +78,23 @@ class AmountParserDE(object):
         self.HUNDRED = dict(N2W_CONFIG.mid_numwords)[100]
 
         UNIQUE_NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                          20, 30, 40, 50, 60, 70, 80, 90,
-                          100, 1000, 1000000, 1000000000, 1000000000000]
-        UNIQUE_NUMBERS_MAP = {num2words(n, ordinal=True, lang=self.language).replace('eine ', ''): n
-                              for n in UNIQUE_NUMBERS}
+                          20, 30, 40, 50, 60, 70, 80, 90]
+        BIG_UNIQUE_NUMBERS = [100, 1000, 1000000, 1000000000, 1000000000000]
+
+        UNIQUE_NUMBERS_MAP = dict()
+        # ordinal
         UNIQUE_NUMBERS_MAP.update(
-            {num2words(n, lang=self.language).replace('eine ', ''): n for n in UNIQUE_NUMBERS})
+            {num2words(n, ordinal=True, lang=self.language): n for n in UNIQUE_NUMBERS})
+        UNIQUE_NUMBERS_MAP.update(
+            {num2words(n, ordinal=True, lang=self.language).replace('eine ', '').replace('ein', '').lower(): n
+             for n in BIG_UNIQUE_NUMBERS})
+        # non-ordinal
+        UNIQUE_NUMBERS_MAP.update(
+            {num2words(n, lang=self.language): n for n in UNIQUE_NUMBERS})
+        UNIQUE_NUMBERS_MAP.update(
+            {num2words(n, lang=self.language).replace('eine ', '').replace('ein', '').lower(): n
+             for n in BIG_UNIQUE_NUMBERS})
+        # addon
         UNIQUE_NUMBERS_MAP.update(
             {'ein': 1,
              'eine': 1,
@@ -96,7 +107,7 @@ class AmountParserDE(object):
 
         self.UNIQUE_NUMBERS_MAP = UNIQUE_NUMBERS_MAP
 
-        self.MAGNITUDE_MAP = {num2words(10 ** n, lang=self.language).replace('eine ', ''): 10 ** n
+        self.MAGNITUDE_MAP = {num2words(10 ** n, lang=self.language).replace('eine ', '').replace('ein', '').lower(): 10 ** n
                               for n in self.BIG_NUMBERS_EXPONENT}
         self.MAGNITUDE_MAP.update(
             {'millionen': 1000000,
@@ -206,7 +217,7 @@ class AmountParserDE(object):
         :param float_digits: round float to N digits, don't round if None
         :return: list of amounts
         """
-        for ant in self.parse_annotations(text, return_sources, float_digits):
+        for ant in self.parse_annotations(text, float_digits, return_sources):
             if not return_sources:
                 yield ant.value
             else:

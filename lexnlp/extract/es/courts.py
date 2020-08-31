@@ -11,7 +11,8 @@ from typing import List, Tuple, Generator, Any
 
 from lexnlp.extract.common.base_path import lexnlp_base_path
 from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
-from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id
+from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id, DictionaryEntry, \
+    DictionaryEntryAlias
 import os
 import re
 from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
@@ -20,16 +21,16 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 def get_courts(text: str,
-               court_config_list: List[Tuple[int, str, int, List[Tuple[str, str, bool, int]]]],
+               court_config_list: List[DictionaryEntry],
                priority: bool = False,
-               text_languages: List[str] = None) -> Generator[Tuple[Tuple, Tuple], Any, Any]:
+               text_languages: List[str] = None) -> Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
     """
     See lexnlp/extract/en/tests/test_courts.py
     """

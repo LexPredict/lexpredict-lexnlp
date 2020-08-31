@@ -6,26 +6,22 @@
 This module implements unit tests for the court/jurisdiction extraction functionality in English.
 
 Todo:
-    * Re-introduce known bad cases with better master data or more flexible approach
+    * Re-introduce known bad cases with better main data or more flexible approach
     * More pathological and difficult cases
 """
 
 import csv
 import os
-from unittest import TestCase
-from nose.tools import assert_equals
+import pandas
 
-from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
-from lexnlp.extract.en.courts import get_courts, \
-    _get_court_list, _get_courts, get_court_annotations
-from lexnlp.extract.en.dict_entities import entity_config, add_alias_to_entity
+from lexnlp.extract.en.dict_entities import DictionaryEntry, DictionaryEntryAlias
+from lexnlp.extract.en.courts import get_courts
 from lexnlp.tests import lexnlp_tests
-from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -52,50 +48,10 @@ CLAIM THAT IT IS NOT PERSONALLY  SUBJECT TO THE  JURISDICTION OF THE ABOVE-NAMED
 COURTS  FOR ANY  REASON  WHATSOEVER,  THAT SUCH SUIT,  ACTION OR  PROCEEDING  IS
 BROUGHT IN AN INCONVENIENT FORUM OR THAT THIS GUARANTY MAY NOT BE ENFORCED IN OR
 BY SUCH COURTS.""",
-
                 ]
 
 
-class TestParseEnCourts(TestCase):
-
-    def test_parse_empty_text(self):
-        ret = _get_court_list('')
-        self.assertEqual(0, len(ret))
-        _get_court_list("""
-         """)
-        #self.assertEqual(0, len(ret))
-
-    def test_parse_simply_text(self):
-        text = "A recent decision by a United States Supreme Court in Alabama v. Ballyshear LLC confirms that a key factor is the location of the impact of the alleged discriminatory conduct."
-        ret = _get_court_list(text)
-        self.assertEqual(1, len(ret))
-        self.assertEqual("en", ret[0].locale)
-
-        ret = _get_court_list(text, "z")
-        self.assertEqual("z", ret[0].locale)
-
-        items = list(_get_courts(text))
-        court_name = items[0]["tags"]["Extracted Entity Court Name"]
-        self.assertEqual('United States Supreme Court', court_name)
-
-    def test_file_samples(self):
-        tester = TypedAnnotationsTester()
-        tester.test_and_raise_errors(
-            get_court_annotations,
-            'lexnlp/typed_annotations/en/court/courts.txt',
-            CourtAnnotation)
-
-
 def test_courts():
-    """
-    Test court extraction.
-    :return:
-    """
-
-    # Read master data
-    import pandas
-
-    # Load court data
     court_df = pandas \
         .read_csv("https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts"
                   ".csv")
@@ -103,13 +59,10 @@ def test_courts():
     # Create config objects
     court_config_list = []
     for _, row in court_df.iterrows():
-        c = entity_config(row["Court ID"], row["Court Name"], 0,
-                          row["Alias"].split(";") if not pandas.isnull(row["Alias"]) else [])
-        court_config_list.append(c)
-
+        court_config_list.append(build_dictionary_entry(row))
     lexnlp_tests.test_extraction_func_on_test_data(get_courts, court_config_list=court_config_list,
                                                    actual_data_converter=lambda actual:
-                                                   [cc[0][1] for cc in actual])
+                                                   [cc[0].name for cc in actual])
 
 
 def test_courts_rs():
@@ -118,9 +71,7 @@ def test_courts_rs():
     :return:
     """
 
-    # Read master data
-    import pandas
-
+    # Read main data
     # Load court data
     court_df = pandas \
         .read_csv("https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts"
@@ -129,34 +80,11 @@ def test_courts_rs():
     # Create config objects
     court_config_list = []
     for _, row in court_df.iterrows():
-        c = entity_config(row["Court ID"], row["Court Name"], 0,
-                          row["Alias"].split(";") if not pandas.isnull(row["Alias"]) else [])
-        court_config_list.append(c)
+        court_config_list.append(build_dictionary_entry(row))
 
     lexnlp_tests.test_extraction_func_on_test_data(get_courts,
                                                    court_config_list=court_config_list,
-                                                   actual_data_converter=lambda actual: [cc[0][1] for cc in actual])
-
-
-def test_court_config_setup():
-    """
-    Test setup of CourtConfig object.
-    :return:
-    """
-    # Test setup 1
-    cc = entity_config(0, 'Test Court', 0, ['Alias'])
-    assert_equals(
-        "(0, 'Test Court', 0, [('Test Court', None, False, None, ' test court '), " + \
-        "('Alias', None, False, None, ' alias ')])",
-        str(cc))
-
-
-def test_court_config_setup_wo_alias():
-    # Test setup 2
-    cc = entity_config(0, 'Test Court', 0)
-    assert_equals(
-        "(0, 'Test Court', 0, [('Test Court', None, False, None, ' test court ')])",
-        str(cc))
+                                                   actual_data_converter=lambda actual: [cc[0].name for cc in actual])
 
 
 def test_courts_longest_match():
@@ -172,13 +100,27 @@ def test_courts_longest_match():
     with open(courts_config_fn, 'r', encoding='utf8') as f:
         reader = csv.DictReader(f)
         for row in reader:
-            cc = entity_config(row['Court ID'], row['Court Type'] + '|' + row['Court Name'], 0,
-                               row['Alias'].split(';') if row['Alias'] else [],
-                               name_is_alias=False)
-            add_alias_to_entity(cc, row['Court Name'])
-
+            aliases = []
+            if row['Alias']:
+                aliases = [DictionaryEntryAlias(r) for r in row['Alias'].split(';')]
+            cc = DictionaryEntry(id=int(row['Court ID']),
+                                 name=row['Court Type'] + '|' + row['Court Name'],
+                                 priority=0,
+                                 name_is_alias=False,
+                                 aliases=aliases,
+                               )
+            cc.aliases.append(DictionaryEntryAlias(row['Court Name']))
             courts_config_list.append(cc)
+
     lexnlp_tests.test_extraction_func_on_test_data(get_courts, court_config_list=courts_config_list,
                                                    actual_data_converter=lambda actual:
-                                                   [tuple(c[0][1].split('|')) for c in actual],
+                                                   [tuple(c[0].name.split('|')) for c in actual],
                                                    debug_print=True)
+
+
+def build_dictionary_entry(row):
+    aliases = []
+    if not pandas.isnull(row["Alias"]):
+        aliases = [DictionaryEntryAlias(r) for r in row['Alias'].split(';')]
+    return DictionaryEntry(
+        int(row['Court ID']), row['Court Name'], 0, aliases=aliases)

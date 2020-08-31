@@ -7,8 +7,8 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/master/LICENSE"
-__version__ = "1.6.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
+__version__ = "1.7.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -60,8 +60,8 @@ class TestGeoentitiesPlain(TestCase):
         self.assertEqual(2, len(ds))
 
         # here we (surprisingly) expect BE (for Belgium)
-        ant = parse_geo_annotations(text)[0]
-        self.assertEqual((3, 6), ant.coords)
+        ant = ds[0]
+        self.assertEqual((3, 5), ant.coords)
         cite = ant.get_cite()
         self.assertEqual('/en/geoentity/Belgium/1993', cite)
 
@@ -71,3 +71,20 @@ class TestGeoentitiesPlain(TestCase):
             parse_geo_annotations,
             'lexnlp/typed_annotations/en/geoentity/geoentities.txt',
             GeoAnnotation)
+
+    def test_several_entries(self):
+        text = '''Abbreviation “MS” can mean either MMMontserrat or Misssssisssssippi. And different
+non-letter symbols should be treated correctly (MS).'''
+        ds = parse_geo_annotations(text)
+        self.assertEqual(4, len(ds))
+
+        self.assertEqual((14, 16), ds[0].coords)
+        self.assertEqual((131, 133), ds[2].coords)
+
+    def test_michigan_coords(self):
+        text = 'This Contract (“Contract”) is entered into by and between ' +\
+               'the City of Detroit, a Michigan municipal corporation'
+        ants = list(get_geoentity_annotations(text, GEO_CONFIG))
+        self.assertEqual(1, len(ants))
+        fragment = text[ants[0].coords[0]: ants[0].coords[1]]
+        self.assertEqual('Michigan', fragment)

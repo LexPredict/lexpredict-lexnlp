@@ -18,7 +18,7 @@ of court or venue references from text.
      * US Federal and State courts
 
     This data is governed by a separate Creative Commons Attribution Share Alike 4.0 license here:
-    https://github.com/LexPredict/lexpredict-legal-dictionary/blob/master/LICENSE
+    https://github.com/LexPredict/lexpredict-legal-dictionary/blob/1.7.0/LICENSE
 
 
 The full list of current unit test cases can be found here:
