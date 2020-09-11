@@ -13,7 +13,7 @@ of company names from text.  Example statements that are covered by default in t
  * Lexpredict LLC
 
 The full list of current unit test cases can be found here:
-https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/en/tests/test_entities.nltk_re
+https://github.com/LexPredict/lexpredict-lexnlp/blob/master/lexnlp/extract/en/entities/tests/test_get_companies.py
 
 
 .. currentmodule:: lexnlp.extract.en.entities.nltk_re
