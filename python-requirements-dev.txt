@@ -3,7 +3,7 @@ dateparser==0.7.2
 docutils==0.15.2
 gensim==3.8.3
 joblib==0.14.0
-https://github.com/LexPredict/datefinder/archive/master.zip
+https://github.com/LexPredict/datefinder/archive/0.6.2.1.zip
 elasticsearch==7.8.0
 ipdb==0.10.3
 lxml==4.5.2

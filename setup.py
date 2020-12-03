@@ -108,7 +108,7 @@ setup(
         'us==2.0.2'
     ],
     dependency_links=[
-        'git+https://github.com/LexPredict/datefinder.git@master#egg=datefinder-0.6.2'
+        'git+https://github.com/LexPredict/datefinder.git@0.6.2.1#egg=datefinder-0.6.2'
     ],
 
     # Install any data files from packages.
