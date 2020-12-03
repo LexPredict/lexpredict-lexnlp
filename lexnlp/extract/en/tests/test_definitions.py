@@ -11,12 +11,13 @@ Todo:
 """
 
 # Project imports
+import datetime
 import os
 from unittest import TestCase
 
 from lexnlp.extract.common.annotation_locator_type import AnnotationLocatorType
 from lexnlp.extract.ml.environment import ENV_EN_DATA_DIRECTORY
-from lexnlp.extract.en.definition_parsing_methods import trim_defined_term, NOUN_PTN_RE
+from lexnlp.extract.en.definition_parsing_methods import trim_defined_term, NOUN_PTN_RE, get_definition_list_in_sentence
 from lexnlp.extract.en.definitions import \
     get_definitions_explicit, get_definitions_in_sentence, get_definition_annotations, parser_ml_classifier, \
     get_definitions
@@ -24,8 +25,8 @@ from lexnlp.tests.utility_for_testing import load_resource_document
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -35,6 +36,13 @@ parser_ml_classifier.load_compressed(TRAINED_MODEL_PATH)
 
 
 class TestEnglishDefinitions(TestCase):
+    def test_catastrophic_repetative_text(self):
+        text = 'X' * 500
+        start = datetime.datetime.now()
+        defs = get_definition_list_in_sentence((0, len(text), text,), False)
+        elapsed = (datetime.datetime.now() - start).total_seconds()
+        self.assertLess(elapsed, 2)
+        self.assertEqual(0, len(defs))
 
     def test_trim_defined_term(self):
         term = 'this "Deed of Trust"'

@@ -1,11 +1,12 @@
+from decimal import Decimal
 from typing import Tuple, List
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.utils.map import Map
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -16,21 +17,24 @@ class PercentAnnotation(TextAnnotation):
     create an object of PercentAnnotation like
     cp = PercentAnnotation(coords=(0, 100), value='10 000 USD')
     """
-    def __init__(self,
-                 coords: Tuple[int, int],
-                 locale: str = 'en',
-                 text: str = None,
-                 amount: float = None,
-                 sign: str = None,
-                 fraction: float = None):
+    def __init__(
+        self,
+        coords: Tuple[int, int],
+        locale: str = 'en',
+        text: str = None,
+        amount: Decimal = None,
+        sign: str = None,
+        fraction: Decimal = None
+    ) -> None:
         super().__init__(
             name='',
             locale=locale,
             coords=coords,
-            text=text)
-        self.amount = amount
-        self.sign = sign
-        self.fraction = fraction
+            text=text
+        )
+        self.amount: Decimal = amount
+        self.sign: str = sign
+        self.fraction: Decimal = fraction
 
     def get_cite_value_parts(self) -> List[str]:
         return [str(self.amount or '0'),

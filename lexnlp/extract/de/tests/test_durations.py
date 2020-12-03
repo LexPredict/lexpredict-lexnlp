@@ -1,5 +1,5 @@
 from typing import List
-
+from decimal import Decimal
 from lexnlp.extract.common.annotations.duration_annotation import DurationAnnotation
 from lexnlp.extract.de.durations import get_duration_list, get_duration_annotations
 from lexnlp.extract.de.tests.test_amounts import AssertionMixin
@@ -7,8 +7,8 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -60,14 +60,14 @@ class TestGetDurations(AssertionMixin):
         self.assertEqual('jahren', ants[0].duration_type)
         self.assertEqual('year', ants[0].duration_type_en)
         self.assertEqual('', ants[0].prefix)
-        self.assertEqual(25, ants[0].amount)
-        self.assertEqual(9125, ants[0].duration_days)
+        self.assertEqual(Decimal(25), ants[0].amount)
+        self.assertEqual(Decimal(9125), ants[0].duration_days)
 
     def test_complex_durations(self):
         text = 'Vier Wochen, 3 Tage und 151 Sekunden.'
         ants = list(get_duration_annotations(text=text))
         self.assertEqual(1, len(ants))
-        self.assertEqual(31.0017, ants[0].duration_days)
+        self.assertEqual(Decimal('31.0017'), ants[0].duration_days)
         self.assertTrue(ants[0].is_complex)
         self.assertEqual('second', ants[0].duration_type_en)
         self.assertEqual('sekunden', ants[0].duration_type)

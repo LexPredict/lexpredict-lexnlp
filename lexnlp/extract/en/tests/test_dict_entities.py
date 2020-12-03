@@ -14,8 +14,8 @@ from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -100,51 +100,85 @@ class TestDictEntities(TestCase):
                ' is in lowercase here and probably does not mean an abbreviation.'
 
         parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, text_languages=['ge']))
+            text, all_possible_entities=entities, text_languages=['ge'],
+            simplified_normalization=False))
         self.assertEqual(1, len(parsed_enitities))
         _ent, alias = parsed_enitities[0].entity
         self.assertEqual('IT', alias.alias)
 
+        simply_parsed_enitities = list(find_dict_entities(
+            text, all_possible_entities=entities, text_languages=['ge'],
+            simplified_normalization=True))
+        self.assertEqual(len(parsed_enitities), len(simply_parsed_enitities))
+        _ent, simply_alias = parsed_enitities[0].entity
+        self.assertEqual(alias.alias, simply_alias.alias)
+
     def test_am_pm_none(self):
-        am = DictionaryEntry(1, 'America',
-                             aliases=[DictionaryEntryAlias('AM', is_abbreviation=True)], name_is_alias=False)
-        pm = DictionaryEntry(2, 'Postmodernism',
-                             aliases=[DictionaryEntryAlias('PM', is_abbreviation=True)], name_is_alias=False)
+        simply_parse_mode = [False, True]
+        for parse_mode in simply_parse_mode:
+            am = DictionaryEntry(1, 'America',
+                                 aliases=[DictionaryEntryAlias('AM', is_abbreviation=True)],
+                                 name_is_alias=False)
+            pm = DictionaryEntry(2, 'Postmodernism',
+                                 aliases=[DictionaryEntryAlias('PM', is_abbreviation=True)],
+                                 name_is_alias=False)
 
-        entities = [am, pm]
-        ents = list(find_dict_entities('It is 11:00 AM or 11:00 PM now.',
-            all_possible_entities=entities))
-        self.assertEqual(0, len(ents))
+            entities = [am, pm]
+            ents = list(find_dict_entities(
+                'It is 11:00 AM or 11:00 PM now.',
+                all_possible_entities=entities, simplified_normalization=parse_mode))
+            self.assertEqual(0, len(ents))
 
-        ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
-                                       all_possible_entities=entities))
-        self.assertEqual(1, len(ents))
-        self.assertEqual('America', ents[0].entity[0].name)
+            ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
+                                           all_possible_entities=entities,
+                                           simplified_normalization=parse_mode))
+            self.assertEqual(1, len(ents))
+            self.assertEqual('America', ents[0].entity[0].name)
 
-        ents = list(find_dict_entities('It is 11:00am now.',
-                                       all_possible_entities=entities))
-        self.assertEqual(0, len(ents))
+            ents = list(find_dict_entities('It is 11:00am now.',
+                                           all_possible_entities=entities,
+                                           simplified_normalization=parse_mode))
+            self.assertEqual(0, len(ents))
 
     def test_plural_case_matching(self):
-        table = DictionaryEntry(1, 'Table',
-                                aliases=[DictionaryEntryAlias('tbl.', is_abbreviation=True)], name_is_alias=True)
-        man = DictionaryEntry(2, 'man', name_is_alias=True)
-        masloboyka = DictionaryEntry(3, 'masloboyka', name_is_alias=True)
+        simply_parse_mode = [False, True]
+        for parse_mode in simply_parse_mode:
+            table = DictionaryEntry(1, 'Table',
+                                    aliases=[DictionaryEntryAlias('tbl.', is_abbreviation=True)],
+                                    name_is_alias=True)
+            man = DictionaryEntry(2, 'man', name_is_alias=True)
+            masloboyka = DictionaryEntry(3, 'masloboyka', name_is_alias=True)
 
-        entities = [table, man, masloboyka]
+            entities = [table, man, masloboyka]
 
-        text = 'We should detect the singular number of word "tables" here - the stemmer takes care of plural case. ' \
-               'Unfortunately our stemmer is not able to convert word "men" to singular number yet :(. ' \
-               'But it works for word "masloboykas" - a non existing word in English in plural case.'
+            text = 'We should detect the singular number of word "tables" here - the stemmer takes care of plural case. ' \
+                   'Unfortunately our stemmer is not able to convert word "men" to singular number yet :(. ' \
+                   'But it works for word "masloboykas" - a non existing word in English in plural case.'
+
+            parsed_enitities = list(find_dict_entities(
+                text, all_possible_entities=entities, use_stemmer=True,
+                simplified_normalization=parse_mode))
+            self.assertEqual(2, len(parsed_enitities))
+
+            _ent, alias = parsed_enitities[0].entity
+            self.assertEqual('Table', alias.alias)
+            _ent, alias = parsed_enitities[1].entity
+            self.assertEqual('masloboyka', alias.alias)
+
+    def test_alias_punktuation(self):
+        table = DictionaryEntry(1, 'Kaban',
+                                aliases=[DictionaryEntryAlias('K.A.B.A. N.', is_abbreviation=True)],
+                                name_is_alias=False)
+        entities = [table]
+        text = 'Can we catch some K.A.B.A.N.s?'
 
         parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, use_stemmer=True))
-        self.assertEqual(2, len(parsed_enitities))
+            text, all_possible_entities=entities, use_stemmer=True,
+            simplified_normalization=False))
+        self.assertEqual(1, len(parsed_enitities))
 
         _ent, alias = parsed_enitities[0].entity
-        self.assertEqual('Table', alias.alias)
-        _ent, alias = parsed_enitities[1].entity
-        self.assertEqual('masloboyka', alias.alias)
+        self.assertEqual('K.A.B.A. N.', alias.alias)
 
     def test_normalize_text(self):
         lexnlp_tests.test_extraction_func_on_test_data(normalize_text,

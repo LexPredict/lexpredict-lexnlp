@@ -33,7 +33,7 @@ total=3
 1)amount=10
 1)sign=percent
 1)fraction=0.1
-1)get_cite()=/en/percent/10/percent
+1)get_cite()=/en/percent/10.0/percent
 
 2)coords=(73, 77)
 2)amount=10

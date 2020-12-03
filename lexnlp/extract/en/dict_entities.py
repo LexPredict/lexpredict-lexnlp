@@ -25,10 +25,13 @@ from lexnlp.nlp.en.tokens import get_token_list, get_stem_list
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+
+reg_space = re.compile(r'\s+')
 
 
 class DictionaryEntryAlias:
@@ -143,7 +146,8 @@ def normalize_text(text: str,
                    spaces_on_start_end: bool = True,
                    spaces_after_dots: bool = True,
                    lowercase: bool = True,
-                   use_stemmer: bool = False) -> str:
+                   use_stemmer: bool = False,
+                   simple_tokenization: bool = False) -> str:
     """
     Normalizes text for substring search operations - extracts tokens, joins them back with spaces,
     adds missing spaces after dots for abbreviations, e.t.c.
@@ -154,13 +158,21 @@ def normalize_text(text: str,
     :param spaces_on_start_end:
     :param spaces_after_dots:
     :param lowercase:
+    :param simple_tokenization: don't use nltk, just split text by space characters
     :param use_stemmer: Use stemmer instead of tokenizer. When using stemmer all words will be converted to singular
     number (or to some the most plain form) before matching. When using tokenizer - the words are compared as is.
     Using tokenizer should be enough for searches for entities which exist in a single number in the real world -
     geo entities, courts, .... Stemmer is required for searching for some common objects - table, pen, developer, ...
     :return: "normazlied" string
     """
-    tokens = get_stem_list(text, lowercase=lowercase) if use_stemmer else get_token_list(text, lowercase=lowercase)
+    if use_stemmer:
+        tokens = get_stem_list(text, lowercase=lowercase)
+    elif simple_tokenization:
+        tokens = reg_space.split(text)
+        if lowercase:
+            tokens = [t.lower() for t in tokens]
+    else:
+        tokens = get_token_list(text, lowercase=lowercase)
     res = ' '.join(tokens)
     if spaces_on_start_end:
         res = ' ' + res + ' '
@@ -174,14 +186,22 @@ def normalize_text_with_map(
         spaces_on_start_end: bool = True,
         spaces_after_dots: bool = True,
         lowercase: bool = True,
-        use_stemmer: bool = False) -> Tuple[str, List[int]]:
+        use_stemmer: bool = False,
+        simple_tokenization: bool = False) -> Tuple[str, List[int]]:
     """
     Almost like normalize_text, but also returns source-to-resulted char index map:
     map[i] = I, where i is the character coordinate within the source text,
                 I is the same character's coordinate within the resulted text
     """
     src_dest_map = []  # type: List[int]
-    tokens = get_stem_list(text, lowercase=lowercase) if use_stemmer else get_token_list(text, lowercase=lowercase)
+    if use_stemmer:
+        tokens = get_stem_list(text, lowercase=lowercase)
+    elif simple_tokenization:
+        tokens = reg_space.split(text)
+        if lowercase:
+            tokens = [t.lower() for t in tokens]
+    else:
+        tokens = get_token_list(text, lowercase=lowercase)
     # [ (token, start, end,), ... ]
     entity_positions = PhrasePositionFinder.find_phrase_in_source_text(
         text, [t for t in tokens])
@@ -260,7 +280,8 @@ def _find_entity_positions(normalized_text: str,
                            use_stemmer: bool = False,
                            abbrev_uppercase_check_range: int = 20,
                            min_alias_len: int = None,
-                           alias_ban_list: Union[None, Dict[str, AliasBanList]] = None):
+                           alias_ban_list: Union[None, Dict[str, AliasBanList]] = None,
+                           simplified_normalization: bool = False):
     """
     Searches for all occurrences of name/alias of the specified entity in the specified text and fills the
     provided context dict with them.
@@ -298,45 +319,50 @@ def _find_entity_positions(normalized_text: str,
     if context is None:
         context = dict()
 
-    if entity.aliases:
-        for ea in entity.aliases:
-            alias_text = ea.alias
-            alias_lang = ea.language
-            alias_is_abbreviation = ea.is_abbreviation
+    if not entity.aliases:
+        return
 
-            # get or create normalized alias
-            normalized_alias = ea.normalized_alias if ea.normalized_alias \
-                else normalize_text(alias_text, lowercase=not alias_is_abbreviation, use_stemmer=use_stemmer)
+    for ea in entity.aliases:
+        alias_text = ea.alias
+        alias_lang = ea.language
+        alias_is_abbreviation = ea.is_abbreviation
 
-            if not alias_text or (
-                            text_languages and alias_lang and alias_lang not in text_languages):
+        # get or create normalized alias
+        normalized_alias = ea.normalized_alias if ea.normalized_alias \
+            else normalize_text(alias_text,
+                                lowercase=not alias_is_abbreviation,
+                                use_stemmer=use_stemmer,
+                                simple_tokenization=simplified_normalization)
+
+        if not alias_text or (
+                        text_languages and alias_lang and alias_lang not in text_languages):
+            continue
+        if min_alias_len and len(alias_text) < min_alias_len:
+            continue
+
+        normalized_text_for_alias = normalized_text if alias_is_abbreviation else normalized_text_lowercase
+
+        if alias_is_banlisted(alias_ban_list, normalized_alias, alias_lang, alias_is_abbreviation):
+            continue
+
+        start = None
+        while True:
+            start = normalized_text_for_alias.find(normalized_alias,
+                                                   start + len(normalized_alias) - 1 if start is not None else 0)
+            if start < 0:
+                break
+
+            if alias_is_abbreviation and \
+                    abbrev_in_uppercase_block(normalized_text_for_alias, start, abbrev_uppercase_check_range):
                 continue
-            if min_alias_len and len(alias_text) < min_alias_len:
-                continue
+            end = start + len(normalized_alias) - 1
 
-            normalized_text_for_alias = normalized_text if alias_is_abbreviation else normalized_text_lowercase
-
-            if alias_is_banlisted(alias_ban_list, normalized_alias, alias_lang, alias_is_abbreviation):
-                continue
-
-            start = None
-            while True:
-                start = normalized_text_for_alias.find(normalized_alias,
-                                                       start + len(normalized_alias) - 1 if start is not None else 0)
-                if start < 0:
-                    break
-
-                if alias_is_abbreviation and \
-                        abbrev_in_uppercase_block(normalized_text_for_alias, start, abbrev_uppercase_check_range):
-                    continue
-                end = start + len(normalized_alias) - 1
-
-                already_found = context.get(start)  # type: SearchResultPosition
-                if already_found and len(already_found.alias_text) >= len(alias_text):
-                    already_found.add_entity(entity, ea)
-                else:
-                    context[start] = SearchResultPosition(
-                        entity, ea, start, end, normalized_text[start: end])
+            already_found = context.get(start)  # type: SearchResultPosition
+            if already_found and len(already_found.alias_text) >= len(alias_text):
+                already_found.add_entity(entity, ea)
+            else:
+                context[start] = SearchResultPosition(
+                    entity, ea, start, end, normalized_text[start: end])
 
 
 class DictionaryEntity:
@@ -364,7 +390,8 @@ def find_dict_entities(text: str,
                        use_stemmer: bool = False,
                        remove_time_am_pm: bool = True,
                        min_alias_len: int = None,
-                       prepared_alias_ban_list: Optional[Dict[str, AliasBanList]] = None)\
+                       prepared_alias_ban_list: Optional[Dict[str, AliasBanList]] = None,
+                       simplified_normalization: bool = False)\
         -> Generator[DictionaryEntity, None, None]:
     """
     Find all entities defined in the 'all_possible_entities' list appeared in the source text.
@@ -422,6 +449,7 @@ def find_dict_entities(text: str,
     "Mississippi", ...
     :param remove_time_am_pm: Remove from final results AM/PM abbreviations which look like end part of time
     strings - 11:45 am, 10:00 pm.
+    :param simplified_normalization: Don't use NLTK for text "normalization"
     :return:
     """
 
@@ -431,16 +459,26 @@ def find_dict_entities(text: str,
     # text (usually bloated with spaces) plus map:
     # map[i] = I, where i is the character coordinate within the source text,
     # I is the same character's coordinate within the resulted text
-    normalized_text, norm_map = normalize_text_with_map(text, lowercase=False, use_stemmer=use_stemmer)
+    normalized_text, norm_map = normalize_text_with_map(text,
+                                                        lowercase=False,
+                                                        use_stemmer=use_stemmer,
+                                                        simple_tokenization=False)
     normalized_text_lowercase = normalized_text.lower()
 
     search_context = dict()
     # Search for each DictEntity occurrence adding them into the shared search context.
+    # while searching for entities from the dictionary by their attributes / aliases
+    # we may
     for dict_entity in all_possible_entities:
-        _find_entity_positions(normalized_text, normalized_text_lowercase,
-                               dict_entity, text_languages, search_context,
-                               use_stemmer=use_stemmer, min_alias_len=min_alias_len,
-                               alias_ban_list=prepared_alias_ban_list)
+        _find_entity_positions(normalized_text,
+                               normalized_text_lowercase,
+                               dict_entity,
+                               text_languages,
+                               search_context,
+                               use_stemmer=use_stemmer,
+                               min_alias_len=min_alias_len,
+                               alias_ban_list=prepared_alias_ban_list,
+                               simplified_normalization=simplified_normalization)
 
     # At this moment we have a map of positions in the text
     # to SearchResultPosition entries (position + appeared name/alias + DictEntity).

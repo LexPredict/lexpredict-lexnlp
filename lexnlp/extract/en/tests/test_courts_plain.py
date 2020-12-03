@@ -36,11 +36,10 @@ from lexnlp.extract.en.dict_entities import DictionaryEntryAlias, DictionaryEntr
 from lexnlp.tests.lexnlp_tests import DIR_ROOT
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -49,6 +48,13 @@ class TestCourtsPlain(TestCase):
     def test_bankr_courts(self):
         text = 'One one Bankr. E.D.N.C. two two two.'
         courts = list(get_courts(text, court_config_list=self.build_courts_config()))
+        self.assertEqual(1, len(courts))
+
+    def test_bankr_courts_wo_nltk(self):
+        text = 'One one Bankr. E.D.N.C. two two two.'
+        courts = list(get_courts(text,
+                                 court_config_list=self.build_courts_config(),
+                                 simplified_normalization=True))
         self.assertEqual(1, len(courts))
 
     def test_bankr_court_annotations(self):
@@ -94,6 +100,8 @@ class TestCourtsPlain(TestCase):
         items = list(_get_courts(text))
         court_name = items[0]["tags"]["Extracted Entity Court Name"]
         self.assertEqual('United States Supreme Court', court_name)
+
+
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

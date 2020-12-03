@@ -23,7 +23,7 @@ and other material.
 # Information
 * ContraxSuite: https://contraxsuite.com/
 * LexPredict: https://lexpredict.com/
-* Official Website: https://contraxsuite.com/lexnlp/
+* Official Website: https://lexnlp.com/
 * Documentation: http://lexpredict-lexnlp.readthedocs.io/en/latest/ (in progress)
 * Contact: support@contraxsuite.com
 
@@ -46,6 +46,7 @@ by contacting ContraxSuite Licensing at <<license@contraxsuite.com>>.
 * see python-requirements.txt file for full information
 
 ## Releases
+* 1.8.0: December 2, 2020 - Twenty first scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.8.0)
 * 1.7.0: August 27, 2020 - Twentieth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.7.0)
 * 1.6.0: May 27, 2020 - Nineteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.6.0)
 * 1.4.0: December 20, 2019 - Eighteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.4.0)

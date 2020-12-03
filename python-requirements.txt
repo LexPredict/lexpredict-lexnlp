@@ -2,6 +2,7 @@ bs4==0.0.1
 dateparser==0.7.2
 gensim==3.8.3
 https://github.com/LexPredict/datefinder/archive/master.zip
+joblib==0.14.0
 nltk==3.5
 num2words==0.5.10
 pandas==0.24.2

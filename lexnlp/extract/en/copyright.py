@@ -8,7 +8,7 @@ Todo: -
 
 # Imports
 import string
-from typing import Generator, List, Tuple
+from typing import Generator, List, Tuple, Union
 
 from lexnlp.extract.common.copyrights.copyright_en_style_parser import CopyrightEnStyleParser
 from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
@@ -16,8 +16,8 @@ from lexnlp.extract.en.utils import NPExtractor
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -51,15 +51,15 @@ class CopyrightEnParser(CopyrightEnStyleParser):
         return np_extractor.get_np_with_coords(sentence)
 
 
-def get_copyright(text: str,
-                  return_sources=False) -> Generator:
+def get_copyright(
+    text: str,
+    return_sources: bool = False
+) -> Generator[Union[Tuple[str, str, str], Tuple[str, str, str, str]], None, None]:
     for ant in get_copyright_annotations(text, return_sources):
-        ret = (ant.sign,
-               ant.date,
-               ant.name)
         if return_sources:
-            ret += (ant.text,)
-        yield ret
+            yield ant.sign, ant.date, ant.name, ant.text
+        else:
+            yield ant.sign, ant.date, ant.name
 
 
 def get_copyright_annotations(text: str, return_sources=False) -> \

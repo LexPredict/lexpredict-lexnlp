@@ -17,8 +17,8 @@ from lexnlp.extract.common.base_path import lexnlp_test_path
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -391,7 +391,7 @@ But it should return (expected result):
 
 *Desired Outcome:*
 Check the function.
-If the expected data is correct then fix the function. Otherwise - fix the expected data.
+If the expected data is correct then fix the function. Otherwise, fix the expected data.
 =======================================================================================================================
         """.format(function_name=function_name,
                    text=text,
@@ -472,7 +472,7 @@ But its results should also contain:
 
 *Desired Outcome:*
 Check the function.
-If the expected data is correct then fix the function. Otherwise - fix the expected data. 
+If the expected data is correct then fix the function. Otherwise, fix the expected data. 
 =======================================================================================================================
         """.format(function_name=function_name,
                    text=text,

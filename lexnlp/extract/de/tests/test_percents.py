@@ -1,5 +1,5 @@
 from typing import List
-
+from decimal import Decimal
 from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
 from lexnlp.extract.de.percents import get_percents, get_percent_annotations
 from lexnlp.extract.de.tests.test_amounts import AssertionMixin
@@ -7,8 +7,8 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -56,8 +56,8 @@ class TestGetPercents(AssertionMixin):
         self.assertEqual((22, 39), res[0].coords)
         self.assertEqual('zwanzig Prozent', res[0].text.strip())
         self.assertEqual('prozent', res[0].sign)
-        self.assertEqual(20, res[0].amount)
-        self.assertEqual(20, res[0].fraction)
+        self.assertEqual(Decimal(20), res[0].amount)
+        self.assertEqual(Decimal(20), res[0].fraction)
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

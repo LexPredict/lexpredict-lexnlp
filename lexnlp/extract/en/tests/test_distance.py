@@ -10,14 +10,14 @@ Todo:
 """
 
 # Imports
-
+from decimal import Decimal
 from lexnlp.extract.en.distances import get_distances
 from lexnlp.tests import lexnlp_tests
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -27,10 +27,16 @@ def test_get_distance():
     Test distance extraction.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_distances, return_sources=False,
-                                                   expected_data_converter=lambda expected:
-                                                   [(float(distance), units) for distance, units in expected])
-    # TODO: Do we need this separate method? test_get_distance_source() tests both distances and sources
+    # TODO: Do we need this separate method? test_get_distance_source()
+    #   ... tests both distances and sources
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_distances,
+        return_sources=False,
+        expected_data_converter=lambda expected: [
+            (Decimal(distance), units)
+            for distance, units in expected
+        ]
+    )
 
 
 def test_get_distance_source():
@@ -38,7 +44,11 @@ def test_get_distance_source():
     Test distance extraction with source.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_distances, return_sources=True,
-                                                   expected_data_converter=lambda expected:
-                                                   [(float(distance), units, source) for distance, units, source in
-                                                    expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_distances,
+        return_sources=True,
+        expected_data_converter=lambda expected: [
+            (Decimal(distance), units, source)
+            for distance, units, source in expected
+        ]
+    )

@@ -6,8 +6,8 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -32,7 +32,7 @@ class TestDistancesPlain(TestCase):
         ant = list(get_distance_annotations(text))[0]
         self.assertEqual((11, 29), ant.coords)
         cite = ant.get_cite()
-        self.assertEqual('/en/distance/8/kilometer', cite)
+        self.assertEqual('/en/distance/8.0/kilometer', cite)
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

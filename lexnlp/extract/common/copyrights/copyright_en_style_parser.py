@@ -13,8 +13,8 @@ from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnno
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -33,16 +33,17 @@ class CopyrightEnStyleParser:
     copyright_dates_re = re.compile(r'\d{2,}')
 
     @staticmethod
-    def get_copyright(text: str,
-                      return_sources=False) -> Generator[CopyrightAnnotation, None, None]:
+    def get_copyright(
+        text: str,
+        return_sources: bool = False
+    ) -> Generator[CopyrightAnnotation, None, None]:
         for ant in CopyrightEnStyleParser.get_copyright_annotations(
-                text, return_sources):
-            ret = (ant.sign,
-                   ant.date,
-                   ant.name)
+            text, return_sources
+        ):
             if return_sources:
-                ret += (ant.text,)
-            yield ret
+                yield ant.sign, ant.date, ant.name, ant.text
+            else:
+                yield ant.sign, ant.date, ant.name
 
     @classmethod
     def extract_phrases_with_coords(cls, sentence: str) -> List[Tuple[str, int, int]]:

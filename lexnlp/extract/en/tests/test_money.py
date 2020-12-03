@@ -9,16 +9,18 @@ Todo:
     * More pathological and difficult cases
 """
 
-# Imports
+# standard library imports
+from decimal import Decimal
 
+# LexNLP imports
 from lexnlp.extract.en.money import get_money
 from lexnlp.tests import lexnlp_tests
 from unittest import TestCase
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -43,7 +45,7 @@ class MoneyTest(TestCase):
         """
         text = '''Exercise Price per Share: 23.62'''
         actual = list(get_money(text, return_sources=False, float_digits=6))
-        self.assertEqual(actual[0][0], 23.62)
+        self.assertEqual(actual[0][0], Decimal('23.62'))
 
 
 def test_get_money():
@@ -51,10 +53,17 @@ def test_get_money():
     Test money extraction.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_money, return_sources=False,
-                                                   expected_data_converter=lambda expected:
-                                                   [(float(amount) if amount else None, currency) for amount, currency
-                                                    in expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_money,
+        return_sources=False,
+        expected_data_converter=lambda expected: [
+            (
+                Decimal(amount) if amount else None,
+                currency
+            )
+            for amount, currency in expected
+        ]
+    )
 
 
 def test_get_money_source():
@@ -62,8 +71,16 @@ def test_get_money_source():
     Test money extraction with source.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_money, return_sources=True,
-                                                   expected_data_converter=lambda expected:
-                                                   [(float(amount) if amount else None, currency, source)
-                                                    for amount, currency, source in expected
-                                                    if amount or currency or source])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_money,
+        return_sources=True,
+        expected_data_converter=lambda expected: [
+            (
+                Decimal(amount) if amount else None,
+                currency,
+                source
+            )
+            for amount, currency, source in expected
+            if amount or currency or source
+        ]
+    )

@@ -8,19 +8,19 @@ Todo:
 
 # pylint: disable=broad-except
 
-import string
-from typing import Generator
-
 import nltk
+import string
 import regex as re
+from decimal import Decimal
+from typing import Dict, Generator, List, Union
 from num2words import num2words, CONVERTER_CLASSES
-
 from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
+from lexnlp.extract.en.amounts import quantize_by_float_digit
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -77,11 +77,10 @@ class AmountParserDE(object):
         self.ONE = N2W_CONFIG.low_numwords[-2]
         self.HUNDRED = dict(N2W_CONFIG.mid_numwords)[100]
 
-        UNIQUE_NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                          20, 30, 40, 50, 60, 70, 80, 90]
-        BIG_UNIQUE_NUMBERS = [100, 1000, 1000000, 1000000000, 1000000000000]
+        UNIQUE_NUMBERS: List[int] = [*range(0, 21, 1), *range(30, 100, 10)]
+        BIG_UNIQUE_NUMBERS: List[int] = [100, 1000, 1000000, 1000000000, 1000000000000]
 
-        UNIQUE_NUMBERS_MAP = dict()
+        UNIQUE_NUMBERS_MAP: Dict = {}
         # ordinal
         UNIQUE_NUMBERS_MAP.update(
             {num2words(n, ordinal=True, lang=self.language): n for n in UNIQUE_NUMBERS})
@@ -95,31 +94,33 @@ class AmountParserDE(object):
             {num2words(n, lang=self.language).replace('eine ', '').replace('ein', '').lower(): n
              for n in BIG_UNIQUE_NUMBERS})
         # addon
-        UNIQUE_NUMBERS_MAP.update(
-            {'ein': 1,
-             'eine': 1,
-             'einen': 1,
-             'einhalb': 0.5,
-             'millionen': 1000000,
-             'millionenste': 1000000,
-             'milliarden': 1000000000,
-             'milliardenste': 1000000000})
+        UNIQUE_NUMBERS_MAP.update({
+            'ein': 1,
+            'eine': 1,
+            'einen': 1,
+            'einhalb': Decimal(0.5),
+            'millionen': 1000000,
+            'millionenste': 1000000,
+            'milliarden': 1000000000,
+            'milliardenste': 1000000000
+        })
 
-        self.UNIQUE_NUMBERS_MAP = UNIQUE_NUMBERS_MAP
+        self.UNIQUE_NUMBERS_MAP: Dict[str, Union[int, Decimal]] = UNIQUE_NUMBERS_MAP
 
         self.MAGNITUDE_MAP = {num2words(10 ** n, lang=self.language).replace('eine ', '').replace('ein', '').lower(): 10 ** n
                               for n in self.BIG_NUMBERS_EXPONENT}
-        self.MAGNITUDE_MAP.update(
-            {'millionen': 1000000,
-             'millionenste': 1000000,
-             'milliarden': 1000000000,
-             'milliardenste': 1000000000,
-             'halbe': 0.5,
-             'k': 1000,
-             'm': 1000000,
-             'b': 1000000000})
+        self.MAGNITUDE_MAP.update({
+            'millionen': 1000000,
+            'millionenste': 1000000,
+            'milliarden': 1000000000,
+            'milliardenste': 1000000000,
+            'halbe': Decimal(0.5),
+            'k': 1000,
+            'm': 1000000,
+            'b': 1000000000,
+        })
 
-        unique_number_list = list(self.UNIQUE_NUMBERS_MAP.keys())
+        unique_number_list: List[str] = list(self.UNIQUE_NUMBERS_MAP.keys())
         unique_number_list.sort(key=len, reverse=True)
         self.UNIQUE_NUMBER_SPLIT_RE = re.compile(r'({}|\s+)'.format('|'.join(unique_number_list)))
 
@@ -151,27 +152,29 @@ class AmountParserDE(object):
     def split(self, text):
         return [i for i in self.UNIQUE_NUMBER_SPLIT_RE.split(text) if i not in ['', ' ']]
 
-    def text2num(self, s):
+    def text2num(self, s: str):
         """
         Convert written amount into integer/float.
         :param s: written number
         :param search_fraction: extract fraction
         :return: integer/float
         """
-        n = 0
-        g = 0
+        n: Decimal = Decimal(0)
+        g: Decimal = Decimal(0)
         s = self.cleanup(s)
 
         # if only number or float in string
         if self.NON_WRIT_RE.fullmatch(s):
-            return float(s.replace(' ', ''))
+            return Decimal(s.replace(' ', ''))
 
         # if written number has integer/float prefix: "25 million", "2.035 thousand tons"
         if self.MIXED_WRIT_RE.search(s):
             p, s = self.MIXED_WRIT_RE.search(s).groups()
-            g = float(p.rstrip(string.punctuation + string.whitespace)) if p else 0
+            g: Decimal = \
+                Decimal(p.rstrip(string.punctuation + string.whitespace))\
+                if p else Decimal(0)
 
-        d = 0
+        d: Decimal = Decimal(0)
         # TODO: extract fractions, half, quarter
 
         # convert quarters
@@ -181,7 +184,7 @@ class AmountParserDE(object):
             s = self.QUARTER_RE.sub('', s)
 
         # process
-        a = self.split(s)
+        a: List = self.split(s)
 
         for w in a:
             if w == 'und':
@@ -189,15 +192,15 @@ class AmountParserDE(object):
 
             x = self.UNIQUE_NUMBERS_MAP.get(w, None)
             if self.HUNDRED in w and g != 0:
-                g *= 100
+                g *= Decimal(100)
 
             elif w in self.MAGNITUDE_MAP:
                 x = self.MAGNITUDE_MAP.get(w, None)
                 if w == 'halbe':
-                    g = 0.5
+                    g = Decimal(0.5)
                     continue
-                n += (g or 1) * x
-                g = 0
+                n += Decimal(g or 1) * x
+                g = Decimal(0)
 
             elif x is None:
                 raise RuntimeError('Unknown number: ' + w)
@@ -207,8 +210,8 @@ class AmountParserDE(object):
 
         return n + g + d
 
-    def parse(self, text: str, return_sources=False,
-              extended_sources=True, float_digits=4) -> Generator:
+    def parse(self, text: str, return_sources: bool = False,
+              extended_sources: bool = True, float_digits: int = 4) -> Generator:
         """
         Find possible amount references in the text.
         :param text: text
@@ -222,15 +225,16 @@ class AmountParserDE(object):
                 yield ant.value
             else:
                 if extended_sources:
-                    yield (ant.value, ant.text, ant.coords)
+                    yield ant.value, ant.text, ant.coords
                 else:
-                    yield (ant.value, ant.text)
+                    yield ant.value, ant.text
 
-    def parse_annotations(self,
-                          text: str,
-                          float_digits=4,
-                          return_sources=True) \
-            -> Generator[AmountAnnotation, None, None]:
+    def parse_annotations(
+        self,
+        text: str,
+        float_digits: int = 4,
+        return_sources: bool = True
+    ) -> Generator[AmountAnnotation, None, None]:
         """
         Find possible amount references in the text.
         :param text: text
@@ -250,8 +254,11 @@ class AmountParserDE(object):
                 continue
             if amount is None:
                 continue
-            if isinstance(amount, float) and float_digits:
-                amount = round(amount, float_digits)
+            if float_digits:
+                amount: Decimal = quantize_by_float_digit(
+                    amount=amount,
+                    float_digits=float_digits
+                )
 
             ant = AmountAnnotation(coords=match.span(),
                                    value=amount,

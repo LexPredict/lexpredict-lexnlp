@@ -7,8 +7,8 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -141,6 +141,15 @@ class TestDatesPlain(TestCase):
         """
         dates = list(get_dates_list(text, strict=True))
         self.assertEqual(0, len(dates))
+
+    def test_is_it_a_date(self):
+        """
+        Somehow "29MAY19 1350" produces 1350-01-01 that doesn't go through validation
+        """
+        text = "NOT RCVD BY RJ BY 29MAY19 1350 DOH LT REF"
+        dates = list(get_dates_list(text, strict=True))
+        self.assertEqual(1, len(dates))
+        self.assertEqual(datetime.datetime(2019, 5, 29, 13, 50, 0), dates[0])
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

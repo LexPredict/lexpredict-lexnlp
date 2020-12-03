@@ -2,9 +2,9 @@ Text,Amount
 "total 34,567,890 documents",34567890.0
 "total 25,890.33 dollars",25890.33
 total 2 million people,2000000.0
-total 2.035 billion tons of,2035000000.0000002
+total 2.035 billion tons of,2035000000.000
 total twenty-five MILLION dollars,25000000
-will cost 1/33,0.030303030303030304
+will cost 1/33,0.03030303030303030303030303030
 will cost 1/100,0.01
 will cost 25/100,0.25
 THIRTY-SIX THOUSAND TWO-HUNDRED SIXTY-SIX AND 2/100,36266.02
@@ -21,9 +21,9 @@ get .5 million,500000.0
 ,1000000.0
 ,3.5
 three-tenths,0.3
-one-twelfth,0.08333333333333333
-ten ninety-ninths,0.10101010101010101
-ten and one-third,10.333333333333334
+one-twelfth,0.08333333333333333333333333333
+ten ninety-ninths,0.1010101010101010101010101010
+ten and one-third,10.33333333333333333333333333
 twenty one-hundredths,0.21
 "twenty 
  AND one-hundredths",20.01

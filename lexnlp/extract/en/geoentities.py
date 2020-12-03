@@ -15,8 +15,8 @@ from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_f
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -31,7 +31,8 @@ def get_geoentities(text: str,
                     text_languages: List[str] = None,
                     min_alias_len: int = geoentities_config.MIN_ALIAS_LEN,
                     prepared_alias_ban_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
-                    = _ALIAS_BLACK_LIST_PREPARED) -> Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
+                    = _ALIAS_BLACK_LIST_PREPARED,
+                    simplified_normalization: bool = False) -> Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
     """
     Searches for geo entities from the provided config list and yields pairs of (entity, alias).
     Entity is: (entity_id, name, [list of aliases])
@@ -54,6 +55,7 @@ def get_geoentities(text: str,
     :param prepared_alias_ban_list: List of aliases to exclude from searching in the form:
      dict of lang -> (list of normalized non-abbreviation aliases, list of normalized abbreviation aliases).
      Use dict_entities.prepare_alias_banlist_dict() for preparing this dict.
+    :param simplified_normalization: don't use NLTK for "normalizing" text
     :return: Generates tuples: (entity, alias)
     """
     conflict_resolving_func = None
@@ -69,7 +71,8 @@ def get_geoentities(text: str,
                                   conflict_resolving_func=conflict_resolving_func,
                                   text_languages=text_languages,
                                   min_alias_len=min_alias_len,
-                                  prepared_alias_ban_list=prepared_alias_ban_list):
+                                  prepared_alias_ban_list=prepared_alias_ban_list,
+                                  simplified_normalization=simplified_normalization):
         yield ent.entity
 
 
@@ -80,7 +83,8 @@ def get_geoentity_annotations(text: str,
                     text_languages: List[str] = None,
                     min_alias_len: int = geoentities_config.MIN_ALIAS_LEN,
                     prepared_alias_ban_list: Union[None, Dict[str, Tuple[List[str], List[str]]]]
-                    = _ALIAS_BLACK_LIST_PREPARED) -> Generator[GeoAnnotation, None, None]:
+                    = _ALIAS_BLACK_LIST_PREPARED,
+                    simplified_normalization: bool = False) -> Generator[GeoAnnotation, None, None]:
     "See get_geoentities"
 
     conflict_resolving_func = None
@@ -96,7 +100,8 @@ def get_geoentity_annotations(text: str,
                                      conflict_resolving_func=conflict_resolving_func,
                                      text_languages=text_languages,
                                      min_alias_len=min_alias_len,
-                                     prepared_alias_ban_list=prepared_alias_ban_list)
+                                     prepared_alias_ban_list=prepared_alias_ban_list,
+                                     simplified_normalization=simplified_normalization)
 
     for ent in dic_entries:
         ant = GeoAnnotation(coords=ent.coords)

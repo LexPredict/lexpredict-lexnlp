@@ -4,6 +4,12 @@
 Changelog
 ============
 
+1.8.0 - December 2, 2020
+----------------
+ * Improved LexNLP handling for definitions for the "EN" locale.
+ * Implemented rating OCR quality in texts.
+ * Migrated numeric data in parsers sesults to decimal format to avoid losing fraction digits.
+
 1.7.0 - August 27, 2020
 ----------------
  * Improved LexNLP handling for dates for the "EN" locale.

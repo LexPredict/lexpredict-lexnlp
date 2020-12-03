@@ -6,16 +6,16 @@ This module implements date extraction functionality in English.
 # pylint: disable=bare-except
 
 # Standard imports
-import itertools
 import os
 import string
-
 import joblib
+import itertools
+from typing import Dict
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -32,8 +32,15 @@ DATE_MODEL_CHARS.extend(string.digits)
 DATE_MODEL_CHARS.extend(["-", "/", " ", "%", "#", "$"])
 
 
-def get_date_features(text, start_index, end_index, include_bigrams=True, window=5, characters=None,
-                      norm=True):
+def get_date_features(
+    text: str,
+    start_index: int,
+    end_index: int,
+    include_bigrams: bool = True,
+    window: int = 5,
+    characters=None,
+    norm: bool = True
+) -> Dict[str, int]:
     """
     Get features to use for classification of date as false positive.
     :param text: raw text around potential date

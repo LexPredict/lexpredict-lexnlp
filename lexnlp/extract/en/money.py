@@ -19,8 +19,8 @@ from lexnlp.extract.en.amounts import (
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -80,16 +80,22 @@ CURRENCY_PTN = r"""
 CURRENCY_PTN_RE = re.compile(CURRENCY_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 
-def get_money(text: str, return_sources=False, float_digits=4) -> Generator:
+def get_money(
+    text: str,
+    return_sources: bool =False,
+    float_digits: int = 4,
+) -> Generator:
     for ant in get_money_annotations(text, float_digits):
-        item = (ant.amount, ant.currency)
         if return_sources:
-            item += (ant.text,)
-        yield item
+            yield ant.amount, ant.currency, ant.text
+        else:
+            yield ant.amount, ant.currency
 
 
-def get_money_annotations(text: str, float_digits=4) \
-        -> Generator[MoneyAnnotation, None, None]:
+def get_money_annotations(
+    text: str,
+    float_digits: int = 4,
+) -> Generator[MoneyAnnotation, None, None]:
     for match in CURRENCY_PTN_RE.finditer(text):
         capture = match.capturesdict()
         if not (capture['prefix'] or capture['postfix']) and not (capture['trigger_word']):
@@ -113,8 +119,9 @@ def get_money_annotations(text: str, float_digits=4) \
             currency_type = DEFAULT_CURRENCY
         text = capture['text'][0].strip(
                    string.punctuation.replace('$', '') + string.whitespace)
-        ant = MoneyAnnotation(coords=match.span(),
-                              amount=amount[0],
-                              text=text,
-                              currency=currency_type)
-        yield ant
+        yield MoneyAnnotation(
+            coords=match.span(),
+            amount=amount[0],
+            text=text,
+            currency=currency_type
+        )

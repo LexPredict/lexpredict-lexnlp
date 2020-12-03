@@ -25,8 +25,8 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -34,7 +34,8 @@ __email__ = "support@contraxsuite.com"
 def get_courts(text: str,
                court_config_list: List[DictionaryEntry],
                priority: bool = False,
-               text_languages: List[str] = None) -> Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
+               text_languages: List[str] = None,
+               simplified_normalization: bool = False) -> Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
     """
     Searches for courts from the provided config list and yields tuples of (court_config, court_alias).
     Court config is: (court_id, court_name, [list of aliases])
@@ -51,11 +52,13 @@ def get_courts(text: str,
     :param text_languages: Language(s) of the source text. If a language is specified then only aliases of this
     language will be searched for. For example: this allows ignoring "Island" - a German language
      alias of Iceland for English texts.
+    :param simplified_normalization: don't use NLTK for just "normalizing" the text
     :return: Generates tuples: (court entity, court alias)
     """
     for ent in find_dict_entities(text, court_config_list,
                                   conflict_resolving_func=conflicts_take_first_by_id if priority else None,
-                                  text_languages=text_languages):
+                                  text_languages=text_languages,
+                                  simplified_normalization=simplified_normalization):
         yield ent.entity
 
 

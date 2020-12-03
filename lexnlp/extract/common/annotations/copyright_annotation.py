@@ -4,8 +4,8 @@ from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -30,10 +30,10 @@ class CopyrightAnnotation(TextAnnotation):
             name=name,
             coords=coords,
             locale=locale)
-        self.sign = sign
-        self.company = company
-        self.text = text
-        self.date = date
+        self.sign: str = sign
+        self.company: str = company
+        self.text: str = text
+        self.date: str = date
         self.year_start = TextAnnotation.get_int_value(year_start)
         self.year_end = TextAnnotation.get_int_value(year_end)
 

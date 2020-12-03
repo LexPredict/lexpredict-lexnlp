@@ -26,8 +26,8 @@ from lexnlp.utils.iterating_helpers import count_sequence_matches
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -137,11 +137,14 @@ PAREN_PTN_RE_OPTIONS = re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE
 # false positive: "This Borrower Joiner Agreement to the extent signed signed and delivered by means of a facsimile..."
 NOUN_PTN_BASE = r"""
 (
-    (?:[A-Z][-A-Za-z']*(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})
+    (?:[A-Z][-A-Za-z']*+(?:\s*[A-Z][-A-Za-z']*){{0,{max_term_tokens}}})
     |
     (?:[A-Z][-A-Za-z'])
 )
 """.format(max_term_tokens=MAX_TERM_TOKENS)
+# NB: we use possessive quantifier (*+) here because this group
+# ([A-Z][-A-Za-z']*) check shouldn't fail and track back
+
 
 NOUN_PTN = r"""
 (?:^|\s)

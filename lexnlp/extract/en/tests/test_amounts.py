@@ -9,15 +9,17 @@ Todo:
     * More pathological and difficult cases
 """
 
-# Imports
+# standard library imports
+from decimal import Decimal
 
-from lexnlp.extract.en.amounts import get_amounts
+# LexNLP imports
 from lexnlp.tests import lexnlp_tests
+from lexnlp.extract.en.amounts import get_amounts
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -27,9 +29,12 @@ def test_get_amount():
     Test default get amount behavior.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_amounts, return_sources=False,
-                                                   expected_data_converter=lambda expected:
-                                                   [float(amount) for amount in expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_amounts,
+        return_sources=False,
+        expected_data_converter=
+        lambda expected: [Decimal(amount) for amount in expected],
+    )
 
 
 def test_get_amount_source():
@@ -37,9 +42,12 @@ def test_get_amount_source():
     Test get amount behavior with source return.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_amounts, return_sources=True,
-                                                   expected_data_converter=lambda expected:
-                                                   [(float(amount), source) for (amount, source) in expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_amounts,
+        return_sources=True,
+        expected_data_converter=
+        lambda expected: [(Decimal(amount), source) for (amount, source) in expected],
+    )
 
 
 def test_get_amount_non_round_float():
@@ -47,9 +55,13 @@ def test_get_amount_non_round_float():
     Test get amount behavior with source return.
     :return:
     """
-    lexnlp_tests.test_extraction_func_on_test_data(get_amounts, return_sources=False, float_digits=None,
-                                                   expected_data_converter=lambda expected:
-                                                   [float(amount) for amount in expected])
+    lexnlp_tests.test_extraction_func_on_test_data(
+        func=get_amounts,
+        return_sources=False,
+        float_digits=None,
+        expected_data_converter=
+        lambda expected: [Decimal(amount) for amount in expected],
+    )
 
 
 def test_error_case_1():

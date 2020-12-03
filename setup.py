@@ -26,7 +26,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='1.7.0',
+    version='1.8.0',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -93,6 +93,7 @@ setup(
         'datefinder-lexpredict==0.6.2',
         'dateparser==0.7.2',
         'gensim==3.8.3',
+        'joblib==0.14.0',
         'nltk==3.5',
         'num2words==0.5.10',
         'numpy==1.19.1',

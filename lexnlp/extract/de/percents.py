@@ -1,13 +1,13 @@
 import regex as re
 from typing import Generator
-
+from decimal import Decimal
 from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
 from lexnlp.extract.de.amounts import AmountParserDE
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -17,8 +17,8 @@ get_amounts = amounts_parser.parse
 
 
 PERCENT_UNITS_MAP = {
-    'prozent': 0.01,
-    '%': 0.01
+    'prozent': Decimal(0.01),
+    '%': Decimal(0.01),
 }
 
 PERCENT_PTN = r"""
@@ -27,7 +27,7 @@ PERCENT_PTN = r"""
 PERCENT_PTN_RE = re.compile(PERCENT_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 
-def get_percents(text: str, float_digits=4) -> Generator:
+def get_percents(text: str, float_digits: int = 4) -> Generator:
     """
     Get percent usages within text.
     :param text:
@@ -45,8 +45,10 @@ def get_percents(text: str, float_digits=4) -> Generator:
                 real_amount=ant.fraction)
 
 
-def get_percent_annotations(text: str, float_digits=4) -> \
-        Generator[PercentAnnotation, None, None]:
+def get_percent_annotations(
+    text: str,
+    float_digits: int = 4
+) -> Generator[PercentAnnotation, None, None]:
     """
     Get percent usages within text.
     :param text:
@@ -65,16 +67,19 @@ def get_percent_annotations(text: str, float_digits=4) -> \
             amount = amount[0]
         if 'prozent' in unit_name.lower():
             unit_name = 'prozent'
-        real_amount = PERCENT_UNITS_MAP.get(unit_name, 0) * amount
+        real_amount = PERCENT_UNITS_MAP.get(unit_name, Decimal(0)) * amount
+
         if float_digits:
             real_amount = round(amount, float_digits)
-        ant = PercentAnnotation(coords=match.span(),
-                                text=''.join(capture.get('text', '')),
-                                sign=unit_name,
-                                amount=amount,
-                                fraction=real_amount,
-                                locale='de')
-        yield ant
+
+        yield PercentAnnotation(
+            coords=match.span(),
+            text=''.join(capture.get('text', '')),
+            sign=unit_name,
+            amount=amount,
+            fraction=real_amount,
+            locale='de'
+        )
 
 
 def get_percent_list(*args, **kwargs):

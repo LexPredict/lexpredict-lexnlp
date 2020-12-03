@@ -16,8 +16,8 @@ from lexnlp.extract.common.annotations.cusip_annotation import CusipAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -39,7 +39,7 @@ INTERNAL_ISSUER_ID_PTN_RE = re.compile(INTERNAL_ISSUER_ID_PTN, re.VERBOSE)
 
 PPN_PTN_RE = re.compile(r'[\@\#\*]')
 
-TBA_PTN =  r"""
+TBA_PTN = r"""
 (?P<product_code>\d{2})
 (?P<mortgage_type>[A-Z]{1})
 (?P<coupon>\d{3})

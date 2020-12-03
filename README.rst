@@ -81,6 +81,8 @@ Requirements
 Releases
 --------
 
+-  1.8.0: December 2, 2020 - Twenty first scheduled public release;
+   `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/1.8.0>`__
 -  1.7.0: August 27, 2020 - Twentieth scheduled public release;
    `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/1.7.0>`__
 -  1.6.0: May 27, 2020 - Nineteenth scheduled public release;

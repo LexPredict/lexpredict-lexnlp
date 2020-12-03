@@ -29,7 +29,8 @@ Avoids:
 
 # Imports
 import string
-from typing import Generator
+from decimal import Decimal, DecimalTuple
+from typing import Dict, Generator, Optional, Tuple, Union, List
 
 import nltk
 import regex as re
@@ -39,31 +40,32 @@ from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.7.0/LICENSE"
-__version__ = "1.7.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__version__ = "1.8.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 # Define small numbers
-SMALL_NUMBERS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-                 20, 30, 40, 50, 60, 70, 80, 90]
+SMALL_NUMBERS: List[int] = [*range(0, 21, 1), *range(30, 100, 10)]
 SMALL_NUMBERS_MAP = {num2words(n): n for n in SMALL_NUMBERS}
 SMALL_NUMBERS_MAP.update({num2words(n, ordinal=True): n for n in SMALL_NUMBERS})
 SMALL_NUMBERS_MAP.update({num2words(n, ordinal=True) + 's': n for n in SMALL_NUMBERS[3:20]})
 SMALL_NUMBERS_MAP.update({num2words(n).replace('y', 'ieths'): n for n in SMALL_NUMBERS[20:]})
-
-BIG_NUMBERS_EXPONENT = [3, 6, 9, 12]
-MAGNITUDE_MAP = {num2words(10 ** n)[4:]: 10 ** n for n in BIG_NUMBERS_EXPONENT}
-MAGNITUDE_MAP.update(
-    {'thousandth': 1000,
-     'thousandths': 1000,
-     'trill': 1000000000000,
-     'bil': 1000000000,
-     'mm': 1000000,
-     'k': 1000,
-     'm': 1000000,
-     'b': 1000000000})
+MAGNITUDE_MAP: Dict[str, int] = {
+    'k': 1000,
+    'thousand': 1000,
+    'thousandth': 1000,
+    'thousandths': 1000,
+    'm': 1000000,
+    'mm': 1000000,
+    'million': 1000000,
+    'b': 1000000000,
+    'bil': 1000000000,
+    'billion': 1000000000,
+    'trill': 1000000000000,
+    'trillion': 1000000000000,
+}
 
 small_numbers = list(SMALL_NUMBERS_MAP.keys())
 small_numbers.sort(key=len, reverse=True)
@@ -98,8 +100,10 @@ fraction_smb_to_value = {
     '⅛': 1.0/8, '⅜': 3.0/8, '⅝': 5.0/8,
     '⅞': 7.0/8, '⅑': 1.0/9, '⅒': 1.0/10
 }
-fraction_smb_to_string = {k: str(fraction_smb_to_value[k])[1:]
-                          for k in fraction_smb_to_value}
+fraction_smb_to_string = {
+    k: str(fraction_smb_to_value[k])[1:]
+    for k in fraction_smb_to_value
+}
 
 fraction_symbols = ''.join([k for k in fraction_smb_to_value])
 FRACTION_TAIL = rf'\s{{0,2}}[{fraction_symbols}]+'
@@ -165,51 +169,69 @@ grammar = r"""
 chunker = nltk.RegexpParser(grammar)
 
 
-def text2num(s, search_fraction=True):
+def text2num(
+    s: str,
+    search_fraction: bool = True,
+) -> Optional[Decimal]:
     """
-    Convert written amount into integer/float.
+    Convert written amount into Decimal.
     :param s: written number
     :param search_fraction: extract fraction
-    :return: integer/float
+    :return: Decimal or None
     """
-    n = 0
-    g = 0
-    s = s.lower().replace(',', '').replace('-', ' ').strip(string.whitespace).rstrip(
-        string.punctuation + string.whitespace)
+    n: Decimal = Decimal(0)
+
+    # integer/float prefix for a written number
+    prefix: Decimal = Decimal(0)
+
+    # pre-process input string
+    s: str = s.lower()\
+        .replace(',', '')\
+        .replace('-', ' ')\
+        .strip(string.whitespace)\
+        .rstrip(string.punctuation + string.whitespace)
     s = re.sub(r'\s+and\s*$|^\s*and\s+', '', s)
     if not (s.startswith('.') and s[1].isdigit()):
         s = s.lstrip(string.punctuation + string.whitespace)
-    if s in ['k', 'm', 'b']:
-        return
-    # if only number or float in string
+    if s in ('k', 'm', 'b'):
+        return None
+
+    # if only integer or decimal in string
     if NON_WRIT_RE.fullmatch(s):
-        return float(s)
+        return Decimal(s)
 
     # if written number has integer/float prefix: "25 million", "2.035 thousand tons"
     if not NUM_FRACTION_RE.fullmatch(s):
         p, s = MIXED_WRIT_RE.search(s).groups()
-        g = float(p) if p else 0
+        if p:
+            prefix = Decimal(p)
 
     # if written big number has no prefix: "lovely million", "a dozen"
-    if ONLY_BIG_WRIT_RE.search(s) and not g:
-        s = 'one ' + s
+    if ONLY_BIG_WRIT_RE.search(s) and not prefix:
+        s: str = f'one {s}'
 
-    d = 0
+    d: Decimal = Decimal(0)
     dnd = NUM_FRACTION_RE.search(s)
     fs = FRACTION_PTN_RE.search(s)
     q = QUARTER_RE.search(s)
-    if q:  # convert quarters
-        s = QUARTER_RE.sub('', s)
+
+    # convert quarters
+    if q:
+        s: str = QUARTER_RE.sub('', s)
         nu = q.groups()[0]
         d = text2num(nu) / 4
-    elif dnd:  # if text has fraction like 1/33 or 87/100 or 1/100
+
+    # if text has a fraction, like 1/33 or 87/100 or 1/100
+    elif dnd:
         dn, dd = dnd.groups()
         if dn.isdigit():
-            d = int(dn) / int(dd)
-        s = NUM_FRACTION_SUB_RE.sub('', s)
-    elif fs and search_fraction:  # extract written fractions
+            d: Decimal = Decimal(dn) / Decimal(dd)
+        s: str = NUM_FRACTION_SUB_RE.sub('', s)
+
+    # extract written fractions
+    elif fs and search_fraction:
         try:
-            s = FRACTION_PTN_RE.sub('', s)
+            s: str = FRACTION_PTN_RE.sub('', s)
             fe = fs.group(0)
             fn, fd = FRACTION_EXTRACT_PTN_RE.search(fe).groups()
             fn = text2num(fn, search_fraction=False)
@@ -219,35 +241,35 @@ def text2num(s, search_fraction=True):
             pass
 
     # process
-    a = s.split()
+    s_split: List[str] = s.split()
 
-    x1 = 0
-    for w in a:
-        if w in ['a', 'and']:
+    x1: int = 0
+    for token in s_split:
+        if token in ('a', 'and'):
             continue
-        x = SMALL_NUMBERS_MAP.get(w, None)
+        x: int = SMALL_NUMBERS_MAP.get(token, None)
         if x is not None:
-            g += x
-        elif 'hundred' in w and g != 0:
-            g *= 100
-        elif w == 'dozen' and g != 0:
-            g *= 12
-        elif w == 'half':
+            prefix += x
+        elif 'hundred' in token and prefix != 0:
+            prefix *= 100
+        elif token == 'dozen' and prefix != 0:
+            prefix *= 12
+        elif token == 'half':
             if x1:
-                g += x1 * .5
+                prefix += (x1 * Decimal(0.5))
             else:
-                g += .5
+                prefix += Decimal(0.5)
         else:
-            x = x1 = MAGNITUDE_MAP.get(w, None)
+            x = x1 = MAGNITUDE_MAP.get(token, None)
             if x is not None:
-                n += g * x
-                g = 0
+                n += prefix * x
+                prefix = Decimal(0)
             else:
-                raise RuntimeError('Unknown number: ' + w)
-    return n + g + d
+                raise RuntimeError(f'Unknown number: {token}')
+    return Decimal(n + prefix + d)
 
 
-def get_np(text) -> Generator:
+def get_np(text) -> Generator[Tuple[str, str], None, None]:
     tokens = nltk.word_tokenize(text)
     pos_tokens = nltk.tag.pos_tag(tokens)
     chunks = chunker.parse(pos_tokens)
@@ -257,10 +279,27 @@ def get_np(text) -> Generator:
         yield np, _np
 
 
-def get_amounts(text: str,
-                return_sources=False,
-                extended_sources=True,
-                float_digits=4) -> Generator[float, None, None]:
+def quantize_by_float_digit(amount: Decimal, float_digits: int) -> Decimal:
+    amount_as_tuple: DecimalTuple = amount.as_tuple()
+    exponent: int = amount_as_tuple.exponent
+    abs_exponent: int = abs(exponent)
+    if abs_exponent == 0:
+        return amount.quantize(Decimal('0.0'))
+    elif abs_exponent > float_digits:
+        if any(amount_as_tuple.digits[exponent:]):
+            return amount.quantize(Decimal(f'0.{"0" * float_digits}'))
+        else:
+            return amount.quantize(Decimal('0.0'))
+    else:
+        return amount
+
+
+def get_amounts(
+    text: str,
+    return_sources: bool = False,
+    extended_sources: bool = True,
+    float_digits: int = 4,
+) -> Generator[Union[Decimal, Tuple[Decimal, str]], None, None]:
     """
     Find possible amount references in the text.
     :param text: text
@@ -269,17 +308,19 @@ def get_amounts(text: str,
     :param float_digits: round float to N digits, don't round if None
     :return: list of amounts
     """
-    for ant in get_amount_annotations(text, extended_sources, float_digits):  # type: AmountAnnotation
+    ant: AmountAnnotation
+    for ant in get_amount_annotations(text, extended_sources, float_digits):
         if return_sources:
-            yield (ant.value, ant.text)
+            yield ant.value, ant.text
         else:
             yield ant.value
 
 
-def get_amount_annotations(text: str,
-                           extended_sources=True,
-                           float_digits=4) \
-        -> Generator[AmountAnnotation, None, None]:
+def get_amount_annotations(
+    text: str,
+    extended_sources: bool = True,
+    float_digits: int = 4,
+) -> Generator[AmountAnnotation, None, None]:
     """
     Find possible amount references in the text.
     :param text: text
@@ -289,25 +330,29 @@ def get_amount_annotations(text: str,
     """
     for match in NUM_PTN_RE.finditer(text):
         found_item = match.group()
-        fract_tail_items = FRACTION_TAIL_RE.finditer(found_item)
-        for fract_tail in fract_tail_items:
-            fract_tail_smb = fract_tail.group().strip(' ')
-            if fract_tail_smb in fraction_smb_to_string:
-                fract_ending = fraction_smb_to_string[fract_tail_smb]
-                found_item = found_item[:fract_tail.span()[0]]
-                found_item += fract_ending
+        fraction_tail_items = FRACTION_TAIL_RE.finditer(found_item)
+        for fraction_tail in fraction_tail_items:
+            fraction_tail_smb = fraction_tail.group().strip(' ')
+            if fraction_tail_smb in fraction_smb_to_string:
+                fraction_ending = fraction_smb_to_string[fraction_tail_smb]
+                found_item = found_item[:fraction_tail.span()[0]]
+                found_item += fraction_ending
             break
 
         if AND_RE.fullmatch(found_item):
             continue
         try:
-            amount = text2num(found_item)
+            amount: Optional[Decimal] = text2num(found_item)
         except:
             continue
         if amount is None:
             continue
-        if isinstance(amount, float) and float_digits:
-            amount = round(amount, float_digits)
+
+        if float_digits:
+            amount: Decimal = quantize_by_float_digit(
+                amount=amount,
+                float_digits=float_digits
+            )
 
         if extended_sources:
             unit = ''
@@ -325,12 +370,14 @@ def get_amount_annotations(text: str,
                     sep = ' ' if text[match.span()[0] - 1] == ' ' else ''
                     found_item = sep.join([prev_text_tags[-1], found_item.rstrip()])
 
-            ant = AmountAnnotation(coords=match.span(),
-                                   value=amount,
-                                   text=found_item.strip())
-            yield ant
+            yield AmountAnnotation(
+                coords=match.span(),
+                value=amount,
+                text=found_item.strip()
+            )
         else:
-            ant = AmountAnnotation(coords=match.span(),
-                                   value=amount,
-                                   text=match.group())
-            yield ant
+            yield AmountAnnotation(
+                coords=match.span(),
+                value=amount,
+                text=match.group()
+            )

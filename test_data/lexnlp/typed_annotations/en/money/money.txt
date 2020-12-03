@@ -3,9 +3,9 @@ the amount is $5,000,000.00 or less
 total=1
 0)locale=en
 0)coords=(14, 28)
-0)amount=5000000.0
+0)amount=5000000.00
 0)currency=USD
-0)get_cite()=/en/money/5000000.0/USD
+0)get_cite()=/en/money/5000000.00/USD
 
 
 -------------------------------------------------------------------------------
@@ -13,10 +13,10 @@ Principal Amount:    20 Million Dollars ($20,000,000)
 -------------------------------------------------------------------------------
 total=2
 0)coords=(21, 40)
-0)amount=20000000.0
+0)amount=20000000.00
 0)currency=USD
 1)coords=(41, 53)
-1)amount=20000000.0
+1)amount=20000000.00
 1)currency=USD
 
 
@@ -50,7 +50,7 @@ to paragraph 7 below and expressed in euros per €1,000,000.
 -------------------------------------------------------------------------------
 total=1
 0)coords=(48, 60)
-0)amount=1000000.0
+0)amount=1000000.00
 0)currency=EUR
 
 
@@ -61,13 +61,13 @@ Swiss Francs, CHF1,000,000, in respect of Revolving Credit
 -------------------------------------------------------------------------------
 total=3
 0)coords=(40, 51)
-0)amount=1000000.0
+0)amount=1000000.00
 0)currency=USD
 1)coords=(116, 128)
-1)amount=1000000.0
+1)amount=1000000.00
 1)currency=GBP
 2)coords=(197, 211)
-2)amount=1000000.0
+2)amount=1000000.00
 2)currency=CHF
 
 
@@ -76,7 +76,7 @@ in the annual amount of RMB 200,000 (TWO HUNDRED THOUSAND CHINESE YUAN), payable
 -------------------------------------------------------------------------------
 total=2
 0)coords=(24, 36)
-0)amount=200000.0
+0)amount=200000.00
 0)currency=CNY
 1)coords=(36, 71)
 1)amount=200000
@@ -89,7 +89,7 @@ credit amounting to RMB 21 million only
 -------------------------------------------------------------------------------
 total=1
 0)coords=(20, 35)
-0)amount=21000000.0
+0)amount=21000000.00
 0)currency=CNY
 
 
@@ -102,7 +102,7 @@ total=2
 0)amount=50000
 0)currency=USD
 1)coords=(53, 64)
-1)amount=50000.0
+1)amount=50000.00
 1)currency=USD
 
 
@@ -163,7 +163,7 @@ test $12 K
 -------------------------------------------------------------------------------
 total=1
 0)coords=(5, 11)
-0)amount=12000.0
+0)amount=12000.00
 0)currency=USD
 
 
@@ -172,7 +172,7 @@ test $12,333 M
 -------------------------------------------------------------------------------
 total=1
 0)coords=(5, 15)
-0)amount=12333000000.0
+0)amount=12333000000.00
 0)currency=USD
 
 
@@ -181,7 +181,7 @@ test USD12,333 M
 -------------------------------------------------------------------------------
 total=1
 0)coords=(5, 17)
-0)amount=12333000000.0
+0)amount=12333000000.00
 0)currency=USD
 
 
@@ -190,7 +190,7 @@ test USD 12,333 M
 -------------------------------------------------------------------------------
 total=1
 0)coords=(5, 18)
-0)amount=12333000000.0
+0)amount=12333000000.00
 0)currency=USD
 
 
@@ -209,5 +209,5 @@ test cost about 500
 -------------------------------------------------------------------------------
 total=1
 0)coords=(4, 19)
-0)amount=500.0
+0)amount=500.00
 0)currency=USD
