@@ -89,8 +89,7 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'datefinder-lexpredict @ https://github.com/LexPredict/datefinder/archive/0.6.2.1.zip#egg=datefinder-0.6.2',
-        # 'datefinder-lexpredict==0.6.2',
+        'datefinder-lexpredict==0.6.2.1',
         'dateparser==0.7.2',
         'gensim==3.8.3',
         'joblib==0.14.0',
@@ -108,7 +107,7 @@ setup(
         'us==2.0.2'
     ],
     dependency_links=[
-        # 'git+https://github.com/LexPredict/datefinder/archive/0.6.2.1.zip'
+        'git+https://github.com/LexPredict/datefinder/archive/0.6.2.1.zip#egg=datefinder-lexpredict-0.6.2.1'
     ],
 
     # Install any data files from packages.
