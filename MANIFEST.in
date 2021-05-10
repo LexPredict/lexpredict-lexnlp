@@ -8,4 +8,4 @@ recursive-include lexnlp/extract/en/contracts/data *.part*
 recursive-include lexnlp *.csv
 recursive-include libs *
 recursive-include scripts *
-recursive-include docs *
+recursive-include documentation *
