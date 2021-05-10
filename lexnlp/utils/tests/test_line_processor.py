@@ -1,12 +1,12 @@
-from unittest import TestCase
-from lexnlp.utils.lines_processing.line_processor import LineProcessor, LineSplitParams
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+from unittest import TestCase
+from lexnlp.utils.lines_processing.line_processor import LineProcessor, LineSplitParams
 
 
 class TestLineProcessor(TestCase):
@@ -17,7 +17,7 @@ class TestLineProcessor(TestCase):
     Bb b
     c"""
         proc = LineProcessor()
-        lines = [line for line in proc.split_text_on_line_with_endings(text)]
+        lines = list(proc.split_text_on_line_with_endings(text))
         assert len(lines) == 3
 
     def test_line_processor_phrases(self):
@@ -30,7 +30,7 @@ As of some one gently rapping, rapping at my chamber door."""
         ptrs = LineSplitParams()
         ptrs.line_breaks = {'\n', '.', ';'}
         proc = LineProcessor(line_split_params=ptrs)
-        lines = [line for line in proc.split_text_on_line_with_endings(text)]
+        lines = list(proc.split_text_on_line_with_endings(text))
         assert len(lines) == 6
 
     def test_line_processor_phrases_de(self):
@@ -40,8 +40,8 @@ As of some one gently rapping, rapping at my chamber door."""
         ptrs = LineSplitParams()
         ptrs.line_breaks = {'\n', '.', ';'}
         proc = LineProcessor(line_split_params=ptrs)
-        lines = [line for line in proc.split_text_on_line_with_endings(text)]
-        assert len(lines) == 3 # plus one for an empty line
+        lines = list(proc.split_text_on_line_with_endings(text))
+        assert len(lines) == 3   # plus one for an empty line
 
     def test_split_text_on_words(self):
         text = " While I pounded, weak  and weary. Over "
@@ -59,13 +59,13 @@ As of some one gently rapping, rapping at my chamber door."""
         ptrs.line_breaks = {'\n', '.', ';'}
         proc = LineProcessor(line_split_params=ptrs)
 
-        lines = [line for line in proc.split_text_on_line_with_endings(text)]
+        lines = list(proc.split_text_on_line_with_endings(text))
         assert len(lines) == 3
 
         ptrs.abbreviations = {'nr.', 'abs.'}
         ptrs.abbr_ignore_case = True
         proc = LineProcessor(line_split_params=ptrs)
-        lines = [line for line in proc.split_text_on_line_with_endings(text)]
+        lines = list(proc.split_text_on_line_with_endings(text))
         assert len(lines) == 2
 
     def test_check_phrase_starts_with_phrase(self):

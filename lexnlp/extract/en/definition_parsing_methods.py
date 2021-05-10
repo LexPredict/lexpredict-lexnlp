@@ -6,12 +6,18 @@ Todo:
   * Improved unit tests and case coverage
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # pylint: disable=broad-except,bare-except
 
 
-# Imports
 import regex as re
-import unidecode as unidecode
+import unidecode
 from collections import Counter
 from typing import Pattern, List, Tuple, Set
 
@@ -23,13 +29,6 @@ from lexnlp.extract.common.special_characters import SpecialCharacters
 from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
 from lexnlp.utils.lines_processing.line_processor import LineProcessor
 from lexnlp.utils.iterating_helpers import count_sequence_matches
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class DefinitionCaught:
@@ -338,7 +337,7 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
 
         for definition, s, e in split_definitions_lst:
             definition, s, e = TextBeautifier.strip_pair_symbols((definition, s, e))
-            definitions.append(DefinitionCaught(definition, sentence, (s, e,)))
+            definitions.append(DefinitionCaught(definition, sentence, (s, e)))
 
     return definitions
 
@@ -371,9 +370,9 @@ def split_definitions_inside_term(term: str,
         src_text, matches, term_start - src_start, term_end - src_start)
 
     if len(match_coords) < len(matches):
-        return [(term, term_start, term_end,)]
+        return [(term, term_start, term_end)]
 
-    match_coords = [(m[0], m[1] + src_start, m[2] + src_start, ) for m in match_coords]
+    match_coords = [(m[0], m[1] + src_start, m[2] + src_start) for m in match_coords]
 
     return match_coords
 
@@ -431,8 +430,6 @@ def trim_defined_term(term: str, start: int, end: int) -> \
         term, start, end = TextBeautifier.lstrip_string_coords(
             term, start, end, '.')
 
-
-
     return term, start, end, was_quoted
 
 
@@ -441,8 +438,7 @@ def filter_definitions_for_self_repeating(definitions: List[DefinitionCaught]) -
     :param definitions:
     :return: excludes definitions that are "overlapped", leaves unique definitions only
     """
-    for i in range(0, len(definitions)):
-        a = definitions[i]
+    for i, a in enumerate(definitions):
         if not a.name:
             continue
         for j in range(i + 1, len(definitions)):

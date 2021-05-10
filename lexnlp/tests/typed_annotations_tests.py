@@ -1,23 +1,22 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import ast
 import codecs
 import os
 import types
 import regex as re
-from collections import OrderedDict
-
-from typing import Callable, Type, List, Any, Tuple, Union
 from ast import literal_eval as make_tuple
-
-from lexnlp.extract.common.base_path import lexnlp_test_path
-from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+from collections import OrderedDict
 from datetime import date, datetime
+from typing import Callable, Type, List, Any, Tuple, Union
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
+from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
+from lexnlp.extract.common.base_path import lexnlp_test_path
 
 
 class TypedAntTestCase:
@@ -73,7 +72,7 @@ class TypedFieldCheck:
         self.path = path or []  # checking value's path
         self.value = value  # value to compare
         self.comparison = comparison  # comparing operation
-        self.compare_equal = self.comparison in { '=', '<=', '>=' }
+        self.compare_equal = self.comparison in ('=', '<=', '>=')
         self.compare_not_equal = self.comparison == '!='
         self.last_error = None
 

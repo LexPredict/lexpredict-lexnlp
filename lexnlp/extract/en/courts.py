@@ -7,10 +7,18 @@ Todo:
   * Add utilities for loading court data
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # pylint: disable=unused-argument
 
 from typing import List, Tuple, Generator, Any
 
+from lexnlp.extract.all_locales.languages import LANG_EN
 from lexnlp.extract.common.base_path import lexnlp_base_path
 from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.extract.en.dict_entities import find_dict_entities, conflicts_take_first_by_id, DictionaryEntry, \
@@ -23,19 +31,13 @@ from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, 
 from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
 from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
-
 
 def get_courts(text: str,
                court_config_list: List[DictionaryEntry],
                priority: bool = False,
                text_languages: List[str] = None,
-               simplified_normalization: bool = False) -> Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
+               simplified_normalization: bool = False) -> \
+        Generator[Tuple[DictionaryEntry, DictionaryEntryAlias], Any, Any]:
     """
     Searches for courts from the provided config list and yields tuples of (court_config, court_alias).
     Court config is: (court_id, court_name, [list of aliases])
@@ -47,7 +49,6 @@ def get_courts(text: str,
     :param text:
     :param court_config_list: List list of all possible known courts in the form of tuples:
      (id, name, [(alias, lang, is_abbrev], ...).
-    :param return_source:
     :param priority: If two courts found with the totally equal matching aliases - then use the one with the lowest id.
     :param text_languages: Language(s) of the source text. If a language is specified then only aliases of this
     language will be searched for. For example: this allows ignoring "Island" - a German language
@@ -55,7 +56,9 @@ def get_courts(text: str,
     :param simplified_normalization: don't use NLTK for just "normalizing" the text
     :return: Generates tuples: (court entity, court alias)
     """
-    for ent in find_dict_entities(text, court_config_list,
+    for ent in find_dict_entities(text,
+                                  court_config_list,
+                                  default_language=LANG_EN.code,
                                   conflict_resolving_func=conflicts_take_first_by_id if priority else None,
                                   text_languages=text_languages,
                                   simplified_normalization=simplified_normalization):

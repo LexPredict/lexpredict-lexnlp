@@ -12,6 +12,13 @@ Todo:
     * More pathological and difficult cases
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # Imports
 from unittest import TestCase
 from typing import List, Tuple
@@ -24,13 +31,6 @@ import string
 from lexnlp.extract.en.dates import get_dates_list, get_date_features, \
     get_raw_date_list, train_default_model
 from lexnlp.tests import lexnlp_tests
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 EXAMPLE_TEXT_1 = """Dear Jerry:

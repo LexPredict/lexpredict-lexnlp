@@ -5,19 +5,20 @@
 
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from unittest import TestCase
 
+from lexnlp.extract.all_locales.languages import LANG_EN
 from lexnlp.extract.en.dict_entities import find_dict_entities, \
     normalize_text, prepare_alias_banlist_dict, alias_is_banlisted, DictionaryEntry, DictionaryEntryAlias, \
     AliasBanRecord, normalize_text_with_map, reverse_src_to_dest_map
 from lexnlp.tests import lexnlp_tests
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestDictEntities(TestCase):
@@ -25,7 +26,9 @@ class TestDictEntities(TestCase):
         some_entity = DictionaryEntry(1, 'Some Entity', aliases=[DictionaryEntryAlias('Something')])
         text = 'Some Entity should be found in this text.'
 
-        enities = list(find_dict_entities(text, all_possible_entities=[some_entity]))
+        enities = list(find_dict_entities(text,
+                                          all_possible_entities=[some_entity],
+                                          default_language=LANG_EN.code))
         self.assertEqual(1, len(enities))
         _ent, alias = enities[0].entity
         self.assertEqual('Some Entity', alias.alias)
@@ -38,7 +41,9 @@ class TestDictEntities(TestCase):
 
         text = '"Some Entity One" should be found in this text and "Someee Entityyy" should be ignored.'
 
-        parsed_enitities = list(find_dict_entities(text, all_possible_entities=entities))
+        parsed_enitities = list(find_dict_entities(text,
+                                                   all_possible_entities=entities,
+                                                   default_language=LANG_EN.code))
         self.assertEqual(1, len(parsed_enitities))
         _ent, alias = parsed_enitities[0].entity
         self.assertEqual('Some Entity One', alias.alias)
@@ -54,7 +59,8 @@ class TestDictEntities(TestCase):
                'Shorter match - "Someeee Entityyy" should be taken instead.'
 
         parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, text_languages=['de']))
+            text, all_possible_entities=entities, text_languages=['de'],
+            default_language=LANG_EN.code))
         self.assertEqual(1, len(parsed_enitities))
         _ent, alias = parsed_enitities[0].entity
         self.assertEqual('Some Entity', alias.alias)
@@ -64,8 +70,6 @@ class TestDictEntities(TestCase):
                                       aliases=[DictionaryEntryAlias('MS', is_abbreviation=True, language='en'),
                                                DictionaryEntryAlias('Mississippi', language='de'),
                                                DictionaryEntryAlias('Mississippi', language='en')])
-
-
 
         montserrat = DictionaryEntry(2, 'Montserrat',
                                      aliases=[DictionaryEntryAlias('MS', is_abbreviation=True, language='en'),
@@ -77,12 +81,14 @@ class TestDictEntities(TestCase):
                                           DictionaryEntryAlias('Canada', language='en')])
         entities = [mississippi, montserrat, canada]
 
-        text = '"MS" here can mean either "MMMississippi" or "MMMontserrat" because they have equal aliases in English. ' \
+        text = '"MS" here can mean either "MMMississippi" or "MMMontserrat" because ' \
+               'they have equal aliases in English. ' \
                'This test is here because in one version of the code alias texts were required to be unique. ' \
                '"CCCanada" (can) should not be detected because word "can" is in lowercase here.'
 
         parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, text_languages=['en']))
+            text, default_language=LANG_EN.code,
+            all_possible_entities=entities, text_languages=['en']))
         self.assertEqual(2, len(parsed_enitities))
         _ent, alias = parsed_enitities[0].entity
         self.assertEqual('MS', alias.alias)
@@ -95,19 +101,22 @@ class TestDictEntities(TestCase):
         some_entity1 = DictionaryEntry(2, 'ISAbbrev', aliases=[DictionaryEntryAlias('IS', is_abbreviation=True)])
         entities = [some_entity, some_entity1]
 
-        text = '"IT\'s" entity should be detected even with "\'s" because tokenizer takes care of this kind of things. ' \
+        text = '"IT\'s" entity should be detected even with "\'s" because ' \
+               'tokenizer takes care of this kind of things. ' \
                '"ISS" entity should not be detected - bacause "is" word' \
                ' is in lowercase here and probably does not mean an abbreviation.'
 
         parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, text_languages=['ge'],
+            text, default_language=LANG_EN.code,
+            all_possible_entities=entities, text_languages=['ge'],
             simplified_normalization=False))
         self.assertEqual(1, len(parsed_enitities))
         _ent, alias = parsed_enitities[0].entity
         self.assertEqual('IT', alias.alias)
 
         simply_parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, text_languages=['ge'],
+            text, default_language=LANG_EN.code,
+            all_possible_entities=entities, text_languages=['ge'],
             simplified_normalization=True))
         self.assertEqual(len(parsed_enitities), len(simply_parsed_enitities))
         _ent, simply_alias = parsed_enitities[0].entity
@@ -126,16 +135,19 @@ class TestDictEntities(TestCase):
             entities = [am, pm]
             ents = list(find_dict_entities(
                 'It is 11:00 AM or 11:00 PM now.',
+                default_language=LANG_EN.code,
                 all_possible_entities=entities, simplified_normalization=parse_mode))
             self.assertEqual(0, len(ents))
 
             ents = list(find_dict_entities('It is 11:00am now in (AM). Hello!',
+                                           default_language=LANG_EN.code,
                                            all_possible_entities=entities,
                                            simplified_normalization=parse_mode))
             self.assertEqual(1, len(ents))
             self.assertEqual('America', ents[0].entity[0].name)
 
             ents = list(find_dict_entities('It is 11:00am now.',
+                                           default_language=LANG_EN.code,
                                            all_possible_entities=entities,
                                            simplified_normalization=parse_mode))
             self.assertEqual(0, len(ents))
@@ -151,12 +163,15 @@ class TestDictEntities(TestCase):
 
             entities = [table, man, masloboyka]
 
-            text = 'We should detect the singular number of word "tables" here - the stemmer takes care of plural case. ' \
+            text = 'We should detect the singular number of word "tables" ' \
+                   'here - the stemmer takes care of plural case. ' \
                    'Unfortunately our stemmer is not able to convert word "men" to singular number yet :(. ' \
                    'But it works for word "masloboykas" - a non existing word in English in plural case.'
 
             parsed_enitities = list(find_dict_entities(
-                text, all_possible_entities=entities, use_stemmer=True,
+                text,
+                default_language=LANG_EN.code,
+                all_possible_entities=entities, use_stemmer=True,
                 simplified_normalization=parse_mode))
             self.assertEqual(2, len(parsed_enitities))
 
@@ -173,7 +188,9 @@ class TestDictEntities(TestCase):
         text = 'Can we catch some K.A.B.A.N.s?'
 
         parsed_enitities = list(find_dict_entities(
-            text, all_possible_entities=entities, use_stemmer=True,
+            text,
+            default_language=LANG_EN.code,
+            all_possible_entities=entities, use_stemmer=True,
             simplified_normalization=False))
         self.assertEqual(1, len(parsed_enitities))
 
@@ -181,8 +198,8 @@ class TestDictEntities(TestCase):
         self.assertEqual('K.A.B.A. N.', alias.alias)
 
     def test_normalize_text(self):
-        lexnlp_tests.test_extraction_func_on_test_data(normalize_text,
-                                                       actual_data_converter=lambda text: (text,), debug_print=True)
+        lexnlp_tests.test_extraction_func_on_test_data(
+            normalize_text, actual_data_converter=lambda text: (text,), debug_print=True)
 
     def test_prepare_alias_banlist_dict(self):
         src = [AliasBanRecord('Alias1', 'lang1', False),
@@ -213,7 +230,7 @@ class TestDictEntities(TestCase):
         am = DictionaryEntry(1, 'America',
                              aliases=[DictionaryEntryAlias('AM', is_abbreviation=True)], name_is_alias=False)
 
-        res = list(find_dict_entities(text, [am]))
+        res = list(find_dict_entities(text, [am], default_language=LANG_EN.code))
         self.assertFalse(res)
 
     def test_normalize_text_with_map(self):

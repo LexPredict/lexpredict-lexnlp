@@ -5,21 +5,21 @@ This module implements token parsing, such as tokens, stems, and lemma tokenizat
 Todo:
 """
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import os
 import pickle
-from typing import List, Generator
+from typing import List, Generator, Any
+import regex as re
 
 # NLTK imports
 import nltk
 from nltk.corpus import wordnet
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -40,6 +40,9 @@ DEFAULT_STEMMER = nltk.stem.snowball.EnglishStemmer()
 # Setup lemmatizers for English
 DEFAULT_LEMMATIZER = nltk.stem.wordnet.WordNetLemmatizer()
 
+# REG_WORD_TOKENIZER = re.compile(r'\s+|(\()|(\))|(\[)|(\])|(\{)|(\})')
+REG_WORD_TOKENIZER = re.compile(r'(\W)')
+
 
 def get_wordnet_pos(treebank_tag):
     """
@@ -49,17 +52,32 @@ def get_wordnet_pos(treebank_tag):
     """
     if treebank_tag.startswith('J'):
         return wordnet.ADJ
-    elif treebank_tag.startswith('V'):
+    if treebank_tag.startswith('V'):
         return wordnet.VERB
-    elif treebank_tag.startswith('N'):
+    if treebank_tag.startswith('N'):
         return wordnet.NOUN
-    elif treebank_tag.startswith('R'):
+    if treebank_tag.startswith('R'):
         return wordnet.ADV
-    else:
-        return None
 
 
-def get_tokens(text, lowercase=False, stopword=False, preserve_line=True) -> Generator:
+def get_tokens_by_regex(text: str,
+                        lowercase=False,
+                        preserve_line=True) -> Generator[str, Any, Any]:
+    if lowercase:
+        text = text.lower()
+    tokens = REG_WORD_TOKENIZER.split(text)
+    for token in tokens:
+        wrd = token.strip()
+        if not wrd:
+            continue
+        if not preserve_line:
+            wrd = wrd.strip('.')
+            if not wrd:
+                continue
+        yield wrd
+
+
+def get_tokens(text: str, lowercase=False, stopword=False, preserve_line=True) -> Generator[str, Any, Any]:
     """
     Get token generator from text.
     :param text:

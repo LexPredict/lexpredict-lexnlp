@@ -1,20 +1,22 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from abc import abstractmethod
 from typing import Optional, Tuple, Union, List, Any, Generator
 import string
+
 import num2words
 import numpy
 import pandas
+import sklearn.ensemble
 
 from lexnlp.extract.ml.classifier.base_token_sequence_classifier_model import BaseTokenSequenceClassifierModel
 from lexnlp.extract.ml.detector.detecting_settings import DetectingSettings
 from lexnlp.extract.ml.detector.phrase_constructor import PhraseConstructorSettings, PhraseConstructor
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class ArtifactDetector:
@@ -35,8 +37,7 @@ class ArtifactDetector:
                 size_limit: int = 0) -> Tuple[numpy.ndarray, numpy.ndarray]:
         if size_limit:
             sample_df = sample_df.head(size_limit)
-        test_feature_data, test_target_data = \
-            self.process_sample(sample_df, build_target_data=True, )
+        test_feature_data, test_target_data = self.process_sample(sample_df, build_target_data=True)
         test_predicted = self.model.model.predict(test_feature_data)
         return test_predicted, test_target_data
 
@@ -99,15 +100,11 @@ class ArtifactDetector:
 
         # build feature and target training sample
         train_feature_data, train_target_data = self.process_sample(
-            train_sample_df, build_target_data=True, )
+            train_sample_df, build_target_data=True)
         # initialize sklearn model based on request
         if settings.model_type == 'extra_trees':
-            import sklearn.ensemble
-
             model = sklearn.ensemble.ExtraTreesClassifier(class_weight="balanced")
         elif settings.model_type == 'random_forest':
-            import sklearn.ensemble
-
             model = sklearn.ensemble.RandomForestClassifier(class_weight="balanced")
         # train
         self.model.train_model(model, train_feature_data, train_target_data)

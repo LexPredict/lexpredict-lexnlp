@@ -5,57 +5,56 @@
 Multi-language unit tests for Dates.
 """
 
-# Project imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import datetime
 from unittest import TestCase
 
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
-from lexnlp.extract.es.dates import get_date_list, get_date_annotations
+from lexnlp.extract.es.dates import get_date_annotations
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
-
-
-def _sort(v):
-    return sorted(v, key=lambda i: i['location_start'])
 
 
 class TestParseEsDates(TestCase):
     def test_es_dates(self):
-        text = """Some dummy sample with Spanish date like 15 de febrero, 28 de abril y 17 de noviembre de 1995, 1ºde enero de 1999 """
-        extracted_dates = _sort(get_date_list(text=text, language='es'))
-        expected_dates = _sort([{'location_start': 41,
-                                 'location_end': 54,
-                                 'value': datetime.datetime(1995, 2, 15, 0, 0),
-                                 'source': '15 de febrero'},
-                                {'location_start': 70,
-                                 'location_end': 93,
-                                 'value': datetime.datetime(1995, 11, 17, 0, 0),
-                                 'source': '17 de noviembre de 1995'},
-                                {'location_start': 56,
-                                 'location_end': 67,
-                                 'value': datetime.datetime(1995, 4, 28, 0, 0),
-                                 'source': '28 de abril'},
-                                {'location_start': 95,
-                                 'location_end': 113,
-                                 'value': datetime.datetime(1999, 1, 1, 0, 0),
-                                 'source': '1ºde enero de 1999'}])
-        self.assertEqual(expected_dates, extracted_dates)
-
-        ants = list(get_date_annotations(text=text, language='es'))
+        text = "Some dummy sample with Spanish date like 15 de febrero, " + \
+               "28 de abril y 17 de noviembre de 1995, 1ºde enero de 1999 "
+        ants = list(get_date_annotations(text=text))
+        self.assertEqual(4, len(ants))
+        ants.sort(key=lambda ant: ant.coords[0])
         self.assertEqual(4, len(ants))
 
-    def test_annotations(self):
+        a = ants[0]
+        self.assertEqual((41, 54), a.coords)
+        self.assertEqual(datetime.datetime(1995, 2, 15, 0, 0), a.date)
+        self.assertEqual('15 de febrero', a.text)
+
+        a = ants[1]
+        self.assertEqual((56, 67), a.coords)
+        self.assertEqual(datetime.datetime(1995, 4, 28, 0, 0), a.date)
+        self.assertEqual('28 de abril', a.text)
+
+        a = ants[2]
+        self.assertEqual((70, 93), a.coords)
+        self.assertEqual(datetime.datetime(1995, 11, 17, 0, 0), a.date)
+        self.assertEqual('17 de noviembre de 1995', a.text)
+
+        a = ants[3]
+        self.assertEqual((95, 113), a.coords)
+        self.assertEqual(datetime.datetime(1999, 1, 1, 0, 0), a.date)
+        self.assertEqual('1ºde enero de 1999', a.text)
+
+    def test_more_dates(self):
         text = "Some dummy sample with Spanish date like 15 de febrero, 28 " +\
                "de abril y 17 de noviembre de 1995, 1ºde enero de 1999 "
-        ants = list(get_date_annotations(text=text, language='es'))
+        ants = list(get_date_annotations(text=text))
         self.assertEqual(4, len(ants))
-        ants.sort(key=lambda d:d.coords[0])
+        ants.sort(key=lambda ant: ant.coords[0])
 
         self.assertEqual((41, 54), ants[0].coords)
         self.assertEqual((56, 67), ants[1].coords)

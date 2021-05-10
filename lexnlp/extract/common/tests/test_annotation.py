@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from datetime import date
 from unittest import TestCase
 
@@ -17,13 +24,6 @@ from lexnlp.extract.common.annotations.cusip_annotation import CusipAnnotation
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
 from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestAnnotation(TestCase):
@@ -208,7 +208,7 @@ class TestAnnotation(TestCase):
         ant = RatioAnnotation(coords=(2, 20),
                               left=11,
                               right=2,
-                              ratio=11/2.0)
+                              ratio=11 / 2.0)
         self.assertEqual('en', ant.locale)
         cite = ant.get_cite()
         self.assertEqual('/en/ratio/11/2', cite)

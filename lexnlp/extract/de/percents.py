@@ -1,15 +1,15 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import regex as re
 from typing import Generator
 from decimal import Decimal
 from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotation
 from lexnlp.extract.de.amounts import AmountParserDE
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 amounts_parser = AmountParserDE()
@@ -63,8 +63,7 @@ def get_percent_annotations(
         amount = list(get_amounts(amount_text, float_digits=float_digits))
         if len(amount) != 1:
             continue
-        else:
-            amount = amount[0]
+        amount = amount[0]
         if 'prozent' in unit_name.lower():
             unit_name = 'prozent'
         real_amount = PERCENT_UNITS_MAP.get(unit_name, Decimal(0)) * amount

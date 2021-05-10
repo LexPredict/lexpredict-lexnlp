@@ -1,16 +1,16 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import datetime
 from unittest import TestCase
 
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.en.dates import get_raw_date_list, get_dates_list, get_date_annotations
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestDatesPlain(TestCase):
@@ -150,6 +150,33 @@ class TestDatesPlain(TestCase):
         dates = list(get_dates_list(text, strict=True))
         self.assertEqual(1, len(dates))
         self.assertEqual(datetime.datetime(2019, 5, 29, 13, 50, 0), dates[0])
+
+    def test_date_en_us(self):
+        text = 'Commencement Date: 09/12/2022.'
+        dates = get_dates_list(text)
+        self.assertEqual(1, len(dates))
+        self.assertEqual(9, dates[0].month)
+
+    def test_date_en_gb(self):
+        text = 'Commencement Date: 09/12/2022.'
+        dates = get_dates_list(text, locale='en-GB')
+        self.assertEqual(1, len(dates))
+        self.assertEqual(12, dates[0].month)
+
+    def test_en_dates(self):
+        text = "Some date like February 26, 2018 and this one 10-11-2017"
+        extracted_dates = list(get_date_annotations(text=text, locale='en'))
+        for ant in extracted_dates:
+            ant.text = text[ant.coords[0]: ant.coords[1]]
+        extracted_dates.sort(key=lambda k: k.coords[0])
+
+        self.assertEqual((14, 33), extracted_dates[0].coords)
+        self.assertEqual(datetime.date(2018, 2, 26), extracted_dates[0].date)
+        self.assertEqual('February 26, 2018', extracted_dates[0].text.strip())
+
+        self.assertEqual((45, 56), extracted_dates[1].coords)
+        self.assertEqual(datetime.date(2017, 10, 11), extracted_dates[1].date)
+        self.assertEqual('10-11-2017', extracted_dates[1].text.strip())
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

@@ -1,9 +1,11 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+import numbers
 
 
 def values_look_equal(a, b) -> bool:
@@ -13,7 +15,6 @@ def values_look_equal(a, b) -> bool:
     if (isinstance(a, str) and not a and not b) or (isinstance(b, str) and not b and not a):
         return True
 
-    import numbers
     if isinstance(a, numbers.Number) and isinstance(b, numbers.Number):
         a = float(a)
         b = float(b)

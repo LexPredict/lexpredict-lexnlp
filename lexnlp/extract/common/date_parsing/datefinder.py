@@ -1,15 +1,20 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import copy
 import logging
+
+import dateparser
 import regex as re
 from dateutil import tz, parser
 from typing import Tuple, List, Dict
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
+
+from lexnlp.extract.all_locales.languages import Locale
 
 
 logger = logging.getLogger('datefinder')
@@ -39,7 +44,7 @@ class DateFragment:
         return sum([1 if len(self.captures[m]) > 0 else 0 for m in self.captures])
 
 
-class DateFinder(object):
+class DateFinder:
     """
     Locates dates in a text
     """
@@ -340,19 +345,52 @@ class DateFinder(object):
                 returnables = returnables[0]
             yield returnables
 
-    def parse_date_string(self, date_string, captures):
-        # For well formatted string, we can already let dateutils parse them
+    def parse_date_string(self,
+                          date_string: str,
+                          captures: Dict[str, List],
+                          locale: Locale):
+        # For well formatted string, we can already let dateparser parse them
         # otherwise self._find_and_replace method might corrupt them
-        try:
-            as_dt = parser.parse(date_string, default=self.base_date)
-        except ValueError:
+        was_raised_error = False
+        as_dt = None
+
+        if not locale:
+            try:
+                as_dt = dateparser.parse(date_string,
+                                         settings={'RELATIVE_BASE': self.base_date})
+                # Dateparser has issues with time when parsing something like `29MAY19 1350`
+                as_dateutil = parser.parse(date_string, default=self.base_date)
+                if as_dt != as_dateutil:
+                    as_dt = as_dateutil
+            except ValueError:
+                was_raised_error = True
+        else:
+            try:
+                print(date_string, self.base_date, type(locale))
+                as_dt = dateparser.parse(date_string,
+                                         settings={'RELATIVE_BASE': self.base_date},
+                                         locales=[locale.get_locale()])
+            except ValueError:
+                was_raised_error = True
+
+        # Try to parse date using only language
+        if was_raised_error:
+            try:
+                as_dt = dateparser.parse(date_string,
+                                         settings={'RELATIVE_BASE': self.base_date},
+                                         languages=[locale.language])
+                was_raised_error = False
+            except ValueError:
+                pass
+
+        if was_raised_error:
             # replace tokens that are problematic for dateutil
             date_string, tz_string = self._find_and_replace(date_string, captures)
 
-            ## One last sweep after removing
+            # One last sweep after removing
             date_string = date_string.strip(self.STRIP_CHARS)
-            ## Match strings must be at least 3 characters long
-            ## < 3 tends to be garbage
+            # Match strings must be at least 3 characters long
+            # < 3 tends to be garbage
             if len(date_string) < 3:
                 return None
 

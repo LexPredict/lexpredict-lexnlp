@@ -1,4 +1,4 @@
-"Text","input_text_languages","input_priority_bool","Geo Entity"
+"Text","input_text_languages","input_conflict_resolving_field_str","Geo Entity"
 "One Iceland two.","en",,"Iceland"
 "One Island two.","en",,
 "One Island two.",,,"Iceland"
@@ -6,9 +6,6 @@
 ,,,"Montserrat"
 "Hello!!!!Mississippi!!!(US)!!!","en",,"Mississippi"
 ,,,"United States"
-"MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict resolving is enabled and it should detect MS as the entity having the first id in config (geoaliases.csv, entity_id). And this is Monserrat.",,"TRUE","Mississippi"
-"Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best.",,"TRUE",
-"NEITHER AM NOR IN AND OR SHOULD NOT BE DETECTED HERE",,"TRUE",
 "AM, IN and OR should be detected here",,,"Armenia"
 ,,,"Oregon"
 ,,,"Indiana"
@@ -22,3 +19,6 @@ LESSOR AND LESSEE HAVE CAREFULLY READ AND REVIEWED THIS LEASE AND EACH TERM AND 
 ,,,
 "AAnnddoorraa should be detected here because of AND in uppercase having lowercase letters within -20:+20 range around it. 
 There should be actually three AAnnddoorrraass - AND AND.",,,"Andorra"
+"NEITHER AM NOR IN AND OR SHOULD NOT BE DETECTED HERE",,"priority",
+"MS abbrev can be either MMMississippi or MMMonserrat. But for this test conflict resolving is enabled and it should detect MS as the entity having the first id in config (geoaliases.csv, entity_id). And this is Monserrat.",,"priority","Mississippi"
+"Community of Mmaaddrid should not be detected for single letter Mm especially in name A.M. Best.",,"priority",

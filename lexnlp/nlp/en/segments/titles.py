@@ -4,27 +4,28 @@ This module implements title segmentation/location in English using simple
 machine learning classifiers.
 """
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import os
 import string
 from typing import Generator
 
 # Packages
-import pandas
-import sklearn.ensemble
 import joblib
+import numpy
+import pandas
+import requests
+import sklearn.ensemble
 
 # Project
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 from lexnlp.utils.decorators import safe_failure
 from lexnlp.utils.unicode.unicode_lookup import UNICODE_CHAR_TOP_CATEGORY_MAPPING
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 # Setup module path
@@ -123,7 +124,7 @@ def build_title_features(lines, line_id, line_window_pre, line_window_post, char
     return feature_vector
 
 
-def build_document_title_features(text, window_pre=3, window_post=3):
+def build_document_title_features(text: str, window_pre=3, window_post=3):
     """
     Get a document title given file text.
     """
@@ -138,7 +139,13 @@ def build_document_title_features(text, window_pre=3, window_post=3):
         feature_data.append(build_title_features(lines, line_id, window_pre, window_post, include_doc=doc_distribution))
 
     # Get feature DF
-    feature_df = pandas.DataFrame(feature_data).fillna(-1).astype(int)
+    data_keys = set()
+    for row in feature_data:
+        for key in row:
+            data_keys.add(key)
+    columns = list(data_keys)
+    columns.sort()
+    feature_df = pandas.DataFrame(feature_data, columns=columns).fillna(-1).astype(int)
     return feature_df
 
 
@@ -149,8 +156,6 @@ def build_model(training_file_path):
     :param training_file_path:
     :return:
     """
-    import requests
-    import numpy
 
     # Read title training data
     training_data = pandas.read_csv(training_file_path, encoding="utf-8", low_memory=False)
@@ -232,10 +237,10 @@ def get_titles(text, window_pre=3, window_post=3, score_threshold=0.5) -> Genera
 
         # Iterate through lines
         title = ""
-        for i in range(len(lines)):
+        for i, line in enumerate(lines):
             if i in title_lines:
-                title += lines[i] + " "
-            elif len(lines[i].strip()) == 0:
+                title += line + " "
+            elif len(line.strip()) == 0:
                 continue
             else:
                 if len(title) > 0:

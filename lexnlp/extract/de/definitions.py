@@ -1,20 +1,20 @@
 # pylint: disable=unused-argument
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import re
-from typing import List, Generator
+from typing import List, Generator, Optional
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.common.definitions.common_definition_patterns import CommonDefinitionPatterns
 from lexnlp.extract.common.definitions.universal_definition_parser import UniversalDefinitionsParser
 from lexnlp.extract.common.pattern_found import PatternFound
 from lexnlp.extract.de.language_tokens import DeLanguageTokens
 from lexnlp.utils.lines_processing.line_processor import LineSplitParams
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class DeutscheParsingMethods:
@@ -83,14 +83,16 @@ def make_de_definitions_parser():
                  DeutscheParsingMethods.match_im_sinne]
 
     p = UniversalDefinitionsParser(functions, split_params)
-    p.prohibited_words = {w for w in DeLanguageTokens.articles + DeLanguageTokens.conjunctions}
+    p.prohibited_words = set(DeLanguageTokens.articles + DeLanguageTokens.conjunctions)
     return p
 
 
 parser = make_de_definitions_parser()
 
 
-def get_definition_annotations(text: str, language=None) -> Generator[DefinitionAnnotation, None, None]:
+def get_definition_annotations(text: str,
+                               language: Optional[str] = None,
+                               **_kwargs) -> Generator[DefinitionAnnotation, None, None]:
     dfs = parser.parse(text, language if language else 'de')
     for d in dfs:
         yield d

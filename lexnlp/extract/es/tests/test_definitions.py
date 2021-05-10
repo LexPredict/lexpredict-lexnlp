@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from unittest import TestCase
 
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
@@ -5,13 +12,6 @@ from lexnlp.extract.common.tests.definitions_text_annotator import annotate_defi
 from lexnlp.extract.es.definitions import make_es_definitions_parser, get_definition_list, get_definition_annotations
 from lexnlp.tests.utility_for_testing import load_resource_document
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestParseSpanishDefinitions(TestCase):
@@ -63,7 +63,7 @@ class TestParseSpanishDefinitions(TestCase):
         ret = parser.parse(text)
         self.assertEqual(1, len(ret))
 
-        text = "Ella está muerta. " # too few words after 'está'
+        text = "Ella está muerta. "    # too few words after 'está'
         ret = parser.parse(text)
         self.assertEqual(0, len(ret))
 

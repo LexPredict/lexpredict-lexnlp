@@ -1,21 +1,21 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import gzip
 import os
 import pickle
 from abc import abstractmethod
 from typing import Any, Tuple, Generator, List
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
-
 
 MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
 
 
-class BaseTokenSequenceClassifierModel(object):
+class BaseTokenSequenceClassifierModel:
     """
     Base classifier class for generic text sequence objects.
     """
@@ -66,7 +66,7 @@ class BaseTokenSequenceClassifierModel(object):
         self.feature_list = self.get_feature_list(self.letter_set, self.digit_set,
                                                   self.punc_set, self.symbol_set,
                                                   self.pre_window, self.post_window)
-        self._feature_index_map = dict([(f, i) for i, f in enumerate(self.feature_list)])
+        self._feature_index_map = {f: i for i, f in enumerate(self.feature_list)}
         self._base_feature_list = [f[2:] for f in self.feature_list if f.startswith('0_')]
 
     def save_in_file(self, save_path: str):

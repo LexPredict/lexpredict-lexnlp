@@ -2,22 +2,26 @@
 
 This module implements utility methods for segmentation, such as shared methods to generate
 document character distributions.
-
-Todo:
 """
 
-# Imports
-import string
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
+import string
+from typing import Dict, Union
+from lexnlp.utils.decorators import handle_invalid_text
 
-def build_document_distribution(text, characters=string.printable, norm=True):
+
+@handle_invalid_text(return_value={})
+def build_document_distribution(
+    text: str,
+    characters=string.printable,
+    norm=True
+) -> Dict[str, Union[int, float]]:
     """
     Build document character distribution based on fixed character, optionally norming.
     :param text:
@@ -25,14 +29,8 @@ def build_document_distribution(text, characters=string.printable, norm=True):
     :param norm:
     :return:
     """
-    # Check for empty
-    text_len = len(text)
-    if text_len == 0:
-        return {}
-
     # Build character vector
     char_vector = {}
-
     for character in characters:
         char_vector["doc_char_{0}".format(character)] = text.count(character)
 
@@ -45,24 +43,28 @@ def build_document_distribution(text, characters=string.printable, norm=True):
     return char_vector
 
 
-def build_document_line_distribution(text, characters=string.printable, norm=True):
+@handle_invalid_text(return_value={})
+def build_document_line_distribution(
+    text: str,
+    characters=string.printable,
+    norm=True
+) -> Dict[str, Union[int, float]]:
     """
-    Build document and line character distribution for section segmenting based on fixed character, optionally
-    normalizing vector.
+    Build document and line character distribution for section segmenting based
+    on fixed character, optionally normalizing vector.
     """
 
     # Build character vector
     feature_vector = {}
     for character in characters:
-        feature_vector["doc_char_{0}".format(character)] = text.count(character)
-        feature_vector["doc_startchar_{0}".format(character)] = 0
+        feature_vector[f"doc_char_{character}"] = text.count(character)
+        feature_vector[f"doc_startchar_{character}"] = 0
     feature_vector["doc_startchar_other"] = 0
 
     # Build line start vector
     for line in text.splitlines():
         if len(line.strip()) > 0:
             character = line.strip()[0]
-
             if character in characters:
                 feature_vector["doc_startchar_{0}".format(character)] += 1
             else:
@@ -79,6 +81,6 @@ def build_document_line_distribution(text, characters=string.printable, norm=Tru
             if character.startswith("doc_char"):
                 feature_vector[character] = feature_vector[character] / total_char
             elif character.startswith("doc_startchar"):
-                feature_vector[character] = feature_vector[character] / total_startchar if total_startchar != 0 else 0
+                feature_vector[character] = feature_vector[character] / total_startchar if total_startchar != 0.0 else 0.0
 
     return feature_vector

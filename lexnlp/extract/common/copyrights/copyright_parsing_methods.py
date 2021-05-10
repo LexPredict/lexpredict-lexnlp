@@ -1,5 +1,12 @@
 # pylint: disable=unused-import
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from typing import Pattern, List, Tuple
 # pylint: enable=unused-import
 import regex as re
@@ -7,13 +14,6 @@ from lexnlp.extract.common import year_parser
 from lexnlp.extract.common.copyrights.copyright_pattern_found import CopyrightPatternFound
 from lexnlp.extract.common.definitions.common_definition_patterns import CommonDefinitionPatterns
 from lexnlp.extract.common.pattern_found import PatternFound
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class CopyrightParsingMethods:

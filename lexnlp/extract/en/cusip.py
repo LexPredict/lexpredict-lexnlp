@@ -6,6 +6,13 @@ Todo:
   * Improved unit tests and case coverage
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # Imports
 import calendar
 import regex as re
@@ -13,13 +20,6 @@ import string
 from typing import Generator, Dict, Any
 
 from lexnlp.extract.common.annotations.cusip_annotation import CusipAnnotation
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 CUSIP_PTN = r"""
@@ -48,7 +48,7 @@ TBA_PTN = r"""
 (?P<checksum>\d{1})
 """
 TBA_PTN_RE = re.compile(TBA_PTN, re.VERBOSE)
-TBA_MONTHS = {i: calendar.month_name[n+1] for n, i in enumerate('123456789ABC')}
+TBA_MONTHS = {i: calendar.month_name[n + 1] for n, i in enumerate('123456789ABC')}
 
 CHECKSUM_BASE = {i: 10+n for n, i in enumerate(string.ascii_uppercase)}
 CHECKSUM_BASE.update({'*': 36, '@': 37, '#': 38})

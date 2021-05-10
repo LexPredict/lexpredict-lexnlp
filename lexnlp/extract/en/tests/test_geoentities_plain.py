@@ -1,16 +1,17 @@
-import os
-from unittest import TestCase
-from typing import List
-from lexnlp.extract.common.annotations.geo_annotation import GeoAnnotation
-from lexnlp.extract.en.geoentities import get_geoentities, load_entities_dict_by_path, get_geoentity_annotations
-from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+import os
+from unittest import TestCase
+
+from lexnlp.extract.en.dict_entities import DictionaryEntry
+from lexnlp.extract.common.annotations.geo_annotation import GeoAnnotation
+from lexnlp.extract.en.geoentities import get_geoentities, get_geoentity_annotations
+from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
 
 def make_geoconfig():
@@ -18,15 +19,10 @@ def make_geoconfig():
     ge_path = dir_path + '/../../../../test_data/lexnlp/extract/en/tests/test_geoentities/'
     entities_fn = ge_path + 'geoentities.csv'
     aliases_fn = ge_path + 'geoaliases.csv'
-    return list(load_entities_dict_by_path(entities_fn, aliases_fn))
+    return list(DictionaryEntry.load_entities_from_files(entities_fn, aliases_fn))
 
 
 GEO_CONFIG = make_geoconfig()
-
-
-def parse_geo_annotations(text: str) -> List[GeoAnnotation]:
-    ants = list(get_geoentity_annotations(text, GEO_CONFIG))
-    return ants
 
 
 class TestGeoentitiesPlain(TestCase):
@@ -52,20 +48,36 @@ class TestGeoentitiesPlain(TestCase):
         """
 
         ds = list(get_geoentities(text, GEO_CONFIG))
-        self.assertEqual(1, len(ds)) # how come?
+        self.assertEqual(1, len(ds))    # how come?
 
     def test_simple_address(self):
         text = 'In BE, we usually write: John Smith, 23 Acacia Avenue, Harrogate, Yorkshire, 170000.'
-        ds = parse_geo_annotations(text)
-        self.assertEqual(2, len(ds))
+        ants = list(get_geoentity_annotations(text, GEO_CONFIG))
+        self.assertEqual(2, len(ants))
 
         # here we (surprisingly) expect BE (for Belgium)
-        ant = ds[0]
+        ant = ants[0]
         self.assertEqual((3, 5), ant.coords)
         cite = ant.get_cite()
-        self.assertEqual('/en/geoentity/Belgium/1993', cite)
+        self.assertEqual('/en/geoentity/Belgium', cite)
+
+    def test_alias_locale(self):
+        text = 'One Island two.'
+        ants = list(get_geoentity_annotations(text, GEO_CONFIG))
+        self.assertEqual(1, len(ants))
+        self.assertEqual('Iceland', ants[0].name)
+        self.assertEqual('de', ants[0].locale)
+
+    def test_locale_is_en(self):
+        text = 'Hello!!!!Mississippi!!!(US)!!!'
+        ants = list(get_geoentity_annotations(text, GEO_CONFIG))
+        self.assertEqual(2, len(ants))
+        self.assertEqual('en', ants[0].locale)
 
     def test_file_samples(self):
+        def parse_geo_annotations(text):
+            return list(get_geoentity_annotations(text, GEO_CONFIG))
+
         tester = TypedAnnotationsTester()
         tester.test_and_raise_errors(
             parse_geo_annotations,
@@ -75,11 +87,11 @@ class TestGeoentitiesPlain(TestCase):
     def test_several_entries(self):
         text = '''Abbreviation “MS” can mean either MMMontserrat or Misssssisssssippi. And different
 non-letter symbols should be treated correctly (MS).'''
-        ds = parse_geo_annotations(text)
-        self.assertEqual(4, len(ds))
+        ants = list(get_geoentity_annotations(text, GEO_CONFIG))
+        self.assertEqual(4, len(ants))
 
-        self.assertEqual((14, 16), ds[0].coords)
-        self.assertEqual((131, 133), ds[2].coords)
+        self.assertEqual((14, 16), ants[0].coords)
+        self.assertEqual((131, 133), ants[2].coords)
 
     def test_michigan_coords(self):
         text = 'This Contract (“Contract”) is entered into by and between ' +\

@@ -2,6 +2,13 @@
 This module implements duration extraction functionality in English.
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from typing import Generator, List
 import regex as re
 from decimal import Decimal
@@ -9,13 +16,6 @@ from fractions import Fraction
 from lexnlp.extract.common.durations.durations_parser import DurationParser
 from lexnlp.extract.common.annotations.duration_annotation import DurationAnnotation
 from lexnlp.extract.en.amounts import get_amounts, quantize_by_float_digit, NUM_PTN
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class EnDurationParser(DurationParser):
@@ -92,7 +92,7 @@ def get_durations(text: str, return_sources=False, float_digits=4) -> Generator:
 
 
 def get_duration_annotations(text: str,
-                             float_digits=4) \
+                             float_digits: int = 4) \
         -> Generator[DurationAnnotation, None, None]:
     yield from EnDurationParser.get_annotations(text, float_digits)
 

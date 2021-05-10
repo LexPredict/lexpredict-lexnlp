@@ -1,13 +1,13 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from typing import Tuple, List
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.utils.map import Map
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class GeoAnnotation(TextAnnotation):
@@ -60,3 +60,19 @@ class GeoAnnotation(TextAnnotation):
         if self.year:
             df.tags['year'] = self.year
         return df
+
+    def to_dictionary(self) -> dict:
+        return {
+            'location_start': self.coords[0],
+            'location_end': self.coords[1],
+            'source': self.source,  # 'Georgien',
+            'Entity ID': self.entity_id,  # 999,
+            'Entity Category': self.entity_category,  # 'Dummy',
+            'Entity Name': self.name_en,  # 'Georgia',
+            'Entity Priority': self.entity_priority,  # 700,
+            'German Name': self.name,  # 'Georgien',
+            'ISO-3166-2': self.iso_3166_2,
+            'ISO-3166-3': self.iso_3166_3,
+            'Alias': self.alias,
+            'Entity Type': 'geo entity'
+        }

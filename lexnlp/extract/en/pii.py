@@ -6,20 +6,19 @@ Todo:
   * http://www.doncio.navy.mil/contentview.aspx?id=2428
 """
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import regex as re
 from typing import Generator
 
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.extract.common.annotations.phone_annotation import PhoneAnnotation
 from lexnlp.extract.common.annotations.ssn_annotation import SsnAnnotation
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 SSN_PATTERN = r"""
@@ -105,22 +104,22 @@ def get_pii(text: str, return_sources=False) -> Generator:
     """
 
     for ssn in get_ssns(text, return_sources):
-        if isinstance(ssn, tuple) or isinstance(ssn, list):
+        if isinstance(ssn, (tuple, list)):
             row = ['ssn']
             for v in ssn:
                 row.append(v)
             yield tuple(row)
         else:
-            yield ('ssn', ssn)
+            yield 'ssn', ssn
 
     for phone in get_us_phones(text, return_sources):
-        if isinstance(phone, tuple) or isinstance(phone, list):
+        if isinstance(phone, (tuple, list)):
             row = ['us_phone']
             for v in phone:
                 row.append(v)
             yield tuple(row)
         else:
-            yield ('us_phone', phone)
+            yield 'us_phone', phone
 
 
 def get_pii_annotations(text: str) -> \

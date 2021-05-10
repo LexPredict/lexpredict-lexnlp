@@ -23,28 +23,30 @@
     or shipping ContraxSuite within a closed source product.
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # -*- coding: utf-8 -*-
 import os
 from unittest import TestCase
 
+from lexnlp.extract.en.dict_entities import DictionaryEntry
+from lexnlp.config.en.company_types import COMPANY_TYPES, COMPANY_DESCRIPTIONS, CompanyDescriptor
+from lexnlp.extract.en.entities.company_detector import CompanyDetector
 from lexnlp.extract.common.base_path import lexnlp_test_path
-from lexnlp.extract.en.geoentities import load_entities_dict_by_path
 from lexnlp.extract.common.entities.entity_banlist import BanListUsage, EntityBanListItem
 from lexnlp.extract.en.entities.nltk_maxent import get_company_annotations
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 def load_entities_dict():
     base_path = os.path.join(lexnlp_test_path, 'lexnlp/extract/en/tests/test_geoentities')
     entities_fn = os.path.join(base_path, 'geoentities.csv')
     aliases_fn = os.path.join(base_path, 'geoaliases.csv')
-    return load_entities_dict_by_path(entities_fn, aliases_fn)
+    return DictionaryEntry.load_entities_from_files(entities_fn, aliases_fn)
 
 
 _CONFIG = list(load_entities_dict())
@@ -117,13 +119,13 @@ The Depository Trust and Clearing Corporation ("DTCC")."""
         custom_bl = [EntityBanListItem('Clearing')]
         comps = list(get_company_annotations(
             text, banlist_usage=BanListUsage(banlist=custom_bl,
-                                                 append_to_default=True)))
+                                             append_to_default=True)))
         self.assertEqual(1, len(comps))
 
         comps = list(get_company_annotations(
             text, banlist_usage=BanListUsage(banlist=custom_bl,
-                                                 use_default_banlist=False,
-                                                 append_to_default=False)))
+                                             use_default_banlist=False,
+                                             append_to_default=False)))
         self.assertEqual(len(comps), 2)
 
     def test_default_banlisted(self):
@@ -246,8 +248,31 @@ The Depository Trust and Clearing Corporation ("DTCC")."""
 
     def test_reg_back(self):
         # here we check that the test doesn't hang
-        text = """
-        /NOR <FEFF004200720075006b00200064006900730073006500200069006e006e007300740069006c006c0069006e00670065006e006500.
-        """
+        text = '/NOR <FEFF004200720075006b002000640069007300730065002000' + \
+               '69006e006e007300740069006c006c0069006e00670065006e006500.'
+
         res = list(get_company_annotations(text))
         self.assertEqual(0, len(res))
+
+    def test_custom_company(self):
+        comp_types = dict(COMPANY_TYPES)
+        comp_types['OOO'] = CompanyDescriptor('ooo', 'LLC', 'Company')
+        detector = CompanyDetector(comp_types, COMPANY_DESCRIPTIONS)
+
+        text = 'Sitwell Housing OOO - good old company.'
+        res = list(detector.get_company_annotations(text, strict=False))
+        self.assertEqual(1, len(res))
+
+    def test_wrong_pos(self):
+        text = '''This Commercial Lease Agreement ("Lease") is made and effective June 1, 2010, by 
+and between Powdermet, inc. ("Landlord/Tenant") and Mesocoat, inc ("Sub- 
+Tenant"). This is a sublease to the current lease held by Powdermet, Inc. with  
+Sherman Properties, LLC..'''
+        comps = list(get_company_annotations(text))
+        self.assertEqual(4, len(comps))
+        self.assertEqual('Powdermet', comps[0].name)
+        self.assertEqual('Mesocoat', comps[1].name)
+        self.assertEqual((94, 108), comps[0].coords)
+        self.assertEqual((134, 147), comps[1].coords)
+        self.assertEqual('Corporation', comps[0].company_type_label)
+        self.assertEqual('Corporation', comps[1].company_type_label)

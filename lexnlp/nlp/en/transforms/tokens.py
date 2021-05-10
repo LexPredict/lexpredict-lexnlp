@@ -1,7 +1,13 @@
 """Transforms related to tokens for English
 """
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import collections
 import os
 from typing import Dict
@@ -9,13 +15,6 @@ from typing import Dict
 import nltk
 
 from lexnlp.nlp.en.tokens import get_tokens, get_stems
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -29,7 +28,7 @@ def get_token_distribution(text: str, lowercase=False, stopword=False) -> Dict[s
     tokens = list(get_tokens(text, lowercase=lowercase, stopword=stopword))
 
     # Calculate distribution
-    token_distribution = dict([(t, tokens.count(t)) for t in set(tokens)])
+    token_distribution = {t: tokens.count(t) for t in set(tokens)}
     return token_distribution
 
 
@@ -41,7 +40,7 @@ def get_stem_distribution(text: str, lowercase=False, stopword=False) -> Dict[st
     tokens = list(get_stems(text, lowercase=lowercase, stopword=stopword))
 
     # Calculate distribution
-    token_distribution = dict([(t, tokens.count(t)) for t in set(tokens)])
+    token_distribution = {t: tokens.count(t) for t in set(tokens)}
     return token_distribution
 
 

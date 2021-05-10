@@ -1,22 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+from unittest import TestCase
 
 from nltk.corpus import wordnet
 from nose.tools import assert_list_equal, nottest
 
 from lexnlp.nlp.en.segments.sentences import get_sentence_list
-from lexnlp.nlp.en.tokens import get_adjectives, get_adverbs, get_lemmas, get_lemma_list, get_nouns,\
-    get_stem_list, get_tokens, get_token_list, get_verbs, get_wordnet_pos
+from lexnlp.nlp.en.tokens import get_adjectives, get_adverbs, get_lemmas, get_lemma_list, get_nouns, \
+    get_stem_list, get_tokens, get_token_list, get_verbs, get_wordnet_pos, get_tokens_by_regex
 from lexnlp.tests import lexnlp_tests
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
+
+class TestGetTokens(TestCase):
+    def test_get_tokens_by_regex(self):
+        text = '''During the Term, Tenant shall pay to Landlord, as rent for the
+Premises and the Tangible Assets and the Intangible Assets, the sum of Forty
+Thousand ($40,000.00) Dollars for each calendar month, payable on the first
+(1st) day of each calendar month ("Base Rent") for the current calendar month.'''
+        tokens_regex = list(get_tokens_by_regex(text, lowercase=False, preserve_line=True))
+        self.assertGreater(len(tokens_regex), 50)
 
 
 @nottest
@@ -31,9 +41,9 @@ def run_sentence_token_gen_test(text, result, lowercase=False, stopword=False):
     assert len(sentence_list) == len(result)
 
     # Check each sentence matches
-    for i in range(len(sentence_list)):
+    for i, sentence in enumerate(sentence_list):
         tokens = list(lexnlp_tests.benchmark_extraction_func(get_tokens,
-                                                             sentence_list[i], lowercase=lowercase, stopword=stopword))
+                                                             sentence, lowercase=lowercase, stopword=stopword))
         assert_list_equal(tokens, result[i])
 
 
@@ -49,9 +59,9 @@ def run_sentence_token_test(text, result, lowercase=False, stopword=False):
     assert len(sentence_list) == len(result)
 
     # Check each sentence matches
-    for i in range(len(sentence_list)):
+    for i, sentence in enumerate(sentence_list):
         tokens = lexnlp_tests.benchmark_extraction_func(get_token_list,
-                                                        sentence_list[i], lowercase=lowercase, stopword=stopword)
+                                                        sentence, lowercase=lowercase, stopword=stopword)
         assert_list_equal(tokens, result[i])
 
 

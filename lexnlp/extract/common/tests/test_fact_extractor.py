@@ -1,16 +1,16 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import os
 from unittest import TestCase
 
+from lexnlp.extract.en.dict_entities import DictionaryEntry
 from lexnlp.extract.common.annotation_type import AnnotationType
 from lexnlp.extract.common.fact_extracting import FactExtractor, ExtractorResultFormat
-from lexnlp.extract.en.geoentities import load_entities_dict_by_path
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 def make_geoconfig():
@@ -18,7 +18,7 @@ def make_geoconfig():
     ge_path = dir_path + '/../../../../test_data/lexnlp/extract/en/tests/test_geoentities/'
     entities_fn = ge_path + 'geoentities.csv'
     aliases_fn = ge_path + 'geoaliases.csv'
-    return list(load_entities_dict_by_path(entities_fn, aliases_fn))
+    return list(DictionaryEntry.load_entities_from_files(entities_fn, aliases_fn))
 
 
 EN_GEO_CONFIG = make_geoconfig()

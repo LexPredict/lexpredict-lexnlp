@@ -6,23 +6,24 @@ Todo:
   * Improved unit tests and case coverage
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # pylint: disable=broad-except
 
 import nltk
 import string
 import regex as re
 from decimal import Decimal
-from typing import Dict, Generator, List, Union
+from typing import Dict, Generator, List, Optional, Union
 from num2words import num2words, CONVERTER_CLASSES
 from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 from lexnlp.extract.en.amounts import quantize_by_float_digit
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
+from lexnlp.utils.amount_delimiting import infer_delimiters
 
 
 CURRENCY_SYMBOL_MAP = {
@@ -64,7 +65,7 @@ def get_np(text) -> Generator:
         yield np
 
 
-class AmountParserDE(object):
+class AmountParserDE:
     QUARTER = 'viertel'
 
     def __init__(self):
@@ -126,27 +127,50 @@ class AmountParserDE(object):
 
         self.NUM_PTN = r"""
         (?:
-        (?:[\.\d][\d\.,]*\s+|\W|^)
-        (?:(?:(?:in)?viertel|halbe|{written_unique_numbers}|und)\s?)+(?:\W|$)|
-        (?:[\.\d][\d\.,\s]*)
+            (?:\d+(?:[,.]\d+)*\s+|\W|^)?
+            \b(?:(?:(?:in)?viertel|halbe|{written_unique_numbers}|und)\s?)+(?:\W|$)
+        |
+            (?:[\.\d][\d\.,'\s]*)
         )
         """.format(written_unique_numbers='|'.join(unique_number_list))
-        self.NUM_PTN_RE = re.compile(self.NUM_PTN,
-                                     re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
+        self.NUM_PTN_RE = re.compile(self.NUM_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
         self.NON_WRIT_RE = re.compile(r'[\d\.,\s]+')
 
-        self.MIXED_WRIT_RE = re.compile(r'(^[\d\.]*)(.+)', re.DOTALL)
+        self.MIXED_WRIT_RE = re.compile(r'(^[\d\.,]*)(.+)', re.DOTALL)
 
         self.QUARTER_RE = re.compile(r'(?:\s*und\s+)?(ein|eine|zwei|drei)\s*viertel')
 
         self.WRONG_FULLMATCH_RE = re.compile(r'\W*und\W*|\W+', re.IGNORECASE | re.MULTILINE | re.DOTALL)
 
-    def cleanup(self, text):
-        text = text.lower().replace(',', '.').replace('-', ' ').strip(string.whitespace).rstrip(
-            string.punctuation + string.whitespace)
-        if not (text.startswith('.') and text[1].isdigit()):
-            text = text.lstrip(string.punctuation + string.whitespace)
+    @staticmethod
+    def cleanup(text) -> str:
+
+        punctuation_and_whitespace: str = \
+            string.punctuation + string.whitespace
+
+        text = text \
+            .lower() \
+            .strip(string.whitespace) \
+            .rstrip(punctuation_and_whitespace)
+
+        if not (
+            text.startswith('.')
+            and text[1].isdigit()
+        ):
+            text = text.lstrip(punctuation_and_whitespace)
+
+        # TODO: do not hardcode 'de_DE'! This should come from a locale string
+        delimiters: Optional[Dict] = infer_delimiters(text, 'de_DE')
+        if delimiters is None:
+            return text
+
+        group_delimiter = delimiters.get('group_delimiter', False)
+        decimal_delimiter = delimiters.get('decimal_delimiter', False)
+        if group_delimiter:
+            text = text.replace(group_delimiter, '')
+        if decimal_delimiter:
+            text = text.replace(decimal_delimiter, '.')
         return text
 
     def split(self, text):
@@ -210,8 +234,13 @@ class AmountParserDE(object):
 
         return n + g + d
 
-    def parse(self, text: str, return_sources: bool = False,
-              extended_sources: bool = True, float_digits: int = 4) -> Generator:
+    def parse(
+        self,
+        text: str,
+        return_sources: bool = False,
+        extended_sources: bool = True,
+        float_digits: int = 4
+    ) -> Generator:
         """
         Find possible amount references in the text.
         :param text: text
@@ -284,10 +313,13 @@ class AmountParserDE(object):
             yield ant
 
 
-get_amounts = AmountParserDE().parse
+amount_parser = AmountParserDE()
 
 
-get_amount_annotations = AmountParserDE().parse_annotations
+get_amounts = amount_parser.parse
+
+
+get_amount_annotations = amount_parser.parse_annotations
 
 
 def get_amount_list(*args, **kwargs):

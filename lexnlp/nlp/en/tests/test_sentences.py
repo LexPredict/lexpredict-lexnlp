@@ -1,20 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
 from unittest import TestCase
 
 from lexnlp.nlp.en.segments.sentences import get_sentence_list, build_sentence_model, \
     pre_process_document, post_process_sentence, get_sentence_span
 from lexnlp.tests import lexnlp_tests
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestGetSentenceSpan(TestCase):
@@ -99,7 +97,6 @@ class TestGetSentenceSpan(TestCase):
         expected = []
         self.assertEqual(expected, actual)
 
-
     def test_build_sentence_model(self):
         """
         Test the custom Punkt model.
@@ -111,7 +108,6 @@ class TestGetSentenceSpan(TestCase):
         num_sentences_custom = len(
             sentence_segmenter.tokenize("Have you ever cited the U.S. I.R.C. to your friends?"))
         self.assertEqual(1, num_sentences_custom)
-
 
     def test_pre_process_document(self):
         lexnlp_tests.test_extraction_func_on_test_data(pre_process_document, actual_data_converter=lambda text: [text])

@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import re
 import time
 import pandas
@@ -7,16 +14,10 @@ from unittest import TestCase
 from lexnlp.extract.en.dict_entities import DictionaryEntryAlias, DictionaryEntry
 from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
 from lexnlp.extract.en.courts import get_courts
+from lexnlp.extract.all_locales.courts import get_court_annotations as get_court_annotations_custom
 from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
 from lexnlp.tests.utility_for_testing import load_resource_document
 from lexnlp.utils.lines_processing.line_processor import LineSplitParams
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestUniversalCourtsParser(TestCase):
@@ -46,16 +47,28 @@ class TestUniversalCourtsParser(TestCase):
         self.assertEqual(4, len(ret_n))
 
         start = time.time()
-        ret_l = [c for c in self.parse_courts_legacy_function(text)]
+        ret_l = list(self.parse_courts_legacy_function(text))
         __ = (time.time() - start)
         self.assertEqual(3, len(ret_l))
 
+    def test_legacy_parse_court_annotations(self):
+        court_config_list = self.load_en_courts()
+        text = load_resource_document(
+            'lexnlp/extract/en/courts/courts_sample_01.txt', 'utf-8')
+        ants = list(get_court_annotations_custom(
+            'en', text, court_config_list))
+        self.assertEqual(3, len(ants))
+        self.assertEqual('court', ants[0].record_type)
+
     def parse_courts_legacy_function(self, text: str):
+        court_config_list = self.load_en_courts()
+        return get_courts(text, court_config_list)
+
+    def load_en_courts(self):
         court_df = pandas \
             .read_csv(
             "https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts"
             ".csv")
-
         # Create config objects
         court_config_list = []
         for _, row in court_df.iterrows():
@@ -68,8 +81,7 @@ class TestUniversalCourtsParser(TestCase):
                                 name_is_alias=True,
                                 aliases=aliases)
             court_config_list.append(c)
-
-        return get_courts(text, court_config_list)
+        return court_config_list
 
     def make_en_parser(self):
         url = "https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts.csv"

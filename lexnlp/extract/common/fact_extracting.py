@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from typing import Callable, Dict, Set, List, Any, Tuple
 from enum import Enum
 
@@ -17,8 +24,8 @@ from lexnlp.extract.en.durations import get_duration_annotations, get_durations
 from lexnlp.extract.en.geoentities import get_geoentity_annotations, get_geoentities
 from lexnlp.extract.en.money import get_money_annotations, get_money
 from lexnlp.extract.en.percents import get_percent_annotations, get_percents
-from lexnlp.extract.en.pii import get_pii_annotations, get_pii, get_us_phone_annotations, get_us_phones, get_ssn_annotations, \
-    get_ssns
+from lexnlp.extract.en.pii import get_pii_annotations, get_pii, get_us_phone_annotations, \
+    get_us_phones, get_ssn_annotations, get_ssns
 from lexnlp.extract.en.ratios import get_ratio_annotations, get_ratios
 from lexnlp.extract.en.regulations import get_regulation_annotations, get_regulations
 from lexnlp.extract.en.trademarks import get_trademark_annotations, get_trademarks
@@ -40,8 +47,8 @@ from lexnlp.extract.de.definitions import get_definition_annotations as get_de_d
 from lexnlp.extract.de.definitions import get_definitions as get_de_definitions
 from lexnlp.extract.de.durations import get_duration_annotations as get_de_duration_annotations
 from lexnlp.extract.de.durations import get_durations as get_de_durations
-from lexnlp.extract.de.geoentities import get_geoentity_annotations as get_de_geoentity_annotations
-from lexnlp.extract.de.geoentities import get_geoentities as get_de_geoentities
+from lexnlp.extract.de.geoentities import get_geoentity_annotations as get_de_geoentity_annotations, \
+    get_geoentities as get_de_geoentities
 from lexnlp.extract.de.laws import get_law_annotations as get_de_law_annotations
 from lexnlp.extract.de.laws import get_laws as get_de_laws
 from lexnlp.extract.de.percents import get_percent_annotations as get_de_percent_annotations
@@ -57,13 +64,6 @@ from lexnlp.extract.es.definitions import get_definition_annotations as get_es_d
 from lexnlp.extract.es.definitions import get_definitions as get_es_definitions
 from lexnlp.extract.es.regulations import get_regulation_annotations as get_es_regulation_annotations
 from lexnlp.extract.es.regulations import get_regulations as get_es_regulations
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class ExtractorResultFormat(Enum):
@@ -119,7 +119,7 @@ class FactExtractor:
                    include_types: Set[AnnotationType] = None,
                    exclude_types: Set[AnnotationType] = None) -> Dict[AnnotationType, List[Any]]:
         if lang not in FactExtractor.func_by_lang:
-            langs = ', '.join([l for l in FactExtractor.func_by_lang])
+            langs = ', '.join(FactExtractor.func_by_lang)
             raise Exception(f'Language "{lang}" was not found among {langs}')
         lang_extractors = FactExtractor.func_by_lang[lang]
         result_fmt_key = ExtractorResultFormat.fmt_class \

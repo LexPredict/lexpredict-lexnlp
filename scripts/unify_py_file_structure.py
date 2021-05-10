@@ -13,8 +13,8 @@ import sys
 
 author = '''
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/0.0.0/LICENSE"
 __version__ = "0.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
@@ -25,8 +25,8 @@ author_ptn = re.escape(author.strip()).replace("0\.0\.0", "\d\.\d\.\d+")
 
 py_file_struc_ptn = '(?P<service>(?:\#[^\n]+\n+)+){{,1}}\n*' \
                     '(?P<docstr>(?:\'\'\'.+?\'\'\'|""".+?""")){{,1}}\n*' \
-                    '(?P<imports>(?:^(?:#|import|from|\s{{4,}})[^\n]+\n+)+){{,1}}\n*' \
                     '(?P<author>{author_ptn}){{,1}}\n*' \
+                    '(?P<imports>(?:^(?:#|import|from|\s{{4,}})[^\n]+\n+)+){{,1}}\n*' \
                     '(?P<code>.*)'.format(author_ptn=author_ptn)
 py_file_struc_re = re.compile(py_file_struc_ptn, re.M | re.S)
 
@@ -44,7 +44,7 @@ def unify_file_structure(release_number):
                     for path in paths
                     for a, _, b in os.walk(path)
                     for i in b
-                    if i.endswith('.py') and 'migrations' not in a])
+                    if i.endswith('.py')])
     if exclude_paths:
         files = files + [os.path.join(base_dir, i) for i in os.listdir(base_dir)
                          if i.endswith('.py') and i not in exclude_paths]
@@ -73,10 +73,10 @@ def unify_file_structure(release_number):
             '\n'*2 if service else '',
             docstr.strip(),
             '\n'*2 if docstr else '',
-            imports,
-            '\n'*2 if imports else '',
             author.strip(),
             '\n'*3 if code else '',
+            imports,
+            '\n'*3 if imports else '',
             code,
             '\n'
         ])

@@ -2,6 +2,13 @@
 Addresses extraction for English language.
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import os
 import pickle
 import re
@@ -10,13 +17,6 @@ from typing import Generator, Tuple, List
 from lexnlp.extract.en.preprocessing.span_tokenizer import SpanTokenizer
 
 from lexnlp.extract.en.addresses import address_features
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 NGRAM_CLASSIFIER_FN = os.path.join(os.path.dirname(__file__), 'addresses_clf.pickle')
@@ -47,8 +47,7 @@ class Address:
     def __eq__(self, other):
         if type(other) is type(self):
             return self.members() == other.members()
-        else:
-            return False
+        return False
 
     def __hash__(self):
         return hash(self.members())
@@ -70,10 +69,9 @@ def _safe_index(sentence, token, point, safe: bool = False):
     except ValueError:
         if safe:
             return None
-        else:
-            raise ValueError(f'Substring "{token}" not found in:\n'
-                             f'"{sentence}"\n'
-                             f'Search start pos: {point}')
+        raise ValueError(f'Substring "{token}" not found in:\n'
+                         f'"{sentence}"\n'
+                         f'Search start pos: {point}')
 
 
 def align_tokens(tokens, sentence):
@@ -86,7 +84,7 @@ def align_tokens(tokens, sentence):
     point = 0
     offsets = []
     for token in tokens:
-        if token == '``' or token == "''":
+        if token in ('``', "''"):
             start = _safe_index(sentence, '"', point, True)
             if start is None:
                 start = _safe_index(sentence, '\'', point)

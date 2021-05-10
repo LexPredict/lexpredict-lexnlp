@@ -1,23 +1,21 @@
 """Extraction utilities for English.
 """
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import re
+import nltk
 import string
 import unicodedata
 from itertools import groupby
-
-import nltk
 from typing import Generator, List, Tuple
-
+from lexnlp.utils.pos_adjustments import TokenPosTagAdjustment
 from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 # Default punctuation to accept
@@ -46,7 +44,7 @@ default_grammar = r"""
 """
 
 
-class NPExtractor(object):
+class NPExtractor:
 
     exception_sym = ['&', 'and', 'of']
     exception_pos = ['IN', 'CC']
@@ -55,6 +53,7 @@ class NPExtractor(object):
     replacements = [
         [(r'(\w)&(\w)', r'\1-=AND=-\2'), ('-=AND=-', '&')]
     ]
+    token_pos_tag_adjustments: List[TokenPosTagAdjustment] = []
 
     def __init__(self, grammar=None):
         grammar = grammar or default_grammar
@@ -77,8 +76,9 @@ class NPExtractor(object):
         tokenizer_func = self.get_tokenizer()
         tokens = tokenizer_func(text)
         pos_tokens = nltk.tag.pos_tag(tokens)
+        for adjustment in self.token_pos_tag_adjustments:
+            pos_tokens = [*map(adjustment, pos_tokens)]
         chunks = self.chunker.parse(pos_tokens)
-
         for tree in chunks.subtrees(filter=lambda t: t.label() == 'NP'):
             leaves = self.cleanup_leaves(tree.leaves())
             for np_items in leaves:

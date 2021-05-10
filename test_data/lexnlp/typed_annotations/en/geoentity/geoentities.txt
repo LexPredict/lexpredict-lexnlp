@@ -32,14 +32,14 @@ total=1
 0)locale=en
 0)coords=(4, 11)
 0)name=Iceland
-0)get_cite()=/en/geoentity/Iceland/2075
+0)get_cite()=/en/geoentity/Iceland
 
 
 -------------------------------------------------------------------------------
 One Island two.
 -------------------------------------------------------------------------------
 total=1
-0)locale=en
+0)locale=de
 0)coords=(4, 10)
 0)name=Iceland
 

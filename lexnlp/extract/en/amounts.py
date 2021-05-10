@@ -25,9 +25,15 @@ Avoids:
 - skip: "5.3.1.", "1/1/2010"
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # pylint: disable=bare-except
 
-# Imports
 import string
 from decimal import Decimal, DecimalTuple
 from typing import Dict, Generator, Optional, Tuple, Union, List
@@ -36,14 +42,8 @@ import nltk
 import regex as re
 from num2words import num2words
 
+from lexnlp.utils.amount_delimiting import infer_delimiters
 from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 # Define small numbers
@@ -93,19 +93,19 @@ CURRENCY_PREFIX_MAP = {
 allowed_prev_units = list(CURRENCY_SYMBOL_MAP) + list(CURRENCY_PREFIX_MAP)
 
 fraction_smb_to_value = {
-    '½': 1.0/2, '⅓': 1.0/3, '⅔': 2.0/3,
-    '¼': 1.0/4, '¾': 3.0/4, '⅕': 1.0/5,
-    '⅖': 2.0/5, '⅗': 3.0/5, '⅘': 4.0/5,
-    '⅙': 1.0/6, '⅚': 5.0/6, '⅐': 1.0/7,
-    '⅛': 1.0/8, '⅜': 3.0/8, '⅝': 5.0/8,
-    '⅞': 7.0/8, '⅑': 1.0/9, '⅒': 1.0/10
+    '½': 1.0 / 2, '⅓': 1.0 / 3, '⅔': 2.0 / 3,
+    '¼': 1.0 / 4, '¾': 3.0 / 4, '⅕': 1.0 / 5,
+    '⅖': 2.0 / 5, '⅗': 3.0 / 5, '⅘': 4.0 / 5,
+    '⅙': 1.0 / 6, '⅚': 5.0 / 6, '⅐': 1.0 / 7,
+    '⅛': 1.0 / 8, '⅜': 3.0 / 8, '⅝': 5.0 / 8,
+    '⅞': 7.0 / 8, '⅑': 1.0 / 9, '⅒': 1.0 / 10
 }
 fraction_smb_to_string = {
     k: str(fraction_smb_to_value[k])[1:]
     for k in fraction_smb_to_value
 }
 
-fraction_symbols = ''.join([k for k in fraction_smb_to_value])
+fraction_symbols = ''.join(fraction_smb_to_value)
 FRACTION_TAIL = rf'\s{{0,2}}[{fraction_symbols}]+'
 FRACTION_TAIL_RE = re.compile(FRACTION_TAIL,
                               re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
@@ -114,7 +114,7 @@ NUM_PTN = r"""
 (?:(?:(?:(?:(?:[\.\d][\d\.,]*\s*|\W|^)
 (?:(?:{written_small_numbers}|{written_big_numbers}
 |hundred(?:th(?:s)?)?|dozen|and|a\s+half|quarters?)[\s-]*)+)
-(?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)(?:[\.\d][\d\.,/]*))(?:\W|$))(?:{fraction_tail})*""".format(
+(?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)(?:[\.\d][\d\.,'/]*))(?:\W|$))(?:{fraction_tail})*""".format(
     written_small_numbers='|'.join(small_numbers),
     written_big_numbers='|'.join(big_numbers),
     fraction_tail=FRACTION_TAIL)
@@ -122,7 +122,9 @@ NUM_PTN = r"""
 NUM_PTN_RE = re.compile(NUM_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
 NON_WRIT_RE = re.compile(r'[\d\.]+')
-MIXED_WRIT_RE = re.compile(r'(^[\d\.]*)(.+)', re.DOTALL)
+ONLY_DIGITS_AND_DELIMITERS_RE = re.compile(r"[\d.,']+")
+BIG_NUMBERS_RE = re.compile(fr"\b({'|'.join(big_numbers)})\b")
+MIXED_WRIT_RE = re.compile(r'(^[\d\.,]*)(.+)', re.DOTALL)
 ONLY_BIG_WRIT_RE = re.compile(r'^\s*(?:{}|hundred|dozen)'.format('|'.join(MAGNITUDE_MAP)))
 NUM_FRACTION_RE = re.compile(r'(\s+no|\d{1,2})/(\d{1,3}[^/])')
 NUM_FRACTION_SUB_RE = re.compile(r'(?:\s*and)?(?:\s+no|\s*\d{1,2})/\d{1,3}')
@@ -169,6 +171,45 @@ grammar = r"""
 chunker = nltk.RegexpParser(grammar)
 
 
+def cleanup(text) -> str:
+    punctuation_and_whitespace: str = \
+        string.punctuation + string.whitespace
+
+    text = text \
+        .lower() \
+        .replace('-', ' ') \
+        .strip(string.whitespace) \
+        .rstrip(punctuation_and_whitespace)
+
+    text = re.sub(r'\s+and\s*$|^\s*and\s+', '', text)
+
+    if not (
+        text.startswith('.')
+        and text[1].isdigit()
+    ):
+        text = text.lstrip(punctuation_and_whitespace)
+
+    # TODO: do not hardcode 'en_US'! This should come from a locale string
+    try:
+        next(re.finditer(BIG_NUMBERS_RE, text))
+        only_digits_and_delimiters: str = \
+            next(re.finditer(ONLY_DIGITS_AND_DELIMITERS_RE, text)).captures()[0]
+        delimiters: Optional[Dict] = infer_delimiters(only_digits_and_delimiters, 'en_US')
+    except StopIteration:
+        delimiters: Optional[Dict] = infer_delimiters(text, 'en_US')
+
+    if delimiters is None:
+        return text
+
+    group_delimiter = delimiters.get('group_delimiter', False)
+    decimal_delimiter = delimiters.get('decimal_delimiter', False)
+    if group_delimiter:
+        text = text.replace(group_delimiter, '')
+    if decimal_delimiter:
+        text = text.replace(decimal_delimiter, '.')
+    return text
+
+
 def text2num(
     s: str,
     search_fraction: bool = True,
@@ -185,14 +226,7 @@ def text2num(
     prefix: Decimal = Decimal(0)
 
     # pre-process input string
-    s: str = s.lower()\
-        .replace(',', '')\
-        .replace('-', ' ')\
-        .strip(string.whitespace)\
-        .rstrip(string.punctuation + string.whitespace)
-    s = re.sub(r'\s+and\s*$|^\s*and\s+', '', s)
-    if not (s.startswith('.') and s[1].isdigit()):
-        s = s.lstrip(string.punctuation + string.whitespace)
+    s: str = cleanup(s)
     if s in ('k', 'm', 'b'):
         return None
 
@@ -285,13 +319,11 @@ def quantize_by_float_digit(amount: Decimal, float_digits: int) -> Decimal:
     abs_exponent: int = abs(exponent)
     if abs_exponent == 0:
         return amount.quantize(Decimal('0.0'))
-    elif abs_exponent > float_digits:
+    if abs_exponent > float_digits:
         if any(amount_as_tuple.digits[exponent:]):
             return amount.quantize(Decimal(f'0.{"0" * float_digits}'))
-        else:
-            return amount.quantize(Decimal('0.0'))
-    else:
-        return amount
+        return amount.quantize(Decimal('0.0'))
+    return amount
 
 
 def get_amounts(

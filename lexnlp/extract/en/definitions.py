@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from typing import Generator, List, Tuple
 
 from lexnlp.extract.common.annotation_locator_type import AnnotationLocatorType
@@ -6,13 +13,6 @@ from lexnlp.extract.en.definition_parsing_methods import DefinitionCaught, get_d
     filter_definitions_for_self_repeating
 from lexnlp.extract.ml.en.definitions.layered_definition_detector import LayeredDefinitionDetector
 from lexnlp.nlp.en.segments.sentences import get_sentence_span
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 def get_definitions_in_sentence(sentence: str,
@@ -43,9 +43,10 @@ parser_ml_classifier = LayeredDefinitionDetector()
 
 
 def get_definition_annotations(text: str,
-                               decode_unicode=True,
-                               locator_type: AnnotationLocatorType = AnnotationLocatorType.RegexpBased) \
+                               **kwargs) \
         -> Generator[DefinitionAnnotation, None, None]:
+    decode_unicode = kwargs.get('decode_unicode', True)
+    locator_type = kwargs.get('locator_type', AnnotationLocatorType.RegexpBased)
 
     if locator_type == AnnotationLocatorType.MlWordVectorBased:
         if not parser_ml_classifier.initialized:
@@ -56,11 +57,10 @@ def get_definition_annotations(text: str,
         return
 
     # use Regexp-based locator
-    for d in get_definition_objects_list(text,
-                                         decode_unicode=decode_unicode):
-        ant = DefinitionAnnotation(coords=d.coords,
-                                   text=d.text,
-                                   name=d.name)
+    for d in get_definition_objects_list(
+            text, decode_unicode=decode_unicode):
+        ant = DefinitionAnnotation(
+            coords=d.coords, text=d.text, name=d.name)
         yield ant
 
 

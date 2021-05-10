@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import re
 from typing import Generator, List, Union, Tuple
 
@@ -5,15 +12,8 @@ import pandas as pd
 
 from lexnlp.utils.lines_processing.line_processor import LineProcessor
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
-
-class DataframeEntityParser(object):
+class DataframeEntityParser:
     """
     Class that provides ability to extract entities from a text
     having some collection of entities formed as dataframe.
@@ -129,7 +129,7 @@ class DataframeEntityParser(object):
         formed_entity.update(self.preformed_entity)
         return formed_entity
 
-    def get_entities(self, text: str):
+    def get_entities(self, text: str) -> Generator[dict, None, None]:
         if self.line_processor:
             # split text on sentences and remove linebreaks within sentences
             for sent in self.line_processor.split_text_on_line_with_endings(text):
@@ -158,7 +158,7 @@ def get_entities(text: str,
                  priority_sort_column: Union[str, None] = None,
                  priority_sort_ascending: bool = True,
                  cell_values_separator: Union[str, None] = ';',
-                 unique_column_values: bool = True) -> Generator:
+                 unique_column_values: bool = True) -> Generator[dict, None, None]:
     """
     Simple wrapper around DataframeEntityParser
     """

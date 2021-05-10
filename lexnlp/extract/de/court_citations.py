@@ -1,16 +1,18 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import regex as re
 from typing import List, Tuple, Generator
+
+from lexnlp.extract.all_locales.languages import Locale
 from lexnlp.extract.common import year_parser
 from lexnlp.extract.common.annotations.court_citation_annotation import CourtCitationAnnotation
 from lexnlp.extract.de.dates import get_dates
 from lexnlp.utils.lines_processing.phrase_finder import PhraseFinder
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class PossibleToken:
@@ -51,7 +53,7 @@ class CourtCitationsParser:
         'BFH-Urteile': 'Bundesfinanzhof Urteile',
         'BFH-Beschlüsse': 'Bundesfinanzhof Beschlüsse',
         'DstR': 'Deutsches Steuerrecht - DStR',
-        'KStG':'Körperschaftsteuergesetz'
+        'KStG': 'Körperschaftsteuergesetz'
     }
 
     registry_finder = None
@@ -69,7 +71,7 @@ class CourtCitationsParser:
         self.items = []  # List[CourtCitationAnnotation]
         self.locale = None
 
-    def parse(self, text: str, locale: str = None) -> List[CourtCitationAnnotation]:
+    def parse(self, text: str, locale: Locale = None) -> List[CourtCitationAnnotation]:
         self.items = []
         self.locale = locale
         self.find_citations_in_embraced_text(text)
@@ -96,7 +98,6 @@ class CourtCitationsParser:
         for part in parts:
             self.get_detail_from_chunk(part, start)
             start += len(part) + 1
-        return
 
     def split_chunk_and_find_citations(self, text: str, start: int) -> None:
         chunks = self.split_text_by_keywords(text)
@@ -169,10 +170,9 @@ class CourtCitationsParser:
         return tokens
 
     def split_text_by_keywords(self, text: str) -> List[Tuple[str, int]]:
-        matches =  list(CourtCitationsParser.reg_split_by_registry.finditer(text))
+        matches = list(CourtCitationsParser.reg_split_by_registry.finditer(text))
         chunks = []
-        for i in range(len(matches)):
-            match = matches[i]
+        for i, match in enumerate(matches):
             ending = -1
             if i < len(matches) - 1:
                 ending = matches[i + 1].start() - 1
@@ -197,5 +197,5 @@ def get_court_citations(text: str, language: str = None) -> Generator[dict, None
         yield ct.to_dictionary()
 
 
-def get_court_citation_list(text: str, language: str = None) -> List[CourtCitationAnnotation]:
-    return parser.parse(text, language if language else 'de')
+def get_court_citation_list(text: str, locale: Locale = None) -> List[CourtCitationAnnotation]:
+    return parser.parse(text, locale or Locale('de'))

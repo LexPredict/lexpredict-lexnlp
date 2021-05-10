@@ -3,7 +3,13 @@
 This module implements percent extraction functionality in English.
 """
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import regex as re
 from decimal import Decimal
 from typing import Dict, Generator, List, Tuple, Union
@@ -13,13 +19,6 @@ from lexnlp.extract.common.annotations.percent_annotation import PercentAnnotati
 from lexnlp.extract.common.annotations.ratio_annotation import RatioAnnotation
 from .amounts import get_amounts, NUM_PTN, quantize_by_float_digit
 from .money import CURRENCY_SYMBOL_MAP, CURRENCY_PREFIX_MAP
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 PERCENT_UNIT_MAP: Dict[str, Decimal] = {
@@ -41,7 +40,7 @@ PERCENT_PTN = r"""
 """.format(num_ptn=NUM_PTN.replace("(?:\\W|$)", '')
            .replace("[\\.\\d][\\d\\.,]", "((?:{currency_prefixes}|[{currency_symbols}])\\s*)?[\\.\\d][\\d\\.,]"
                     .format(currency_prefixes='|'.join(CURRENCY_PREFIX_MAP),
-                            currency_symbols=''.join([re.escape(i) for i in CURRENCY_SYMBOL_MAP]), )),
+                            currency_symbols=''.join([re.escape(i) for i in CURRENCY_SYMBOL_MAP]))),
            percent_units='|'.join([re.escape(i) for i in PERCENT_UNIT_LIST]))
 PERCENT_PTN_RE = re.compile(PERCENT_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 

@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import codecs
 import os
 import shutil
@@ -11,13 +18,6 @@ from lexnlp.extract.ml.detector.detecting_settings import DetectingSettings
 from lexnlp.extract.ml.detector.phrase_constructor import PhraseConstructorSettings, PhraseConstructorMethod
 from lexnlp.extract.ml.en.definitions.definition_phrase_detector import DefinitionPhraseDetector
 from lexnlp.extract.ml.en.definitions.definition_term_detector import DefinitionTermDetector
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class LayeredDefinitionDetector:
@@ -49,7 +49,7 @@ class LayeredDefinitionDetector:
         except:
             pass
         os.mkdir(temp_folder)
-        
+
         with ZipFile(file_path) as z:
             z.extractall(temp_folder)
 
@@ -88,8 +88,8 @@ class LayeredDefinitionDetector:
         definition_distances = {}  # { term0: [0:d0, 1:d1, ...N:dN], term1: ... }
         for t_s, t_e in terms:
             distances = []
-            for i in range(len(definitions)):
-                df_s, df_e = definitions[i]
+            for i, definition in enumerate(definitions):
+                df_s, df_e = definition
                 if df_e <= t_s:
                     distance = t_s - df_e
                 elif df_s >= t_e:

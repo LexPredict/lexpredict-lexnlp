@@ -1,16 +1,17 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+from decimal import Decimal
 from unittest import TestCase
 from num2words import num2words
 
 from lexnlp.extract.common.annotations.amount_annotation import AmountAnnotation
 from lexnlp.extract.de.amounts import get_amounts, get_amount_annotations
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 def _sort(v):
@@ -89,7 +90,7 @@ class TestGetAmounts(AssertionMixin):
     def test_mix_num_written(self):
         text = "1.5, dreiviertel, eineinviertel Meilen"
         ants = list(get_amount_annotations(text))
-        self.assertEqual(2, len(ants))  # TODO: check ""1.5, dreiviertel"
+        self.assertEqual(3, len(ants))
 
     def test_wrong_cases(self):
         self.assertSortedListEqual(list(get_amounts('...%')), [])
@@ -103,6 +104,15 @@ class TestGetAmounts(AssertionMixin):
 
         self.assertEqual(30, ants[1].value)
         self.assertEqual(text.find(' dreißig'), ants[1].coords[0])
+
+    def test_one_spelled_number(self):
+        text = 'dreißig '
+        ants = list(get_amount_annotations(text))
+        self.assertEqual(1, len(ants))
+
+    def test_apostrophe_delimiter(self):
+        self.assertOneOK(15_000, "15'000 CHF")
+        self.assertOneOK(Decimal('19_876.54'), "19'876.54 CHF")
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

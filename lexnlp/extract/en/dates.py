@@ -3,36 +3,33 @@
 This module implements date extraction functionality in English.
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # pylint: disable=bare-except
 
 # Standard imports
-import os
-import datetime
 import calendar
-import itertools
-import joblib
+import datetime
+import os
+import random
 from typing import Any, Dict, Generator, List, Optional, Set, Tuple
 
 # Third-party packages
-import regex as re
 import pandas as pd
-
-# sklearn imports
-import sklearn.pipeline
-import sklearn.feature_selection
+import regex as re
 
 # LexNLP imports
+from lexnlp.extract.all_locales.languages import Locale
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.common.date_parsing.datefinder import DateFinder
-from lexnlp.extract.en.date_model import MODEL_DATE, DATE_MODEL_CHARS, MODULE_PATH
 from lexnlp.extract.common.dates import DateParser
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
+from lexnlp.extract.common.dates_classifier_model import build_date_model, get_date_features
+from lexnlp.extract.en.date_model import MODEL_DATE, MODULE_PATH, DATE_MODEL_CHARS
 
 
 # Distance in characters to use to merge two date strings
@@ -86,7 +83,7 @@ class DateFeaturesDataframeBuilder:
         features_count = len(dic)
         template = cls.feature_df_by_key_count.get(features_count)
         if not template:
-            keys = [k for k in dic]
+            keys = list(dic)
             df = pd.DataFrame(columns=keys, dtype=float)
             template = FeatureTemplate(df, keys)
             cls.feature_df_by_key_count[features_count] = template
@@ -100,11 +97,7 @@ class DateFeaturesDataframeBuilder:
 
 
 def get_month_by_name():
-    month_by_name = {}  # type: Dict[str, int]
-    for mn_index in range(len(EN_MONTHS)):
-        for mn in EN_MONTHS[mn_index]:
-            month_by_name[mn] = mn_index + 1
-    return month_by_name
+    return {month_name: ix + 1 for ix, month_names in enumerate(EN_MONTHS) for month_name in month_names}
 
 
 MONTH_BY_NAME = get_month_by_name()
@@ -112,75 +105,20 @@ MONTH_BY_NAME = get_month_by_name()
 MONTH_FULLS = {v.lower(): k for k, v in enumerate(calendar.month_name)}
 
 
-def get_date_features(text, start_index, end_index, include_bigrams=True, window=5, characters=None,
-                      norm=True):
-    """
-    Get features to use for classification of date as false positive.
-    :param text: raw text around potential date
-    :param start_index: date start index
-    :param end_index: date end index
-    :param include_bigrams: whether to include bigram/bicharacter features
-    :param window: window around match
-    :param characters: characters to use for feature generation, e.g., digits only, alpha only
-    :param norm: whether to norm, i.e., transform to proportion
-    :return:
-    """
-    # Check chars
-    if not characters:
-        characters = DATE_MODEL_CHARS
-
-    # Get text window
-    window_start = max(0, start_index - window)
-    window_end = min(len(text), end_index + window)
-    feature_text = text[window_start:window_end].strip()
-
-    # Build character vector
-    char_vec = {}
-    char_keys = []
-    bigram_keys = {}
-    for character in characters:
-        key = "char_{0}".format(character)
-        char_vec[key] = feature_text.count(character)
-        char_keys.append(key)
-
-    # Build character bigram vector
-    if include_bigrams:
-        bigram_set = ["".join(s) for s in itertools.permutations(characters, 2)]
-        bigram_keys = []
-        for character in bigram_set:
-            key = "bigram_{0}".format(character)
-            char_vec[key] = feature_text.count(character)
-            bigram_keys.append(key)
-
-    # Norm if requested
-    if norm:
-        # Norm by characters
-        char_sum = sum([char_vec[k] for k in char_keys])
-        if char_sum > 0:
-            for key in char_keys:
-                char_vec[key] /= float(char_sum)
-
-        # Norm by bigrams
-        if include_bigrams:
-            bigram_sum = sum([char_vec[k] for k in bigram_keys])
-            if bigram_sum > 0:
-                for key in bigram_keys:
-                    char_vec[key] /= float(bigram_sum)
-
-    return char_vec
+def get_raw_date_list(text, strict=False, base_date=None, return_source=False, locale=None) -> List:
+    return list(get_raw_dates(
+        text, strict=strict, base_date=base_date, return_source=return_source, locale=locale))
 
 
-def get_raw_date_list(text, strict=False, base_date=None, return_source=False) -> List:
-    return list(get_raw_dates(text, strict=strict, base_date=base_date, return_source=return_source))
-
-
-def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Generator:
+def get_raw_dates(text, strict=False, base_date=None,
+                  return_source=False, locale=None) -> Generator:
     """
     Find "raw" or potential date matches prior to false positive classification.
     :param text: raw text to search
     :param strict: whether to return only complete or strict matches
     :param base_date: base date to use for implied or partial matches
     :param return_source: whether to return raw text around date
+    :param locale: locale object
     :return:
     """
     # Setup base date
@@ -196,9 +134,7 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             date_finder.REPLACEMENTS[extra_token] = ' '
 
     # Iterate through possible matches
-    possible_dates = [(date_string, index, date_props)
-                      for date_string, index, date_props
-                      in date_finder.extract_date_strings(text, strict=strict)]
+    possible_dates = list(date_finder.extract_date_strings(text, strict=strict))
     possible_matched = []
 
     for i, possible_date in enumerate(possible_dates):
@@ -212,12 +148,11 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
             num_dig_mod = len(possible_dates[i - 1][2]["digits_modifier"])
             if i > 0 and not possible_matched[i - 1] and num_dig_mod == 1:
                 date_props["digits_modifier"].extend(possible_dates[i - 1][2]["digits_modifier"])
-                date_string = possible_dates[i - 1][2]["digits_modifier"].pop()\
-                                  .replace("st", "")\
-                                  .replace("nd", "")\
-                                  .replace("rd", "")\
-                                  .replace("th", "")\
-                              + date_string
+                date_string = possible_dates[i - 1][2]["digits_modifier"].pop() \
+                                  .replace("st", "") \
+                                  .replace("nd", "") \
+                                  .replace("rd", "") \
+                                  .replace("th", "") + date_string
 
         # Skip only digits modifiers
         num_dig_mod = len(date_props["digits_modifier"])
@@ -293,9 +228,9 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
 
         # Skip cases like "13.2 may" or "12.12may"
         if (
-            num_dig > 0
-            and (num_point + num_slash + num_hyphen) > 0
-            and "".join(date_props["months"]).lower() == "may"
+                num_dig > 0
+                and (num_point + num_slash + num_hyphen) > 0
+                and "".join(date_props["months"]).lower() == "may"
         ):
             possible_matched.append(False)
             continue
@@ -334,7 +269,7 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
                             _date_string_tokens = date_string_tokens[:-cutter]
                         date_string = ' '.join(_date_string_tokens)
                     try:
-                        date = date_finder.parse_date_string(date_string, date_props)
+                        date = date_finder.parse_date_string(date_string, date_props, locale=locale)
                     # pylint: disable=broad-except
                     except:
                         date = None
@@ -353,15 +288,14 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
         if not date:
             possible_matched.append(False)
             continue
-        else:
-            # for case when datetime.datetime(2001, 1, 22, 20, 1, tzinfo=tzoffset(None, -104400))
-            if hasattr(date, 'tzinfo'):
-                try:
-                    _ = date.isoformat()
-                except ValueError:
-                    possible_matched.append(False)
-                    continue
-            possible_matched.append(True)
+        # for case when datetime.datetime(2001, 1, 22, 20, 1, tzinfo=tzoffset(None, -104400))
+        if hasattr(date, 'tzinfo'):
+            try:
+                _ = date.isoformat()
+            except ValueError:
+                possible_matched.append(False)
+                continue
+        possible_matched.append(True)
 
         if isinstance(date, datetime.datetime) and date.hour == 0 and date.minute == 0:
             date = date.date()
@@ -373,8 +307,8 @@ def get_raw_dates(text, strict=False, base_date=None, return_source=False) -> Ge
 
 
 def check_date_parts_are_in_date(
-    date: datetime.datetime,
-    date_props: Dict[str, List[Any]]
+        date: datetime.datetime,
+        date_props: Dict[str, List[Any]]
 ) -> bool:
     """
     Checks that when we transformed "possible date" into date, we found
@@ -384,6 +318,7 @@ def check_date_parts_are_in_date(
     :param date_props: {'time': [], 'hours': [] ... 'digits': ['13', '2'] ...}
     :return: True if date is OK
     """
+
     def _ordinal_to_cardinal(s: str) -> Optional[int]:
         n: str = ''
         for char in s:
@@ -444,8 +379,12 @@ def get_dates_list(text, **kwargs) -> List:
     return list(get_dates(text, **kwargs))
 
 
-def get_dates(text: str, strict=False, base_date=None,
-              return_source=False, threshold=0.50) -> Generator:
+def get_dates(text: str,
+              strict=False,
+              base_date=None,
+              return_source=False,
+              threshold=0.50,
+              locale='') -> Generator:
     """
     Find dates after cleaning false positives.
     :param text: raw text to search
@@ -453,32 +392,40 @@ def get_dates(text: str, strict=False, base_date=None,
     :param base_date: base date to use for implied or partial matches
     :param return_source: whether to return raw text around date
     :param threshold: probability threshold to use for false positive classifier
+    :param locale: locale string
     :return:
     """
     # Get raw dates
-    for ant in get_date_annotations(text, strict, base_date, threshold):
+    for ant in get_date_annotations(text, strict, locale, base_date, threshold):
         if return_source:
-            yield (ant.date, ant.coords)
+            yield ant.date, ant.coords
         else:
             yield ant.date
 
 
-def get_date_annotations(text: str, strict=False, base_date=None, threshold=0.50) \
+def get_date_annotations(text: str,
+                         strict: Optional[bool] = None,
+                         locale: Optional[str] = '',
+                         base_date: Optional[datetime.datetime] = None,
+                         threshold: float = 0.50) \
         -> Generator[DateAnnotation, None, None]:
     """
     Find dates after cleaning false positives.
     :param text: raw text to search
     :param strict: whether to return only complete or strict matches
+    :param locale: locale string
     :param base_date: base date to use for implied or partial matches
-    :param return_source: whether to return raw text around date
     :param threshold: probability threshold to use for false positive classifier
     :return:
     """
+
     # Get raw dates
-    raw_date_results = get_raw_date_list(text, strict=strict, base_date=base_date, return_source=True)
+    strict = strict if strict is not None else False
+    raw_date_results = get_raw_date_list(
+        text, strict=strict, base_date=base_date, return_source=True, locale=Locale(locale))
 
     for raw_date in raw_date_results:
-        features_dict = get_date_features(text, raw_date[1][0], raw_date[1][1])
+        features_dict = get_date_features(text, raw_date[1][0], raw_date[1][1], characters=DATE_MODEL_CHARS)
         row_df = DateFeaturesDataframeBuilder.build_feature_df(features_dict)
         # row_df = pd.DataFrame([get_date_features(text, raw_date[1][0], raw_date[1][1])])
         date_score = MODEL_DATE.predict_proba(row_df.loc[:, MODEL_DATE.columns])
@@ -489,85 +436,11 @@ def get_date_annotations(text: str, strict=False, base_date=None, threshold=0.50
             yield ant
 
 
-def build_date_model(input_examples, output_file, verbose=True):
-    """
-    Build a sklearn model for classifying date strings as potential false positives.
-    :param input_examples:
-    :param output_file:
-    :param verbose:
-    :return:
-    """
-    # Build feature and target data
-    feature_data = []
-    target_data = []
-    example_data = []
-
-    # Counts
-    total = 0
-    correct = 0
-
-    # Iterate through examples
-    for example in input_examples:
-        # Get raw dates
-        date_results = get_raw_date_list(example[0], strict=False, return_source=True)
-        dates = [d[0] for d in date_results]
-
-        try:
-            l_diff = set(dates) - set(example[1])
-        # pylint: disable=broad-except
-        except:
-            print(dates)
-            print(example)
-            raise
-        r_diff = set(example[1]) - set(dates)
-        if len(l_diff) > 0 or len(r_diff) > 0:
-            print(example[0])
-            print((l_diff, r_diff, dates))
-            print("=" * 16)
-        else:
-            correct += 1
-        total += 1
-
-        for d in date_results:
-            feature_row = get_date_features(example[0], d[1][0], d[1][1])
-            example_data.append(example[0][d[1][0]:d[1][1]])
-            feature_data.append(feature_row)
-            target_data.append(int(d[0] in example[1]))
-
-    # Get data frame
-    feature_df = pd.DataFrame(feature_data).fillna(-1)
-
-    if verbose:
-        print("In-Sample Assessment:")
-        print("Raw Dates:")
-        print("Accuracy: {0}% on {1} samples".format(100. * float(correct) / total, total))
-        print("Feature data: {0}".format(feature_df.shape))
-
-    model_log = sklearn.pipeline.Pipeline([
-        ('select', sklearn.feature_selection.SelectKBest(score_func=sklearn.feature_selection.f_classif, k=400)),
-        ('classify', sklearn.linear_model.LogisticRegressionCV())
-    ])
-
-    model_log.fit(feature_df, target_data)
-    model_log.columns = feature_df.columns
-
-    # Assess data
-    if verbose:
-        predicted_log = model_log.predict(feature_df)
-        print(sklearn.metrics.classification_report(target_data, predicted_log))
-
-    # Output to new production model
-    model = model_log
-    joblib.dump(model, output_file)
-
-
 def train_default_model(save=True):
     """
     Train default model.
     :return:
     """
-    import random
-
     examples = [("""No later than 2017-06-01.""", [datetime.date(2017, 6, 1)]),
                 ("""Dated as of June 1, 2017""", [datetime.date(2017, 6, 1)]),
                 ("""Will be completed by June 2017""", [datetime.date(2017, 6, 1)]),
@@ -899,13 +772,17 @@ def train_default_model(save=True):
                         continue
 
     # Output
+    output_path = 'test_date_model.pickle'
     if save:
-        build_date_model(examples, os.path.join(MODULE_PATH, "date_model.pickle"))
-    else:
-        build_date_model(examples, "test_date_model.pickle")
+        output_path = os.path.join(MODULE_PATH, 'date_model.pickle')
+
+    build_date_model(examples, output_path,
+                     lambda date_str: get_raw_date_list(date_str, strict=False, return_source=True),
+                     characters=DATE_MODEL_CHARS)
+    if not save:
         os.unlink("test_date_model.pickle")
 
 
-parser = DateParser(enable_classifier_check=True, language='en')
+parser = DateParser(DATE_MODEL_CHARS, enable_classifier_check=True, locale=Locale('en-US'), classifier_model=MODEL_DATE)
 _get_dates = parser.get_dates
 _get_date_list = parser.get_date_list

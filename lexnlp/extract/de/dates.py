@@ -1,19 +1,46 @@
-from lexnlp.extract.common.dates import DateParser
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
+import os
+from datetime import datetime
+from typing import Generator, Optional
 
-parser = DateParser(enable_classifier_check=False, language='de',
+import joblib
+
+from lexnlp.extract.all_locales.languages import Locale
+from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
+from lexnlp.extract.common.dates import DateParser
+from lexnlp.extract.de.date_model import DATE_MODEL_CHARS
+
+
+# Setup path
+MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
+
+# Load model
+MODEL_DATE = joblib.load(os.path.join(MODULE_PATH, "./date_model.pickle"))
+
+
+parser = DateParser(DATE_MODEL_CHARS,
+                    enable_classifier_check=True,
+                    locale=Locale('de-DE'),
                     dateparser_settings={'PREFER_DAY_OF_MONTH': 'first',
                                          'STRICT_PARSING': False,
-                                         'DATE_ORDER': 'DMY'})
+                                         'DATE_ORDER': 'DMY'},
+                    classifier_model=MODEL_DATE)
 
-get_date_annotations = parser.get_date_annotations
+
+def get_date_annotations(text: str,
+                         strict: Optional[bool] = None,
+                         locale: Optional[str] = '',
+                         _base_date: Optional[datetime] = None,
+                         _threshold: float = 0.50) -> Generator[DateAnnotation, None, None]:
+    strict = strict if strict is not None else False
+    yield from parser.get_date_annotations(text, Locale(locale), strict)
+
 
 get_dates = parser.get_dates
 

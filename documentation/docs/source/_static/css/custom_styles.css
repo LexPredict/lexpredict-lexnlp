@@ -1,0 +1,240 @@
+/* ------------------------------------------------------------------------- */
+/* SIDEBAR ADJUSTMENTS */
+/* ------------------------------------------------------------------------- */
+
+.wy-nav-side {
+    background: #F4F6F9;
+    border-right: 1px solid #D8DDE6;
+    box-shadow: inset 0 2px 2px #D8DDE6;
+    /* width: 260px; matches ContraxSuite*/
+}
+
+.wy-nav-content-wrap {
+    /* background: #FFF; */
+    background: #F4F6F9;
+}
+
+.wy-nav-content {
+    background: #FFF;
+    border-right: 1px solid #D8DDE6;
+    box-shadow: 0px 0px 2px #D8DDE6;
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+    color: #1589EE;
+}
+
+.wy-nav-top {
+    background: #1589EE;
+    color: #fff;
+}
+
+.wy-menu-vertical li.current>a,
+.wy-menu-vertical li.on a {
+    color: #334c70;
+}
+
+/* ------------------------------------------------------------------------- */
+/* TYPEFACE ADJUSTMENTS */
+/* ------------------------------------------------------------------------- */
+
+body, h1, h2, h3, h4, h5, h6 {
+    font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+}
+
+p.caption {
+    letter-spacing: 0.07em;
+}
+
+a {
+    color: #1688EE;
+}
+
+/* ------------------------------------------------------------------------- */
+/* PREVIOUS, NEXT BUTTONS */
+/* ------------------------------------------------------------------------- */
+
+/* button shape */
+.btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    height: 30px;
+    align-items: center;
+    line-height: 15px;
+    border: none;
+    border-radius: 3px;
+    padding: 0 15px;
+    font-size: 14px;
+    box-shadow: none;
+}
+
+/* button coloring */
+.btn-neutral {
+    background-color: #F4F6F9 !important;
+    transition-duration: 0.2s;
+}
+
+/* button set blue on hover */
+.btn:hover {
+    background-color: rgba(21, 137, 238, 0.1) !important;
+    color: #1589EE !important;
+}
+
+/* button - remove press animation */
+.btn:active {
+    box-shadow: none;
+    padding: 0 15px;
+}
+
+/* button - remove FontAwesome arrow icon */
+.fa-arrow-circle-right:before, .icon-circle-arrow-right:before,
+.fa-arrow-circle-left:before, .icon-circle-arrow-left:before {
+    content: "";
+}
+
+/* ------------------------------------------------------------------------- */
+/* SEARCH BAR */
+/* ------------------------------------------------------------------------- */
+
+.wy-side-nav-search input[type=text] {
+    width: 100%;
+    background-color: #FFF;
+    padding: 7px 15px;
+    border-radius: 3px;
+    box-shadow: none;
+    font-size: 14px;
+    height: 30px;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 18px;
+    border-color: #6DB5F4;
+}
+
+.wy-menu-vertical a {
+    color: #16325C;
+}
+
+.wy-menu-vertical a:hover {
+    background-color: #6DB5F4;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.wy-menu-vertical li.toctree-l1.current>a {
+    box-shadow: inset 0 0 2px #D8DDE6;
+    background: #FFF;
+}
+
+/* ------------------------------------------------------------------------- */
+/* ADMONITIONS */
+
+/* These are incomplete. warning, caution, important, tip,
+and the generic admonition all require color adjustments. */
+/* ------------------------------------------------------------------------- */
+
+.rst-content .danger .admonition-title {
+    background-color: rgba(255, 0, 0, 0.55);
+}
+
+.rst-content .error .admonition-title {
+    background-color: rgba(255, 0, 0, 0.55);
+}
+
+.rst-content .note .admonition-title {
+    background-color: #1589EE;
+}
+
+/* ------------------------------------------------------------------------- */
+/* AUTODOC ELEMENTS */
+/* ------------------------------------------------------------------------- */
+
+/* class block */
+dl.class {
+    border: 1px solid #D8DDE6;
+    border-radius: 3px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.05);
+    padding: 15px;
+}
+
+/* class header */
+html.writer-html4 .rst-content dl:not(.docutils) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) > dt {
+    width: 100%;
+    background: #FFF;
+    border-top: #FFF;
+    color: #6DB5F4;
+    border-bottom: 1px solid #D8DDE6;
+    font-size: 16px;
+}
+
+/* module name, model/function name, function parentheses */
+code.sig-prename.descclassname,
+code.sig-name.descname,
+span.sig-paren {
+    color: #16325C;
+    font-family: 'Source Sans Pro';
+}
+
+/* "class" and class parameters */
+em.property,
+em.sig-param {
+    color: #1589EE;
+    font-style: normal;
+}
+
+/* return type hint */
+html.writer-html4 .rst-content dl:not(.docutils) dl:not(.field-list) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) dl:not(.field-list) > dt {
+    color: #16325C;
+}
+
+/* methods, properties, and exceptions */
+html.writer-html4 .rst-content dl:not(.docutils) dl:not(.field-list) > dt,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) dl:not(.field-list) > dt {
+    background-color: #F4F6F9;
+    border: 1px solid #D8DDE6;
+    border-radius: 3px;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.05);
+    padding: 15px;
+}
+
+/* dividing line between methods and properties */
+.rst-content dl {
+    /*TODO: exempt dl.exception class and only draw this on the last one*/
+    border-bottom: 1px solid #D8DDE6;
+}
+
+td > dl.simple[class]:not(.field-list) {
+    border-bottom: none;
+}
+
+/* parameter list positioning */
+html.writer-html5 .rst-content dl.field-list > dt.field-odd {
+    padding-left: 0;
+}
+
+/* "Parameters" */
+dl > dt.field-odd {
+    color: #16325C;
+    font-size: 14px;
+}
+
+/* parameter name color */
+dd > ul.simple > li > p > strong {
+    color: #1589EE;
+    font-weight: 400;
+}
+
+/* parameter dividers */
+dl.field-list.simple dd.field-odd > ul.simple > li {
+    border-bottom: 1px solid #f1f2f3;
+    padding-bottom: 5px;
+    margin-bottom: 3px;
+}
+
+/* method docstrings */
+dl.method > dd {
+    margin-left: 15px;
+}

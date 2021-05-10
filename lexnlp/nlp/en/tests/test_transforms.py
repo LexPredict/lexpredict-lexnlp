@@ -1,19 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-# Imports
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
 
 from unittest import TestCase
 
 from lexnlp.nlp.en.transforms.characters import get_character_distribution
 from lexnlp.nlp.en.transforms.tokens import get_token_distribution, get_stem_distribution
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestTransforms(TestCase):
@@ -26,14 +24,12 @@ class TestTransforms(TestCase):
         self.assertTrue("c" in distribution)
         self.assertEqual(1, distribution["c"])
 
-
     def test_token_distribution_example_1(self):
         distribution = get_token_distribution("abc 123")
         self.assertTrue("abc" in distribution)
         self.assertEqual(1, distribution["abc"])
         self.assertTrue("123" in distribution)
         self.assertEqual(1, distribution["123"])
-
 
     def test_stem_distribution_example_1(self):
         distribution = get_stem_distribution("Trump trumps to entrump trumped intrumpable")

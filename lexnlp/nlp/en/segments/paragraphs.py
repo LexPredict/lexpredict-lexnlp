@@ -7,6 +7,13 @@ Todo:
   * Standardize model (re-)generation
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import os
 # Imports
 import re
@@ -20,13 +27,6 @@ import joblib
 
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
-
 
 # Setup module path
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -35,18 +35,14 @@ MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 PARAGRAPH_SEGMENTER_MODEL = joblib.load(os.path.join(MODULE_PATH, "./paragraph_segmenter.pickle"))
 
 
-def build_paragraph_break_features(lines, line_id, line_window_pre, line_window_post, characters=string.printable,
+def build_paragraph_break_features(lines: List[str],
+                                   line_id: int,
+                                   line_window_pre: int,
+                                   line_window_post: int,
+                                   characters=string.printable,
                                    include_doc=None):
     """
     Build a feature vector for a given line ID with given parameters.
-
-    :param lines:
-    :param line_id:
-    :param line_window_pre:
-    :param line_window_post:
-    :param characters:
-    :param include_doc:
-    :return:
     """
     # Feature vector
     feature_vector = {}
@@ -98,12 +94,62 @@ def build_paragraph_break_features(lines, line_id, line_window_pre, line_window_
     return feature_vector
 
 
+def get_paragraph_break_feature_names(
+        lines_count: int,
+        line_window_pre: int,
+        line_window_post: int,
+        characters=string.printable,
+        include_doc=None):
+    """
+    Build a feature vector for a given line ID with given parameters.
+    """
+    # Feature vector
+    feature_vector = {
+        'first_char_punct',
+        'last_char_punct',
+        'first_char_number',
+        'last_char_number'
+    }
+
+    # Check start offset
+    if lines_count - 1 < line_window_pre:
+        line_window_pre = lines_count - 1
+
+    # Check final offset
+    if line_window_post >= lines_count:
+        line_window_post = lines_count - line_window_post - 1
+
+    # Iterate through window
+    for i in range(-line_window_pre, line_window_post + 1):
+
+        # Count length
+        feature_vector.add(f'line_len_{i}')
+        feature_vector.add(f'line_lenstrip_{i}')
+        feature_vector.add(f'line_title_case_{i}')
+        feature_vector.add(f'line_upper_case_{i}')
+        # Count characters
+        feature_vector.add(f'line_n_alpha_{i}')
+        feature_vector.add(f'line_n_number_{i}')
+        feature_vector.add(f'line_n_punct_{i}')
+        feature_vector.add(f'line_n_whitespace_{i}')
+
+    # Build character vector
+    for character in characters:
+        feature_vector.add(f"char_{character}")
+
+    # Add doc if requested
+    if include_doc:
+        feature_vector.update(set(include_doc.keys()))
+
+    return feature_vector
+
+
 RE_NEW_LINE = re.compile(r'(?P<line>[^\r\n]*)((\r\n)|(\n\r)|\n|\r)')
 
 
 def splitlines_with_spans(text: str) -> Tuple[List[str], List[Tuple[int, int]]]:
-    lines = list()  # type: List[str]
-    spans = list()  # type: List[Tuple[int, int]]
+    lines: List[str] = []
+    spans: List[Tuple[int, int]] = []
     if text is None:
         return lines, spans
     last_line_end = -1
@@ -127,10 +173,7 @@ def _maybe_paragraph(pos0: int, pos1: Optional[int], text: str, line_spans: List
     if len(paragraph.strip()) > 0:
         if return_spans:
             return paragraph, span[0], span[1]
-        else:
-            return paragraph
-    else:
-        return None
+        return paragraph
 
 
 def get_paragraphs(text: str, window_pre=3, window_post=3,
@@ -145,10 +188,14 @@ def get_paragraphs(text: str, window_pre=3, window_post=3,
 
     for line_id in range(len(lines)):
         feature_data.append(
-            build_paragraph_break_features(lines, line_id, window_pre, window_post, include_doc=doc_distribution))
+            build_paragraph_break_features(lines, line_id, window_pre, window_post,
+                                           include_doc=doc_distribution))
 
     # Predict page breaks
-    feature_df = pandas.DataFrame(feature_data).fillna(-1).astype(int)
+    column_names = list(get_paragraph_break_feature_names(
+        len(lines), window_pre, window_post, include_doc=doc_distribution))
+    column_names.sort()
+    feature_df = pandas.DataFrame(feature_data, columns=column_names).fillna(-1).astype(int)
     try:
         predicted_lines = PARAGRAPH_SEGMENTER_MODEL.predict_proba(feature_df)
         predicted_df = pandas.DataFrame(predicted_lines, columns=["prob_false", "prob_true"])
@@ -180,9 +227,9 @@ def get_paragraphs(text: str, window_pre=3, window_post=3,
             if maybe_paragraph is not None:
                 yield maybe_paragraph
         else:
-            yield text, 0, len(text) if return_spans else text
+            yield (text, 0, len(text)) if return_spans else text
     except ValueError as e:
         if 'Number of features of the model must match the input' in str(e):
-            yield text, 0, len(text) if return_spans else text
+            yield (text, 0, len(text)) if return_spans else text
         else:
             raise e

@@ -1,3 +1,10 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from unittest import TestCase
 
 from lexnlp.extract.common.annotations.court_citation_annotation import CourtCitationAnnotation
@@ -5,13 +12,6 @@ from lexnlp.extract.de.court_citations import get_court_citation_list, get_court
     get_court_citation_annotations
 from lexnlp.tests.utility_for_testing import load_resource_document
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestCourtCitationsParser(TestCase):
@@ -56,7 +56,7 @@ class TestCourtCitationsParser(TestCase):
         item = get_court_citation_list(text)[0]
         self.assertEqual('court citation', item.record_type)
         self.assertEqual('BStBl I 2003, 240', item.text)
-        self.assertEqual("de", item.locale)
+        self.assertEqual("de", item.locale.language)
 
         dics = list(get_court_citations(text))
         self.assertEqual("court citation", dics[0]["tags"]["Extracted Entity Type"])

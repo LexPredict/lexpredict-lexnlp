@@ -1,19 +1,19 @@
 # pylint: disable=unused-import
-
-from typing import Pattern, List, Generator, Tuple
 # pylint: enable=unused-import
+
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
+from typing import List, Generator, Tuple
 from lexnlp.extract.common.copyrights.copyright_en_style_parser import CopyrightEnStyleParser
 from lexnlp.extract.common.annotations.copyright_annotation import CopyrightAnnotation
 from lexnlp.extract.es.language_tokens import EsLanguageTokens
 from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 from lexnlp.utils.lines_processing.line_processor import LineProcessor
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class CopyrightEsParser(CopyrightEnStyleParser):
@@ -39,8 +39,7 @@ CopyrightEsParser.init_parser()
 
 def get_copyright_annotations(text: str, return_sources=False) -> \
         Generator[CopyrightAnnotation, None, None]:
-    for ant in  CopyrightEsParser.get_copyright_annotations(text,
-                                                            return_sources):
+    for ant in CopyrightEsParser.get_copyright_annotations(text, return_sources):
         ant.locale = 'es'
         yield ant
 

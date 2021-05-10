@@ -10,6 +10,13 @@ Todo:
     * More pathological and difficult cases
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 # Project imports
 import datetime
 import os
@@ -23,13 +30,6 @@ from lexnlp.extract.en.definitions import \
     get_definitions
 from lexnlp.tests.utility_for_testing import load_resource_document
 
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
-
 
 TRAINED_MODEL_PATH = os.path.join(ENV_EN_DATA_DIRECTORY, 'definition_model_layered.pickle.gzip')
 parser_ml_classifier.load_compressed(TRAINED_MODEL_PATH)
@@ -39,7 +39,7 @@ class TestEnglishDefinitions(TestCase):
     def test_catastrophic_repetative_text(self):
         text = 'X' * 500
         start = datetime.datetime.now()
-        defs = get_definition_list_in_sentence((0, len(text), text,), False)
+        defs = get_definition_list_in_sentence((0, len(text), text), False)
         elapsed = (datetime.datetime.now() - start).total_seconds()
         self.assertLess(elapsed, 2)
         self.assertEqual(0, len(defs))

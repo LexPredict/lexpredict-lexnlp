@@ -1,13 +1,13 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from typing import List
 
 from lexnlp.tests.values_comparer import values_look_equal
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class DictionaryComparer:
@@ -30,9 +30,7 @@ class DictionaryComparer:
         if not actual or not expected:
             return errors
 
-        for i in range(len(expected)):
-            exp = expected[i]
-
+        for i, exp in enumerate(expected):
             if self.check_order:
                 if i >= len(actual):
                     break
@@ -43,8 +41,7 @@ class DictionaryComparer:
                 # is there any actual item that matches expected one?
                 best_effort = None
                 best_index = 0
-                for j in range(len(actual)):
-                    act = actual[j]
+                for j, act in enumerate(actual):
                     itm_errors = self.check_dicts_equal(exp, act)
                     if best_effort is None or len(best_effort) > len(itm_errors):
                         best_effort = itm_errors

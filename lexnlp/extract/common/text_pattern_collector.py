@@ -1,15 +1,15 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from itertools import groupby
 from typing import Callable, List
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.extract.common.pattern_found import PatternFound
 from lexnlp.utils.lines_processing.line_processor import LineProcessor, LineSplitParams, LineOrPhrase
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TextPatternCollector:
@@ -25,10 +25,10 @@ class TextPatternCollector:
         :param split_params: text-to-sentences splitting params
         """
         self.parsing_functions = parsing_functions
-        self.annotations = [] # type: List[TextAnnotation]
+        self.annotations = []    # type: List[TextAnnotation]
         self.split_params = split_params
         self.proc = LineProcessor(line_split_params=self.split_params)
-        self.prohibited_words = {} # words that are Not definitions per se
+        self.prohibited_words = {}    # words that are Not definitions per se
 
     def parse(self, text: str, locale: str = None) -> List[TextAnnotation]:
         """
@@ -93,13 +93,11 @@ class TextPatternCollector:
         resulted = []
         if len(matches) < 2:
             return matches
-        for i in range(0, len(matches)):
-            a = matches[i]
+        for i, a in enumerate(matches):
             a_worse_b = False
-            for j in range(0, len(matches)):
+            for j, b in enumerate(matches):
                 if i == j:
                     continue
-                b = matches[j]
                 if a.pattern_worse_than_target(b, text):
                     a_worse_b = True
                     break

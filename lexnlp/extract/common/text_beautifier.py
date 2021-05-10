@@ -1,11 +1,11 @@
-from typing import List, Tuple, Optional, Union
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
+from typing import List, Tuple, Optional, Union
 
 
 class TextBeautifier:
@@ -55,7 +55,7 @@ class TextBeautifier:
         if not term_coords:
             return term_coords
         # build stack of pair quotes and brackets
-        if type(term_coords) is str:
+        if isinstance(term_coords, str):
             term = term_coords
             coords = None
         else:
@@ -72,7 +72,7 @@ class TextBeautifier:
             if coords:
                 coords[1] = coords[1] - len(term) + len(stripped)
                 term = stripped
-        term_coords = (term, coords[0], coords[1], ) if coords else term
+        term_coords = (term, coords[0], coords[1]) if coords else term
         if not term:
             return term_coords
 
@@ -146,8 +146,7 @@ class TextBeautifier:
         braces_stack = []  # [("(", 18), ("[", 41)]
         replacements = []  # [(18, '{'), (82, '')]
 
-        for i in range(len(text)):
-            c = text[i]
+        for i, c in enumerate(text):
             if c == "'":
                 apos_coords.append(i)
                 continue
@@ -200,7 +199,7 @@ class TextBeautifier:
 
         # apply replacements
         if replacements:
-            clear_text = [c for c in text]
+            clear_text = list(text)
             for rep_coord, rep_word in replacements:
                 if rep_coord == 0:
                     start = start + 1 - len(rep_word)

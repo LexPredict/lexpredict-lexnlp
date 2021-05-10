@@ -1,16 +1,16 @@
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 from unittest import TestCase
 
 from lexnlp.extract.common.annotations.regulation_annotation import RegulationAnnotation
 from lexnlp.extract.es.regulations import parser, get_regulations, get_regulation_annotations
 from lexnlp.tests.utility_for_testing import load_resource_document, annotate_text, save_test_document
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 class TestParseSpanishLawsRegulations(TestCase):
@@ -37,7 +37,6 @@ class TestParseSpanishLawsRegulations(TestCase):
         self.assertEqual('Registro Nacional de Valores', reg.name)
         self.assertEqual('Registro Nacional de Valores', reg.text)
         self.assertEqual('es', reg.locale)
-
 
     def test_parse_ley_del(self):
         text = "Para efectos de lo previsto en la presente Ley, por inversionistas institucionales se entenderá a las " +\

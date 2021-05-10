@@ -2,6 +2,13 @@
 separately in CSV files.
 """
 
+__author__ = "ContraxSuite, LLC; LexPredict, LLC"
+__copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
+__version__ = "2.0.0"
+__maintainer__ = "LexPredict, LLC"
+__email__ = "support@contraxsuite.com"
+
 import csv
 import inspect
 import os
@@ -14,13 +21,6 @@ import psutil
 from memory_profiler import memory_usage
 
 from lexnlp.extract.common.base_path import lexnlp_test_path
-
-__author__ = "ContraxSuite, LLC; LexPredict, LLC"
-__copyright__ = "Copyright 2015-2020, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/1.8.0/LICENSE"
-__version__ = "1.8.0"
-__maintainer__ = "LexPredict, LLC"
-__email__ = "support@contraxsuite.com"
 
 
 DIR_ROOT = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
@@ -96,12 +96,11 @@ def iter_test_data_text_and_tuple(file_name: str = None, call_stack_offset: int 
         def read_value(column_name: str, value_str: str) -> Any:
             if not value_str:
                 return None
-            elif column_name.endswith('_bool'):
-                return 'true' == value_str.lower()
-            elif column_name.endswith('_int'):
+            if column_name.endswith('_bool'):
+                return value_str.lower() == 'true'
+            if column_name.endswith('_int'):
                 return int(value_str)
-            else:
-                return value_str
+            return value_str
 
         for line in reader:
             i = i + 1
@@ -168,8 +167,7 @@ def write_test_data_text_and_tuple(texts: tuple, values: tuple, column_names: tu
     with open(file_name, 'w', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(column_names)
-        for i in range(len(texts)):
-            text = texts[i]
+        for i, text in enumerate(texts):
             multiple_values = values[i]
             first = True
             if not multiple_values:
@@ -180,7 +178,7 @@ def write_test_data_text_and_tuple(texts: tuple, values: tuple, column_names: tu
                         first = False
                     else:
                         text = None
-                    if isinstance(values_tuple_or_string, tuple) or isinstance(values_tuple_or_string, list):
+                    if isinstance(values_tuple_or_string, (tuple, list)):
                         row = [text]
                         for v in values_tuple_or_string:
                             row.append(v)
@@ -411,10 +409,7 @@ If the expected data is correct then fix the function. Otherwise, fix the expect
 
         if do_raise:
             raise exx or AssertionError()
-        else:
-            return problem
-    else:
-        return None
+        return problem
 
 
 def fmt_short_text(text: str, max_len: int = 40):
@@ -489,8 +484,4 @@ If the expected data is correct then fix the function. Otherwise, fix the expect
 
         if do_raise:
             raise exx or AssertionError()
-        else:
-            return problem
-
-    else:
-        return None
+        return problem
