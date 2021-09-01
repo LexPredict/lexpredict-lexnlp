@@ -739,6 +739,7 @@ def train_default_model(save=True):
                      are inoperative.""",
                     [datetime.date(2017, 7, 30), datetime.date(2016, 10, 31)]),
                 ("""""", []),
+                (""" monday, the third day of monday, two thousand and twenty one.""",datetime.date(2021, 5, 3)
                 ]
 
     # Add random examples
