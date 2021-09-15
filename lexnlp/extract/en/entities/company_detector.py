@@ -2,8 +2,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -29,6 +29,13 @@ VALID_PUNCTUATION = [",", ".", "&"]
 
 PERSONS_STOP_WORDS = re.compile(
     r'avenue|amendment|agreement|addendum|article|assignment|exhibit', re.IGNORECASE)
+
+MONTH_NAMES = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
+               'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+MONTH_NAMES_STR = '|'.join([fr'\-{m}\-' for m in MONTH_NAMES])
+PARTY_PREFIX_STR = fr'^\d\d([0-9\.\s\,]*({MONTH_NAMES_STR}|\-)*[0-9\.\s\,]*)+'
+COMPANY_NAME_PREFIX_RE = re.compile(PARTY_PREFIX_STR, re.IGNORECASE)
+COMPANY_NAME_TRIM_RE = re.compile(r'^\s*(?:and|&|of)\s+|\s+(?:and|&|of)\s*$', re.IGNORECASE)
 
 
 class CompanyDetector:
@@ -358,8 +365,9 @@ class CompanyDetector:
                 company_name = nltk_re.FALSE_POS_SUB_RE.sub('', company_name)
                 company_name = company_name.strip(
                     string.punctuation.replace('&', '').replace(')', '') + string.whitespace)
-                company_name = re.sub(r'^\s*(?:and|&|of)\s+|\s+(?:and|&|of)\s*$', '',
-                                      company_name, re.IGNORECASE)
+                company_name = COMPANY_NAME_TRIM_RE.sub('', company_name)
+                # remove company name "prefix": numbers, dates etc
+                company_name = COMPANY_NAME_PREFIX_RE.sub('', company_name)
                 if not company_name:
                     continue
 

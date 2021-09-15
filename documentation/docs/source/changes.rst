@@ -4,6 +4,11 @@
 Changelog
 ============
 
+2.1.0 - September 16, 2021
+----------------
+ * Improved LexNLP handling for companies for the "EN" locale.
+ * Improved LexNLP handling for dates for all locales and dates parser accuracy for the "DE" locale.
+
 2.0.0 - May 10, 2021
 ----------------
  * Tune extracting facts from text for different locales.
@@ -14,7 +19,7 @@ Changelog
 ----------------
  * Improved LexNLP handling for definitions for the "EN" locale.
  * Implemented rating OCR quality in texts.
- * Migrated numeric data in parsers sesults to decimal format to avoid losing fraction digits.
+ * Migrated numeric data in parsers results to decimal format to avoid losing fraction digits.
 
 1.7.0 - August 27, 2020
 ----------------

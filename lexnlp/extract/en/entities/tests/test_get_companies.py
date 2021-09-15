@@ -25,8 +25,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -84,9 +84,9 @@ class TestGetCompanies(TestCase):
         self.assertEqual(1, len(comps))
 
     def test_with_apostrophe(self):
-        text = 'DTC is a wholly-owned subsidiary of The Depository Trust and Clearing Corporation ("DTCC").'
+        text = 'RTC is a wholly-owned subsidiary of The Repository Trust and Clearing Corporation ("RTCC").'
         comps = list(get_company_annotations(text))
-        self.assertEqual('The Depository Trust', comps[0].name)
+        self.assertEqual('The Repository Trust', comps[0].name)
 
         text = 'DTC is a wholly-owned subsidiary of The Depository Trust & Clearing Corporation ("DTCC").'
         comps = list(get_company_annotations(text))
@@ -99,8 +99,14 @@ class TestGetCompanies(TestCase):
         self.assertEqual('Supplier GAYANGA', comps[0].name)
         self.assertEqual('CO', comps[0].company_type)
 
+    def test_num_preffixed(self):
+        text = """01077.ROW Supplier GAYANGA CO / CO AMERIFACTORS"""
+        comps = list(get_company_annotations(text))
+        self.assertEqual(1, len(comps))
+        self.assertEqual('Supp', comps[0].name[:4])
+
     def test_banlisted(self):
-        text = 'Depository Bank is a wholly-owned subsidiary of The Depository Trust and Clearing Corporation ("DTCC").'
+        text = 'Depository Bank is a wholly-owned subsidiary of The Repository Trust and Clearing Corporation ("RTCC").'
         comps = list(get_company_annotations(text))
         self.assertEqual(len(comps), 2)
 
@@ -110,13 +116,13 @@ class TestGetCompanies(TestCase):
 
     def test_mixed_banlisted(self):
         text = """Hereinafter, the Issuing Bank is a wholly-owned subsidiary of 
-The Depository Trust and Clearing Corporation ("DTCC")."""
+The Repository Trust and Clearing Corporation ("RTCC")."""
         comps = list(get_company_annotations(text))
         self.assertEqual(len(comps), 2)
 
     def test_custom_banlisted(self):
-        text = 'Depository Bank is a wholly-owned subsidiary of The Depository Trust and Clearing Corporation ("DTCC").'
-        custom_bl = [EntityBanListItem('Clearing')]
+        text = 'Depository Bank is a partially-owned subsidiary of The Depository Trust and Cleaning Corporation ("DTCC").'
+        custom_bl = [EntityBanListItem('Cleaning')]
         comps = list(get_company_annotations(
             text, banlist_usage=BanListUsage(banlist=custom_bl,
                                              append_to_default=True)))
@@ -129,7 +135,7 @@ The Depository Trust and Clearing Corporation ("DTCC")."""
         self.assertEqual(len(comps), 2)
 
     def test_default_banlisted(self):
-        text = 'Depository Bank is a wholly-owned subsidiary of The Depository Trust and Clearing Agency ("DTCA").'
+        text = 'Depository Bank is a partially-owned subsidiary of The Depository Thrust and Clearing Agency ("DTCA").'
         comps = list(get_company_annotations(text))
         self.assertEqual(1, len(comps))
 
@@ -265,13 +271,13 @@ The Depository Trust and Clearing Corporation ("DTCC")."""
 
     def test_wrong_pos(self):
         text = '''This Commercial Lease Agreement ("Lease") is made and effective June 1, 2010, by 
-and between Powdermet, inc. ("Landlord/Tenant") and Mesocoat, inc ("Sub- 
-Tenant"). This is a sublease to the current lease held by Powdermet, Inc. with  
-Sherman Properties, LLC..'''
+and between Rawdermet, inc. ("Landlord/Tenant") and Resocoat, inc ("Sub- 
+Tenant"). This is a sublease to the current lease held by Rawdermet, Inc. with  
+Sheeman Properties, LLC..'''
         comps = list(get_company_annotations(text))
         self.assertEqual(4, len(comps))
-        self.assertEqual('Powdermet', comps[0].name)
-        self.assertEqual('Mesocoat', comps[1].name)
+        self.assertEqual('Rawdermet', comps[0].name)
+        self.assertEqual('Resocoat', comps[1].name)
         self.assertEqual((94, 108), comps[0].coords)
         self.assertEqual((134, 147), comps[1].coords)
         self.assertEqual('Corporation', comps[0].company_type_label)

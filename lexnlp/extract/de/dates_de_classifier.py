@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -9,18 +9,70 @@ import datetime
 import os
 import random
 
+from num2words import num2words
+from lexnlp.extract.all_locales.languages import Locale
+from lexnlp.extract.common.dates import DateParser
 from lexnlp.extract.common.dates_classifier_model import build_date_model
-from lexnlp.extract.de.date_model import DATE_MODEL_CHARS
-from lexnlp.extract.de.dates import get_dates
-
+from lexnlp.extract.de.date_model import DATE_MODEL_CHARS, MONTH_NAMES, DE_ALPHA_CHAR_SET
+from lexnlp.extract.de.dates import MODEL_DATE
+from lexnlp.extract.de.de_date_parser import DeDateParser
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
+TODAY = datetime.date.today()
 
-def train_default_model(save=True):
+WRITTEN_DATE_NUMS = ['ersten', 'zweiten', 'dritten', 'vierten', 'fünften', 'siebten', 'achten',
+                     'neunten', 'zehnten', 'elften', 'zwölften', 'dreizehnten', 'vierzehnten',
+                     'fünfzehnten', 'sechzehnten', 'siebzehnten', 'achtzehnten', 'neunzehnten']
+
+
+def setup_date_parser(check_date_string: bool) -> DateParser:
+    return DeDateParser(DATE_MODEL_CHARS,
+                        enable_classifier_check=check_date_string,
+                        locale=Locale('de-DE'),
+                        dateparser_settings={'PREFER_DAY_OF_MONTH': 'first',
+                                             'STRICT_PARSING': False,
+                                             'DATE_ORDER': 'DMY'},
+                        classifier_model=MODEL_DATE,
+                        alphabet_character_set=DE_ALPHA_CHAR_SET,
+                        count_words=True)
+
+
+def train_default_model(save=True, verbose=False, check_date_strings=False):
     """
     Train default model.
     """
+    examples = make_date_samples()
+
+    for j in range(1, 25):
+        examples.append((f'mit {j}', []))
+        examples.append((f'Leasing mit {j}.500€ Anzahlung', []))
+
+    for j in range(2, 19):
+        examples.append((f'{j} Jahren', []))
+
+    # Add random numeric date examples
+    add_numeric_date_samples(examples)
+
+    # Output
+    output_path = 'test_date_model.pickle'
+    if save:
+        output_path = os.path.join(MODULE_PATH, 'date_model.pickle')
+
+    parser = setup_date_parser(check_date_strings)
+    build_date_model(examples,
+                     output_path,
+                     lambda date_str: [(d['value'].date(), (d['location_start'], d['location_end']))
+                                       for d in parser.get_dates(date_str)],
+                     characters=DATE_MODEL_CHARS,
+                     alphabet_char_set=DE_ALPHA_CHAR_SET,
+                     count_words=True,
+                     verbose=verbose)
+    if not save:
+        os.unlink('test_date_model.pickle')
+
+
+def make_date_samples():
     examples = [("""Spätestens am 01.06.2017""", [datetime.date(2017, 6, 1)]),
                 ("""Datum: 1. Juni 2017""", [datetime.date(2017, 6, 1)]),
                 ("""Wird bis Juni 2017 abgeschlossen sein""", [datetime.date(2017, 6, 1)]),
@@ -30,8 +82,8 @@ def train_default_model(save=True):
                 ("""Wird bis zum 1 Juni, 2017 abgeschlossen sein""", [datetime.date(2017, 6, 1)]),
                 ("""Wird bis zum ersten Juni 2017 abgeschlossen sein""", [datetime.date(2017, 6, 1)]),
                 ("""Abschnitt über 6.25""", []),
-
-
+                ("""Ausfertigungsdatum: 23.05.1975 Vollzitat:""", [datetime.date(1975, 5, 23)]),
+                ('Commencement Date: 09/12/2022.', [datetime.date(2022, 12, 9)]),
                 (
                     """Alle Arbeiten sind gemäß der WDD-Skizze vom 15. März 2005 und Hansen durchzuführen
                      Mechanische COR.""",
@@ -350,17 +402,63 @@ def train_default_model(save=True):
                 ('''14 Monaten''', []),
                 ('''Laufzeit 36 Monaten''', []),
                 ('''mit 2''', []),
-                ('''mit 16''', [])
-                ]
+                ('''mit 16''', []),
+                ('''als 1 Jahr beträgt''', []),
+                ('''als 2 Jahre betragen''', []),
+                ('''als 3 Jahre betragen''', []),
+                ('''1 Jahr nach Inkrafttreten dieser Richtlinie.''', []),
+                ('''Nach 1 Jahr werden die Positionslisten automatisch gelöscht.''', []),
+                ('''Der Vertrag beginnt mit dem Moment zu laufen, in dem der Vermieter / Mieter seine 
+                    Unterschriften darauf gemacht hat. Wenn die Mietdauer mehr als 1 Jahr beträgt, ist eine staatliche 
+                    Registrierung des Vertrags erforderlich.''', []),
+                ('''Leasing ohne Anzahlung: Monatliche Rate 300€, Laufzeit 36 Monaten, Gesamtkosten
+                    10.800€
+                    Leasing mit 2.500€ Anzahlung: Monatliche Rate 230,55€, Laufzeit 36 Monate,
+                    Gesamtkosten 10.800€
+                    Durch eine Sonderzahlung wird die monatliche Belastung gesenkt, das Risiko für
+                    den Leasinggeber sinkt.''', []),
+                ('1 Jahr', []),
+                ('mit', []),
+                ('''14 Monaten''', []),
+                ('''Laufzeit 36 Monaten''', []),
+                ('''mit 2''', []),
+                ('''mit 1''', []),
+                ('''mit ersten''', []),
+                ('''mit dritten''', []),
+                ('''mit 16''', []),
+                ('''der vierte Juli''', [datetime.date(TODAY.year, 7, 4)]),
+                ('''der dritte März''', [datetime.date(TODAY.year, 3, 3)]),
+                ('''achtzehnter Mai''', [datetime.date(TODAY.year, 5, 18)]),
+                ('''29. März 2017''', [datetime.date(2017, 3, 29)]),
+                ('''der dritte März''', [datetime.date(TODAY.year, 3, 3)]),
+                ('''der vierte Juni''', [datetime.date(TODAY.year, 6, 4)]),
+                ('''24 Stunden 5''', []),
+                ('''6 Stunden''', []),
+                ('''1 Stunde''', []),
+                ('''- Definitiver Leasing-Entscheid innert 24 Stunden 5.''', []),
+                ('''zuletzt geändert durch Art. 39 G v. 29.3.2017 I 626''',
+                 [datetime.date(2017, 3, 29)]),
+                ('''Leasing mit 2.500€ Anzahlung: Monatliche Rate 230,55€''', []),
+                ('''Soldaten auf Zeit in der Fassung der Bekanntmachung vom 16. Mai 2002 (BGBl. I S. 1778)''',
+                 [datetime.date(2002, 5, 16)]),
+                ('''Planet mit 3 Satelliten''', []),
+                ('''Wenn der Mietvertrag im September 2015 beginnt, wann sollte der Mieter 
+                    seine erste Betriebskostenabrechnung vom Vermieter erhalten?''',
+                 [datetime.date(2015, 9, 1)]),
+                ('''Was passiert, wenn das Gebäude am 01.10.2015 verkauft wird''',
+                 [datetime.date(2015, 10, 1)]),
+                ('''am siebzehnten Oktober eintausendneunhundertdreiundachtzig''',
+                 [datetime.date(1983, 10, 17)]),
+                ('''am sechzehnten November 2001''', [datetime.date(2001, 11, 16)]),
+                ('Commencement Date: 09/12/2022.', [datetime.date(2022, 12, 9)]),
+                ('Anfangsdatum: 27/02/2023', [datetime.date(2023, 2, 27)]),
+                ('Anfangsdatum: 11/11/1993', [datetime.date(1993, 11, 11)])]  #
+    return examples
 
-    for k in range(10):
-        for j in range(1, 25):
-            examples.append((f'mit {j}', []))
-            examples.append((f'Leasing mit {j}.500€ Anzahlung', []))
 
-    # Add random examples
+def add_numeric_date_samples(examples):
     p = 0.01
-    for k in range(1980, 2010):
+    for k in range(1970, 2010):
         for j in range(1, 13):
             for i in range(1, 31):
                 if random.random() <= p:
@@ -371,31 +469,42 @@ def train_default_model(save=True):
                         d = datetime.date(year, month, day)
                         n = random.randint(2, 30)
                         d2 = d + datetime.timedelta(days=n)
-                        examples.append(("""bis {0}-{1}-{2}""".format(year, month, day),
-                                         [d]))
-                        examples.append(("bis " + d.strftime("%b %d, %Y"),
-                                         [d]))
-                        examples.append(("am " + d.strftime("%B %d, %Y"),
-                                         [d]))
-                        examples.append(("bis {0} zum {1}".format(d, d2),
-                                         [d, d2]))
+                        examples.append(("""{0}/{1}/{2}""".format(year, month, day), [d]))
+                        examples.append(("""{0}.{1}.{2}""".format(year, month, day), [d]))
+                        examples.append(("""bis {0}-{1}-{2}""".format(year, month, day), [d]))
+                        examples.append(("bis " + d.strftime("%b %d, %Y"), [d]))
+                        examples.append(("am " + d.strftime("%B %d, %Y"), [d]))
+                        examples.append(("bis {0} zum {1}".format(d, d2), [d, d2]))
                         examples.append(("bis {0} zum {1}".format(d.strftime("%b d, %Y"), d2.strftime("%b d, %Y")),
                                          [d, d2]))
-                        examples.append(("{0} bis {1}".format(d.isoformat(), d2.isoformat()),
-                                         [d, d2]))
+                        examples.append(("{0} bis {1}".format(d.isoformat(), d2.isoformat()), [d, d2]))
                         examples.append(("{0} bis {1}".format(d.strftime("%b d, %Y"), d2.strftime("%b d, %Y")),
                                          [d, d2]))
                     except ValueError:
                         continue
 
-    # Output
-    output_path = 'test_date_model.pickle'
-    if save:
-        output_path = os.path.join(MODULE_PATH, 'date_model.pickle')
+    for year in (0, 2010, 1981, 2021):
+        for prefix in ['', 'der ', 'am ']:
+            for num_fmt in ['w', 'd']:
+                for month_index, month in enumerate(MONTH_NAMES):
+                    for day in range(1, 31):
+                        date_year = year or TODAY.year
+                        try:
+                            date = datetime.date(date_year, month_index + 1, day)
+                        except ValueError:
+                            continue
 
-    build_date_model(examples, output_path,
-                     lambda date_str: [(d['value'].date(), (d['location_start'], d['location_end']))
-                                       for d in get_dates(date_str)],
-                     characters=DATE_MODEL_CHARS)
-    if not save:
-        os.unlink("test_date_model.pickle")
+                        day_str = get_written_date_num(day) if num_fmt == 'w' else f'{day}.'
+                        year_str = f' {year}' if year else ''
+                        date_str = f'{prefix}{day_str} {month}{year_str}'
+                        examples.append((date_str, [date],))
+
+
+def get_written_date_num(num: int) -> str:
+    if num - 1 < len(WRITTEN_DATE_NUMS):
+        return WRITTEN_DATE_NUMS[num - 1]
+
+    date_str = num2words(num, lang='de')
+    if num < 20:
+        return date_str + 'ten'
+    return date_str + 'sten'

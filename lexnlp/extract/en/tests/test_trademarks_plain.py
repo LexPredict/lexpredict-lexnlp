@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -31,10 +31,10 @@ class TestTrademarksPlain(TestCase):
         self.assertEqual((start, ants[0].coords[1]), ants[0].coords)
 
     def test_annotation_coords(self):
-        text = """...  packages containing the NetLOCK(TM) computer programs in executable
-or machine-readable form and written instructional materials.  Licensed Programs
-include a NetLOCK(TM)  Manager for network  security  administration  and one or
-more  NetLOCK(TM)  Clients for use on multiple  computers  ..."""
+        text = """...  packages containing the BetLUCK(TM) computer programs in executable
+or human-readable form and written instructional materials.  Licensed Programs
+include a BetLUCK(TM)  Manager for network  security  administration  and one or
+more  BetLUCK(TM)  Clients for use on multiple  computers  ..."""
 
         ants = list(get_trademark_annotations(text))
         self.assertEqual(3, len(ants))

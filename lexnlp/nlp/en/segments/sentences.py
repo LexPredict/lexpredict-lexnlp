@@ -11,8 +11,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -59,7 +59,7 @@ SENTENCE_SPLITTERS_LOWER_EXCLUDE = re.compile(
 
 NOT_SENTENCES = re.compile(
     r'\W+'  # OCR artifacts like some non-alphanumeric chars on separate lines
-    r'|(\W*\w{1,2}(\W+\w{1,2})*\W*)|\W+'  # OCR artifacts like 'a bba af ag ah'
+    r'|(\W*[^\W\d_]{1,2}(\W+[^\W\d_]{1,2})*\W*)|\W+'  # OCR artifacts like 'a bba af ag ah'
 )
 
 STRIP_GROUP = re.compile(r'^\s*(\S.*?)\s*$', re.DOTALL)

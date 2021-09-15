@@ -14,8 +14,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -34,7 +34,7 @@ from lexnlp.tests import lexnlp_tests
 
 
 EXAMPLE_TEXT_1 = """Dear Jerry:
-This amended and restated letter agreement sets forth the terms of your employment with Logitech Inc., a California 
+This amended and restated letter agreement sets forth the terms of your employment with Polytech Inc., a California 
 corporation (the “Company”), as well as our understanding with respect to any termination of that employment 
 relationship. Effective on the date set forth above, this letter agreement supersedes your offer letter dated January
 28, 2008, in its entirety."""
@@ -222,7 +222,7 @@ class TestDates(TestCase):
              'char_6': 0.0, 'bigram_94': 0.0})
 
     @pytest.mark.serial
-    def test_build_model(self):
+    def debug_build_model(self):
         """
         Test build model by running default train.
         :return:

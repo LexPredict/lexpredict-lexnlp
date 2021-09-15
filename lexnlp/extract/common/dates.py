@@ -5,8 +5,8 @@ Dates parser based on dateparser package
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -15,11 +15,10 @@ import datetime
 import re
 from importlib import import_module
 
-import pandas as pd
 import string
 
 from dateparser.search import search_dates
-from typing import Generator, Any, Dict, Optional, Tuple, List
+from typing import Generator, Any, Dict, Optional, Tuple, List, Set
 
 from lexnlp.extract.all_locales.languages import Locale
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
@@ -54,7 +53,10 @@ class DateParser:
                  dateparser_settings: Optional[Dict[str, Any]] = None,
                  enable_classifier_check: bool = True,
                  classifier_model: Optional[Any] = None,
-                 classifier_threshold: float = 0.5):
+                 classifier_threshold: float = 0.5,
+                 alphabet_character_set: Optional[Set[str]] = None,
+                 count_words=False,
+                 feature_window=5):
         """
         :param locale: locale object with language code and locale code
         :param enable_classifier_check: bool - enable date check using classifier model
@@ -63,6 +65,8 @@ class DateParser:
         :param dateparser_settings: dict - settings for dateparser
         """
         self.characters = characters
+        self.count_words = count_words
+        self.alphabet_character_set = alphabet_character_set
         self.locale = locale
         self.text = text
         self.dates = []
@@ -70,6 +74,7 @@ class DateParser:
         self.classifier_model = classifier_model
         self.classifier_threshold = classifier_threshold
         self.dateparser_settings = dateparser_settings or self.DEFAULT_DATEPARSER_SETTINGS
+        self.feature_window = feature_window
 
     def get_dateparser_dates(self,
                              text: Optional[str],
@@ -107,17 +112,26 @@ class DateParser:
         Use pre-trained classifier model to predict whether a date has right format
         Should be pluggable as it takes 90% parsing time
         """
-        row_df = pd.DataFrame.from_records(
-            [get_date_features(self.text, location_start, location_end, self.characters)])
-        date_score = self.classifier_model.predict_proba(
-            row_df.reindex(columns=self.classifier_model.columns))
+        features = [get_date_features(self.text,
+                                      location_start,
+                                      location_end, self.characters,
+                                      self.alphabet_character_set,
+                                      count_words=self.count_words,
+                                      window=self.feature_window)][0]
+        # rearrange the features to self.classifier_model.columns order
+        feature_list = len(features) * [0.0]
+        for i, col in enumerate(self.classifier_model.columns):
+            feature_list[i] = features[col]
+        date_score = self.classifier_model.predict_proba([feature_list])
         return date_score[0, 1] > self.classifier_threshold
 
     def get_dates(self,
                   text: Optional[str] = None,
                   locale: Optional[Locale] = None) \
             -> Generator[Dict[str, Any], None, None]:
-        for ant in self.get_date_annotations(text, locale):
+        strict = self.dateparser_settings.get('STRICT_PARSING',
+                                              self.DEFAULT_DATEPARSER_SETTINGS.get('STRICT_PARSING', False))
+        for ant in self.get_date_annotations(text, locale, strict=strict):
             yield {'location_start': ant.coords[0],
                    'location_end': ant.coords[1],
                    'value': ant.date,

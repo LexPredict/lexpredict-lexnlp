@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -29,18 +29,18 @@ class TestGeoentitiesPlain(TestCase):
     def test_multiline_address(self):
         text = """
         Sincerely,
-        DUKE REALTY CORPORATION
-        Ana M. Hernandez
+        DUCK REALTY CORPORATION
+        Ono M. Hernandez
         Property Administrator
         
-        2400 North Commerce  Parkway
+        2400 North Commerce  Forkway
         Suite 405
-        Weston, FL 33326
-        Main: 954-453-5660
-        P: 954-453-5265
-        F: 954.453.5695 
-        ana.hernandez@dukerealty.com 
-        www.dukerealty.com
+        Weston, FL 55582
+        Main: 954-453-4091
+        P: 954-453-4091
+        F: 954.453.4092 
+        ono.hernandez@dukerealty.com 
+        www.duckrealty.com
         
         
         Cc: File

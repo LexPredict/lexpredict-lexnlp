@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.0.0/LICENSE"
-__version__ = "2.0.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
+__version__ = "2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -48,7 +48,7 @@ class TestDateTokenizer(TestCase):
         dstrs = list(dtok.extract_date_strings(text, True))
         self.assertEqual(4, len(dstrs))
         self.assertEqual('until July 18, 2002', dstrs[1][0])
-        self.assertEqual((117, 139), dstrs[1][1])
+        self.assertEqual((118, 137), dstrs[1][1])
         groups = dstrs[1][2]
         self.assertEqual([], groups['time'])
         self.assertEqual('18', groups['digits'][0])
