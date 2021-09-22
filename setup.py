@@ -103,6 +103,7 @@ setup(
         'requests==2.24.0',
         'scipy==1.5.1',
         'scikit-learn==0.23.1',
+        'tzlocal==2.1',
         'Unidecode==1.1.1',
         'us==2.0.2',
         'zahlwort2num==0.2.1'
