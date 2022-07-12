@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -11,11 +11,12 @@ from lexnlp.utils.map import Map
 
 
 class GeoAnnotation(TextAnnotation):
-    record_type = 'geoentity'
     """
     create an object of GeoAnnotation like
     cp = GeoAnnotation(coords=(0, 100), value='101st Maple Street')
     """
+    record_type = 'geoentity'
+
     def __init__(self,
                  coords: Tuple[int, int],
                  locale: str = 'en',

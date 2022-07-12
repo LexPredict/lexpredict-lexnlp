@@ -2,13 +2,14 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 from typing import Dict, List, Generator, Tuple, Optional
 import os
+import copy
 import regex as re
 import nltk
 import string
@@ -16,7 +17,7 @@ import string
 from lexnlp.config.en.company_types import CompanyDescriptor
 from lexnlp.extract.common.annotations.company_annotation import CompanyAnnotation
 from lexnlp.extract.en.entities.company_np_extractor import CompanyNPExtractor
-from lexnlp.extract.en.utils import strip_unicode_punctuation
+from lexnlp.extract.en.utils import strip_unicode_punctuation, replace_upper_words_with_titled
 from lexnlp.extract.en.entities import nltk_re
 from lexnlp.extract.common.entities.entity_banlist import BanListUsage, default_banlist_usage, EntityBanListItem
 from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
@@ -278,11 +279,13 @@ class CompanyDetector:
         """
         Get names from text.
         """
+        companies = list(self.get_company_annotations(text))
         # Iterate through sentences
         for sentence in get_sentence_list(text):
             # Tag sentence
+            original_sentence = copy.copy(sentence)
+            sentence = replace_upper_words_with_titled(sentence)
             sentence_pos = nltk.pos_tag(get_token_list(sentence))
-            companies = list(self.get_company_annotations(text))
 
             # Iterate through chunks
             persons = []
@@ -309,6 +312,14 @@ class CompanyDetector:
                     else:
                         last_person_pos = None
 
+            # convert persons to persons from original sentence and remove UPPER persons as 1 word
+            persons = [person.upper() 
+                       if person.upper() in original_sentence \
+                          and person.upper() not in persons
+                       else person 
+                       for person in persons 
+                       if not (person.upper() in original_sentence and len(re.findall(r'\w+', person)) < 2)]
+            
             # Cleanup and yield
             for person in persons:
                 # Cleanup

@@ -26,7 +26,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='2.1.0',
+    version='2.2.0',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -89,27 +89,25 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'datefinder-lexpredict==0.6.2.1',
-        'dateparser==0.7.2',
-        'gensim==3.8.3',
-        'joblib==0.14.0',
-        'nltk==3.5',
+        'cloudpickle==2.1.0',
+        'dateparser==1.1.1',
+        'gensim==4.1.2',
+        'joblib==1.1.0',
+        'nltk==3.7',
         'num2words==0.5.10',
-        'numpy==1.19.1',
-        'pandas==1.1.3',
-        'pycountry==20.7.3',
-        'regex==2020.11.13',
-        'reporters-db==2.0.3',
-        'requests==2.24.0',
-        'scipy==1.5.1',
+        'numpy==1.22.4',
+        'pandas==1.4.2',
+        'pycountry==22.3.5',
+        'regex==2022.3.2',
+        'reporters-db==3.2.18',
+        'requests==2.27.1',
+        'scipy==1.8.1',
         'scikit-learn==0.23.1',
         'tzlocal==2.1',
-        'Unidecode==1.1.1',
+        'tqdm>=4.36.0',
+        'Unidecode==1.3.4',
         'us==2.0.2',
-        'zahlwort2num==0.2.1'
-    ],
-    dependency_links=[
-        'git+https://github.com/LexPredict/datefinder/archive/0.6.2.1.zip#egg=datefinder-lexpredict-0.6.2.1'
+        'zahlwort2num==0.3.0'
     ],
 
     # Install any data files from packages.
@@ -121,8 +119,8 @@ setup(
     # for example:
     # $ pip install -e .[dev,test]
     extras_require={
-        'dev': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7'],
-        'test': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7'],
+        'dev': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7', 'nose', 'memory-profiler', 'psutil', 'matplotlib'],
+        'test': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7', 'nose', 'memory-profiler', 'psutil'],
     },
 
     # If there are data files included in your packages that need to be

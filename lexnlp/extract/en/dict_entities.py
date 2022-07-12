@@ -19,8 +19,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -419,7 +419,7 @@ def _find_entity_positions(normalized_text: str,
         return block == block_upper
 
     if context is None:
-        context = dict()
+        context = {}
 
     if not entity.aliases:
         return
@@ -571,7 +571,7 @@ def find_dict_entities(text: str,
                                                         simple_tokenization=False)
     normalized_text_lowercase = normalized_text.lower()
 
-    search_context = dict()
+    search_context = {}
     # Search for each DictEntity occurrence adding them into the shared search context.
     # while searching for entities from the dictionary by their attributes / aliases
     # we may

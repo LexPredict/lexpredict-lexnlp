@@ -5,8 +5,8 @@ This module implements date extraction functionality in English.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -81,6 +81,10 @@ def get_raw_dates(text, strict=False, base_date=None,
     :param locale: locale object
     :return:
     """
+    if isinstance(locale, str):
+        locale = Locale(locale)
+    elif locale is None:
+        locale = Locale('')
     # Setup base date
     if not base_date:
         base_date = datetime.datetime.now().replace(
@@ -381,7 +385,7 @@ def get_date_annotations(text: str,
 
     # Get raw dates
     strict = strict if strict is not None else False
-    raw_date_results = get_raw_date_list(
+    raw_date_results = get_raw_dates(
         text, strict=strict, base_date=base_date, return_source=True, locale=Locale(locale))
 
     for raw_date in raw_date_results:
@@ -391,10 +395,14 @@ def get_date_annotations(text: str,
             feature_list[i] = feature_row[col]
         date_score = MODEL_DATE.predict_proba([feature_list])
         if date_score[0, 1] >= threshold:
-            ant = DateAnnotation(coords=raw_date[1],
-                                 date=raw_date[0],
-                                 score=date_score[0, 1])
-            yield ant
+            date, coordinates = raw_date
+            annotation = DateAnnotation(
+                coords=coordinates,
+                text=text[slice(*coordinates)],
+                date=date,
+                score=date_score[0, 1]
+            )
+            yield annotation
 
 
 def train_default_model(save=True):

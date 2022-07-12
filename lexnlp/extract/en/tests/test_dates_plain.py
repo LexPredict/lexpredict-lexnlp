@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -162,6 +162,14 @@ class TestDatesPlain(TestCase):
         dates = get_dates_list(text, locale='en-GB')
         self.assertEqual(1, len(dates))
         self.assertEqual(12, dates[0].month)
+
+    def test_date_with_abbreviation(self):
+        text = "'“Obligation No. 1” means Direct Note Obligation No. 1 dated October 27, 2011, " \
+               "issued to the Authority under the First Supplemental Master Indenture to secure " \
+               "the Series 2000 COPs.'"
+        dates = get_dates_list(text)
+        self.assertEqual(1, len(dates))
+        self.assertEqual(datetime.date(2011, 10, 27), dates[0])
 
     def test_en_dates(self):
         text = "Some date like February 26, 2018 and this one 10-11-2017"

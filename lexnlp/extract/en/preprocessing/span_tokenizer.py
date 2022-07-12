@@ -1,11 +1,11 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
-import nltk
+from nltk import word_tokenize, pos_tag
 from typing import Tuple, Generator
 
 from lexnlp.extract.common.text_beautifier import TextBeautifier
@@ -18,8 +18,8 @@ class SpanTokenizer:
         """
         returns: [('word', 'token', (word_start, word_end)), ...]
         """
-        words = nltk.word_tokenize(txt)
-        tokens = nltk.pos_tag(words)
+        words = word_tokenize(txt)
+        tokens = pos_tag(words)
         offset = 0
         last_symbol = len(txt) - 1
 

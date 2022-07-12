@@ -11,8 +11,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -26,13 +26,12 @@ import joblib
 
 from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
 
-
 # Setup module path
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Load segmenters
-SENTENCE_SEGMENTER_MODEL = joblib \
-    .load(os.path.join(MODULE_PATH, "./sentence_segmenter.pickle"))  # type: PunktSentenceTokenizer
+SENTENCE_SEGMENTER_MODEL: PunktSentenceTokenizer = \
+    joblib.load(os.path.join(MODULE_PATH, "./sentence_segmenter.pickle"))
 extra_abbreviations = [a.rstrip('.') for a in EnLanguageTokens.abbreviations]
 SENTENCE_SEGMENTER_MODEL._params.abbrev_types.update(extra_abbreviations)
 SENTENCE_SEGMENTER_MODEL._params.abbrev_types.update(['no', 'l'])
@@ -66,7 +65,7 @@ STRIP_GROUP = re.compile(r'^\s*(\S.*?)\s*$', re.DOTALL)
 
 
 # are used in normalize_text for better splitting text on sentences
-PRETOKENIZE_REPLACEMENTS = [('“', '"'), ('”', '"')]
+PRETOKENIZE_REPLACEMENTS = (('“', '"'), ('”', '"'))
 
 
 def pre_process_document(text: str) -> str:
@@ -133,27 +132,6 @@ def post_process_sentence(text: str, sent_span: Tuple[int, int]) \
                 yield span
 
 
-def get_sentence_list(text):
-    """
-    Get sentences from text.
-    :param text:
-    :return:
-    """
-    return [ssp[2] for ssp in get_sentence_span_list(text)]
-
-
-def get_sentence_span(text: str) -> Generator[Tuple[int, int, str], Any, Any]:
-    """
-    Given a text, returns a list of the (start, end) spans of sentences
-    in the text.
-    """
-    text_unified = normalize_text(text)
-    for span in SENTENCE_SEGMENTER_MODEL.span_tokenize(text_unified, realign_boundaries=True):
-        for tspan in post_process_sentence(text, span):
-            subst = text[tspan[0]:tspan[1]]  # we take fragments from original text
-            yield (tspan[0], tspan[1], subst)
-
-
 def normalize_text(text: str) -> str:
     """
     Simple text pre-processing: replacing "not-quite unicode" symbols
@@ -167,12 +145,38 @@ def normalize_text(text: str) -> str:
     return text
 
 
+def get_sentence_span(text: str) -> Generator[Tuple[int, int, str], Any, Any]:
+    """
+    Given a text, returns a list of the (start, end) spans of sentences
+    in the text.
+    """
+    text_unified = normalize_text(text)
+    for span in SENTENCE_SEGMENTER_MODEL.span_tokenize(text_unified, realign_boundaries=True):
+        for start, end in post_process_sentence(text, span):
+            substring = text[start:end]  # we take fragments from original text
+            yield start, end, substring
+
+
 def get_sentence_span_list(text) -> List[Tuple[int, int, str]]:
     """
     Given a text, generates (start, end) spans of sentences
     in the text.
     """
-    return list(get_sentence_span(text))
+    return [*get_sentence_span(text)]
+
+
+def get_sentences(text: str) -> Generator[str, None, None]:
+    for _, _, sentence_span in get_sentence_span(text):
+        yield sentence_span
+
+
+def get_sentence_list(text: str) -> List[str]:
+    """
+    Get sentences from text.
+    :param text:
+    :return:
+    """
+    return [*get_sentences(text)]
 
 
 def build_sentence_model(text, extra_abbrevs=None):

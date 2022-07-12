@@ -4,6 +4,13 @@
 Changelog
 ============
 
+2.2.0 - July 7, 2022
+----------------
+ * Improved LexNLP handling for dates, durations and persons for the all locales.
+ * Added parameterizable contract classifiers.
+ * Improved LexNLP handling for ML models.
+ * Updated python requirements and tests, retrained ML models to use gensim-4.
+
 2.1.0 - September 16, 2021
 ----------------
  * Improved LexNLP handling for companies for the "EN" locale.
