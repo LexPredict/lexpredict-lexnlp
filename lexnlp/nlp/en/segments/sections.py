@@ -9,8 +9,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -117,22 +117,24 @@ def build_section_break_features(
 
     # Simple checks
     line = lines[line_id]
+    line_stripped = line.strip()
+    len_line_stripped = len(line_stripped)
     feature_vector['section'] = 1 if 'section' in line else 0
     feature_vector['SECTION'] = 1 if 'SECTION' in line else 0
     feature_vector['Section'] = 1 if 'Section' in line else 0
     feature_vector['article'] = 1 if 'article' in line else 0
     feature_vector['ARTICLE'] = 1 if 'ARTICLE' in line else 0
     feature_vector['Article'] = 1 if 'Article' in line else 0
-    feature_vector['sw_section'] = 1 if line.strip().lower().startswith('section') else 0
-    feature_vector['sw_article'] = 1 if line.strip().lower().startswith('article') else 0
-    feature_vector['first_char_punct'] = (line.strip()[0] in string.punctuation) if len(line.strip()) > 0 else False
-    feature_vector['last_char_punct'] = (line.strip()[-1] in string.punctuation) if len(line.strip()) > 0 else False
-    feature_vector['first_char_number'] = (line.strip()[0] in string.digits) if len(line.strip()) > 0 else False
-    feature_vector['last_char_number'] = (line.strip()[-1] in string.digits) if len(line.strip()) > 0 else False
+    feature_vector['sw_section'] = 1 if line_stripped.lower().startswith('section') else 0
+    feature_vector['sw_article'] = 1 if line_stripped.lower().startswith('article') else 0
+    feature_vector['first_char_punct'] = (line_stripped[0] in string.punctuation) if len_line_stripped > 0 else False
+    feature_vector['last_char_punct'] = (line_stripped[-1] in string.punctuation) if len_line_stripped > 0 else False
+    feature_vector['first_char_number'] = (line_stripped[0] in string.digits) if len_line_stripped > 0 else False
+    feature_vector['last_char_number'] = (line_stripped[-1] in string.digits) if len_line_stripped > 0 else False
 
     # Build character vector
     for character in characters:
-        feature_vector["char_{0}".format(character)] = lines[line_id].count(character)
+        feature_vector["char_{0}".format(character)] = line.count(character)
 
     # Add doc if requested
     if include_doc:

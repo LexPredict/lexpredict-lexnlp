@@ -9,8 +9,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -78,10 +78,12 @@ def build_paragraph_break_features(lines: List[str],
 
     # Simple checks
     line = lines[line_id]
-    feature_vector["first_char_punct"] = (line.strip()[0] in string.punctuation) if len(line.strip()) > 0 else False
-    feature_vector["last_char_punct"] = (line.strip()[-1] in string.punctuation) if len(line.strip()) > 0 else False
-    feature_vector["first_char_number"] = (line.strip()[0] in string.digits) if len(line.strip()) > 0 else False
-    feature_vector["last_char_number"] = (line.strip()[-1] in string.digits) if len(line.strip()) > 0 else False
+    line_stripped = line.strip()
+    len_line_stripped = len(line_stripped)
+    feature_vector["first_char_punct"] = (line_stripped[0] in string.punctuation) if len_line_stripped > 0 else False
+    feature_vector["last_char_punct"] = (line_stripped[-1] in string.punctuation) if len_line_stripped > 0 else False
+    feature_vector["first_char_number"] = (line_stripped[0] in string.digits) if len_line_stripped > 0 else False
+    feature_vector["last_char_number"] = (line_stripped[-1] in string.digits) if len_line_stripped > 0 else False
 
     # Build character vector
     for character in characters:

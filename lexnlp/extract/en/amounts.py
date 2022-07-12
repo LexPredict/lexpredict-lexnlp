@@ -27,15 +27,15 @@ Avoids:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 # pylint: disable=bare-except
 
 import string
-from decimal import Decimal, DecimalTuple
+from decimal import Decimal, DecimalTuple, InvalidOperation
 from typing import Dict, Generator, Optional, Tuple, Union, List
 
 import nltk
@@ -156,8 +156,6 @@ FRACTION_EXTRACT_PTN = r"((?:(?:{writ})|(?:(?:{writ_20_90})[\s-]+(?:{writ_1_9}))
             writ_ord_mix='|'.join([num2words(n, ordinal=True) + 's?' for n in SMALL_NUMBERS[2:]]),
             writ_ord_1_9_mix='|'.join([num2words(n, ordinal=True) + 's?' for n in SMALL_NUMBERS[1:10]]))
 FRACTION_EXTRACT_PTN_RE = re.compile(FRACTION_EXTRACT_PTN, re.S | re.M)
-
-wnl = nltk.stem.WordNetLemmatizer()
 
 # Taken from Su Nam Kim Paper...
 grammar = r"""
@@ -303,27 +301,32 @@ def text2num(
     return Decimal(n + prefix + d)
 
 
-def get_np(text) -> Generator[Tuple[str, str], None, None]:
-    tokens = nltk.word_tokenize(text)
-    pos_tokens = nltk.tag.pos_tag(tokens)
-    chunks = chunker.parse(pos_tokens)
+def get_np(text) -> Generator[str, None, None]:
+    tokens: List[str] = nltk.word_tokenize(text)
+    pos_tokens: nltk.tree.Tree = nltk.tag.pos_tag(tokens)
+    chunks: nltk.tree.Tree = chunker.parse(pos_tokens)
     for subtree in chunks.subtrees(filter=lambda t: t.label() == 'NP'):
-        np = ' '.join([i[0] for i in subtree.leaves()])
-        _np = ' '.join([wnl.lemmatize(i[0]) for i in subtree.leaves()])
-        yield np, _np
+        yield ' '.join(i[0] for i in subtree.leaves())
 
 
 def quantize_by_float_digit(amount: Decimal, float_digits: int) -> Decimal:
     amount_as_tuple: DecimalTuple = amount.as_tuple()
     exponent: int = amount_as_tuple.exponent
     abs_exponent: int = abs(exponent)
-    if abs_exponent == 0:
-        return amount.quantize(Decimal('0.0'))
-    if abs_exponent > float_digits:
-        if any(amount_as_tuple.digits[exponent:]):
-            return amount.quantize(Decimal(f'0.{"0" * float_digits}'))
-        return amount.quantize(Decimal('0.0'))
-    return amount
+    try:
+        if abs_exponent == 0:
+            return amount.quantize(Decimal('0.0'))
+        if abs_exponent > float_digits:
+            if any(amount_as_tuple.digits[exponent:]):
+                return amount.quantize(Decimal(f'0.{"0" * float_digits}'))
+            return amount.quantize(Decimal('0.0'))
+        return amount
+    except InvalidOperation as invalid_operation:
+        # TODO: fix this problem in a better way later
+        # raise InvalidOperation(
+        #     f'{amount=}, {float_digits=}, {getcontext().prec=}'
+        # ) from invalid_operation
+        return amount
 
 
 def get_amounts(
@@ -390,7 +393,7 @@ def get_amount_annotations(
             unit = ''
             next_text = text[match.span()[1]:]
             if next_text:
-                for np, _ in get_np(next_text):
+                for np in get_np(next_text):
                     if next_text.startswith(np):
                         unit = np
                 if unit:

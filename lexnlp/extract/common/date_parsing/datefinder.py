@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -73,7 +73,7 @@ class DateFinder:
     DELIMITERS_PATTERN = r'[/\:\-\,\.\s\_\+\@]+'
     TIME_PERIOD_PATTERN = r'a\.m\.|am|p\.m\.|pm'
     ## can be in date strings but not recognized by dateutils
-    EXTRA_TOKENS_PATTERN = 'due|by|on|during|standard|daylight|savings|time|date|dated|day|of|to|through|between|until|z|at|t'
+    EXTRA_TOKENS_PATTERN = 'due|by|on|during|standard|daylight|savings|time|date|dated|day|of|from|to|through|between|until|z|at|t'
 
     ## TODO: Get english numbers?
     ## http://www.rexegg.com/regex-trick-numbers-in-english.html
@@ -92,20 +92,16 @@ class DateFinder:
             (?P<minutes>\d{{1,2}})
             (\:(?<seconds>\d{{1,2}}))?
             ([\.\,](?<microseconds>\d{{1,6}}))?
-            \s*
-            (?P<time_periods>{time_periods})?
-            \s*
-            (?P<timezones>{timezones})?
+            (\s*(?P<time_periods>{time_periods}))?
+            (\s*(?P<timezones>{timezones}))?
         )
         |
         ## Captures in format 11 AM (EST)
         ## Note with single digit capture requires time period
         (
             (?P<hours>\d{{1,2}})
-            \s*
-            (?P<time_periods>{time_periods})
-            \s*
-            (?P<timezones>{timezones})*
+            (\s*(?P<time_periods>{time_periods}))
+            (\s*(?P<timezones>{timezones}))*
         )
     )
     """.format(
@@ -127,22 +123,26 @@ class DateFinder:
             |
             (?P<months>{months})
             |
+            ## These abbreviations could be in phrases and make parsing date harder.
+            ## Should be located before delimiters in regular expression pattern
+            (?:\s)(?:[A-Z][a-z]{{1,3}}\.)(\s*[^a-zA-Z\s]+)(?![\w\d])
+            |
             ## Delimiters, ie Tuesday[,] July 18 or 6[/]17[/]2008
             ## as well as blank space
             (?P<delimiters>{delimiters})
             |
             ## These tokens could be in phrases that dateutil does not yet recognize
             ## Some are US Centric
-            (?P<extra_tokens>({extra_tokens})[\s\.$,;]+)
+            (?<![\w\d])(?P<extra_tokens>({extra_tokens}))(?![\w\d])
+
         ## We need at least three items to match for minimal datetime parsing
         ## ie 10pm
         ){{1,1}}
     )
     """
 
-    ALL_GROUPS = ['time', 'digits_modifier', 'digits', 'days',
-                  'months', 'delimiters', 'extra_tokens', 'timezones',
-                  'time_periods', 'hours', 'minutes', 'seconds',
+    ALL_GROUPS = ['time', 'digits_modifier', 'digits', 'days', 'months', 'delimiters',
+                  'extra_tokens', 'timezones', 'time_periods', 'hours', 'minutes', 'seconds',
                   'microseconds']
 
     DATES_PATTERN = DATES_PATTERN.format(
@@ -152,17 +152,20 @@ class DateFinder:
         days=DAYS_PATTERN,
         months=MONTHS_PATTERN,
         delimiters=DELIMITERS_PATTERN,
-        extra_tokens=EXTRA_TOKENS_PATTERN
+        extra_tokens=EXTRA_TOKENS_PATTERN,
     )
 
-    DATE_REGEX = re.compile(DATES_PATTERN, re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
+    DATE_REGEX = re.compile(DATES_PATTERN,
+                            re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
 
-    TIME_REGEX = re.compile(TIME_PATTERN, re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
+    TIME_REGEX = re.compile(TIME_PATTERN,
+                            re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL | re.VERBOSE)
 
     # split ranges
     RANGE_SPLIT_PATTERN = r'\Wto\W|\Wthrough\W'
 
-    RANGE_SPLIT_REGEX = re.compile(RANGE_SPLIT_PATTERN, re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL)
+    RANGE_SPLIT_REGEX = re.compile(RANGE_SPLIT_PATTERN,
+                                   re.IGNORECASE | re.MULTILINE | re.UNICODE | re.DOTALL)
 
     ## These tokens can be in original text but dateutil
     ## won't handle them without modification
@@ -198,7 +201,7 @@ class DateFinder:
         for match in self.DATE_REGEX.finditer(text):
             match_str = match.group(0)
             indices = match.span(0)
-            captures = match.capturesdict()
+            captures = {k: v for k, v in match.capturesdict().items() if v}
             for capt_key in captures:
                 captures[capt_key] = [c.strip() for c in captures[capt_key]]
             group = self.get_token_group(captures)
@@ -212,7 +215,7 @@ class DateFinder:
         return items
 
     def merge_tokens(self, tokens: List[Tuple[str, str]]) -> List[DateFragment]:
-        MIN_MATCHES = 3
+        MIN_MATCHES = 2
         fragments: List[DateFragment] = []
         frag = DateFragment()
 
@@ -230,7 +233,8 @@ class DateFinder:
                 start_char = total_chars
                 continue
 
-            frag.matches_count += 1
+            if group != 'delimiters':
+                frag.matches_count += 1
             if frag.indices[1] == 0:
                 frag.indices = (start_char, total_chars)
             else:
@@ -395,7 +399,6 @@ class DateFinder:
                 was_raised_error = True
         else:
             try:
-                print(date_string, self.base_date, type(locale))
                 as_dt = dateparser.parse(date_string,
                                          settings={'RELATIVE_BASE': self.base_date},
                                          locales=[locale.get_locale()])

@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -117,7 +117,8 @@ class DeDurationParser(DurationParser):
                 duration_type_en=unit_name_en,
                 duration_type=unit_name_local,
                 prefix=unit_prefix,
-                locale=cls.LOCALE
+                locale=cls.LOCALE,
+                value_dict={unit_name_en: float(amount)}
             )
             all_annotations.append(ant)
         return all_annotations

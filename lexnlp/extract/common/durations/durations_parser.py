@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -74,6 +74,13 @@ class DurationParser:
         rst.amount = rst.duration_days
         rst.duration_type = ant_group[-1].duration_type
         rst.duration_type_en = ant_group[-1].duration_type_en
+        for ant in ant_group:
+            if rst.value_dict is None:
+                rst.value_dict = {ant.duration_type: float(ant.amount)}
+            elif ant.duration_type in rst.value_dict:
+                rst.value_dict[ant.duration_type] += float(ant.amount)
+            else:
+                rst.value_dict[ant.duration_type] = float(ant.amount)
         return rst
 
     @classmethod

@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.1.0/LICENSE"
-__version__ = "2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
+__version__ = "2.2.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -10,11 +10,12 @@ from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 
 
 class TrademarkAnnotation(TextAnnotation):
-    record_type = 'trademark'
     """
     create an object of TrademarkAnnotation like
     cp = TrademarkAnnotation(name='name', coords=(0, 100), trademark='CZ')
     """
+    record_type = 'trademark'
+
     def __init__(self,
                  coords: Tuple[int, int],
                  locale: str = 'en',
