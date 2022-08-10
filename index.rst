@@ -81,6 +81,8 @@ Requirements
 Releases
 --------
 
+-  2.2.1.0: August 10, 2022 - Twenty fifth scheduled public release;
+   `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.1.0>`__
 -  2.2.0: July 7, 2022 - Twenty fourth scheduled public release;
    `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.0>`__
 -  2.1.0: September 16, 2021 - Twenty third scheduled public release;

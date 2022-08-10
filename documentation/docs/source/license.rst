@@ -7,7 +7,7 @@ License
 AGPL License
 ----------------
 LexNLP is available by default under the terms of the GNU Affero General Public License v3.0.
-https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE
+https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE
 
 
 License Release

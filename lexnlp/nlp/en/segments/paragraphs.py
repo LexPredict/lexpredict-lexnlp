@@ -9,38 +9,47 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
+
+# standard library imports
 import os
-# Imports
-import re
 import string
 import unicodedata
-from typing import Generator, List, Tuple, Union, Optional
+from re import Pattern, compile as re_compile
+from typing import Dict, Final, Generator, List, Set, Tuple, Union, Optional
 
-# Packages
-import pandas
+# third-party imports
 import joblib
+from pandas import DataFrame
 
+# LexNLP
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 
 
 # Setup module path
+
+
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Load segmenters
-PARAGRAPH_SEGMENTER_MODEL = joblib.load(os.path.join(MODULE_PATH, "./paragraph_segmenter.pickle"))
+PARAGRAPH_SEGMENTER_MODEL: Final = joblib.load(os.path.join(MODULE_PATH, "./paragraph_segmenter.pickle"))
+
+# regular expression for newlines
+RE_NEW_LINE: Final[Pattern] = re_compile(r'(?P<line>[^\r\n]*)((\r\n)|(\n\r)|\n|\r)')
 
 
-def build_paragraph_break_features(lines: List[str],
-                                   line_id: int,
-                                   line_window_pre: int,
-                                   line_window_post: int,
-                                   characters=string.printable,
-                                   include_doc=None):
+def build_paragraph_break_features(
+    lines: List[str],
+    line_id: int,
+    line_window_pre: int,
+    line_window_post: int,
+    characters=string.printable,
+    include_doc=None,
+) -> Dict[str, Union[int, bool]]:
     """
     Build a feature vector for a given line ID with given parameters.
     """
@@ -97,20 +106,21 @@ def build_paragraph_break_features(lines: List[str],
 
 
 def get_paragraph_break_feature_names(
-        lines_count: int,
-        line_window_pre: int,
-        line_window_post: int,
-        characters=string.printable,
-        include_doc=None):
+    lines_count: int,
+    line_window_pre: int,
+    line_window_post: int,
+    characters=string.printable,
+    include_doc=None
+) -> Set[str]:
     """
     Build a feature vector for a given line ID with given parameters.
     """
     # Feature vector
-    feature_vector = {
+    feature_vector: Set[str] = {
         'first_char_punct',
         'last_char_punct',
         'first_char_number',
-        'last_char_number'
+        'last_char_number',
     }
 
     # Check start offset
@@ -146,9 +156,6 @@ def get_paragraph_break_feature_names(
     return feature_vector
 
 
-RE_NEW_LINE = re.compile(r'(?P<line>[^\r\n]*)((\r\n)|(\n\r)|\n|\r)')
-
-
 def splitlines_with_spans(text: str) -> Tuple[List[str], List[Tuple[int, int]]]:
     lines: List[str] = []
     spans: List[Tuple[int, int]] = []
@@ -167,40 +174,74 @@ def splitlines_with_spans(text: str) -> Tuple[List[str], List[Tuple[int, int]]]:
     return lines, spans
 
 
-def _maybe_paragraph(pos0: int, pos1: Optional[int], text: str, line_spans: List[Tuple[int, int]], return_spans: bool) \
-        -> Optional[Union[str, Tuple[str, int, int]]]:
-    span = (line_spans[pos0][0], line_spans[pos1][0] if pos1 is not None else len(text))
-    paragraph = text[span[0]:span[1]]
-
-    if len(paragraph.strip()) > 0:
-        if return_spans:
-            return paragraph, span[0], span[1]
-        return paragraph
-
-
-def get_paragraphs(text: str, window_pre=3, window_post=3,
-                   score_threshold=0.5, return_spans: bool = False) -> Generator:
+def _form_potential_paragraph(
+    pos0: int,
+    pos1: Optional[int],
+    text: str,
+    line_spans: List[Tuple[int, int]],
+) -> Optional[Tuple[int, int, str]]:
     """
-    Get paragraphs.
+    """
+    span: Tuple[int, int] = (
+        line_spans[pos0][0],
+        line_spans[pos1][0] if pos1 is not None else len(text)
+    )
+    paragraph = text[span[0]:span[1]]
+    if len(paragraph.strip()) > 0:
+        return span[0], span[1], paragraph
+
+
+def get_paragraph_spans(
+    text: str,
+    window_pre=3,
+    window_post=3,
+    score_threshold=0.5,
+) -> Generator[Tuple[int, int, str], None, None]:
+    """
+    Get paragraph spans (start, end, paragraph) from text.
+
+    Args:
+        text (str):
+            Input text whence to extract paragraphs.
+
+        window_pre (int=3):
+            The left-side line window distance.
+
+        window_post (int=3):
+            The right-side line window distance.
+
+        score_threshold (float=0.5):
+            The minimum probability a predicted paragraph break must meet in order
+            to be considered a valid paragraph break.
     """
     # Get document character distribution
-    doc_distribution = build_document_line_distribution(text)
+    doc_distribution: Dict[str, float] = build_document_line_distribution(text)
     lines, line_spans = splitlines_with_spans(text)
-    feature_data = []
-
-    for line_id in range(len(lines)):
-        feature_data.append(
-            build_paragraph_break_features(lines, line_id, window_pre, window_post,
-                                           include_doc=doc_distribution))
+    feature_data: List[Dict] = [
+        build_paragraph_break_features(
+            lines=lines,
+            line_id=line_id,
+            line_window_pre=window_pre,
+            line_window_post=window_post,
+            include_doc=doc_distribution,
+        )
+        for line_id in range(len(lines))
+    ]
 
     # Predict page breaks
-    column_names = list(get_paragraph_break_feature_names(
-        len(lines), window_pre, window_post, include_doc=doc_distribution))
+    column_names = list(
+        get_paragraph_break_feature_names(
+            lines_count=len(lines),
+            line_window_pre=window_pre,
+            line_window_post=window_post,
+            include_doc=doc_distribution)
+    )
     column_names.sort()
-    feature_df = pandas.DataFrame(feature_data, columns=column_names).fillna(-1).astype(int)
+    feature_df: DataFrame = DataFrame(feature_data, columns=column_names).fillna(-1).astype(int)
+
     try:
         predicted_lines = PARAGRAPH_SEGMENTER_MODEL.predict_proba(feature_df)
-        predicted_df = pandas.DataFrame(predicted_lines, columns=["prob_false", "prob_true"])
+        predicted_df: DataFrame = DataFrame(predicted_lines, columns=["prob_false", "prob_true"])
         paragraph_breaks = predicted_df.loc[predicted_df["prob_true"] >= score_threshold, :].index.tolist()
 
         if len(paragraph_breaks) > 0:
@@ -208,7 +249,7 @@ def get_paragraphs(text: str, window_pre=3, window_post=3,
             pos0 = 0
             pos1 = paragraph_breaks[0]
 
-            maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+            maybe_paragraph = _form_potential_paragraph(pos0, pos1, text, line_spans)
             if maybe_paragraph is not None:
                 yield maybe_paragraph
 
@@ -218,20 +259,118 @@ def get_paragraphs(text: str, window_pre=3, window_post=3,
                 pos0 = paragraph_breaks[i]
                 pos1 = paragraph_breaks[i + 1]
                 # Get text
-                maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+                maybe_paragraph = _form_potential_paragraph(pos0, pos1, text, line_spans)
                 if maybe_paragraph is not None:
                     yield maybe_paragraph
 
             # Yield final section
             pos0 = paragraph_breaks[-1]
             pos1 = None
-            maybe_paragraph = _maybe_paragraph(pos0, pos1, text, line_spans, return_spans)
+            maybe_paragraph = _form_potential_paragraph(pos0, pos1, text, line_spans)
             if maybe_paragraph is not None:
                 yield maybe_paragraph
         else:
-            yield (text, 0, len(text)) if return_spans else text
+            yield 0, len(text), text
     except ValueError as e:
         if 'Number of features of the model must match the input' in str(e):
-            yield (text, 0, len(text)) if return_spans else text
+            yield 0, len(text), text
         else:
             raise e
+
+
+def get_paragraph_span_list(
+    text: str,
+    window_pre=3,
+    window_post=3,
+    score_threshold=0.5,
+) -> List[Tuple[int, int, str], ...]:
+    """
+    Get a list of paragraph spans (start, end, paragraph) from text.
+
+    Args:
+        text (str):
+            Input text whence to extract paragraphs.
+
+        window_pre (int=3):
+            The left-side line window distance.
+
+        window_post (int=3):
+            The right-side line window distance.
+
+        score_threshold (float=0.5):
+            The minimum probability a predicted paragraph break must meet in order
+            to be considered a valid paragraph break.
+    """
+    return list(
+        get_paragraph_spans(
+            text=text,
+            window_pre=window_pre,
+            window_post=window_post,
+            score_threshold=score_threshold,
+        )
+    )
+
+
+def get_paragraphs(
+    text: str,
+    window_pre=3,
+    window_post=3,
+    score_threshold=0.5,
+) -> Generator[str, None, None]:
+    """
+    Get paragraphs from text.
+
+    Args:
+        text (str):
+            Input text whence to extract paragraphs.
+
+        window_pre (int=3):
+            The left-side line window distance.
+
+        window_post (int=3):
+            The right-side line window distance.
+
+        score_threshold (float=0.5):
+            The minimum probability a predicted paragraph break must meet in order
+            to be considered a valid paragraph break.
+    """
+    for _, _, paragraph in get_paragraph_spans(
+        text=text,
+        window_pre=window_pre,
+        window_post=window_post,
+        score_threshold=score_threshold,
+    ):
+        yield paragraph
+
+
+def get_paragraph_list(
+    text: str,
+    window_pre=3,
+    window_post=3,
+    score_threshold=0.5,
+) -> List[str, ...]:
+    """
+    Get a list of paragraphs from text.
+
+    Args:
+        text (str):
+            Input text whence to extract paragraphs.
+
+        window_pre (int=3):
+            The left-side line window distance.
+
+        window_post (int=3):
+            The right-side line window distance.
+
+        score_threshold (float=0.5):
+            The minimum probability a predicted paragraph break must meet in order
+            to be considered a valid paragraph break.
+    """
+    return list(
+        get_paragraphs(
+            text=text,
+            window_pre=window_pre,
+            window_post=window_post,
+            score_threshold=score_threshold,
+        )
+    )

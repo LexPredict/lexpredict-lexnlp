@@ -10,10 +10,11 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 # Change the path according to your system
 import os
@@ -30,6 +31,8 @@ from lexnlp.nlp.en.stanford import get_tokens_list
 
 
 # Setup Stanford NER configuration
+
+
 STANFORD_NER_FILE = os.path.join(STANFORD_NER_PATH, "stanford-ner.jar")
 STANFORD_NER_MODEL_MAP = {"english": "english.all.3class.distsim.crf.ser.gz",
                           "english7": "english.muc.7class.distsim.crf.ser.gz"}

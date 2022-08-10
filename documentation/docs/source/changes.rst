@@ -4,6 +4,11 @@
 Changelog
 ============
 
+2.2.1.0 - August 10, 2022
+----------------
+ * Improved LexNLP handling for companies for the "EN" locale.
+ * Unified API pattern for sentence and paragraph segmentation.
+
 2.2.0 - July 7, 2022
 ----------------
  * Improved LexNLP handling for dates, durations and persons for the all locales.

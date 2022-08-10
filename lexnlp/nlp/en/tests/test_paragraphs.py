@@ -3,10 +3,11 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 import os
 import string
@@ -17,7 +18,7 @@ from nose.tools import assert_dict_equal, assert_list_equal
 
 # Project imports
 from lexnlp.extract.common.base_path import lexnlp_test_path
-from lexnlp.nlp.en.segments.paragraphs import get_paragraphs, splitlines_with_spans
+from lexnlp.nlp.en.segments.paragraphs import get_paragraph_list, get_paragraph_span_list, splitlines_with_spans
 from lexnlp.nlp.en.segments.utils import build_document_distribution
 from lexnlp.tests import lexnlp_tests
 
@@ -170,12 +171,15 @@ class TestParagraphs(TestCase):
 
     def test_get_paragraphs_too_small_text_with_spans(self):
         text = '\nToo small text\n'
-        spans = list(get_paragraphs(text=text, return_spans=True))
-        self.assertEqual((text, 0, len(text)), spans[0])
+        spans = get_paragraph_span_list(text=text)
+        self.assertEqual(
+            first=(0, len(text), text),
+            second=spans[0],
+        )
 
     def test_date_text(self):
         text = '2021-01-20T10:32:31.938706'
-        ps = list(get_paragraphs(text=text, return_spans=False))
+        ps = get_paragraph_list(text=text)
         self.assertEqual(text, ps[0])
 
     def test_paragraph_examples(self):
@@ -200,8 +204,11 @@ class TestParagraphs(TestCase):
             return r.strip()
 
         # Get list from text
-        actual_paragraphs = list(get_paragraphs(
-            text, window_pre=window_pre, window_post=window_post, return_spans=False))
+        actual_paragraphs = get_paragraph_list(
+            text=text,
+            window_pre=window_pre,
+            window_post=window_post
+        )
 
         actual_paragraphs = [remove_blankspace(p) for p in actual_paragraphs]
         expected_paragraphs = [remove_blankspace(p) for p in expected_paragraphs]
