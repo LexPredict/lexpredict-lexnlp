@@ -7,10 +7,11 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 import os
 from typing import Generator, List
@@ -26,6 +27,8 @@ from lexnlp.config.stanford import STANFORD_POS_PATH
 
 
 # Setup Stanford POS configuration
+
+
 try:
     STANFORD_POS_FILE = os.path.join(STANFORD_POS_PATH, "stanford-postagger.jar")
     STANFORD_TOKENIZER = StanfordTokenizer(path_to_jar=STANFORD_POS_FILE)

@@ -1,9 +1,10 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 import datetime
 import itertools
@@ -16,6 +17,7 @@ import sklearn
 import sklearn.ensemble
 import sklearn.neural_network
 from sklearn.model_selection import cross_val_score
+
 
 REG_WORD_SEPARATOR = re.compile(r'[\s\-\.\[\]\{\}\(\),;:\+\\/]+')
 REG_NUMBER = re.compile(r'^\d+')

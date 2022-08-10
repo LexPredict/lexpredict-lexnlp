@@ -2,10 +2,11 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 from typing import Dict, List, Generator, Tuple, Optional
 import os
@@ -166,6 +167,8 @@ class CompanyDetector:
         # skip if all text is in uppercase
         if text == text.upper():
             return
+        # replace new lines with spaces
+        text = text.replace('\n', ' ')
         banlist = self.get_company_banlist(banlist_usage)
         valid_punctuation = VALID_PUNCTUATION + ["(", ")"]
         unique_companies: Dict[Tuple[str, str], CompanyAnnotation] = {}

@@ -1,9 +1,10 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 import os
 from datetime import datetime
@@ -17,6 +18,7 @@ from lexnlp.extract.de.date_model import DATE_MODEL_CHARS, DE_ALPHA_CHAR_SET
 
 # Setup path
 from lexnlp.extract.de.de_date_parser import DeDateParser
+
 
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 

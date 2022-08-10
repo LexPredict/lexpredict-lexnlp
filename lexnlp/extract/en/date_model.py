@@ -5,10 +5,11 @@ This module implements date extraction functionality in English.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.0/LICENSE"
-__version__ = "2.2.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
+__version__ = "2.2.1.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
+
 
 # pylint: disable=bare-except
 
@@ -19,6 +20,8 @@ import joblib
 
 
 # Setup path
+
+
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Load model

@@ -30,7 +30,7 @@ py_file_struc_ptn = '(?P<service>(?:\#[^\n]+\n+)+){{,1}}\n*' \
                     '(?P<code>.*)'.format(author_ptn=author_ptn)
 py_file_struc_re = re.compile(py_file_struc_ptn, re.M | re.S)
 
-release_version_re = re.compile(r'\d\.\d\.\d+')
+release_version_re = re.compile(r'\d+\.\d+\.\d+')
 
 parse_paths = ['lexnlp', 'lexnlpprivate']
 exclude_paths = []
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         exit(1)
     if len(args) == 2:
         release_version = args[1]
-        if not release_version_re.fullmatch(release_version):
-            print('Wrong release number format "1.2.3"')
-            exit(1)
+        # if not release_version_re.fullmatch(release_version):
+        #     print('Wrong release number format "1.2.3"')
+        #     exit(1)
     unify_file_structure(release_version)
