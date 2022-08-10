@@ -283,7 +283,7 @@ def get_paragraph_span_list(
     window_pre=3,
     window_post=3,
     score_threshold=0.5,
-) -> List[Tuple[int, int, str], ...]:
+) -> List[Tuple[int, int, str]]:
     """
     Get a list of paragraph spans (start, end, paragraph) from text.
 
@@ -348,7 +348,7 @@ def get_paragraph_list(
     window_pre=3,
     window_post=3,
     score_threshold=0.5,
-) -> List[str, ...]:
+) -> List[str]:
     """
     Get a list of paragraphs from text.
 
