@@ -4,21 +4,20 @@ Addresses extraction for English language.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import os
-import pickle
 import re
 from typing import Generator, Tuple, List
 
 from lexnlp.extract.en.addresses import address_features
 from lexnlp.extract.en.preprocessing.span_tokenizer import SpanTokenizer
 from lexnlp.extract.common.annotations.address_annotation import AddressAnnotation
-
+from lexnlp.utils.unpickler import renamed_load
 
 NGRAM_CLASSIFIER_FN = os.path.join(os.path.dirname(__file__), 'addresses_clf.pickle')
 
@@ -99,7 +98,7 @@ def align_tokens(tokens, sentence):
 
 def load_classifier():
     with open(NGRAM_CLASSIFIER_FN, 'rb') as f:
-        return pickle.load(f)
+        return renamed_load(f)
 
 
 NGRAM_CLASSIFIER = load_classifier()

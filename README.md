@@ -43,10 +43,11 @@ by contacting ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
 ## Requirements
 * Python 3.8
-* see python-requirements.txt file for full information
+* pipenv
 
 ## Releases
-* 2.2.1.0: August 10, Twenty fifth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.1.0)
+* 2.3.0: November 30, 2022 - Twenty sixth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.3.0)
+* 2.2.1.0: August 10, 2022 - Twenty fifth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.1.0)
 * 2.2.0: July 7, 2022 - Twenty fourth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.0)
 * 2.1.0: September 16, 2021 - Twenty third scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.1.0)
 * 2.0.0: May 10, 2021 - Twenty second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.0.0)

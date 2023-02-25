@@ -8,8 +8,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -323,5 +323,18 @@ get_amounts = amount_parser.parse
 get_amount_annotations = amount_parser.parse_annotations
 
 
-def get_amount_list(*args, **kwargs):
-    return list(get_amounts(*args, **kwargs))
+def get_amount_list(
+    text: str,
+    return_sources: bool = False,
+    extended_sources: bool = True,
+    float_digits: int = 4
+):
+    return list(get_amounts(text, return_sources, extended_sources, float_digits))
+
+
+def get_amount_annotation_list(
+    text: str,
+    float_digits: int = 4,
+    return_sources: bool = True
+) -> List[AmountAnnotation]:
+    return list(get_amount_annotations(text, float_digits, return_sources))

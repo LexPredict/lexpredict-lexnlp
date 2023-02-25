@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -14,7 +14,7 @@ from unittest import TestCase
 
 from lexnlp.extract.en.dict_entities import DictionaryEntryAlias, DictionaryEntry
 from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
-from lexnlp.extract.en.courts import get_courts
+from lexnlp.extract.en.courts import _get_courts
 from lexnlp.extract.all_locales.courts import get_court_annotations as get_court_annotations_custom
 from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
 from lexnlp.tests.utility_for_testing import load_resource_document
@@ -25,9 +25,8 @@ class TestUniversalCourtsParser(TestCase):
 
     def test_check_match_attrs(self):
         parser = self.make_en_parser()
-        text = load_resource_document(
-            'lexnlp/extract/en/courts/courts_sample_01.txt', 'utf-8')
-        ret_list = parser.parse(text)
+        text = load_resource_document('lexnlp/extract/en/courts/courts_sample_01.txt', 'utf-8')
+        ret_list = list(parser.parse(text))
         self.assertEqual(4, len(ret_list))
 
         for rv in [r.to_dictionary() for r in ret_list]:
@@ -39,11 +38,10 @@ class TestUniversalCourtsParser(TestCase):
 
     def test_compare_to_legacy_parser(self):
         parser = self.make_en_parser()
-        text = load_resource_document(
-            'lexnlp/extract/en/courts/courts_sample_01.txt', 'utf-8')
+        text = load_resource_document('lexnlp/extract/en/courts/courts_sample_01.txt', 'utf-8')
 
         start = time.time()
-        ret_n = parser.parse(text)
+        ret_n = list(parser.parse(text))
         _ = (time.time() - start)
         self.assertEqual(4, len(ret_n))
 
@@ -63,13 +61,12 @@ class TestUniversalCourtsParser(TestCase):
 
     def parse_courts_legacy_function(self, text: str):
         court_config_list = self.load_en_courts()
-        return get_courts(text, court_config_list)
+        return _get_courts(text, court_config_list)
 
     def load_en_courts(self):
-        court_df = pandas \
-            .read_csv(
-            "https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts"
-            ".csv")
+        court_df = pandas.read_csv(
+            "https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts.csv"
+        )
         # Create config objects
         court_config_list = []
         for _, row in court_df.iterrows():

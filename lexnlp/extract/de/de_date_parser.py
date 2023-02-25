@@ -1,15 +1,19 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import datetime
-from typing import List
+import regex as re
+from typing import List, Optional, Generator
 
 import zahlwort2num as w2n
+
+from lexnlp.extract.all_locales.languages import Locale
+from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.common.dates import DateParser
 from lexnlp.extract.common.dates_classifier_model import split_date_words, REG_NUMBER
 from lexnlp.extract.de.date_model import MONTH_NAMES, DE_ALPHA_CHAR_SET
@@ -17,6 +21,8 @@ from lexnlp.extract.de.date_model import MONTH_NAMES, DE_ALPHA_CHAR_SET
 
 MONTH_NAMES_LOWER = set([m.lower() for m in MONTH_NAMES])
 MONTH_NAMES_SHORT = set([m[:3].lower() for m in MONTH_NAMES])
+
+CUSTOM_DATES_SEPARATOR = re.compile(r'(?<=[\W|\d])\sund\s')
 
 
 class DatePart:
@@ -117,3 +123,52 @@ class DeDateParser(DateParser):
                 continue
             parts.append(DatePart(wrd, ''))
         return parts
+
+    def get_date_annotations(self,
+                             text: str = None,
+                             locale: Optional[Locale] = None,
+                             strict: bool = True) -> \
+            Generator[DateAnnotation, None, None]:
+        self.text = text.replace('\n', ' ') or self.text
+        self.text = re.sub(CUSTOM_DATES_SEPARATOR, '\n', self.text)
+        text_parts = self.text.split('\n')
+        for text_part in text_parts:
+            self.locale.language = (locale.language if locale else "") or self.locale.language
+
+            if not text_part or not self.locale.language:
+                raise RuntimeError('Define text and language.')
+
+            # First try dateparser searcher
+            try:
+                self.dates = self.get_dateparser_dates(text_part, strict)
+            except Exception as e:
+                print(str(e))
+
+            # Next try custom search logic
+            self.get_extra_dates(strict)
+
+            positions = []
+            for date_str, date in sorted(self.dates, key=lambda i: -len(i[0])):
+
+                # if possible date has weird format or unwanted symbols
+                if not self.passed_general_check(date_str, date):
+                    continue
+
+                for match in re.finditer(re.escape(date_str), text_part):
+                    location_start, location_end = match.span()
+
+                    # skip overlapping entities
+                    if any(1 for i, j in positions if location_start >= i and location_end <= j):
+                        continue
+                    positions.append(match.span())
+
+                    # filter out possible dates using classifier
+                    if self.enable_classifier_check and \
+                            not self.passed_classifier_check(location_start, location_end):
+                        continue
+
+                    ant = DateAnnotation(coords=(location_start, location_end),
+                                         date=date,
+                                         text=text_part[location_start:location_end],
+                                         locale=self.locale.language)
+                    yield ant

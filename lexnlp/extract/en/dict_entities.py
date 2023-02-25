@@ -19,8 +19,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -124,13 +124,16 @@ class DictionaryEntry:
         with open(aliases_fn, 'r', encoding='utf8') as f:
             reader = csv.DictReader(f)
             for row in reader:
-                entity = entities.get(row['entity_id'])  # type: DictionaryEntry
+                entity: DictionaryEntry = entities.get(row['entity_id'])
                 if entity:
-                    alias = DictionaryEntryAlias(
-                        alias=row['alias'], language=row['locale'],
-                        is_abbreviation=row['type'].startswith('iso') or row['type'] == 'abbreviation')
-                    entity.aliases.append(alias)
-
+                    aliases = row['alias']
+                    for alias in aliases.split(';'):
+                        dictionary_entry_alias = DictionaryEntryAlias(
+                            alias=alias.strip(),
+                            language=row['locale'],
+                            is_abbreviation=row['type'].startswith('iso') or row['type'] == 'abbreviation',
+                        )
+                        entity.aliases.append(dictionary_entry_alias)
         return list(entities.values())
 
     @classmethod
@@ -167,10 +170,11 @@ class DictionaryEntry:
                                  DictionaryEntryAlias('ISO-3166-3', language, True)]
             r.aliases = []
             for a in alias_columns:
-                alias = row.get(a.alias)
-                if not alias or not isinstance(alias, str):
+                aliases = row.get(a.alias)
+                if not aliases or not isinstance(aliases, str):
                     continue
-                r.aliases.append(DictionaryEntryAlias(alias, a.language, a.is_abbreviation))
+                for alias in aliases.split(';'):
+                    r.aliases.append(DictionaryEntryAlias(alias, a.language, a.is_abbreviation))
 
             if extra_columns:
                 r.extra_columns = {}

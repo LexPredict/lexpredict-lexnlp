@@ -2,8 +2,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -33,16 +33,15 @@ def get_court_annotations(
     for ent in dic_entries:
         ant = CourtAnnotation(coords=ent.coords)
         if ent.entity[0]:
-            toponim = ent.entity[0]  # type: DictionaryEntry
-            ant.entity_id = toponim.id
-            ant.entity_category = toponim.category
-            ant.entity_priority = toponim.priority
-            ant.name_en = toponim.entity_name
-            ant.name = toponim.name
-            if toponim.extra_columns:
-                for extr_col in toponim.extra_columns:
-                    setattr(ant, extr_col, toponim.extra_columns[extr_col])
-
+            toponym: DictionaryEntry = ent.entity[0]
+            ant.entity_id = toponym.id
+            ant.entity_category = toponym.category
+            ant.entity_priority = toponym.priority
+            ant.name_en = toponym.entity_name
+            ant.name = toponym.name
+            if toponym.extra_columns:
+                for extr_col in toponym.extra_columns:
+                    setattr(ant, extr_col, toponym.extra_columns[extr_col])
         if ent.entity[1]:  # alias
             ant.alias = ent.entity[1].alias
             ant.locale = ent.entity[1].language

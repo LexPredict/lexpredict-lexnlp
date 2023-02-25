@@ -7,14 +7,15 @@ Multi-language unit tests for Dates.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import datetime
 from unittest import TestCase
+from functools import partial
 
 from lexnlp.extract.common.annotations.date_annotation import DateAnnotation
 from lexnlp.extract.es.dates import get_date_annotations
@@ -25,7 +26,7 @@ class TestParseEsDates(TestCase):
     def test_es_dates(self):
         text = "Some dummy sample with Spanish date like 15 de febrero, " + \
                "28 de abril y 17 de noviembre de 1995, 1ºde enero de 1999 "
-        ants = list(get_date_annotations(text=text))
+        ants = list(get_date_annotations(text=text, strict=False))
         self.assertEqual(4, len(ants))
         ants.sort(key=lambda ant: ant.coords[0])
         self.assertEqual(4, len(ants))
@@ -53,7 +54,7 @@ class TestParseEsDates(TestCase):
     def test_more_dates(self):
         text = "Some dummy sample with Spanish date like 15 de febrero, 28 " +\
                "de abril y 17 de noviembre de 1995, 1ºde enero de 1999 "
-        ants = list(get_date_annotations(text=text))
+        ants = list(get_date_annotations(text=text, strict=False))
         self.assertEqual(4, len(ants))
         ants.sort(key=lambda ant: ant.coords[0])
 
@@ -70,6 +71,6 @@ class TestParseEsDates(TestCase):
     def test_file_samples(self):
         tester = TypedAnnotationsTester()
         tester.test_and_raise_errors(
-            get_date_annotations,
+            partial(get_date_annotations, strict=False),
             'lexnlp/typed_annotations/es/date/dates.txt',
             DateAnnotation)

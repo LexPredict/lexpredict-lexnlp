@@ -3,8 +3,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -83,6 +83,10 @@ class ProbabilityPredictor(ABC):
                 f'self.pipeline._final_estimator of type `{type(self.pipeline._final_estimator)}`'
                 f'does not follow the `ScikitLearnHasPredictProba` protocol.'
             )
+
+        # Fix AttributeError: 'MinMaxScaler' object has no attribute 'clip'
+        for _, name, transform in self.pipeline._iter(with_final=False):
+            transform.clip = hasattr(transform, 'clip') and transform.clip
 
         self._sanity_check()
 

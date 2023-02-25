@@ -8,8 +8,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -18,7 +18,7 @@ __email__ = "support@contraxsuite.com"
 import calendar
 import regex as re
 import string
-from typing import Generator, Dict, Any
+from typing import Any, Dict, Generator, List
 
 from lexnlp.extract.common.annotations.cusip_annotation import CusipAnnotation
 
@@ -79,6 +79,10 @@ def get_cusip(text: str) -> Generator[Dict[str, Any], None, None]:
         yield ant.to_dictionary_legacy()
 
 
+def get_cusip_list(text: str) -> List[Dict[str, Any]]:
+    return list(get_cusip(text))
+
+
 def get_cusip_annotations(text: str) -> Generator[CusipAnnotation, None, None]:
     """
     INFO: https://www.cusip.com/pdf/CUSIP_Intro_03.14.11.pdf
@@ -117,5 +121,7 @@ def get_cusip_annotations(text: str) -> Generator[CusipAnnotation, None, None]:
         yield ant
 
 
-def get_cusip_list(text):
-    return list(get_cusip(text))
+def get_cusip_annotation_list(text: str) -> List[CusipAnnotation]:
+    """
+    """
+    return list(get_cusip_annotations(text))

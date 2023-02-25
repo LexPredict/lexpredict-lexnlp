@@ -5,8 +5,8 @@ Dates parser based on dateparser package
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -140,10 +140,9 @@ class DateParser:
 
     def get_date_annotations(self,
                              text: str = None,
-                             locale: Locale = None,
-                             strict: Optional[bool] = None) -> \
+                             locale: Optional[Locale] = None,
+                             strict: bool = True) -> \
             Generator[DateAnnotation, None, None]:
-        strict = strict if strict is not None else True
         self.text = text.replace('\n', ' ') or self.text
         self.locale.language = (locale.language if locale else "") or self.locale.language
 
@@ -186,5 +185,13 @@ class DateParser:
                                      locale=self.locale.language)
                 yield ant
 
-    def get_date_list(self, *args, **kwargs):
-        return list(self.get_dates(*args, **kwargs))
+    def get_date_list(self, text, locale):
+        return list(self.get_dates(text, locale))
+
+    def get_date_annotation_list(
+        self,
+        text: str = None,
+        locale: Optional[Locale] = None,
+        strict: bool = True,
+    ) -> List[DateAnnotation]:
+        return list(self.get_date_annotations(text, locale, strict))

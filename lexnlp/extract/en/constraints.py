@@ -8,14 +8,14 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import copy
-from typing import Generator
+from typing import Generator, List, Optional, Tuple
 
 import regex as re
 
@@ -66,7 +66,10 @@ CONSTRAINT_PATTERN = create_constraint_pattern(CONSTRAINT_PATTERN_TEMPLATE, CONS
 RE_CONSTRAINT = re.compile(CONSTRAINT_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
 
 
-def get_constraints(text: str, strict=False) -> Generator:
+def get_constraints(
+    text: str,
+    strict: bool = False,
+) -> Generator[Tuple[Optional[str], Optional[str], Optional[str]], None, None]:
     """
     Find possible constraints in natural language.
     :param text:
@@ -76,11 +79,23 @@ def get_constraints(text: str, strict=False) -> Generator:
 
     # Iterate through all potential matches
     for ant in get_constraint_annotations(text, strict):
-        yield (ant.constraint, ant.pre, ant.post)
+        yield ant.constraint, ant.pre, ant.post
 
 
-def get_constraint_annotations(text: str, strict=False) \
-        -> Generator[ConstraintAnnotation, None, None]:
+def get_constraint_list(
+    text: str,
+    strict: bool = False,
+) -> List[Tuple[Optional[str], Optional[str], Optional[str]]]:
+    """
+    Find possible constraints in natural language.
+    :param text:
+    :param strict:
+    :return:
+    """
+    return list(get_constraints(text, strict))
+
+
+def get_constraint_annotations(text: str, strict: bool = False) -> Generator[ConstraintAnnotation, None, None]:
     """
     Find possible constraints in natural language.
     :param text:
@@ -115,3 +130,13 @@ def get_constraint_annotations(text: str, strict=False) \
                                        pre=pre,
                                        post=post)
             yield ant
+
+
+def get_constraint_annotation_list(text: str, strict: bool = False) -> List[ConstraintAnnotation]:
+    """
+    Find possible constraints in natural language.
+    :param text:
+    :param strict:
+    :return: A list of ConstraintAnnotations
+    """
+    return list(get_constraint_annotations(text, strict))

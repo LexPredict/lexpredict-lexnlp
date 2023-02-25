@@ -4,6 +4,11 @@
 Changelog
 ============
 
+2.3.0 - November 30, 2022
+----------------
+ * Updated Python version and upgraded all dependencies.
+ * Started using pipenv
+
 2.2.1.0 - August 10, 2022
 ----------------
  * Improved LexNLP handling for companies for the "EN" locale.

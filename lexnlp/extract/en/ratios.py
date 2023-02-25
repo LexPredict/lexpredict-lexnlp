@@ -8,8 +8,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -44,6 +44,16 @@ def get_ratios(
             yield ant.left, ant.right, ant.ratio
 
 
+def get_ratio_list(
+    text: str,
+    return_sources: bool = False,
+    float_digits: int = 4,
+) -> List[Union[Tuple[Decimal, Decimal, Decimal], Tuple[Decimal, Decimal, Decimal, str]]]:
+    """
+    """
+    return list(get_ratios(text, return_sources, float_digits))
+
+
 def get_ratio_annotations(
     text: str,
     float_digits: int = 4,
@@ -69,3 +79,10 @@ def get_ratio_annotations(
             ratio=total
         )
         yield ant
+
+
+def get_ratio_annotation_list(
+    text: str,
+    float_digits: int = 4,
+) -> List[RatioAnnotation]:
+    return list(get_ratio_annotations(text, float_digits))

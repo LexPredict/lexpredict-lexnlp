@@ -12,8 +12,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -23,7 +23,7 @@ import os
 import pandas
 
 from lexnlp.extract.en.dict_entities import DictionaryEntry, DictionaryEntryAlias
-from lexnlp.extract.en.courts import get_courts
+from lexnlp.extract.en.courts import _get_courts
 from lexnlp.tests import lexnlp_tests
 
 
@@ -61,7 +61,7 @@ def test_courts():
     court_config_list = []
     for _, row in court_df.iterrows():
         court_config_list.append(build_dictionary_entry(row))
-    lexnlp_tests.test_extraction_func_on_test_data(get_courts, court_config_list=court_config_list,
+    lexnlp_tests.test_extraction_func_on_test_data(_get_courts, court_config_list=court_config_list,
                                                    actual_data_converter=lambda actual:
                                                    [cc[0].name for cc in actual])
 
@@ -83,7 +83,7 @@ def test_courts_rs():
     for _, row in court_df.iterrows():
         court_config_list.append(build_dictionary_entry(row))
 
-    lexnlp_tests.test_extraction_func_on_test_data(get_courts,
+    lexnlp_tests.test_extraction_func_on_test_data(_get_courts,
                                                    court_config_list=court_config_list,
                                                    actual_data_converter=lambda actual: [cc[0].name for cc in actual])
 
@@ -113,7 +113,7 @@ def test_courts_longest_match():
             cc.aliases.append(DictionaryEntryAlias(row['Court Name']))
             courts_config_list.append(cc)
 
-    lexnlp_tests.test_extraction_func_on_test_data(get_courts, court_config_list=courts_config_list,
+    lexnlp_tests.test_extraction_func_on_test_data(_get_courts, court_config_list=courts_config_list,
                                                    actual_data_converter=lambda actual:
                                                    [tuple(c[0].name.split('|')) for c in actual],
                                                    debug_print=True)

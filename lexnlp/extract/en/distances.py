@@ -6,15 +6,15 @@ This module implements basic distance extraction functionality in English.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import re
 from decimal import Decimal
-from typing import Generator, Union, Tuple
+from typing import Generator, List, Tuple, Union
 
 from lexnlp.extract.common.annotations.distance_annotation import DistanceAnnotation
 from lexnlp.extract.en.amounts import get_amounts, NUM_PTN
@@ -55,6 +55,16 @@ def get_distances(
             yield ant.amount, ant.distance_type
 
 
+def get_distance_list(
+    text: str,
+    return_sources: bool = False,
+    float_digits: int = 4,
+) -> List[Union[Tuple[Decimal, str], Tuple[Decimal, str, str]]]:
+    """
+    """
+    return list(get_distances(text, return_sources, float_digits))
+
+
 def get_distance_annotations(
     text: str,
     float_digits: int = 4
@@ -72,3 +82,12 @@ def get_distance_annotations(
             distance_type=distance_type,
             text=source_text.strip()
         )
+
+
+def get_distance_annotation_list(
+    text: str,
+    float_digits: int = 4,
+) -> List[DistanceAnnotation]:
+    """
+    """
+    return list(get_distance_annotations(text, float_digits))

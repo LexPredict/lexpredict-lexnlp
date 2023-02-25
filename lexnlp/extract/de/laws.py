@@ -1,13 +1,13 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-import pandas as pd
-from typing import List, Generator
+from pandas import DataFrame
+from typing import Generator, List, Optional
 
 from lexnlp.extract.de.language_tokens import DeLanguageTokens
 from lexnlp.extract.common.annotations.law_annotation import LawAnnotation
@@ -20,10 +20,9 @@ ANNOTATION_SET_NAME = 'Laws and Rules'
 
 class LawsParser:
     def __init__(self,
-                 gesetze_df: pd.DataFrame,
-                 verordnungen_df: pd.DataFrame,
-                 concept_df: pd.DataFrame):
-        self.locale = ''
+                 gesetze_df: DataFrame,
+                 verordnungen_df: DataFrame,
+                 concept_df: DataFrame):
         parse_columns = ('Kurztitel', 'Titel', 'Abkürzung')
         dependent_columns = {'Titel': 'External Reference Normalized'}
         preformed_entity = {'External Reference Type': 'Laws and Rules',
@@ -61,49 +60,53 @@ class LawsParser:
             preformed_entity=preformed_entity,
             line_processor=proc)
 
-    def parse(self, text: str, locale: str = None) -> List[LawAnnotation]:
-        res = []
-        self.locale = locale if locale else 'de'
-        res.extend(self.gesetze_parser.get_entity_list(text))
-        res.extend(self.verordnungen_parser.get_entity_list(text))
-        res.extend(self.concept_parser.get_entity_list(text))
+    def parse(self, text: str, locale: str = 'de') -> Generator[LawAnnotation, None, None]:
 
-        res_formatted = []  # type: List[LawAnnotation]
-        for i in res:
-            coords = (i.pop('location_start'), i.pop('location_end'))
-            text = i.pop('source')
-            ant = LawAnnotation(name=text, coords=coords,
-                                text=text, locale=self.locale)
-            # new_item.update(i)
-            res_formatted.append(ant)
-        return res_formatted
+        for entity in self.gesetze_parser.get_entity_list(text):
+            annotation = LawAnnotation(
+                name=entity['source'],
+                coords=(entity['location_start'], entity['location_end']),
+                text=entity['source'],
+                locale=locale,
+            )
+            yield annotation
+
+        for entity in self.verordnungen_parser.get_entity_list(text):
+            annotation = LawAnnotation(
+                name=entity['source'],
+                coords=(entity['location_start'], entity['location_end']),
+                text=entity['source'],
+                locale=locale,
+            )
+            yield annotation
+
+        for entity in self.concept_parser.get_entity_list(text):
+            annotation = LawAnnotation(
+                name=entity['source'],
+                coords=(entity['location_start'], entity['location_end']),
+                text=entity['source'],
+                locale=locale,
+            )
+            yield annotation
 
 
-parser = None  # type: LawsParser
+parser: Optional[LawsParser] = None
 
 
-def initialize_parser(gesetze_df: pd.DataFrame,
-                      verordnungen_df: pd.DataFrame,
-                      concept_df: pd.DataFrame) -> LawsParser:
-    return LawsParser(gesetze_df, verordnungen_df, concept_df)
-
-
-def get_law_annotations(text: str, language: str = None) -> \
-        Generator[LawAnnotation, None, None]:
+def get_law_annotations(text: str, language: str = 'de') -> Generator[LawAnnotation, None, None]:
     if not parser:
         return None
-    yield from parser.parse(text, language if language else 'de')
+    yield from parser.parse(text, language)
 
 
-def get_laws(text: str, language: str = None) -> Generator[dict, None, None]:
-    if not parser:
-        return None
-    ants = parser.parse(text, language if language else 'de')
-    for ant in ants:
-        yield ant.to_dictionary()
+def get_law_annotation_list(text: str, language: str = 'de') -> List[LawAnnotation]:
+    return list(get_law_annotations(text, language))
 
 
-def get_law_list(text: str, language: str = None) -> List[LawAnnotation]:
-    if not parser:
-        return []
-    return parser.parse(text, language if language else 'de')
+def get_laws(text: str, language: str = 'de') -> Generator[dict, None, None]:
+    for annotation in get_law_annotations(text, language):
+        yield annotation.to_dictionary()
+
+
+def get_law_list(text: str, language: str = 'de') -> List[dict]:
+    return list(get_laws(text, language))

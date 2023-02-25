@@ -2,21 +2,18 @@
 
 This module implements basic urls extraction functionality in English relying on the pre-trained
 NLTK functionality, including POS tagger and NE (fuzzy) chunkers.
-
-Todo: -
 """
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import re
-
-from typing import Generator
+from typing import Final, Generator, List
 
 from lexnlp.extract.common.annotations.url_annotation import UrlAnnotation
 
@@ -44,7 +41,7 @@ URL_PTN = r"""
   )
 )
 """
-URL_PTN_RE = re.compile(URL_PTN, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
+URL_PTN_RE: Final[re.Pattern] = re.compile(URL_PTN, re.IGNORECASE | re.MULTILINE | re.VERBOSE)
 
 
 def get_urls(text: str) -> Generator[str, None, None]:
@@ -55,12 +52,25 @@ def get_urls(text: str) -> Generator[str, None, None]:
         yield ant.url
 
 
+def get_url_list(text: str) -> List[str]:
+    """
+    Get a list of URLs found in text.
+    """
+    return list(get_urls(text))
+
+
 def get_url_annotations(text: str) -> Generator[UrlAnnotation, None, None]:
     """
-    Find urls in text.
+    Get UrlAnnotations corresponding to URLs found in text.
     """
     for match in URL_PTN_RE.finditer(text):
         url = match.group()
-        ant = UrlAnnotation(coords=match.span(),
-                            url=url)
+        ant = UrlAnnotation(coords=match.span(), url=url)
         yield ant
+
+
+def get_url_annotation_list(text: str) -> List[UrlAnnotation]:
+    """
+    Get a list of UrlAnnotations corresponding to URLs found in text.
+    """
+    return list(get_url_annotations(text))

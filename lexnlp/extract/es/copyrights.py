@@ -3,8 +3,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -38,18 +38,20 @@ class CopyrightEsParser(CopyrightEnStyleParser):
 CopyrightEsParser.init_parser()
 
 
-def get_copyright_annotations(text: str, return_sources=False) -> \
-        Generator[CopyrightAnnotation, None, None]:
+def get_copyright_annotations(text: str, return_sources=False) -> Generator[CopyrightAnnotation, None, None]:
     for ant in CopyrightEsParser.get_copyright_annotations(text, return_sources):
         ant.locale = 'es'
         yield ant
 
 
-def get_copyrights(text: str, return_sources=False) -> \
-        Generator[dict, None, None]:
+def get_copyright_annotation_list(text: str, return_sources=False) -> List[CopyrightAnnotation]:
+    return list(get_copyright_annotations(text, return_sources))
+
+
+def get_copyrights(text: str, return_sources=False) -> Generator[dict, None, None]:
     for ant in get_copyright_annotations(text, return_sources):
         yield ant.to_dictionary()
 
 
-def get_copyright_list(text: str, return_sources=False) -> List[CopyrightAnnotation]:
-    return list(get_copyright_annotations(text, return_sources))
+def get_copyright_list(text: str, return_sources=False) -> List[dict]:
+    return list(get_copyrights(text, return_sources))

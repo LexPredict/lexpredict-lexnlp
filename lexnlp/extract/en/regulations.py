@@ -8,15 +8,15 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import regex as re
 
-from typing import Generator
+from typing import Dict, Generator, List, Tuple, Union
 
 from lexnlp.extract.common.annotations.regulation_annotation import RegulationAnnotation
 
@@ -47,7 +47,11 @@ PUBLIC_LAW_SUB_RE = re.compile(r'.+?(\d+\-\d+)', re.MULTILINE | re.DOTALL)
 REGULATIONS_DICT_KEYS = ['regulation_type', 'regulation_code', 'regulation_str']
 
 
-def get_regulations(text, return_source=False, as_dict=False) -> Generator:
+def get_regulations(
+    text: str,
+    return_source: bool = False,
+    as_dict: bool = False,
+) -> Generator[Union[Tuple, Dict], None, None]:
     """
     Get regulations.
     :param text:
@@ -66,8 +70,13 @@ def get_regulations(text, return_source=False, as_dict=False) -> Generator:
             yield ant.to_dictionary_legacy()
 
 
-def get_regulation_annotations(text: str) -> \
-        Generator[RegulationAnnotation, None, None]:
+def get_regulation_list(text: str, return_source: bool = False, as_dict: bool = False) -> List[Union[Tuple, Dict]]:
+    """
+    """
+    return list(get_regulations(text, return_source, as_dict))
+
+
+def get_regulation_annotations(text: str) -> Generator[RegulationAnnotation, None, None]:
     """
     Get regulations.
     :param text:
@@ -106,3 +115,9 @@ def get_regulation_annotations(text: str) -> \
                                    name=fixed_code,
                                    text=source_text.strip())
         yield ant
+
+
+def get_regulation_annotation_list(text: str) -> List[RegulationAnnotation]:
+    """
+    """
+    return list(get_regulation_annotations(text))

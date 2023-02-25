@@ -6,8 +6,8 @@ NLTK functionality, including POS tagger and NE (fuzzy) chunkers.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -33,13 +33,11 @@ class CopyrightEnStyleParser:
     copyright_dates_re = re.compile(r'\d{2,}')
 
     @staticmethod
-    def get_copyright(
+    def get_copyrights(
         text: str,
         return_sources: bool = False
     ) -> Generator[CopyrightAnnotation, None, None]:
-        for ant in CopyrightEnStyleParser.get_copyright_annotations(
-            text, return_sources
-        ):
+        for ant in CopyrightEnStyleParser.get_copyright_annotations(text, return_sources):
             if return_sources:
                 yield ant.sign, ant.date, ant.name, ant.text
             else:
@@ -50,8 +48,7 @@ class CopyrightEnStyleParser:
         raise NotImplementedError()
 
     @classmethod
-    def get_copyright_annotations(cls, text: str, return_sources=False) \
-            -> Generator[CopyrightAnnotation, None, None]:
+    def get_copyright_annotations(cls, text: str, return_sources=False) -> Generator[CopyrightAnnotation, None, None]:
         """
         Find copyright in text.
         :param text:
@@ -65,7 +62,7 @@ class CopyrightEnStyleParser:
         tagged_phrases = cls.extract_phrases_with_coords(text)
 
         for phrase, phrase_start, phrase_end in tagged_phrases:
-            for match in cls.copyright_ptn_re.finditer(phrase):
+            for match in cls.copyright_ptn_re.finditer(phrase):  # type: re.Match
                 cp_text, cp_sign, cp_date, cp_name = match.groups()
 
                 # TODO: catch in the general regex
@@ -93,9 +90,7 @@ class CopyrightEnStyleParser:
                 yield ant
 
     @classmethod
-    def derive_company_name(cls,
-                           ant: CopyrightAnnotation,
-                           phrase: str) -> None:
+    def derive_company_name(cls, ant: CopyrightAnnotation, phrase: str) -> None:
         if ant.company:
             ant.company = ant.company.strip(' ,;-(:')
             if cls.reg_valid_company_name.search(ant.company):

@@ -2,8 +2,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -42,16 +42,18 @@ def setup_de_parser():
 parser = setup_de_parser()
 
 
-def get_court_annotations(text: str, language: str = None) -> \
-        Generator[CourtAnnotation, None, None]:
-    yield from parser.parse(text, language if language else 'de')
+def get_court_annotations(text: str, language: str = 'de') -> Generator[CourtAnnotation, None, None]:
+    yield from parser.parse(text, language)
 
 
-def get_courts(text: str, language=None) -> Generator[dict, None, None]:
-    courts = parser.parse(text, language if language else 'de')
-    for c in courts:
-        yield c.to_dictionary()
+def get_court_annotation_list(text: str, language: str = 'de') -> List[CourtAnnotation]:
+    return list(get_court_annotations(text, language))
 
 
-def get_court_list(text: str, language=None) -> List[CourtAnnotation]:
-    return parser.parse(text, language if language else 'de')
+def get_courts(text: str, language: str = 'de') -> Generator[dict, None, None]:
+    for court_annotation in parser.parse(text, language):
+        yield court_annotation.to_dictionary()
+
+
+def get_court_list(text: str, language: str = 'de') -> List[dict]:
+    return list(get_courts(text, language))

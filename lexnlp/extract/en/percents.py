@@ -5,8 +5,8 @@ This module implements percent extraction functionality in English.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -66,6 +66,16 @@ def get_percents(
             yield ant.sign, ant.amount, ant.fraction
 
 
+def get_percent_list(
+    text: str,
+    return_sources: bool = False,
+    float_digits: int = 4,
+) -> List[Union[Tuple[str, Decimal, Decimal], Tuple[str, Decimal, Decimal, str]]]:
+    """
+    """
+    return list(get_percents(text, return_sources, float_digits))
+
+
 def get_percent_annotations(
     text: str,
     float_digits: int = 4,
@@ -105,3 +115,12 @@ def get_percent_annotations(
             fraction=fraction,
             sign=percent_item
         )
+
+
+def get_percent_annotation_list(
+    text: str,
+    float_digits: int = 4,
+) -> List[PercentAnnotation]:
+    """
+    """
+    return list(get_percent_annotations(text, float_digits))

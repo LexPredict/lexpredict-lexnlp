@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -11,7 +11,8 @@ from unittest import TestCase
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.common.tests.definitions_text_annotator \
     import annotate_definitions_text
-from lexnlp.extract.de.definitions import get_definition_list, get_definitions, get_definition_annotations
+from lexnlp.extract.de.definitions import get_definition_list, get_definitions, get_definition_annotations, \
+    get_definition_annotation_list
 from lexnlp.tests.utility_for_testing import load_resource_document
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 
@@ -27,7 +28,7 @@ class TestParseDeutscheDefinitions(TestCase):
                "Immobilienpersonengesellschaften, Auslandsobjektgesellschaften, REIT-Dienstleistungsgesellschaften " +\
                "sowie Kapitalgesellschaften im Sinne des § 1 Abs. 1 Nr. 5"
 
-        ret = get_definition_list(text)
+        ret = get_definition_annotation_list(text)
         self.assertGreater(len(ret), 0)
         precise_matches = [x for x in ret
                            if x.name.strip(' "') == "Vermögensgegenstände"]
@@ -35,7 +36,7 @@ class TestParseDeutscheDefinitions(TestCase):
 
     def test_parse_de_definitions_quoted(self):
         text = """   "Moderne Anatomie Mensch": ein Mensch eines modernen Typs"""
-        ret = get_definition_list(text, 'ru')
+        ret = get_definition_annotation_list(text, 'ru')
         def_name = ret[0].name.strip(' "')
         self.assertEqual("Moderne Anatomie Mensch", def_name)
         self.assertEqual("ru", ret[0].locale)
@@ -47,19 +48,19 @@ class TestParseDeutscheDefinitions(TestCase):
     def test_parse_de_definitions_ist_jeder(self):
         text = " ist Diensteanbieter jede natürliche oder juristische Person, die eigene oder fremde " +\
                "Telemedien zur Nutzung bereithält oder den Zugang zur Nutzung vermittelt; "
-        ret = get_definition_list(text)
+        ret = get_definition_annotation_list(text)
         def_name = ret[0].name.strip(' "')
         self.assertEqual("Diensteanbieter", def_name)
         self.assertEqual("de", ret[0].locale)
 
         text = """ sind Diensteanbieter jede natürliche oder juristische Person """
-        ret = get_definition_list(text)
+        ret = get_definition_annotation_list(text)
         def_name = ret[0].name.strip(' "')
         self.assertEqual("Diensteanbieter", def_name)
 
     def test_parse_de_definitions_simple(self):
         text = load_resource_document('lexnlp/extract/de/sample_de_definitions01.txt', 'utf-8')
-        ret = get_definition_list(text)
+        ret = get_definition_annotation_list(text)
         self.assertGreater(len(ret), 5)
 
         start = ret[0].coords[0]
@@ -88,7 +89,7 @@ class TestParseDeutscheDefinitions(TestCase):
                "eingegangen oder begründet werden, sowie Beteiligungen an Immobilienpersonengesellschaften, " +\
                "Auslandsobjektgesellschaften, REIT-Dienstleistungsgesellschaften sowie Kapitalgesellschaften " +\
                "im Sinne des § 1 Abs. 1 Nr. 5"
-        ret = get_definition_list(text)
+        ret = get_definition_annotation_list(text)
         self.assertGreater(len(ret), 0)
         # TODO: sind unbewegliches Vermögen im Sinne is a false positive
         names = {d.name.strip(' "'): True for d in ret}
