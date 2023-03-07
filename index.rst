@@ -76,7 +76,7 @@ Requirements
 ------------
 
 -  Python 3.8
--  see python-requirements.txt file for full information
+-  pipenv
 
 Releases
 --------

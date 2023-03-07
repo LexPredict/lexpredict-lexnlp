@@ -8,8 +8,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -106,7 +106,7 @@ word_processor = LineProcessor()
 # e.g.: the words "person" and "whoever" include
 TRIGGER_WORDS_PTN = r"""
 (?:(?:word|term|phrase)s?\s+|[:,\.]\s*|^)
-['"“].{{1,{max_term_chars}}}['"”]\s*
+['"“].{{1,{max_term_chars}}}['"”]\w{{0,2}}\s*
 (?:{trigger_list})[\s,]""".format(
     max_term_chars=MAX_TERM_CHARS,
     trigger_list=join_collection(ALL_TRIGGER_LIST))
@@ -258,7 +258,7 @@ def get_definition_list_in_sentence(sentence_coords: Tuple[int, int, str],
         :param decode_unicode:
         :return:
         """
-    definitions = []  # type: List[DefinitionCaught]
+    definitions: List[DefinitionCaught] = []
     sentence = sentence_coords[2]
     # unify quotes and braces
     # replace excess braces with ' ' so the str length will remain the same

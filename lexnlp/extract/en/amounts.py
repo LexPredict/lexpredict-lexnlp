@@ -27,8 +27,8 @@ Avoids:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -75,6 +75,7 @@ small_numbers.sort(key=len, reverse=True)
 big_numbers = list(MAGNITUDE_MAP.keys())
 big_numbers.sort(key=len, reverse=True)
 
+
 CURRENCY_SYMBOL_MAP = {
     "$": "USD",
     "€": "EUR",
@@ -110,17 +111,11 @@ fraction_smb_to_string = {
 
 fraction_symbols = ''.join(fraction_smb_to_value)
 FRACTION_TAIL = rf'\s{{0,2}}[{fraction_symbols}]+'
-FRACTION_TAIL_RE = re.compile(FRACTION_TAIL,
-                              re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
+FRACTION_TAIL_RE = re.compile(FRACTION_TAIL, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
-NUM_PTN = r"""
-(?:(?:(?:(?:(?:[\.\d][\d\.,]*\s*|\W|^)
-(?:(?:{written_small_numbers}|{written_big_numbers}
-|hundred(?:th(?:s)?)?|dozen|and|a\s+half|quarters?)[\s-]*)+)
-(?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)(?:[\.\d][\d\.,'/]*))(?:\W|$))(?:{fraction_tail})*""".format(
-    written_small_numbers='|'.join(small_numbers),
-    written_big_numbers='|'.join(big_numbers),
-    fraction_tail=FRACTION_TAIL)
+NUM_PTN = fr"(?:(?:(?:(?:(?:[\.\d][\d\.,]*\s*|\W|^)(?:(?:{'|'.join(small_numbers)}|{'|'.join(big_numbers)}|hundred" \
+          fr"(?:th(?:s)?)?|dozen|and|a\s+half|quarters?)[\s-]*)+)(?:(?:no|\d{{1,2}})/100)?)|(?<=\W|^)" \
+          fr"(?:[\.\d][\d\.,'/]*))(?:\W|$))(?:{FRACTION_TAIL})*"
 
 NUM_PTN_RE = re.compile(NUM_PTN, re.IGNORECASE | re.MULTILINE | re.DOTALL | re.VERBOSE)
 
@@ -354,6 +349,30 @@ def get_amounts(
             yield ant.value
 
 
+def get_amount_list(
+    text: str,
+    return_sources: bool = False,
+    extended_sources: bool = True,
+    float_digits: int = 4,
+) -> List[Union[Decimal, Tuple[Decimal, str]]]:
+    """
+    Find possible amount references in the text.
+    :param text: text
+    :param return_sources: return amount AND source text
+    :param extended_sources: return data around amount itself
+    :param float_digits: round float to N digits, don't round if None
+    :return: list of amounts
+    """
+    return list(
+        get_amounts(
+            text=text,
+            return_sources=return_sources,
+            extended_sources=extended_sources,
+            float_digits=float_digits,
+        )
+    )
+
+
 def get_amount_annotations(
     text: str,
     extended_sources: bool = True,
@@ -366,10 +385,10 @@ def get_amount_annotations(
     :param float_digits: round float to N digits, don't round if None
     :return: list of amounts
     """
-    for match in NUM_PTN_RE.finditer(text):
+    for match in NUM_PTN_RE.finditer(text):  # type: re.Match
         found_item = match.group()
         fraction_tail_items = FRACTION_TAIL_RE.finditer(found_item)
-        for fraction_tail in fraction_tail_items:
+        for fraction_tail in fraction_tail_items:  # type: re.Match
             fraction_tail_smb = fraction_tail.group().strip(' ')
             if fraction_tail_smb in fraction_smb_to_string:
                 fraction_ending = fraction_smb_to_string[fraction_tail_smb]
@@ -419,3 +438,24 @@ def get_amount_annotations(
                 value=amount,
                 text=match.group()
             )
+
+
+def get_amount_annotation_list(
+    text: str,
+    extended_sources: bool = True,
+    float_digits: int = 4,
+) -> List[AmountAnnotation]:
+    """
+    Find possible amount references in the text.
+    :param text: text
+    :param extended_sources: return data around amount itself
+    :param float_digits: round float to N digits, don't round if None
+    :return: list of amounts
+    """
+    return list(
+        get_amount_annotations(
+            text=text,
+            extended_sources=extended_sources,
+            float_digits=float_digits,
+        )
+    )

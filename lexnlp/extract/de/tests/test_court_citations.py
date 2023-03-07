@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -57,7 +57,7 @@ class TestCourtCitationsParser(TestCase):
         item = get_court_citation_list(text)[0]
         self.assertEqual('court citation', item.record_type)
         self.assertEqual('BStBl I 2003, 240', item.text)
-        self.assertEqual("de", item.locale.language)
+        self.assertEqual("de", item.locale)
 
         dics = list(get_court_citations(text))
         self.assertEqual("court citation", dics[0]["tags"]["Extracted Entity Type"])

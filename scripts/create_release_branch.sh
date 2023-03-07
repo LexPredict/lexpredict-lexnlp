@@ -75,14 +75,14 @@ echo "Update lexnlp@master"
 pushd ${LEXNLP_REPO_PATH}
 
 # check old release branch exists, checkout
-if [ -z "`git branch --list master`" ]
-then
-   echo "'lexnlp@master branch doesn't exist. Exiting program."
-   return 1
-fi
-
-git fetch origin master
-git checkout master
+#if [ -z "`git branch --list master`" ]
+#then
+#   echo "'lexnlp@master branch doesn't exist. Exiting program."
+#   return 1
+#fi
+#
+#git fetch origin master
+#git checkout master
 
 # check that new release branch exists, checkout/create
 echo ${LINE}
@@ -106,12 +106,14 @@ echo "Copy files from -core to -lexnlp local repo"
 rsync -av --delete ${CORE_REPO_PATH}/documentation/ ${LEXNLP_REPO_PATH}/documentation
 rsync -av --delete ${CORE_REPO_PATH}/lexnlp/ ${LEXNLP_REPO_PATH}/lexnlp
 rsync -av --delete ${CORE_REPO_PATH}/libs/ ${LEXNLP_REPO_PATH}/libs
+rsync -av --delete ${CORE_REPO_PATH}/notebooks/ ${LEXNLP_REPO_PATH}/notebooks
 rsync -av --delete ${CORE_REPO_PATH}/scripts/ ${LEXNLP_REPO_PATH}/scripts
 rsync -av --delete ${CORE_REPO_PATH}/test_data/ ${LEXNLP_REPO_PATH}/test_data
 cp -rf ${CORE_REPO_PATH}/index.rst ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/LICENSE ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/MANIFEST.in ${LEXNLP_REPO_PATH}
-cp -rf ${CORE_REPO_PATH}/python-requirements* ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/python-requirements.txt ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/Pipfile* ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/README.rst ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/README.md ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/readthedocs.yml ${LEXNLP_REPO_PATH}

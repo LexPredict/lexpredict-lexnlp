@@ -3,8 +3,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -61,7 +61,10 @@ class GitHubReleaseDownloader:
 
     @staticmethod
     def get_asset(response: Response, index: int = 0) -> Dict[str, Any]:
-        asset: Dict[str, Any] = response.json()['assets'][index]
+        try:
+            asset: Dict[str, Any] = response.json()['assets'][index]
+        except KeyError as key_error:
+            raise KeyError(f'Available keys: {response.json().keys()}') from key_error
         return asset
 
     @staticmethod
@@ -206,6 +209,7 @@ def download_github_release(tag: str, prompt_user: bool = True) -> None:
 
     def _get_asset() -> Dict[str, Any]:
         response: Response = GitHubReleaseDownloader.get_tag(tag)
+        response.raise_for_status()
         return GitHubReleaseDownloader.get_asset(response)
 
     def _download_asset() -> None:

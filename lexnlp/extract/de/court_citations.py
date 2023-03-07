@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -68,13 +68,13 @@ class CourtCitationsParser:
     # endregion
 
     def __init__(self):
-        self.locale = 'de'
-        self.items = []  # List[CourtCitationAnnotation]
-        self.locale = None
+        self.items: List[CourtCitationAnnotation] = []
+        self.language: str = 'de'
 
-    def parse(self, text: str, locale: Locale = None) -> List[CourtCitationAnnotation]:
-        self.items = []
-        self.locale = locale
+    def parse(self, text: str, language: str = 'de') -> List[CourtCitationAnnotation]:
+        # TODO: can we turn this into a generator?
+        self.language: str = language
+        self.items: List[CourtCitationAnnotation] = []
         self.find_citations_in_embraced_text(text)
         return self.items
 
@@ -119,8 +119,7 @@ class CourtCitationsParser:
         ant = CourtCitationAnnotation(name=chunk_body,
                                       coords=(start, end),
                                       text=chunk_body,
-                                      locale=self.locale)
-        ant.locale = self.locale
+                                      locale=self.language)
         if len(registries) > 0:
             ant.name = CourtCitationsParser.registries[registries[0].value]
             ant.short_name = self.get_reference_from_registry(registries[0], chunk_body)
@@ -158,20 +157,20 @@ class CourtCitationsParser:
 
         tokens = []
         for d in date_ents:
-            tok = PossibleToken('date', d['value'],
-                                (d['location_start'], d['location_end']), 100)
+            tok = PossibleToken('date', d['value'], (d['location_start'], d['location_end']), 100)
             tokens.append(tok)
         if len(tokens) > 0:
             return tokens
 
-        # try get years only
+        # try only getting years
         for year in year_parser.year_parser.get_years_with_coords_from_string(text):
-            tokens.append(PossibleToken('date', str(year[0]),
-                                        (year[1], year[2]), 50))
+            tokens.append(PossibleToken('date', str(year[0]), (year[1], year[2]), 50))
         return tokens
 
-    def split_text_by_keywords(self, text: str) -> List[Tuple[str, int]]:
-        matches = list(CourtCitationsParser.reg_split_by_registry.finditer(text))
+    @staticmethod
+    def split_text_by_keywords(text: str) -> List[Tuple[str, int]]:
+        # noinspection PyTypeChecker
+        matches: Tuple[re.Match] = tuple(CourtCitationsParser.reg_split_by_registry.finditer(text))
         chunks = []
         for i, match in enumerate(matches):
             ending = -1
@@ -187,16 +186,25 @@ class CourtCitationsParser:
 parser = CourtCitationsParser()
 
 
-def get_court_citation_annotations(text: str, language: str = None) -> \
-        Generator[CourtCitationAnnotation, None, None]:
-    yield from parser.parse(text, language if language else 'de')
+def get_court_citation_annotations(
+    text: str,
+    language: str = 'de',
+) -> Generator[CourtCitationAnnotation, None, None]:
+    yield from parser.parse(text, language)
 
 
-def get_court_citations(text: str, language: str = None) -> Generator[dict, None, None]:
-    cts = parser.parse(text, language if language else 'de')
+def get_court_citation_annotation_list(
+    text: str,
+    language: str = 'de',
+) -> List[CourtCitationAnnotation]:
+    return parser.parse(text, language)
+
+
+def get_court_citations(text: str, language: str = 'de') -> Generator[dict, None, None]:
+    cts = parser.parse(text, language)
     for ct in cts:
         yield ct.to_dictionary()
 
 
-def get_court_citation_list(text: str, locale: Locale = None) -> List[CourtCitationAnnotation]:
-    return parser.parse(text, locale or Locale('de'))
+def get_court_citation_list(text: str, language: str = 'de') -> List[CourtCitationAnnotation]:
+    return parser.parse(text, language)

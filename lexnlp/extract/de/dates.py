@@ -1,14 +1,14 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import os
 from datetime import datetime
-from typing import Generator, Optional
+from typing import Generator, List, Optional
 
 import joblib
 
@@ -38,15 +38,10 @@ parser = DeDateParser(DATE_MODEL_CHARS,
                       feature_window=0)
 
 
-def get_date_annotations(text: str,
-                         strict: Optional[bool] = None,
-                         locale: Optional[str] = '',
-                         _base_date: Optional[datetime] = None,
-                         _threshold: float = 0.50) -> Generator[DateAnnotation, None, None]:
-    strict = strict if strict is not None else False
-    yield from parser.get_date_annotations(text, Locale(locale), strict)
-
-
 get_dates = parser.get_dates
 
 get_date_list = parser.get_date_list
+
+get_date_annotations = parser.get_date_annotations
+
+get_date_annotation_list = parser.get_date_annotation_list

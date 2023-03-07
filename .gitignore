@@ -5,7 +5,7 @@
 data/samples/
 libs/tika/
 libs/stanford_nlp/
-notebooks/
+
 bin/
 
 # Byte-compiled / optimized / DLL files

@@ -12,8 +12,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -419,3 +419,34 @@ of income of the Borrower for such period.
             'lexnlp/extract/en/tests/test_definitions/bad_def.txt', 'utf-8')
         defs = list(get_definitions(text))
         self.assertGreater(len(defs), 12)
+
+    def test_superscript_numerical(self):
+        text = "“Definiendum”²³ shall mean a word, phrase, or symbol which is the subject of a definition."
+        definitions = list(get_definitions(text))
+        self.assertEqual(1, len(definitions))
+
+    def test_subscript_numerical(self):
+        text = "“Definiendum”₁ shall mean a word, phrase, or symbol which is the subject of a definition."
+        definitions = list(get_definitions(text))
+        self.assertEqual(1, len(definitions))
+
+    def test_superscript_alphabetical_lower(self):
+        text = "“Definiendum”ᵃ shall mean a word, phrase, or symbol which is the subject of a definition."
+        definitions = list(get_definitions(text))
+        self.assertEqual(1, len(definitions))
+
+    def test_superscript_alphabetical_upper(self):
+        text = "“Definiendum”ᴮ shall mean a word, phrase, or symbol which is the subject of a definition."
+        definitions = list(get_definitions(text))
+        self.assertEqual(1, len(definitions))
+
+    def test_subscript_alphabetical_lower(self):
+        text = "“Definiendum”ₐ shall mean a word, phrase, or symbol which is the subject of a definition."
+        definitions = list(get_definitions(text))
+        self.assertEqual(1, len(definitions))
+
+    def test_subscript_alphabetical_upper(self):
+        text = "“Definiendum”ₜ shall mean a word, phrase, or symbol which is the subject of a definition."
+        definitions = list(get_definitions(text))
+        self.assertEqual(1, len(definitions))
+

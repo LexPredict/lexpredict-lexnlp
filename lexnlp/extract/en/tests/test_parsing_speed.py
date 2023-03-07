@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -19,7 +19,7 @@ from lexnlp.extract.en.amounts import get_amounts
 from lexnlp.extract.en.citations import get_citations
 from lexnlp.extract.en.conditions import get_conditions
 from lexnlp.extract.en.constraints import get_constraints
-from lexnlp.extract.en.copyright import get_copyright
+from lexnlp.extract.en.copyright import get_copyrights
 from lexnlp.extract.en.courts import _get_courts
 from lexnlp.extract.en.cusip import get_cusip
 from lexnlp.extract.en.dates import get_dates
@@ -57,7 +57,7 @@ class TestParsingSpeed(TestCase):
         self.check_time(text, lambda s: list(get_citations(s)), 'get_citations', times)
         self.check_time(text, lambda s: list(get_conditions(s)), 'get_conditions', times)
         self.check_time(text, lambda s: list(get_constraints(s)), 'get_constraints', times)
-        self.check_time(text, lambda s: list(get_copyright(s)), 'get_copyright', times)
+        self.check_time(text, lambda s: list(get_copyrights(s)), 'get_copyright', times)
         self.check_time(text, lambda s: list(_get_courts(s)), 'get_courts', times)
         self.check_time(text, lambda s: list(get_cusip(s)), 'get_cusip', times)
         self.check_time(text, lambda s: list(get_dates(s)), 'get_dates', times)

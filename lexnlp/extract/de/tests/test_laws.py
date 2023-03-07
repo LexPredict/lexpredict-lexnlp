@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -43,23 +43,23 @@ parser = setup_parser()
 
 class TestParseDeLaws(TestCase):
     def test_parse_empty_text(self):
-        ret = parser.parse('')
+        ret = list(parser.parse(''))
         self.assertEqual(0, len(ret))
-        ret = parser.parse("""
+        ret = list(parser.parse("""
 
-         """)
+         """))
         self.assertEqual(0, len(ret))
 
     def test_parse_simply_phrase(self):
         text = "Dies ist durch das AAÜG geschehen."
-        ret = parser.parse(text, 'x')
+        ret = list(parser.parse(text, 'x'))
         self.assertEqual(1, len(ret))
         self.assertEqual("x", ret[0].locale)
         self.assertEqual((18, 24), ret[0].coords)
         self.assertEqual('AAÜG', ret[0].name)
         self.assertEqual('AAÜG', ret[0].text)
 
-        ret = parser.parse(text)
+        ret = list(parser.parse(text))
         self.assertEqual("de", ret[0].locale)
 
     # this test should be useful after implementing

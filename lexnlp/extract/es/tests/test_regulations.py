@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -20,7 +20,7 @@ class TestParseSpanishLawsRegulations(TestCase):
                "entregar a la Comisión Nacional Bancaria y de Valores, la información y documentación que acredite " + \
                "satisfacer lo antes señalado, dentro de los quince días hábiles siguientes a que se encuentren en dicho supuesto."
 
-        ret = parser.parse(text)
+        ret = list(parser.parse(text))
         self.assertEqual(2, len(ret))
         reg = ret[1]
         self.assertEqual('Spain', reg.country)
@@ -30,7 +30,7 @@ class TestParseSpanishLawsRegulations(TestCase):
                "mediante la emisión de instrumentos inscritos en el Registro Nacional de Valores, colocados " + \
                "mediante oferta pública incluso cuando dichos recursos se utilicen para el otorgamiento de " + \
                "financiamientos de cualquier naturaleza."
-        ret = parser.parse(text)
+        ret = list(parser.parse(text))
         self.assertEqual(1, len(ret))
         reg = ret[0]
         self.assertEqual((144, 172), reg.coords)
@@ -47,7 +47,7 @@ class TestParseSpanishLawsRegulations(TestCase):
                "y de primas de antigüedad, que cumplan con los requisitos señalados en la Ley del Impuesto sobre " +\
                "la Renta, así como a los demás inversionistas institucionales que autorice expresamente la " +\
                "Secretaría de Hacienda y Crédito Público."
-        ret = parser.parse(text)
+        ret = list(parser.parse(text))
         self.assertEqual(4, len(ret))
 
         reg_items = list(get_regulations(text))
@@ -56,7 +56,7 @@ class TestParseSpanishLawsRegulations(TestCase):
 
     def test_parse_large_text(self):
         text = load_resource_document('lexnlp/extract/es/sample_es_regulations.txt', 'utf-8')
-        ret = parser.parse(text)
+        ret = list(parser.parse(text))
         self.assertGreater(len(ret), 100)
         html = annotate_text(text, ret)
         save_test_document('sample_es_regulations.html', html)

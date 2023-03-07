@@ -2,8 +2,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -14,7 +14,7 @@ from typing import List
 from unittest import TestCase
 
 from lexnlp.extract.common.annotations.court_annotation import CourtAnnotation
-from lexnlp.extract.en.courts import get_courts, get_court_annotations, _get_court_list, _get_courts
+from lexnlp.extract.en.courts import get_courts, get_court_annotations, get_court_list, _get_courts
 from lexnlp.extract.en.dict_entities import DictionaryEntryAlias, DictionaryEntry
 from lexnlp.tests.lexnlp_tests import DIR_ROOT
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
@@ -23,14 +23,12 @@ from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester
 class TestCourtsPlain(TestCase):
     def test_bankr_courts(self):
         text = 'One one Bankr. E.D.N.C. two two two.'
-        courts = list(get_courts(text, court_config_list=self.build_courts_config()))
+        courts = list(_get_courts(text, court_config_list=self.build_courts_config()))
         self.assertEqual(1, len(courts))
 
     def test_bankr_courts_wo_nltk(self):
         text = 'One one Bankr. E.D.N.C. two two two.'
-        courts = list(get_courts(text,
-                                 court_config_list=self.build_courts_config(),
-                                 simplified_normalization=True))
+        courts = list(_get_courts(text, court_config_list=self.build_courts_config(), simplified_normalization=True))
         self.assertEqual(1, len(courts))
 
     def test_bankr_court_annotations(self):
@@ -58,22 +56,22 @@ class TestCourtsPlain(TestCase):
         return courts_config_list
 
     def test_parse_empty_text(self):
-        ret = _get_court_list('')
+        ret = get_court_list('')
         self.assertEqual(0, len(ret))
-        _get_court_list("""
+        get_court_list("""
          """)
         #self.assertEqual(0, len(ret))
 
     def test_parse_simply_text(self):
         text = "A recent decision by a United States Supreme Court in Alabama v. Ballyshear LLC confirms that a key factor is the location of the impact of the alleged discriminatory conduct."
-        ret = _get_court_list(text)
+        ret = get_court_list(text)
         self.assertEqual(1, len(ret))
         self.assertEqual("en", ret[0].locale)
 
-        ret = _get_court_list(text, "z")
+        ret = get_court_list(text, "z")
         self.assertEqual("z", ret[0].locale)
 
-        items = list(_get_courts(text))
+        items = list(get_courts(text))
         court_name = items[0]["tags"]["Extracted Entity Court Name"]
         self.assertEqual('United States Supreme Court', court_name)
 

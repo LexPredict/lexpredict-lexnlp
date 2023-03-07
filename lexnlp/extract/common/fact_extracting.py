@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -15,8 +15,8 @@ from lexnlp.extract.en.amounts import get_amounts, get_amount_annotations
 from lexnlp.extract.en.citations import get_citation_annotations, get_citations
 from lexnlp.extract.en.conditions import get_condition_annotations, get_conditions
 from lexnlp.extract.en.constraints import get_constraint_annotations, get_constraints
-from lexnlp.extract.en.copyright import get_copyright_annotations, get_copyright
-from lexnlp.extract.en.courts import get_court_annotations, _get_courts
+from lexnlp.extract.en.copyright import get_copyright_annotations, get_copyrights
+from lexnlp.extract.en.courts import get_court_annotations, get_courts
 from lexnlp.extract.en.cusip import get_cusip_annotations, get_cusip
 from lexnlp.extract.en.dates import get_date_annotations, get_dates
 from lexnlp.extract.en.definitions import get_definition_annotations, get_definitions
@@ -235,12 +235,12 @@ class FactExtractor:
 
             ExtractingFunction(method=get_copyright_annotations, fact_type=AnnotationType.copyright,
                                result_fmt=ExtractorResultFormat.fmt_class),
-            ExtractingFunction(method=get_copyright, fact_type=AnnotationType.copyright,
+            ExtractingFunction(method=get_copyrights, fact_type=AnnotationType.copyright,
                                result_fmt=ExtractorResultFormat.fmt_object),
 
             ExtractingFunction(method=get_court_annotations, fact_type=AnnotationType.court,
                                result_fmt=ExtractorResultFormat.fmt_class),
-            ExtractingFunction(method=_get_courts, fact_type=AnnotationType.court,
+            ExtractingFunction(method=get_courts, fact_type=AnnotationType.court,
                                result_fmt=ExtractorResultFormat.fmt_object),
 
             ExtractingFunction(method=get_cusip_annotations, fact_type=AnnotationType.cusip,

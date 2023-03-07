@@ -8,14 +8,14 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 import regex as re
-from typing import Generator
+from typing import Generator, List, Optional, Tuple, Union
 
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.extract.common.annotations.phone_annotation import PhoneAnnotation
@@ -37,7 +37,10 @@ US_PHONE_PATTERN = r"""
 RE_US_PHONE = re.compile(US_PHONE_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.VERBOSE)
 
 
-def get_ssns(text, return_sources=False) -> Generator:
+def get_ssns(
+    text: str,
+    return_sources: bool = False,
+) -> Generator[Union[Optional[str], Tuple[Optional[str], str]], None, None]:
     """
     Find possible SSN references in the text.
     """
@@ -50,8 +53,17 @@ def get_ssns(text, return_sources=False) -> Generator:
             yield ant.number
 
 
+def get_ssn_list(
+    text: str,
+    return_sources: bool = False,
+) -> List[Union[Optional[str], Tuple[Optional[str], str]]]:
+    """
+    """
+    return list(get_ssns(text, return_sources))
+
+
 def get_ssn_annotations(text: str) -> Generator[SsnAnnotation, None, None]:
-    for match in RE_SSN.finditer(text):
+    for match in RE_SSN.finditer(text):  # type: re.Match
         # Get individual group matches
         captures = match.capturesdict()
         blocks = [int(captures[f'block{i + 1}'].pop()) for i in range(3)]
@@ -65,7 +77,16 @@ def get_ssn_annotations(text: str) -> Generator[SsnAnnotation, None, None]:
         yield ant
 
 
-def get_us_phones(text: str, return_sources=False) -> Generator:
+def get_ssn_annotation_list(text: str) -> List[SsnAnnotation]:
+    """
+    """
+    return list(get_ssn_annotations(text))
+
+
+def get_us_phones(
+    text: str,
+    return_sources: bool = False,
+) -> Generator[Union[Optional[str], Tuple[Optional[str], str]], None, None]:
     """
     Find possible telephone numbers in the text.
     """
@@ -76,8 +97,16 @@ def get_us_phones(text: str, return_sources=False) -> Generator:
             yield ant.phone
 
 
-def get_us_phone_annotations(text: str) \
-        -> Generator[PhoneAnnotation, None, None]:
+def get_us_phone_list(
+    text: str,
+    return_sources: bool = False,
+) -> List[Union[Optional[str], Tuple[Optional[str], str]]]:
+    """
+    """
+    return list(get_us_phones(text, return_sources))
+
+
+def get_us_phone_annotations(text: str) -> Generator[PhoneAnnotation, None, None]:
     """
     Find possible telephone numbers in the text.
     """
@@ -96,7 +125,15 @@ def get_us_phone_annotations(text: str) \
         yield ant
 
 
-def get_pii(text: str, return_sources=False) -> Generator:
+def get_us_phone_annotation_list(text: str) -> List[PhoneAnnotation]:
+    """
+    Get a list of PhoneAnnotations representing possible US phone numbers found
+    in the text.
+    """
+    return list(get_us_phone_annotations(text))
+
+
+def get_pii(text: str, return_sources: bool = False) -> Generator[Tuple, None, None]:
     """
     Find possible PII references in the text.
     :param text:
@@ -123,11 +160,24 @@ def get_pii(text: str, return_sources=False) -> Generator:
             yield 'us_phone', phone
 
 
-def get_pii_annotations(text: str) -> \
-        Generator[TextAnnotation, None, None]:
+def get_pii_list(text: str, return_sources: bool = False) -> List[Tuple]:
+    """
+    Get a list of tuples representing PII references found in text.
+    """
+    return list(get_pii(text, return_sources))
+
+
+def get_pii_annotations(text: str) -> Generator[TextAnnotation, None, None]:
     """
     Find possible PII references in the text.
     """
 
     yield from get_ssn_annotations(text)
     yield from get_us_phone_annotations(text)
+
+
+def get_pii_annotation_list(text: str) -> List[TextAnnotation]:
+    """
+    Get a list of TextAnnotations representing PII references found in text.
+    """
+    return list(get_pii_annotations(text))

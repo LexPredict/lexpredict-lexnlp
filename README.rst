@@ -76,11 +76,13 @@ Requirements
 ------------
 
 -  Python 3.8
--  see python-requirements.txt file for full information
+-  pipenv
 
 Releases
 --------
 
+-  2.3.0: November 30, 2022 - Twenty sixth scheduled public release;
+   `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/2.3.0>`__
 -  2.2.1.0: August 10, 2022 - Twenty fifth scheduled public release;
    `code <https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.1.0>`__
 -  2.2.0: July 7, 2022 - Twenty fourth scheduled public release;

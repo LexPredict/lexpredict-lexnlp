@@ -2,8 +2,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -88,22 +88,25 @@ def make_de_definitions_parser():
     return p
 
 
-parser = make_de_definitions_parser()
+parser: UniversalDefinitionsParser = make_de_definitions_parser()
 
 
-def get_definition_annotations(text: str,
-                               language: Optional[str] = None,
-                               **_kwargs) -> Generator[DefinitionAnnotation, None, None]:
-    dfs = parser.parse(text, language if language else 'de')
+def get_definition_annotations(text: str, language: str = 'de') -> Generator[DefinitionAnnotation, None, None]:
+    dfs = parser.parse(text, language)
     for d in dfs:
         yield d
 
 
-def get_definitions(text: str, language=None) -> Generator[dict, None, None]:
-    dfs = parser.parse(text, language if language else 'de')
+def get_definition_annotation_list(text: str, language: str = 'de') -> List[DefinitionAnnotation]:
+    return list(get_definition_annotations(text, language))
+
+
+def get_definitions(text: str, language: str = 'de') -> Generator[dict, None, None]:
+    dfs = parser.parse(text, language)
     for d in dfs:
         yield d.to_dictionary()
 
 
-def get_definition_list(text: str, language=None) -> List[DefinitionAnnotation]:
-    return parser.parse(text, language if language else 'de')
+def get_definition_list(text: str, language: str = 'de') -> List[dict]:
+    # noinspection PyTypeChecker
+    return list(get_definitions(text, language))

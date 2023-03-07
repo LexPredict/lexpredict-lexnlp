@@ -7,8 +7,8 @@ Unit tests for Dates.
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -81,7 +81,7 @@ class TestDeDatesPlain(TestCase):
                 Stand:        Neugefasst durch Bek. v. 16.5.2002 I 1778;
                 zuletzt geändert durch Art. 39 G v. 29.3.2017 I 626"""
 
-        extracted_dates = list(get_date_annotations(text=text, locale='de'))
+        extracted_dates = list(get_date_annotations(text=text, locale=Locale('de')))
         extracted_dates.sort(key=lambda a: a.coords[0])
         for d in extracted_dates:
             d.text = text[d.coords[0]: d.coords[1]].strip()
@@ -138,9 +138,8 @@ class TestDeDatesPlain(TestCase):
         text = '''zu den Übereinkommen vom 15. Februar 1972 und 29. Dezember 1972 zur'''
         dates = list(get_date_annotations(text))
         self.assertEqual(2, len(dates))
-        # ToDo: fix date parser in CS-7154 and uncomment asserts
-        # self.assertEqual(datetime.datetime(1972, 2, 15, 0, 0), dates[0].date)
-        # self.assertEqual(datetime.datetime(1972, 12, 29, 0, 0), dates[1].date)
+        self.assertEqual(datetime.datetime(1972, 2, 15, 0, 0), dates[0].date)
+        self.assertEqual(datetime.datetime(1972, 12, 29, 0, 0), dates[1].date)
 
     def test_negative_stunden(self):
         text = '''- Definitiver Leasing-Entscheid innert 24 Stunden 5.'''

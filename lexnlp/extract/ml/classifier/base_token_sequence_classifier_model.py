@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -12,6 +12,7 @@ import pickle
 from abc import abstractmethod
 from typing import Any, Tuple, Generator, List
 
+from lexnlp.utils.unpickler import renamed_load
 
 MODULE_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -81,7 +82,7 @@ class BaseTokenSequenceClassifierModel:
     @staticmethod
     def load_from_file(save_path: str):
         with open(save_path, 'rb') as fr:
-            model = pickle.load(fr)
+            model = renamed_load(fr)
         return model
 
     @staticmethod

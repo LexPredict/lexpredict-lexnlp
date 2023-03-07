@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -16,21 +16,16 @@ from lexnlp.utils.lines_processing.line_processor import LineOrPhrase
 
 
 class CopyrightParser(TextPatternCollector):
-    def make_annotation_from_pattrn(self,
-                                    locale: str,
-                                    ptrn: PatternFound,
-                                    phrase: LineOrPhrase) -> TextAnnotation:
+    def make_annotation_from_pattern(
+        self,
+        locale: str,
+        ptrn: PatternFound,
+        phrase: LineOrPhrase,
+    ) -> TextAnnotation:
         ant = CopyrightAnnotation(name=ptrn.name, coords=(ptrn.start, ptrn.end),
                                   text=phrase.text[ptrn.start: ptrn.end],
                                   locale=locale)
-        ant.company = ptrn.company  # pattern in in fact CopyrightPatternFound
+        ant.company = ptrn.company  # pattern in fact CopyrightPatternFound
         ant.year_start = ptrn.start_year
         ant.year_end = ptrn.end_year
         return ant
-
-    def get_annotations_as_dictionaries(self) -> List[dict]:
-        dfs = []
-        for ant in self.annotations:
-            df = ant.to_dictionary()
-            dfs.append(df)
-        return dfs

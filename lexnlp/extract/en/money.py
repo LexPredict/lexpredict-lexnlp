@@ -7,14 +7,14 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
 from collections import OrderedDict
-from typing import Generator, Union, Tuple
+from typing import Generator, List, Tuple, Union
 
 from lexnlp.extract.common.money_detector import MoneyDetector
 from lexnlp.extract.common.annotations.money_annotation import MoneyAnnotation
@@ -52,14 +52,72 @@ money_detector = MoneyDetector(
 
 
 def get_money(
-        text: str,
-        return_sources: bool = False,
-        float_digits: int = 4) -> Generator[Union[Tuple[str, str, str], Tuple[str, str]], None, None]:
+    text: str,
+    return_sources: bool = False,
+    float_digits: int = 4,
+) -> Generator[Union[Tuple[str, str, str], Tuple[str, str]], None, None]:
+    """
+    Finds usages of money in input text.
+
+    Args:
+        text (str):
+        return_sources (bool=False):
+        float_digits (int=4):
+
+    Yields:
+        Union[Tuple[str, str, str], Tuple[str, str]]
+    """
     yield from money_detector.get_money(text, return_sources, float_digits)
+
+
+def get_money_list(
+    text: str,
+    return_sources: bool = False,
+    float_digits: int = 4,
+) -> List[Union[Tuple[str, str, str], Tuple[str, str]]]:
+    """
+    Gets a list of usages of money found in input text.
+
+    Args:
+        text (str):
+        return_sources (bool=False):
+        float_digits (int=4):
+
+    Returns:
+       A list of Union[Tuple[str, str, str], Tuple[str, str]]
+    """
+    return list(get_money(text, return_sources, float_digits))
 
 
 def get_money_annotations(
     text: str,
     float_digits: int = 4,
 ) -> Generator[MoneyAnnotation, None, None]:
+    """
+    Gets MoneyAnnotations found in input text.
+
+    Args:
+        text (str):
+        float_digits (int=4):
+
+    Yields:
+        MoneyAnnotation
+    """
     yield from money_detector.get_money_annotations(text, float_digits)
+
+
+def get_money_annotation_list(
+    text: str,
+    float_digits: int = 4,
+) -> List[MoneyAnnotation]:
+    """
+    Gets a list of MoneyAnnotations found in input text.
+
+    Args:
+        text (str):
+        float_digits (int=4):
+
+    Returns:
+        A list of MoneyAnnotations.
+    """
+    return list(get_money_annotations(text, float_digits))

@@ -8,8 +8,8 @@ Todo:
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -17,7 +17,7 @@ __email__ = "support@contraxsuite.com"
 # pylint: disable=bare-except
 
 import regex as re
-from typing import Generator
+from typing import Dict, Generator, List
 
 from lexnlp.extract.common.annotations.text_annotation import TextAnnotation
 from lexnlp.extract.common.annotations.citation_annotation import CitationAnnotation
@@ -120,7 +120,11 @@ def get_citation_annotations(text: str) -> \
     yield from DeCitationParser.get_citation_annotations(text)
 
 
-def get_citations(text: str):
+def get_citation_annotation_list(text: str) -> List[CitationAnnotation]:
+    return list(get_citation_annotations(text))
+
+
+def get_citations(text: str) -> Generator[Dict, None, None]:
     """
     Get citations containing "BGBl"
     :param text: str
@@ -144,5 +148,5 @@ def get_citations(text: str):
         )
 
 
-def get_citation_list(text):
+def get_citation_list(text) -> List[Dict]:
     return list(get_citations(text))

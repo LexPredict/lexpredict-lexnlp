@@ -26,7 +26,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='2.2.1.0',
+    version='2.3.0',
 
     description='LexPredict LexNLP',
     long_description=long_description,
@@ -89,25 +89,30 @@ setup(
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
-        'cloudpickle==2.1.0',
-        'dateparser==1.1.1',
+        'beautifulsoup4==4.11.1',
+        'cloudpickle==2.2.0',
+        'dateparser==1.1.3',
+        'elasticsearch==8.5.0',
         'gensim==4.1.2',
-        'joblib==1.1.0',
+        'importlib-metadata==5.0.0',
+        'joblib==1.2.0',
+        'lxml==4.9.1',
         'nltk==3.7',
-        'num2words==0.5.10',
-        'numpy==1.22.4',
-        'pandas==1.4.2',
+        'num2words==0.5.12',
+        'numpy==1.23.4',
+        'pandas==1.5.1',
+        'psutil==5.9.4',
         'pycountry==22.3.5',
+        'python-dateutil==2.8.2',
         'regex==2022.3.2',
-        'reporters-db==3.2.18',
-        'requests==2.27.1',
-        'scipy==1.8.1',
-        'scikit-learn==0.23.1',
-        'tzlocal==2.1',
-        'tqdm>=4.36.0',
-        'Unidecode==1.3.4',
+        'reporters-db==3.2.32',
+        'requests==2.28.1',
+        'scikit-learn==0.24',
+        'scipy==1.9.3',
+        'tqdm==4.64.1',
+        'Unidecode==1.3.6',
         'us==2.0.2',
-        'zahlwort2num==0.3.0'
+        'zahlwort2num==0.4.2'
     ],
 
     # Install any data files from packages.
@@ -119,8 +124,9 @@ setup(
     # for example:
     # $ pip install -e .[dev,test]
     extras_require={
-        'dev': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7', 'nose', 'memory-profiler', 'psutil', 'matplotlib'],
-        'test': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7', 'nose', 'memory-profiler', 'psutil'],
+        'dev': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7', 'nose', 'memory-profiler', 'psutil', 'matplotlib',
+                'Sphinx>=5.3.0'],
+        'test': ['pytest>=2.8.5', 'mock', 'pytz>=2015.7', 'nose', 'memory-profiler', 'psutil', 'Sphinx>=5.3.0'],
     },
 
     # If there are data files included in your packages that need to be

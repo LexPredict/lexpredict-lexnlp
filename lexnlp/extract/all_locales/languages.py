@@ -2,8 +2,8 @@
 
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -30,7 +30,10 @@ class LocaleContextManager:
         self.locale: str = _locale
 
     def __enter__(self) -> Union[str, str]:
-        return locale.setlocale(self.category, self.locale)
+        try:
+            return locale.setlocale(self.category, self.locale)
+        except locale.Error:
+            ...
 
     def __exit__(self, type, value, traceback) -> None:
         locale.setlocale(self.category, self._original_locale)

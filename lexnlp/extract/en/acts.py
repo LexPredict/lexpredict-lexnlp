@@ -1,7 +1,7 @@
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
-__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.2.1.0/LICENSE"
-__version__ = "2.2.1.0"
+__license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
+__version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
@@ -37,7 +37,7 @@ def get_act_list(*args, **kwargs) -> List[Dict[str, str]]:
 
 
 def get_acts_annotations(text: str) -> Generator[ActAnnotation, None, None]:
-    for match in ACT_PARTS_RE.finditer(text):
+    for match in ACT_PARTS_RE.finditer(text):  # type: re.Match
         captures = match.capturesdict()
         act_name = ''.join(captures.get('act_name') or [])
         year_str = ''.join(captures.get('year') or [])
