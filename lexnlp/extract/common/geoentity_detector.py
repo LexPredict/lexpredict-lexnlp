@@ -75,7 +75,9 @@ class GeoEntityLocator:
                                       min_alias_len=self.min_alias_len,
                                       prepared_alias_ban_list=self.prepared_alias_ban_list,
                                       simplified_normalization=self.simplified_normalization):
-            yield ent.entity
+            res = str(ent.entity).split(":")[0].replace("(", "").strip('"')
+            yield res
+
 
     def get_geoentity_annotations(
             self,
