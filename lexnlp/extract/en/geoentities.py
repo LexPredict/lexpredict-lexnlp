@@ -12,7 +12,7 @@ __version__ = "2.3.0"
 __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
-
+import os
 from typing import List, Tuple, Dict, Generator, Any, Optional
 
 from lexnlp.extract.all_locales.languages import LANG_EN
@@ -24,12 +24,16 @@ from lexnlp.extract.en.dict_entities import prepare_alias_banlist_dict, Dictiona
 
 _ALIAS_BAN_LIST_PREPARED = prepare_alias_banlist_dict(geoentities_config.ALIAS_BLACK_LIST)
 
+
+default_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+
+
 def make_geoconfig():
     res = []
-    entities_fn = "/Users/go/Documents/lexnlp/lexnlp/config/en/geoentities.csv"
-    aliases_fn = "/Users/go/Documents/lexnlp/lexnlp/config/en/geoaliases.csv"
-    kr_entities_fn = "/Users/go/Documents/lexnlp/lexnlp/config/en/kronicle_geoentities.csv"
-    kr_aliases_fn = "/Users/go/Documents/lexnlp/lexnlp/config/en/kronicle_geoaliases.csv"
+    entities_fn = os.path.join(default_file_path, "config", "en", "geoentities.csv")
+    aliases_fn = os.path.join(default_file_path, "config", "en", "geoaliases.csv")
+    kr_entities_fn = os.path.join(default_file_path, "config", "en", "kronicle_geoentities.csv")
+    kr_aliases_fn = os.path.join(default_file_path, "config", "en", "kronicle_geoaliases.csv")
     res = res + list(DictionaryEntry.load_entities_from_files(entities_fn, aliases_fn))
     res = res + list(DictionaryEntry.load_entities_from_files(kr_entities_fn, kr_aliases_fn))
     return res
