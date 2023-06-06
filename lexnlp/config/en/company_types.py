@@ -54,7 +54,7 @@ class CompanyDescriptor:
 
 
 default_company_types_file_path = os.path.join(os.path.dirname(__file__), 'company_types.csv')
-
+kronicle_company_types_file_path = os.path.join(os.path.dirname(__file__), 'kronicle_company_types.csv') 
 
 def get_company_types(file_path=None) -> Dict[str, CompanyDescriptor]:
     ret = {}
@@ -68,6 +68,17 @@ def get_company_types(file_path=None) -> Dict[str, CompanyDescriptor]:
             ret[alias] = CompanyDescriptor(alias, abbr, label)
             if alias_dot != alias:
                 ret[alias_dot] = CompanyDescriptor(alias_dot, abbr, label)
+
+    with open(kronicle_company_types_file_path, encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            alias_dot = row['Alias'].strip(' ').lower()
+            alias = alias_dot.strip('.')
+            abbr = row['Abbreviation'].strip()
+            label = row['Label'].strip()
+            ret[alias] = CompanyDescriptor(alias, abbr, label)
+            if alias_dot != alias:
+                ret[alias_dot] = CompanyDescriptor(alias_dot, abbr, label)
+
     return ret
 
 
