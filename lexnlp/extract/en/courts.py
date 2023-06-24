@@ -71,7 +71,8 @@ def _get_courts(
 def setup_en_parser():
     ptrs = ParserInitParams()
     file_path = os.path.join(lexnlp_base_path, 'lexnlp/config/en')
-    ptrs.dataframe_paths = ['us_state_courts.csv',
+    ptrs.dataframe_paths = ['kronicle_indian_courts.csv',
+                            'us_state_courts.csv',
                             'us_courts.csv',
                             'ca_courts.csv',
                             'au_courts.csv']
