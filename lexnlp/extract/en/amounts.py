@@ -68,6 +68,10 @@ MAGNITUDE_MAP: Dict[str, int] = {
     'billion': 1000000000,
     'trill': 1000000000000,
     'trillion': 1000000000000,
+    'lac': 100000,
+    'lacs': 100000,
+    'crore': 10000000,
+    'crores': 10000000
 }
 
 small_numbers = list(SMALL_NUMBERS_MAP.keys())
@@ -89,6 +93,10 @@ CURRENCY_SYMBOL_MAP = {
     "₽": "RUB",
     # "¢": None,
     "₩": "KRW",
+    "Rs": "INR",
+    "Rs.": "INR",
+    "Rupees": "INR",
+    "Rupee": "INR",
 }
 CURRENCY_PREFIX_MAP = {
     "chf": "CHF",

@@ -1,0 +1,2009 @@
+id,locale,alias,type,entity_id
+8215,de,Afghanistan,German Name,1973
+8216,es,Afganistán;República Islámica de Afganistán,Spanish Name,1973
+8217,fr,l'Afghanistan,French Name,1973
+8218,en,AF,iso-3166-2,1973
+8219,en,AFG,iso-3166-3,1973
+8220,de,Albanien,German Name,1974
+8221,es,República de Albania;Albania,Spanish Name,1974
+8222,fr,l'Albanie;la République d'Albanie,French Name,1974
+8223,en,AL,iso-3166-2,1974
+8224,en,ALB,iso-3166-3,1974
+8225,de,Algerien,German Name,1975
+8226,es,República Argelina Democrática y Popular;Argelia,Spanish Name,1975
+8227,fr,Algérie,French Name,1975
+8228,en,DZ,iso-3166-2,1975
+8229,en,DZA,iso-3166-3,1975
+8230,de,Amerikanisch-Samoa,German Name,1976
+8231,es,Samoa Americana,Spanish Name,1976
+8232,fr,Samoa américaines,French Name,1976
+8233,en,AS,iso-3166-2,1976
+8234,en,ASM,iso-3166-3,1976
+8235,de,Andorra,German Name,1977
+8236,es,Principado de Andorra;Andorra,Spanish Name,1977
+8237,fr,l'Andorre;la principauté d'Andorre,French Name,1977
+8238,en,AD,iso-3166-2,1977
+8239,en,AND,iso-3166-3,1977
+8240,de,Angola,German Name,1978
+8241,es,República de Angola;Angola,Spanish Name,1978
+8242,fr,Angola,French Name,1978
+8243,en,AO,iso-3166-2,1978
+8244,en,AGO,iso-3166-3,1978
+8245,de,Anguilla,German Name,1979
+8246,es,Anguila,Spanish Name,1979
+8247,fr,Anguilla,French Name,1979
+8248,en,AI,iso-3166-2,1979
+8249,en,AIA,iso-3166-3,1979
+8250,de,Antarktis,German Name,1980
+8251,es,Antártida,Spanish Name,1980
+8252,fr,Antarctique,French Name,1980
+8253,en,AQ,iso-3166-2,1980
+8254,en,ATA,iso-3166-3,1980
+8255,de,Antigua und Barbuda,German Name,1981
+8256,es,Antigua y Barbuda,Spanish Name,1981
+8257,fr,Antigua-et-Barbuda,French Name,1981
+8258,en,AG,iso-3166-2,1981
+8259,en,ATG,iso-3166-3,1981
+8260,de,Argentinien,German Name,1982
+8261,es,República Argentina;Argentina,Spanish Name,1982
+8262,fr,l'Argentine;la République argentine,French Name,1982
+8263,en,AR,iso-3166-2,1982
+8264,en,ARG,iso-3166-3,1982
+8265,de,Armenien,German Name,1983
+8266,es,República de Armenia;Armenia,Spanish Name,1983
+8267,fr,l'Arménie;la République d'Arménie,French Name,1983
+8268,en,AM,iso-3166-2,1983
+8269,en,ARM,iso-3166-3,1983
+8270,de,Aruba,German Name,1984
+8271,es,Aruba,Spanish Name,1984
+8272,fr,Aruba,French Name,1984
+8273,en,AW,iso-3166-2,1984
+8274,en,ABW,iso-3166-3,1984
+8275,de,Australien,German Name,1985
+8276,es,Mancomunidad de Australia;Australia,Spanish Name,1985
+8277,fr,l'Australie;le Commonwealth d'Australie,French Name,1985
+8278,en,AU,iso-3166-2,1985
+8279,en,AUS,iso-3166-3,1985
+8280,de,Österreich,German Name,1986
+8281,es,República de Austria;Austria,Spanish Name,1986
+8282,fr,l'Autriche;la République d'Autriche,French Name,1986
+8283,en,AT,iso-3166-2,1986
+8284,en,AUT,iso-3166-3,1986
+8285,de,Aserbaidschan,German Name,1987
+8286,es,República de Azerbaiyán;Azerbaiyán,Spanish Name,1987
+8287,fr,l'Azerbaïdjan;la République d'Azerbaïdjan,French Name,1987
+8288,en,AZ,iso-3166-2,1987
+8289,en,AZE,iso-3166-3,1987
+8290,de,Bahamas,German Name,1988
+8291,es,Mancomunidad de las Bahamas;Bahamas,Spanish Name,1988
+8292,fr,Bahamas,French Name,1988
+8293,en,BS,iso-3166-2,1988
+8294,en,BHS,iso-3166-3,1988
+8295,de,Bahrain;Bahrein,German Name,1989
+8296,es,Bahrein,Spanish Name,1989
+8297,fr,Bahreïn;le Royaume de Bahreïn,French Name,1989
+8298,en,BH,iso-3166-2,1989
+8299,en,BHR,iso-3166-3,1989
+8300,de,Bangladesch,German Name,1990
+8301,es,Bangladesh,Spanish Name,1990
+8302,fr,le Bangladesh;la République populaire du Banglades,French Name,1990
+8303,en,BD,iso-3166-2,1990
+8304,en,BGD,iso-3166-3,1990
+8305,de,Barbados,German Name,1991
+8306,es,Barbados,Spanish Name,1991
+8307,fr,La Barbade,French Name,1991
+8308,en,BB,iso-3166-2,1991
+8309,en,BRB,iso-3166-3,1991
+8310,de,Weißrußland,German Name,1992
+8311,es,Belarús,Spanish Name,1992
+8312,fr,Bélarus,French Name,1992
+8313,en,BY,iso-3166-2,1992
+8314,en,BLR,iso-3166-3,1992
+8315,de,Belgien,German Name,1993
+8316,es,Reino de Bélgica;Bélgica,Spanish Name,1993
+8317,fr,la Belgique;le Royaume de Belgique,French Name,1993
+8318,en,BE,iso-3166-2,1993
+8319,en,BEL,iso-3166-3,1993
+8320,de,Belize,German Name,1994
+8321,es,Belice,Spanish Name,1994
+8322,fr,le Belize,French Name,1994
+8323,en,BZ,iso-3166-2,1994
+8324,en,BLZ,iso-3166-3,1994
+8325,de,Benin,German Name,1995
+8326,es,República de Benín;Benín,Spanish Name,1995
+8327,fr,Bénin,French Name,1995
+8328,en,BJ,iso-3166-2,1995
+8329,en,BEN,iso-3166-3,1995
+8330,de,Bermuda,German Name,1996
+8331,es,islas Bermudas,Spanish Name,1996
+8332,fr,Bermudes,French Name,1996
+8333,en,BM,iso-3166-2,1996
+8334,en,BMU,iso-3166-3,1996
+8335,de,Bhutan,German Name,1997
+8336,es,Reino de Bután;Bután,Spanish Name,1997
+8337,fr,le Bhoutan,French Name,1997
+8338,en,BT,iso-3166-2,1997
+8339,en,BTN,iso-3166-3,1997
+8340,de,Bolivien,German Name,1998
+8341,es,Estado Plurinacional de Bolivia;Bolivia,Spanish Name,1998
+8342,fr,la Bolivie,French Name,1998
+8343,en,BO,iso-3166-2,1998
+8344,en,BOL,iso-3166-3,1998
+8345,de,Bonaire,German Name,1999
+8346,es,Bonaire,Spanish Name,1999
+8347,fr,Bonaire,French Name,1999
+8348,en,BQ,iso-3166-2,1999
+8349,de,Bosnien und Herzegovina,German Name,2000
+8350,es,Bosnia y Herzegovina,Spanish Name,2000
+8351,fr,la Bosnie-Herzégovine;la Bosnie et Herzégovine,French Name,2000
+8352,en,BA,iso-3166-2,2000
+8353,en,BIH,iso-3166-3,2000
+8354,de,Botswana,German Name,2001
+8355,es,República de Botsuana;Botsuana,Spanish Name,2001
+8356,fr,le Botswana;la République du Botswana,French Name,2001
+8357,en,BW,iso-3166-2,2001
+8358,en,BWA,iso-3166-3,2001
+8359,de,Bouvetinsel,German Name,2002
+8360,es,Isla Bouvet,Spanish Name,2002
+8361,fr,Île de Bouvet,French Name,2002
+8362,en,BV,iso-3166-2,2002
+8363,en,BVT,iso-3166-3,2002
+8364,de,Brasilien,German Name,2003
+8365,es,República Federativa del Brasil;Brasil,Spanish Name,2003
+8366,fr,Brésil,French Name,2003
+8367,en,BR,iso-3166-2,2003
+8368,en,BRA,iso-3166-3,2003
+8369,de,Britisches Territorium im Indischen Ozean,German Name,2004
+8370,es,Territorio Británico del Océano Índico,Spanish Name,2004
+8371,fr,Territoire britannique de l'océan Indien,French Name,2004
+8372,en,IO,iso-3166-2,2004
+8373,en,IOT,iso-3166-3,2004
+8374,de,Britische Jungferninseln,German Name,2005
+8375,es,Islas Vírgenes Británicas,Spanish Name,2005
+8376,fr,Îles Vierges britanniques,French Name,2005
+8377,en,VG,iso-3166-2,2005
+8378,en,VGB,iso-3166-3,2005
+8379,de,Brunei Darussalam,German Name,2006
+8380,es,Brunei Darussalam,Spanish Name,2006
+8381,fr,Brunei Darussalam,French Name,2006
+8382,en,BN,iso-3166-2,2006
+8383,en,BRN,iso-3166-3,2006
+8384,en,Brunei,abbreviation,2006
+8385,de,Bulgarien,German Name,2007
+8386,es,República de Bulgaria;Bulgaria,Spanish Name,2007
+8387,fr,la Bulgarie;la République de Bulgarie,French Name,2007
+8388,en,BG,iso-3166-2,2007
+8389,en,BGR,iso-3166-3,2007
+8390,de,Burkina Faso,German Name,2008
+8391,es,Burkina Faso,Spanish Name,2008
+8392,fr,Burkina Faso,French Name,2008
+8393,en,BF,iso-3166-2,2008
+8394,en,BFA,iso-3166-3,2008
+8395,de,Burundi,German Name,2009
+8396,es,República de Burundi;Burundi,Spanish Name,2009
+8397,fr,le Burundi;la République du Burundi,French Name,2009
+8398,en,BI,iso-3166-2,2009
+8399,en,BDI,iso-3166-3,2009
+8400,de,Kambodscha,German Name,2010
+8401,es,Reino de Camboya;Camboya,Spanish Name,2010
+8402,fr,le Cambodge;le Royaume du Cambodge,French Name,2010
+8403,en,KH,iso-3166-2,2010
+8404,en,KHM,iso-3166-3,2010
+8405,de,Kamerun,German Name,2011
+8406,es,República de Camerún;Camerún,Spanish Name,2011
+8407,fr,le Cameroun;la République du Cameroun,French Name,2011
+8408,en,CM,iso-3166-2,2011
+8409,en,CMR,iso-3166-3,2011
+8410,de,Kanada,German Name,2012
+8411,es,Canadá,Spanish Name,2012
+8412,fr,Canada,French Name,2012
+8413,en,CA,iso-3166-2,2012
+8414,en,CAN,iso-3166-3,2012
+8415,de,Kap Verde,German Name,2013
+8416,es,República de Cabo Verde;Cabo Verde,Spanish Name,2013
+8417,fr,le Cap-Vert,French Name,2013
+8418,en,CV,iso-3166-2,2013
+8419,en,CPV,iso-3166-3,2013
+8420,de,Kaimaninseln,German Name,2014
+8421,es,Islas Caimán,Spanish Name,2014
+8422,fr,Îles Caïmans,French Name,2014
+8423,en,KY,iso-3166-2,2014
+8424,en,CYM,iso-3166-3,2014
+8425,de,Zentralafrikanische Republik,German Name,2015
+8426,es,República Centroafricana,Spanish Name,2015
+8427,fr,République centrafricaine,French Name,2015
+8428,en,CF,iso-3166-2,2015
+8429,en,CAF,iso-3166-3,2015
+8430,de,Tschad,German Name,2016
+8431,es,República de Chad;Chad,Spanish Name,2016
+8432,fr,le Tchad;la République du Tchad,French Name,2016
+8433,en,TD,iso-3166-2,2016
+8434,en,TCD,iso-3166-3,2016
+8435,de,Chile,German Name,2017
+8436,es,República de Chile;Chile,Spanish Name,2017
+8437,fr,Chili,French Name,2017
+8438,en,CL,iso-3166-2,2017
+8439,en,CHL,iso-3166-3,2017
+8440,de,China,German Name,2018
+8441,es,República Popular China;China,Spanish Name,2018
+8442,fr,la Chine;la République populaire de Chin,French Name,2018
+8443,en,CN,iso-3166-2,2018
+8444,en,CHN,iso-3166-3,2018
+8445,en,People's Republic of China; PRC,abbreviation,2018
+8446,de,Weihnachtsinsel,German Name,2019
+8447,es,Isla de Navidad,Spanish Name,2019
+8448,fr,L'île de noël,French Name,2019
+8449,en,CX,iso-3166-2,2019
+8450,en,CXR,iso-3166-3,2019
+8451,de,Kokosinseln,German Name,2020
+8452,es,Islas Cocos,Spanish Name,2020
+8453,fr,Îles Cocos,French Name,2020
+8454,en,CC,iso-3166-2,2020
+8455,en,CCK,iso-3166-3,2020
+8456,de,Kolumbien,German Name,2021
+8457,es,República de Colombia;Colombia,Spanish Name,2021
+8458,fr,la Colombie;la République de Colombie,French Name,2021
+8459,en,CO,iso-3166-2,2021
+8460,en,COL,iso-3166-3,2021
+8461,de,Komoren,German Name,2022
+8462,es,Unión de las Comoras;Comoras,Spanish Name,2022
+8463,fr,Comores,French Name,2022
+8464,en,KM,iso-3166-2,2022
+8465,en,COM,iso-3166-3,2022
+8466,de,Kongo,German Name,2023
+8467,es,Congo,Spanish Name,2023
+8468,fr,Congo,French Name,2023
+8469,en,CG,iso-3166-2,2023
+8470,en,COG,iso-3166-3,2023
+8471,de,Cookinseln,German Name,2024
+8472,es,Islas Cook,Spanish Name,2024
+8473,fr,les Îles Cook,French Name,2024
+8474,en,CK,iso-3166-2,2024
+8475,en,COK,iso-3166-3,2024
+8476,de,Costa Rica,German Name,2025
+8477,es,Costa Rica;República de Costa Rica,Spanish Name,2025
+8478,fr,Costa Rica,French Name,2025
+8479,en,CR,iso-3166-2,2025
+8480,en,CRI,iso-3166-3,2025
+8481,en,Republic of Costa Rica,abbreviation,2025
+8482,de,Kroatien,German Name,2026
+8483,es,República de Croacia;Croacia,Spanish Name,2026
+8484,fr,la République de Croatie;la Croatie,French Name,2026
+8485,en,HR,iso-3166-2,2026
+8486,en,HRV,iso-3166-3,2026
+8487,de,Kuba,German Name,2027
+8488,es,República de Cuba;Cuba,Spanish Name,2027
+8489,fr,la République de Cuba;Cuba,French Name,2027
+8490,en,CU,iso-3166-2,2027
+8491,en,CUB,iso-3166-3,2027
+8492,de,Curaçao,German Name,2028
+8493,es,Curaçao,Spanish Name,2028
+8494,fr,Curaçao,French Name,2028
+8495,en,CW,iso-3166-2,2028
+8496,en,CUW,iso-3166-3,2028
+8497,de,Zypern,German Name,2029
+8498,es,Chipre; República de Chipre,Spanish Name,2029
+8499,fr,Chypre; la République de Chypre,French Name,2029
+8500,en,CY,iso-3166-2,2029
+8501,en,CYP,iso-3166-3,2029
+8502,en,Republic of Cyprus,abbreviation,2029
+8503,de,Tschechien,German Name,2030
+8504,es,República Checa,Spanish Name,2030
+8505,fr,République Tchèque,French Name,2030
+8506,en,CZ,iso-3166-2,2030
+8507,en,CZE,iso-3166-3,2030
+8508,de,Elfenbeinküste,German Name,2031
+8509,es,Costa de Marfil,Spanish Name,2031
+8510,fr,Côte d'Ivoire,French Name,2031
+8511,en,CI,iso-3166-2,2031
+8512,en,CIV,iso-3166-3,2031
+8513,de,Demokratische Republik Kongo,German Name,2032
+8514,es,República Democrática del Congo,Spanish Name,2032
+8515,fr,République Démocratique du Congo,French Name,2032
+8516,en,CD,iso-3166-2,2032
+8517,en,COD,iso-3166-3,2032
+8518,de,Dänemark,German Name,2033
+8519,es,Reino de Dinamarca;Dinamarca,Spanish Name,2033
+8520,fr,le Danemark;le Royaume du Danemark,French Name,2033
+8521,en,DK,iso-3166-2,2033
+8522,en,DNK,iso-3166-3,2033
+8523,de,Dschibuti,German Name,2034
+8524,es,República de Yibuti;Yibuti,Spanish Name,2034
+8525,fr,Djibouti;la République de Djibouti,French Name,2034
+8526,en,DJ,iso-3166-2,2034
+8527,en,DJI,iso-3166-3,2034
+8528,de,Dominica,German Name,2035
+8529,es,Mancomunidad de Dominica;Dominica,Spanish Name,2035
+8530,fr,la Dominique,French Name,2035
+8531,en,DM,iso-3166-2,2035
+8532,en,DMA,iso-3166-3,2035
+8533,de,Dominikanische Republik,German Name,2036
+8534,es,República Dominicana,Spanish Name,2036
+8535,fr,République Dominicaine,French Name,2036
+8536,en,DO,iso-3166-2,2036
+8537,en,DOM,iso-3166-3,2036
+8538,de,Ecuador,German Name,2037
+8539,es,República del Ecuador;Ecuador,Spanish Name,2037
+8540,fr,l'Équateur;la République de l'Équateur,French Name,2037
+8541,en,EC,iso-3166-2,2037
+8542,en,ECU,iso-3166-3,2037
+8543,de,Ägypten,German Name,2038
+8544,es,República Árabe de Egipto;Egipto,Spanish Name,2038
+8545,fr,l'Égypte;la République arabe d'Égypt,French Name,2038
+8546,en,EG,iso-3166-2,2038
+8547,en,EGY,iso-3166-3,2038
+8548,de,El Salvador,German Name,2039
+8549,es,El Salvador,Spanish Name,2039
+8550,fr,Le sauveur,French Name,2039
+8551,en,SV,iso-3166-2,2039
+8552,en,SLV,iso-3166-3,2039
+8553,de,Äquatorialguinea,German Name,2040
+8554,es,República de Guinea Ecuatorial;Guinea Ecuatorial,Spanish Name,2040
+8555,fr,la Guinée équatoriale;la Guinée Équatoriale,French Name,2040
+8556,en,GQ,iso-3166-2,2040
+8557,en,GNQ,iso-3166-3,2040
+8558,de,Eritrea,German Name,2041
+8559,es,Estado de Eritrea;Eritrea,Spanish Name,2041
+8560,fr,l'Érythrée;l'État d'Érythrée,French Name,2041
+8561,en,ER,iso-3166-2,2041
+8562,en,ERI,iso-3166-3,2041
+8563,de,Estland,German Name,2042
+8564,es,República de Estonia;Estonia,Spanish Name,2042
+8565,fr,l'Estonie;la République d'Estonie,French Name,2042
+8566,en,EE,iso-3166-2,2042
+8567,en,EST,iso-3166-3,2042
+8568,de,Äthiopien,German Name,2043
+8569,es,República Democrática Federal de Etiopía;Etiopía,Spanish Name,2043
+8570,fr,l'Éthiopie;la République démocratique fédérale d'Éthiopie,French Name,2043
+8571,en,ET,iso-3166-2,2043
+8572,en,ETH,iso-3166-3,2043
+8573,de,Falklandinseln,German Name,2044
+8574,es,Islas Malvinas,Spanish Name,2044
+8575,fr,les îles Falkland,French Name,2044
+8576,en,FK,iso-3166-2,2044
+8577,en,FLK,iso-3166-3,2044
+8578,de,Färöer;Färöer-Inseln,German Name,2045
+8579,es,Islas Faroe,Spanish Name,2045
+8580,fr,Îles Féroé,French Name,2045
+8581,en,FO,iso-3166-2,2045
+8582,en,FRO,iso-3166-3,2045
+8583,de,Föderierte Staaten von Mikronesien;Mikronesien,German Name,2046
+8584,es,Estados Federados de Micronesia; Micronesia,Spanish Name,2046
+8585,fr,la Micronésie;la Micronésie,French Name,2046
+8586,en,FM,iso-3166-2,2046
+8587,en,FSM,iso-3166-3,2046
+8588,en,Micronesia,abbreviation,2046
+8589,de,Fidschi,German Name,2047
+8590,es,República de Fiyi;Fiyi,Spanish Name,2047
+8591,fr,les Fidji,French Name,2047
+8592,en,FJ,iso-3166-2,2047
+8593,en,FJI,iso-3166-3,2047
+8594,de,Finnland,German Name,2048
+8595,es,República de Finlandia;Finlandia,Spanish Name,2048
+8596,fr,la Finlande;la République de Finlande,French Name,2048
+8597,en,FI,iso-3166-2,2048
+8598,en,FIN,iso-3166-3,2048
+8599,de,Frankreich,German Name,2049
+8600,es,República Francesa;Francia,Spanish Name,2049
+8601,fr,la France;la République français,French Name,2049
+8602,en,FR,iso-3166-2,2049
+8603,en,FRA,iso-3166-3,2049
+8604,de,Französisch-Guayana,German Name,2050
+8605,es,Guayana Francesa,Spanish Name,2050
+8606,fr,Guinée Française,French Name,2050
+8607,en,GF,iso-3166-2,2050
+8608,en,GUF,iso-3166-3,2050
+8609,de,Französisch-Polynesien,German Name,2051
+8610,es,Polinesia francés,Spanish Name,2051
+8611,fr,Polynésie française,French Name,2051
+8612,en,PF,iso-3166-2,2051
+8613,en,PYF,iso-3166-3,2051
+8614,de,Französische Süd- und Antarktisgebiete,German Name,2052
+8615,es,Territorios Franceses del Sur,Spanish Name,2052
+8616,fr,Territoires du Sud français,French Name,2052
+8617,en,TF,iso-3166-2,2052
+8618,en,ATF,iso-3166-3,2052
+8619,de,Gabun,German Name,2053
+8620,es,República Gabonesa;Gabón,Spanish Name,2053
+8621,fr,le Gabon;la République gabonais,French Name,2053
+8622,en,GA,iso-3166-2,2053
+8623,en,GAB,iso-3166-3,2053
+8624,de,Gambia,German Name,2054
+8625,es,Gambia,Spanish Name,2054
+8626,fr,Gambie,French Name,2054
+8627,en,GM,iso-3166-2,2054
+8628,en,GMB,iso-3166-3,2054
+8629,de,Georgien,German Name,2055
+8630,es,República de Georgia;Georgia,Spanish Name,2055
+8631,fr,la Géorgie,French Name,2055
+8632,en,GE,iso-3166-2,2055
+8633,en,GEO,iso-3166-3,2055
+8634,de,Deutschland,German Name,2056
+8635,es,República Federal Alemana;Alemania,Spanish Name,2056
+8636,fr,l'Allemagne;la République fédérale d'Allemagn,French Name,2056
+8637,en,DE,iso-3166-2,2056
+8638,en,DEU,iso-3166-3,2056
+8639,de,Ghana,German Name,2057
+8640,es,República de Ghana;Ghana,Spanish Name,2057
+8641,fr,le Ghana;la République du Ghana,French Name,2057
+8642,en,GH,iso-3166-2,2057
+8643,en,GHA,iso-3166-3,2057
+8644,de,Gibraltar,German Name,2058
+8645,es,Gibraltar,Spanish Name,2058
+8646,fr,Gibraltar,French Name,2058
+8647,en,GI,iso-3166-2,2058
+8648,en,GIB,iso-3166-3,2058
+8649,de,Griechenland,German Name,2059
+8650,es,República Helénica;Grecia,Spanish Name,2059
+8651,fr,la Grèce;la République helléniqu,French Name,2059
+8652,en,GR,iso-3166-2,2059
+8653,en,GRC,iso-3166-3,2059
+8654,de,Grönland,German Name,2060
+8655,es,Tierra Verde,Spanish Name,2060
+8656,fr,Groenland,French Name,2060
+8657,en,GL,iso-3166-2,2060
+8658,en,GRL,iso-3166-3,2060
+8659,de,Grenada,German Name,2061
+8660,es,Granada,Spanish Name,2061
+8661,fr,Grenade,French Name,2061
+8662,en,GD,iso-3166-2,2061
+8663,en,GRD,iso-3166-3,2061
+8664,de,Guadeloupe,German Name,2062
+8665,es,Guadalupe,Spanish Name,2062
+8666,fr,Guadeloupe,French Name,2062
+8667,en,GP,iso-3166-2,2062
+8668,en,GLP,iso-3166-3,2062
+8669,de,Guam,German Name,2063
+8670,es,Guam,Spanish Name,2063
+8671,fr,Guam,French Name,2063
+8672,en,GU,iso-3166-2,2063
+8673,en,GUM,iso-3166-3,2063
+8674,de,Guatemala,German Name,2064
+8675,es,República de Guatemala;Guatemala,Spanish Name,2064
+8676,fr,le Guatemala,French Name,2064
+8677,en,GT,iso-3166-2,2064
+8678,en,GTM,iso-3166-3,2064
+8679,de,Guernsey,German Name,2065
+8680,es,Guernesey,Spanish Name,2065
+8681,fr,Guernesey,French Name,2065
+8682,en,GG,iso-3166-2,2065
+8683,en,GGY,iso-3166-3,2065
+8684,de,Guinea,German Name,2066
+8685,es,República de Guinea;Guinea,Spanish Name,2066
+8686,fr,la Guinée;la République de Guinée,French Name,2066
+8687,en,GN,iso-3166-2,2066
+8688,en,GIN,iso-3166-3,2066
+8689,de,Guinea-Bissau,German Name,2067
+8690,es,Guinea-Bissau,Spanish Name,2067
+8691,fr,la Guinée-Bissau,French Name,2067
+8692,en,GW,iso-3166-2,2067
+8693,en,GNB,iso-3166-3,2067
+8694,de,Guyana,German Name,2068
+8695,es,República Cooperativa de Guyana;Guyana,Spanish Name,2068
+8696,fr,Guyane,French Name,2068
+8697,en,GY,iso-3166-2,2068
+8698,en,GUY,iso-3166-3,2068
+8699,de,Haiti,German Name,2069
+8700,es,República de Haití;Haití,Spanish Name,2069
+8701,fr,Haïti;la République d'Haïti,French Name,2069
+8702,en,HT,iso-3166-2,2069
+8703,en,HTI,iso-3166-3,2069
+8704,de,Heard und Mcdonaldinseln,German Name,2070
+8705,es,Islas Heard y McDonald,Spanish Name,2070
+8706,fr,Îles Heard et McDonald,French Name,2070
+8707,en,HM,iso-3166-2,2070
+8708,en,HMD,iso-3166-3,2070
+8709,de,Heiliger Stuhl,German Name,2071
+8710,es,Santa Sede,Spanish Name,2071
+8711,fr,Saint-Siège,French Name,2071
+8712,en,VA,iso-3166-2,2071
+8713,en,VAT,iso-3166-3,2071
+8714,de,Honduras,German Name,2072
+8715,es,República de Honduras;Honduras,Spanish Name,2072
+8716,fr,Honduras,French Name,2072
+8717,en,HN,iso-3166-2,2072
+8718,en,HND,iso-3166-3,2072
+8719,de,Hongkong,German Name,2073
+8720,es,Hong Kong,Spanish Name,2073
+8721,fr,Hong Kong,French Name,2073
+8722,en,HK,iso-3166-2,2073
+8723,en,HKG,iso-3166-3,2073
+8724,de,Ungarn,German Name,2074
+8725,es,República de Hungría;Hungría,Spanish Name,2074
+8726,fr,la Hongrie;Hongrie,French Name,2074
+8727,en,HU,iso-3166-2,2074
+8728,en,HUN,iso-3166-3,2074
+8729,de,Island,German Name,2075
+8730,es,República de Islandia;Islandia,Spanish Name,2075
+8731,fr,l'Islande;la République d'Islande,French Name,2075
+8732,en,IS,iso-3166-2,2075
+8733,en,ISL,iso-3166-3,2075
+8734,de,Indien,German Name,2076
+8735,es,República de la India;India,Spanish Name,2076
+8736,fr,l'Inde;la République de l'Ind,French Name,2076
+8737,en,IN,iso-3166-2,2076
+8738,en,IND,iso-3166-3,2076
+8739,de,Indonesien,German Name,2077
+8740,es,República de Indonesia;Indonesia,Spanish Name,2077
+8741,fr,l'Indonésie;la République d'Indonésie,French Name,2077
+8742,en,ID,iso-3166-2,2077
+8743,en,IDN,iso-3166-3,2077
+8744,de,Islamische Republik Iran;Iran,German Name,2078
+8745,es,Irán; Corrí,Spanish Name,2078
+8746,fr,Iran,French Name,2078
+8747,en,IR,iso-3166-2,2078
+8748,en,IRN,iso-3166-3,2078
+8749,de,Irak,German Name,2079
+8750,es,Irak,Spanish Name,2079
+8751,fr,Irak,French Name,2079
+8752,en,IQ,iso-3166-2,2079
+8753,en,IRQ,iso-3166-3,2079
+8754,de,Irland,German Name,2080
+8755,es,Irlanda,Spanish Name,2080
+8756,fr,l'Irlande,French Name,2080
+8757,en,IE,iso-3166-2,2080
+8758,en,IRL,iso-3166-3,2080
+8759,de,Insel Man,German Name,2081
+8760,es,Isla de Man,Spanish Name,2081
+8761,fr,Isle of Man,French Name,2081
+8762,en,IM,iso-3166-2,2081
+8763,en,IMN,iso-3166-3,2081
+8764,de,Israel,German Name,2082
+8765,es,Estado de Israel;Israel,Spanish Name,2082
+8766,fr,Israël;l'État d'Israë,French Name,2082
+8767,en,IL,iso-3166-2,2082
+8768,en,ISR,iso-3166-3,2082
+8769,de,Italien,German Name,2083
+8770,es,República italiana;Italia,Spanish Name,2083
+8771,fr,l'Italie;la République italienn,French Name,2083
+8772,en,IT,iso-3166-2,2083
+8773,en,ITA,iso-3166-3,2083
+8774,de,Jamaika,German Name,2084
+8775,es,Jamaica,Spanish Name,2084
+8776,fr,Jamaïque,French Name,2084
+8777,en,JM,iso-3166-2,2084
+8778,en,JAM,iso-3166-3,2084
+8779,de,Jan Mayen,German Name,2085
+8780,es,Jan Mayen,Spanish Name,2085
+8781,fr,L'île Jan Mayen,French Name,2085
+8782,en,SJ,iso-3166-2,2085
+8783,en,SJM,iso-3166-3,2085
+8784,de,Japan,German Name,2086
+8785,es,Estado de Japón;Japón,Spanish Name,2086
+8786,fr,le Japon,French Name,2086
+8787,en,JP,iso-3166-2,2086
+8788,en,JPN,iso-3166-3,2086
+8789,de,Jersey,German Name,2087
+8790,es,Jersey,Spanish Name,2087
+8791,fr,Jersey,French Name,2087
+8792,en,JE,iso-3166-2,2087
+8793,en,JEY,iso-3166-3,2087
+8794,de,Jordanien,German Name,2088
+8795,es,Reino Hachemita de Jordania;Jordania,Spanish Name,2088
+8796,fr,la Jordanie;le Royaume hachémite de Jordanie,French Name,2088
+8797,en,JO,iso-3166-2,2088
+8798,en,JOR,iso-3166-3,2088
+8799,de,Kasachstan,German Name,2089
+8800,es,República de Kazajistán;Kazajistán,Spanish Name,2089
+8801,fr,le Kazakhstan,French Name,2089
+8802,en,KZ,iso-3166-2,2089
+8803,en,KAZ,iso-3166-3,2089
+8804,de,Kenya,German Name,2090
+8805,es,República de Kenia;Kenia,Spanish Name,2090
+8806,fr,le Kenya;la République du Kenya,French Name,2090
+8807,en,KE,iso-3166-2,2090
+8808,en,KEN,iso-3166-3,2090
+8809,de,Kiribati,German Name,2091
+8810,es,República de Kiribati;Kiribati,Spanish Name,2091
+8811,fr,Kiribati,French Name,2091
+8812,en,KI,iso-3166-2,2091
+8813,en,KIR,iso-3166-3,2091
+8814,de,Kuwait,German Name,2092
+8815,es,Estado de Kuwait;Kuwait,Spanish Name,2092
+8816,fr,le Koweït,French Name,2092
+8817,en,KW,iso-3166-2,2092
+8818,en,KWT,iso-3166-3,2092
+8819,de,Kirgisistan,German Name,2093
+8820,es,República Kirguisa;Kirguistán,Spanish Name,2093
+8821,fr,la Kirghizie,French Name,2093
+8822,en,KG,iso-3166-2,2093
+8823,en,KGZ,iso-3166-3,2093
+8824,de,Laos; Demokratische Volksrepublik Laos,German Name,2094
+8825,es,Laos; República Democrática Popular Lao,Spanish Name,2094
+8826,fr,le Laos; République démocratique populaire lao,French Name,2094
+8827,en,LA,iso-3166-2,2094
+8828,en,LAO,iso-3166-3,2094
+8829,en,Lao People's Democratic Republic,abbreviation,2094
+8830,de,Lettland,German Name,2095
+8831,es,República de Letonia;Letonia,Spanish Name,2095
+8832,fr,la Lettonie;la République de Lettoni,French Name,2095
+8833,en,LV,iso-3166-2,2095
+8834,en,LVA,iso-3166-3,2095
+8835,de,Libanon,German Name,2096
+8836,es,República Libanesa;Líbano,Spanish Name,2096
+8837,fr,le Liban;la République libanais,French Name,2096
+8838,en,LB,iso-3166-2,2096
+8839,en,LBN,iso-3166-3,2096
+8840,de,Lesotho,German Name,2097
+8841,es,Reino de Lesoto;Lesoto,Spanish Name,2097
+8842,fr,le Lesotho;le Royaume du Lesotho,French Name,2097
+8843,en,LS,iso-3166-2,2097
+8844,en,LSO,iso-3166-3,2097
+8845,de,Liberia,German Name,2098
+8846,es,República de Liberia;Liberia,Spanish Name,2098
+8847,fr,le Liberia,French Name,2098
+8848,en,LR,iso-3166-2,2098
+8849,en,LBR,iso-3166-3,2098
+8850,de,Libyen,German Name,2099
+8851,es,Estado de Libia;Libia,Spanish Name,2099
+8852,fr,la Libye,French Name,2099
+8853,en,LY,iso-3166-2,2099
+8854,en,LBY,iso-3166-3,2099
+8855,de,Liechtenstein,German Name,2100
+8856,es,Principado de Liechtenstein;Liechtenstein,Spanish Name,2100
+8857,fr,le Liechtenstein;la Principauté du Liechtenstein,French Name,2100
+8858,en,LI,iso-3166-2,2100
+8859,en,LIE,iso-3166-3,2100
+8860,de,Litauen,German Name,2101
+8861,es,República de Lituania;Lituania,Spanish Name,2101
+8862,fr,la Lituanie;la République de Lituanie,French Name,2101
+8863,en,LT,iso-3166-2,2101
+8864,en,LTU,iso-3166-3,2101
+8865,de,Luxemburg,German Name,2102
+8866,es,Gran Ducado de Luxemburgo;Luxemburgo,Spanish Name,2102
+8867,fr,le Luxembourg;le Grand-Duché de Luxembourg,French Name,2102
+8868,en,LU,iso-3166-2,2102
+8869,en,LUX,iso-3166-3,2102
+8870,de,Macao,German Name,2103
+8871,es,Macao,Spanish Name,2103
+8872,fr,Macao,French Name,2103
+8873,en,MO,iso-3166-2,2103
+8874,en,MAC,iso-3166-3,2103
+8875,de,Mazedonien,German Name,2104
+8876,es,Macedonia,Spanish Name,2104
+8877,fr,Macédoine,French Name,2104
+8878,en,MK,iso-3166-2,2104
+8879,en,MKD,iso-3166-3,2104
+8880,de,Madagaskar,German Name,2105
+8881,es,República de Madagascar;Madagascar,Spanish Name,2105
+8882,fr,Madagascar;la République de Madagasca,French Name,2105
+8883,en,MG,iso-3166-2,2105
+8884,en,MDG,iso-3166-3,2105
+8885,de,Malawi,German Name,2106
+8886,es,República de Malaui;Malaui,Spanish Name,2106
+8887,fr,le Malawi;la République du Malawi,French Name,2106
+8888,en,MW,iso-3166-2,2106
+8889,en,MWI,iso-3166-3,2106
+8890,de,Malaysia,German Name,2107
+8891,es,Malasia,Spanish Name,2107
+8892,fr,la Malaisie;la Fédération de Malaisie,French Name,2107
+8893,en,MY,iso-3166-2,2107
+8894,en,MYS,iso-3166-3,2107
+8895,de,Malediven,German Name,2108
+8896,es,República de las Maldivas;Maldivas,Spanish Name,2108
+8897,fr,Maldives,French Name,2108
+8898,en,MV,iso-3166-2,2108
+8899,en,MDV,iso-3166-3,2108
+8900,de,Mali,German Name,2109
+8901,es,Mali,Spanish Name,2109
+8902,fr,Mali,French Name,2109
+8903,en,ML,iso-3166-2,2109
+8904,en,MLI,iso-3166-3,2109
+8905,de,Malta,German Name,2110
+8906,es,República de Malta;Malta,Spanish Name,2110
+8907,fr,Malte;la République de Malte,French Name,2110
+8908,en,MT,iso-3166-2,2110
+8909,en,MLT,iso-3166-3,2110
+8910,de,Marshallinseln,German Name,2111
+8911,es,República de las Islas Marshall;Islas Marshall,Spanish Name,2111
+8912,fr,Iles Marshall,French Name,2111
+8913,en,MH,iso-3166-2,2111
+8914,en,MHL,iso-3166-3,2111
+8915,de,Martinique,German Name,2112
+8916,es,Martinica,Spanish Name,2112
+8917,fr,Martinique,French Name,2112
+8918,en,MQ,iso-3166-2,2112
+8919,en,MTQ,iso-3166-3,2112
+8920,de,Mauretanien,German Name,2113
+8921,es,República Islámica de Mauritania;Mauritania,Spanish Name,2113
+8922,fr,la Mauritanie;la République islamique de Mauritani,French Name,2113
+8923,en,MR,iso-3166-2,2113
+8924,en,MRT,iso-3166-3,2113
+8925,de,Mauritius,German Name,2114
+8926,es,Mauricio,Spanish Name,2114
+8927,fr,Maurice,French Name,2114
+8928,en,MU,iso-3166-2,2114
+8929,en,MUS,iso-3166-3,2114
+8930,de,Mayotte,German Name,2115
+8931,es,Mayotte,Spanish Name,2115
+8932,fr,Mayotte,French Name,2115
+8933,en,YT,iso-3166-2,2115
+8934,en,MYT,iso-3166-3,2115
+8935,de,Mexiko,German Name,2116
+8936,es,Estados Unidos Mexicanos;México,Spanish Name,2116
+8937,fr,le Mexique;les États unis mexicains,French Name,2116
+8938,en,MX,iso-3166-2,2116
+8939,en,MEX,iso-3166-3,2116
+8940,de,Moldawien;Republik Moldau,German Name,2117
+8941,es,Moldavia,Spanish Name,2117
+8942,fr,la Moldavie; Moldavie,French Name,2117
+8943,en,MD,iso-3166-2,2117
+8944,en,MDA,iso-3166-3,2117
+8945,de,Monaco,German Name,2118
+8946,es,Principado de Mónaco;Mónaco,Spanish Name,2118
+8947,fr,Monaco;la principauté de Monaco,French Name,2118
+8948,en,MC,iso-3166-2,2118
+8949,en,MCO,iso-3166-3,2118
+8950,de,Mongolei,German Name,2119
+8951,es,Mongolia,Spanish Name,2119
+8952,fr,Mongolie,French Name,2119
+8953,en,MN,iso-3166-2,2119
+8954,en,MNG,iso-3166-3,2119
+8955,de,Montenegro,German Name,2120
+8956,es,República de Montenegro;Montenegro,Spanish Name,2120
+8957,fr,le Monténégro,French Name,2120
+8958,en,ME,iso-3166-2,2120
+8959,en,MNE,iso-3166-3,2120
+8960,de,Montserrat,German Name,2121
+8961,es,Montserrat,Spanish Name,2121
+8962,fr,Montserrat,French Name,2121
+8963,en,MS,iso-3166-2,2121
+8964,en,MSR,iso-3166-3,2121
+8965,de,Marokko,German Name,2122
+8966,es,Reino de Marruecos;Marruecos,Spanish Name,2122
+8967,fr,Maroc,French Name,2122
+8968,en,MA,iso-3166-2,2122
+8969,en,MAR,iso-3166-3,2122
+8970,de,Mosambik,German Name,2123
+8971,es,República de Mozambique;Mozambique,Spanish Name,2123
+8972,fr,le Mozambique;la République du Mozambique,French Name,2123
+8973,en,MZ,iso-3166-2,2123
+8974,en,MOZ,iso-3166-3,2123
+8975,de,Myanmar,German Name,2124
+8976,es,Myanmar; Birmania,Spanish Name,2124
+8977,fr,Myanmar; Birmanie,French Name,2124
+8978,en,MM,iso-3166-2,2124
+8979,en,MMR,iso-3166-3,2124
+8980,en,Burma,abbreviation,2124
+8981,de,Namibia,German Name,2125
+8982,es,República de Namibia;Namibia,Spanish Name,2125
+8983,fr,la Namibie;la République de Namibie,French Name,2125
+8984,en,NAM,iso-3166-3,2125
+8985,de,Nauru,German Name,2126
+8986,es,República de Nauru;Nauru,Spanish Name,2126
+8987,fr,Nauru;la République de Nauru,French Name,2126
+8988,en,NR,iso-3166-2,2126
+8989,en,NRU,iso-3166-3,2126
+8990,de,Nepal,German Name,2127
+8991,es,República Federal Democrática de Nepal;Nepal,Spanish Name,2127
+8992,fr,le Népal,French Name,2127
+8993,en,NP,iso-3166-2,2127
+8994,en,NPL,iso-3166-3,2127
+8995,de,Niederlande,German Name,2128
+8996,es,Reino de los Países Bajos;Países Bajos,Spanish Name,2128
+8997,fr,Pays-Bas,French Name,2128
+8998,en,NL,iso-3166-2,2128
+8999,en,NLD,iso-3166-3,2128
+9000,de,Neu-Kaledonien,German Name,2129
+9001,es,Nueva Caledonia,Spanish Name,2129
+9002,fr,Nouvelle Calédonie,French Name,2129
+9003,en,NC,iso-3166-2,2129
+9004,en,NCL,iso-3166-3,2129
+9005,de,Neuseeland,German Name,2130
+9006,es,Nueva Zelanda,Spanish Name,2130
+9007,fr,la Nouvelle-Zéland,French Name,2130
+9008,en,NZ,iso-3166-2,2130
+9009,en,NZL,iso-3166-3,2130
+9010,de,Republik Nicaragua;Nicaragua;Nikaragua,German Name,2131
+9011,es,República de Nicaragua;Nicaragua,Spanish Name,2131
+9012,fr,le Nicaragua;la République du Nicaragua; Nicaragua,French Name,2131
+9013,en,NI,iso-3166-2,2131
+9014,en,NIC,iso-3166-3,2131
+9015,de,Niger,German Name,2132
+9016,es,República del Níger;Níger,Spanish Name,2132
+9017,fr,le Niger;la République du Niger,French Name,2132
+9018,en,NE,iso-3166-2,2132
+9019,en,NER,iso-3166-3,2132
+9020,de,Nigeria,German Name,2133
+9021,es,República Federal de Nigeria;Nigeria,Spanish Name,2133
+9022,fr,le Nigéria,French Name,2133
+9023,en,NG,iso-3166-2,2133
+9024,en,NGA,iso-3166-3,2133
+9025,de,Niue,German Name,2134
+9026,es,Niue,Spanish Name,2134
+9027,fr,Niue,French Name,2134
+9028,en,NU,iso-3166-2,2134
+9029,en,NIU,iso-3166-3,2134
+9030,de,Norfolkinsel,German Name,2135
+9031,es,Isla Norfolk,Spanish Name,2135
+9032,fr,Île de Norfolk,French Name,2135
+9033,en,NF,iso-3166-2,2135
+9034,en,NFK,iso-3166-3,2135
+9035,de,Nordkorea;Nord Korea;Demokratische Volksrepublik Korea,German Name,2136
+9036,es,República Popular Democrática de Corea;Corea del Norte,Spanish Name,2136
+9037,fr,la Corée du Nord; République populaire démocratique de Corée,French Name,2136
+9038,en,KP,iso-3166-2,2136
+9039,en,PRK,iso-3166-3,2136
+9040,en,Democratic People's Republic of Korea,abbreviation,2136
+9041,de,Nördliche Marianen,German Name,2137
+9042,es,Islas Marianas del Norte,Spanish Name,2137
+9043,fr,Îles Mariannes du Nord,French Name,2137
+9044,en,MP,iso-3166-2,2137
+9045,en,MNP,iso-3166-3,2137
+9046,de,Norwegen,German Name,2138
+9047,es,Reino de Noruega;Noruega,Spanish Name,2138
+9048,fr,la Norvège;le Royaume de Norvège,French Name,2138
+9049,en,NO,iso-3166-2,2138
+9050,en,NOR,iso-3166-3,2138
+9051,de,Oman,German Name,2139
+9052,es,Sultanato de Omán;Omán,Spanish Name,2139
+9053,fr,Oman;l'Oman,French Name,2139
+9054,en,OM,iso-3166-2,2139
+9055,en,OMN,iso-3166-3,2139
+9056,de,Pakistan,German Name,2140
+9057,es,República Islámica de Pakistán;Pakistán,Spanish Name,2140
+9058,fr,le Pakistan,French Name,2140
+9059,en,PK,iso-3166-2,2140
+9060,en,PAK,iso-3166-3,2140
+9061,de,Palau,German Name,2141
+9062,es,Palaos,Spanish Name,2141
+9063,fr,Palau,French Name,2141
+9064,en,PW,iso-3166-2,2141
+9065,en,PLW,iso-3166-3,2141
+9066,de,Palästina,German Name,2142
+9067,es,Estado de Palestina;Palestina,Spanish Name,2142
+9068,fr,Palestine,French Name,2142
+9069,en,PS,iso-3166-2,2142
+9070,en,PSE,iso-3166-3,2142
+9071,de,Panama,German Name,2143
+9072,es,República de Panamá;Panamá,Spanish Name,2143
+9073,fr,Panama,French Name,2143
+9074,en,PA,iso-3166-2,2143
+9075,en,PAN,iso-3166-3,2143
+9076,de,Papua-Neuguinea,German Name,2144
+9077,es,Estado Independiente de Papúa Nueva Guinea;Papúa Nueva Guinea,Spanish Name,2144
+9078,fr,la Papouasie-Nouvelle-Guinée;la Papouasie - Nouvelle-Guinée,French Name,2144
+9079,en,PG,iso-3166-2,2144
+9080,en,PNG,iso-3166-3,2144
+9081,de,Paraguay,German Name,2145
+9082,es,República del Paraguay;Paraguay,Spanish Name,2145
+9083,fr,le Paraguay;la République du Paraguay,French Name,2145
+9084,en,PY,iso-3166-2,2145
+9085,en,PRY,iso-3166-3,2145
+9086,de,Peru,German Name,2146
+9087,es,República del Perú;Perú,Spanish Name,2146
+9088,fr,le Pérou;la République du Pérou,French Name,2146
+9089,en,PE,iso-3166-2,2146
+9090,en,PER,iso-3166-3,2146
+9091,de,Philippinen,German Name,2147
+9092,es,República de Filipinas;Filipinas,Spanish Name,2147
+9093,fr,Philippines,French Name,2147
+9094,en,PH,iso-3166-2,2147
+9095,en,PHL,iso-3166-3,2147
+9096,de,Pitcairn,German Name,2148
+9097,es,Pitcairn,Spanish Name,2148
+9098,fr,Pitcairn,French Name,2148
+9099,en,PN,iso-3166-2,2148
+9100,en,PCN,iso-3166-3,2148
+9101,de,Polen,German Name,2149
+9102,es,República de Polonia;Polonia,Spanish Name,2149
+9103,fr,la Pologne;la République de Pologne,French Name,2149
+9104,en,PL,iso-3166-2,2149
+9105,en,POL,iso-3166-3,2149
+9106,de,Portugal,German Name,2150
+9107,es,República Portuguesa;Portugal,Spanish Name,2150
+9108,fr,le Portugal;la République portugais,French Name,2150
+9109,en,PT,iso-3166-2,2150
+9110,en,PRT,iso-3166-3,2150
+9111,de,Puerto Rico,German Name,2151
+9112,es,Puerto Rico,Spanish Name,2151
+9113,fr,Porto Rico,French Name,2151
+9114,en,PR,iso-3166-2,2151
+9115,en,PRI,iso-3166-3,2151
+9116,de,Katar,German Name,2152
+9117,es,Katar,Spanish Name,2152
+9118,fr,le Qatar,French Name,2152
+9119,en,QA,iso-3166-2,2152
+9120,en,QAT,iso-3166-3,2152
+9121,de,Rumänien,German Name,2153
+9122,es,Rumania,Spanish Name,2153
+9123,fr,Roumanie,French Name,2153
+9124,en,RO,iso-3166-2,2153
+9125,en,ROU,iso-3166-3,2153
+9126,de,Russische Föderation,German Name,2154
+9127,es,Federación Rusa,Spanish Name,2154
+9128,fr,Fédération Russe,French Name,2154
+9129,en,RU,iso-3166-2,2154
+9130,en,RUS,iso-3166-3,2154
+9131,de,Ruanda,German Name,2155
+9132,es,República de Ruanda;Ruanda,Spanish Name,2155
+9133,fr,le Rwanda;la République rwandaise,French Name,2155
+9134,en,RW,iso-3166-2,2155
+9135,en,RWA,iso-3166-3,2155
+9136,de,La Réunion; Réunion,German Name,2156
+9137,es,Reunión,Spanish Name,2156
+9138,fr,Réunion,French Name,2156
+9139,en,RE,iso-3166-2,2156
+9140,en,REU,iso-3166-3,2156
+9141,de,Saba,German Name,2157
+9142,es,Saba,Spanish Name,2157
+9143,fr,Saba,French Name,2157
+9144,en,BQ,iso-3166-2,2157
+9145,de,Saint Barthélemy,German Name,2158
+9146,es,San Bartolomé,Spanish Name,2158
+9147,fr,Saint Barthélemy,French Name,2158
+9148,en,BL,iso-3166-2,2158
+9149,en,BLM,iso-3166-3,2158
+9150,de,"St. Helena, Ascension und Tristan da Cunha",German Name,2159
+9151,es,"Santa Helena, Ascensión y Tristán da Cunha",Spanish Name,2159
+9152,fr,"Sainte-Hélène, Ascension et Tristan da Cunha",French Name,2159
+9153,en,SH,iso-3166-2,2159
+9154,en,SHN,iso-3166-3,2159
+9155,de,St. Kitts und Nevis,German Name,2160
+9156,es,Federación de San Cristóbal y Nieves;San Cristóbal y Nieves,Spanish Name,2160
+9157,fr,Saint-Christophe-et-Niévès,French Name,2160
+9158,en,KN,iso-3166-2,2160
+9159,en,KNA,iso-3166-3,2160
+9160,de,Saint Lucia,German Name,2161
+9161,es,Santa Lucía,Spanish Name,2161
+9162,fr,Saint Lucia,French Name,2161
+9163,en,LC,iso-3166-2,2161
+9164,en,LCA,iso-3166-3,2161
+9165,de,Saint Martin,German Name,2162
+9166,es,San Martín,Spanish Name,2162
+9167,fr,Saint Martin,French Name,2162
+9168,en,MF,iso-3166-2,2162
+9169,en,MAF,iso-3166-3,2162
+9170,de,Saint Pierre und Miquelon,German Name,2163
+9171,es,San Pedro y Miquelón,Spanish Name,2163
+9172,fr,Saint Pierre et Miquelon,French Name,2163
+9173,en,PM,iso-3166-2,2163
+9174,en,SPM,iso-3166-3,2163
+9175,de,St. Vincent und die Grenadinen,German Name,2164
+9176,es,San Vicente y las Granadinas,Spanish Name,2164
+9177,fr,Saint-Vincent-et-les Grenadines,French Name,2164
+9178,en,VC,iso-3166-2,2164
+9179,en,VCT,iso-3166-3,2164
+9180,de,Samoa,German Name,2165
+9181,es,Estado Independiente de Samoa;Samoa,Spanish Name,2165
+9182,fr,les Samoa,French Name,2165
+9183,en,WS,iso-3166-2,2165
+9184,en,WSM,iso-3166-3,2165
+9185,de,San Marino,German Name,2166
+9186,es,Serenísima República de San Marino;San Marino,Spanish Name,2166
+9187,fr,Saint Marin,French Name,2166
+9188,en,SM,iso-3166-2,2166
+9189,en,SMR,iso-3166-3,2166
+9190,de,São Tomé und Príncipe,German Name,2167
+9191,es,República Democrática de Santo Tomé y Príncipe;Santo Tomé y Príncipe,Spanish Name,2167
+9192,fr,Sao Tomé-et-Principe,French Name,2167
+9193,en,ST,iso-3166-2,2167
+9194,en,STP,iso-3166-3,2167
+9195,de,Saudi-Arabien,German Name,2168
+9196,es,Arabia Saudita,Spanish Name,2168
+9197,fr,l'Arabie saoudite;le Royaume d'Arabie saoudite,French Name,2168
+9198,en,SA,iso-3166-2,2168
+9199,en,SAU,iso-3166-3,2168
+9200,de,Senegal,German Name,2169
+9201,es,República de Senegal;Senegal,Spanish Name,2169
+9202,fr,Sénégal,French Name,2169
+9203,en,SN,iso-3166-2,2169
+9204,en,SEN,iso-3166-3,2169
+9205,de,Serbien,German Name,2170
+9206,es,República de Serbia;Serbia,Spanish Name,2170
+9207,fr,la Serbie;la République de Serbie,French Name,2170
+9208,en,RS,iso-3166-2,2170
+9209,en,SRB,iso-3166-3,2170
+9210,de,Seychellen,German Name,2171
+9211,es,República de las Seychelles;Seychelles,Spanish Name,2171
+9212,fr,les Seychelles;la République des Seychelles,French Name,2171
+9213,en,SC,iso-3166-2,2171
+9214,en,SYC,iso-3166-3,2171
+9215,de,Sierra Leone,German Name,2172
+9216,es,República de Sierra Leona;Sierra Leona,Spanish Name,2172
+9217,fr,la Sierra Leone;la République de Sierra Leone,French Name,2172
+9218,en,SL,iso-3166-2,2172
+9219,en,SLE,iso-3166-3,2172
+9220,de,Singapur,German Name,2173
+9221,es,República de Singapur;Singapur,Spanish Name,2173
+9222,fr,Singapour;la République de Singapour,French Name,2173
+9223,en,SG,iso-3166-2,2173
+9224,en,SGP,iso-3166-3,2173
+9225,de,Sint Eustatius,German Name,2174
+9226,es,San Eustaquio,Spanish Name,2174
+9227,fr,Saint-Eustache,French Name,2174
+9228,en,BQ,iso-3166-2,2174
+9229,en,Statia,abbreviation,2174
+9230,de,Sint Maarten,German Name,2175
+9231,es,Sint Maarten,Spanish Name,2175
+9232,fr,Saint-Martin; Pays de Saint-Martin,French Name,2175
+9233,en,SX,iso-3166-2,2175
+9234,de,Slowakei,German Name,2176
+9235,es,República de Eslovaquia;Eslovaquia,Spanish Name,2176
+9236,fr,la Slovaquie;la République slovaque,French Name,2176
+9237,en,SK,iso-3166-2,2176
+9238,en,SVK,iso-3166-3,2176
+9239,en,Slovakia Republic,abbreviation,2176
+9240,de,Slowenien,German Name,2177
+9241,es,República de Eslovenia;Eslovenia,Spanish Name,2177
+9242,fr,la Slovénie;la République de Slovénie,French Name,2177
+9243,en,SI,iso-3166-2,2177
+9244,en,SVN,iso-3166-3,2177
+9245,en,Republic of Slovenia,abbreviation,2177
+9246,de,Salomonen,German Name,2178
+9247,es,Islas Salomón,Spanish Name,2178
+9248,fr,Les îles Salomon,French Name,2178
+9249,en,SB,iso-3166-2,2178
+9250,en,SLB,iso-3166-3,2178
+9251,de,Somalia,German Name,2179
+9252,es,República Federal de Somalia;Somalia,Spanish Name,2179
+9253,fr,la Somalie,French Name,2179
+9254,en,SO,iso-3166-2,2179
+9255,en,SOM,iso-3166-3,2179
+9256,de,Südafrika,German Name,2180
+9257,es,República de Sudáfrica;Sudáfrica,Spanish Name,2180
+9258,fr,l'Afrique du Sud;la République d'Afrique du Sud,French Name,2180
+9259,en,ZA,iso-3166-2,2180
+9260,en,ZAF,iso-3166-3,2180
+9261,de,Südgeorgien und die Südlichen Sandwichinseln,German Name,2181
+9262,es,Georgia del sur y las islas Sandwich del sur,Spanish Name,2181
+9263,fr,Géorgie du Sud et les îles Sandwich du Sud,French Name,2181
+9264,en,GS,iso-3166-2,2181
+9265,en,SGS,iso-3166-3,2181
+9266,de,Südkorea;Süd Korea; Republik Korea,German Name,2182
+9267,es,República de Corea;Corea del Sur,Spanish Name,2182
+9268,fr,la Corée du Sud; République de Corée,French Name,2182
+9269,en,KR,iso-3166-2,2182
+9270,en,KOR,iso-3166-3,2182
+9271,en,Republic of Korea,abbreviation,2182
+9272,de,Der Südsudan; Republik Südsudan,German Name,2183
+9273,es,Sudán del sur; República de Sudán del Sur,Spanish Name,2183
+9390,en,TCI,abbreviation,2205
+9274,fr,le Soudan du Sud; la République du Soudan du Sud,French Name,2183
+9275,en,SS,iso-3166-2,2183
+9276,en,SSD,iso-3166-3,2183
+9277,en,Republic of South Sudan,abbreviation,2183
+9278,de,Spanien,German Name,2184
+9279,es,Reino de España;España,Spanish Name,2184
+9280,fr,l'Espagne;le Royaume d'Espagne,French Name,2184
+9281,en,ES,iso-3166-2,2184
+9282,en,ESP,iso-3166-3,2184
+9283,de,Sri Lanka,German Name,2185
+9284,es,República Democrática Socialista de Sri Lanka;Sri Lanka,Spanish Name,2185
+9285,fr,Sri Lanka,French Name,2185
+9286,en,LK,iso-3166-2,2185
+9287,en,LKA,iso-3166-3,2185
+9288,de,Sudan,German Name,2186
+9289,es,República del Sudán;Sudán,Spanish Name,2186
+9290,fr,le Soudan;la République du Soudan,French Name,2186
+9291,en,SD,iso-3166-2,2186
+9292,en,SDN,iso-3166-3,2186
+9293,de,Suriname,German Name,2187
+9294,es,República del Surinam;Surinam,Spanish Name,2187
+9295,fr,le Suriname,French Name,2187
+9296,en,SR,iso-3166-2,2187
+9297,en,SUR,iso-3166-3,2187
+9298,de,Svalbard,German Name,2188
+9299,es,Svalbard,Spanish Name,2188
+9300,fr,Svalbard,French Name,2188
+9301,en,SJ,iso-3166-2,2188
+9302,en,SJM,iso-3166-3,2188
+9303,de,Swasiland,German Name,2189
+9304,es,Reino de Suazilandia;Suazilandia,Spanish Name,2189
+9305,fr,le Swaziland,French Name,2189
+9306,en,SZ,iso-3166-2,2189
+9307,en,SWZ,iso-3166-3,2189
+9308,de,Schweden,German Name,2190
+9309,es,Reino de Suecia;Suecia,Spanish Name,2190
+9310,fr,la Suède;le Royaume de Suède,French Name,2190
+9311,en,SE,iso-3166-2,2190
+9312,en,SWE,iso-3166-3,2190
+9313,de,Schweiz,German Name,2191
+9314,es,Confederación Helvética;Suiza,Spanish Name,2191
+9315,fr,la Suisse;la Confédération suiss,French Name,2191
+9316,en,CH,iso-3166-2,2191
+9317,en,CHE,iso-3166-3,2191
+9318,de,Arabische Republik Syrien; Syrien,German Name,2192
+9319,es,Siria;República Árabe Siria,Spanish Name,2192
+9320,fr,la Syrie;République arabe syrienne,French Name,2192
+9321,en,SY,iso-3166-2,2192
+9322,en,SYR,iso-3166-3,2192
+9323,en,Syrian Arab Republic,abbreviation,2192
+9324,de,Taiwan; Republik China,German Name,2193
+9325,es,Taiwán; República de China,Spanish Name,2193
+9326,fr,Taïwan; République de Chine,French Name,2193
+9327,en,TW,iso-3166-2,2193
+9328,en,TWN,iso-3166-3,2193
+9329,en,Republic of China,abbreviation,2193
+9330,de,Tadschikistan,German Name,2194
+9331,es,República de Tayikistán;Tayikistán,Spanish Name,2194
+9332,fr,le Tadjikistan;la République du Tadjikistan,French Name,2194
+9333,en,TJ,iso-3166-2,2194
+9334,en,TJK,iso-3166-3,2194
+9335,de,Tansania,German Name,2195
+9336,es,República Unida de Tanzania;Tanzania,Spanish Name,2195
+9337,fr,la Tanzanie,French Name,2195
+9338,en,TZ,iso-3166-2,2195
+9339,en,TZA,iso-3166-3,2195
+9340,de,Thailand,German Name,2196
+9341,es,Reino de Tailandia;Tailandia,Spanish Name,2196
+9342,fr,la Thaïlande;le Royaume de Thaïlande,French Name,2196
+9343,en,TH,iso-3166-2,2196
+9344,en,THA,iso-3166-3,2196
+9345,de,Osttimor,German Name,2197
+9346,es,Timor Oriental,Spanish Name,2197
+9347,fr,Timor-Leste,French Name,2197
+9348,en,TL,iso-3166-2,2197
+9349,en,TLS,iso-3166-3,2197
+9350,de,Togo,German Name,2198
+9351,es,República Togolesa;Togo,Spanish Name,2198
+9352,fr,le Togo;la République togolais,French Name,2198
+9353,en,TG,iso-3166-2,2198
+9354,en,TGO,iso-3166-3,2198
+9355,de,Tokelau,German Name,2199
+9356,es,Tokelau,Spanish Name,2199
+9357,fr,Tokelau,French Name,2199
+9358,en,TK,iso-3166-2,2199
+9359,en,TKL,iso-3166-3,2199
+9360,de,Tonga; Königreich Tonga,German Name,2200
+9361,es,Reino de Tonga;Tonga,Spanish Name,2200
+9362,fr,les Tonga;le Royaume des Tong,French Name,2200
+9363,en,TO,iso-3166-2,2200
+9364,en,TON,iso-3166-3,2200
+9365,de,Trinidad und Tobago,German Name,2201
+9366,es,República de Trinidad y Tobago;Trinidad y Tobago,Spanish Name,2201
+9367,fr,la Trinité-et-Tobago,French Name,2201
+9368,en,TT,iso-3166-2,2201
+9369,en,TTO,iso-3166-3,2201
+9370,de,Tunesien,German Name,2202
+9371,es,República Tunecina;Túnez,Spanish Name,2202
+9372,fr,la Tunisie;la République tunisienne,French Name,2202
+9373,en,TN,iso-3166-2,2202
+9374,en,TUN,iso-3166-3,2202
+9375,de,Türkei,German Name,2203
+9376,es,República de Turquía;Turquía,Spanish Name,2203
+9377,fr,la Turquie;la République de Turquie,French Name,2203
+9378,en,TR,iso-3166-2,2203
+9379,en,TUR,iso-3166-3,2203
+9380,de,Turkmenistan,German Name,2204
+9381,es,Turkmenistán,Spanish Name,2204
+9382,fr,le Turkménistan,French Name,2204
+9383,en,TM,iso-3166-2,2204
+9384,en,TKM,iso-3166-3,2204
+9385,de,Turks- und Caicosinseln,German Name,2205
+9386,es,Islas Turcas y Caicos,Spanish Name,2205
+9387,fr,îles Turques-et-Caïques,French Name,2205
+9388,en,TC,iso-3166-2,2205
+9389,en,TCA,iso-3166-3,2205
+9391,de,Tuvalu,German Name,2206
+9392,es,Tuvalu,Spanish Name,2206
+9393,fr,les Tuvalu,French Name,2206
+9394,en,TV,iso-3166-2,2206
+9395,en,TUV,iso-3166-3,2206
+9396,de,US Jungferninseln,German Name,2207
+9397,es,Islas Vírgenes de EE.UU,Spanish Name,2207
+9398,fr,Îles Vierges américaines,French Name,2207
+9399,en,VI,iso-3166-2,2207
+9400,en,VIR,iso-3166-3,2207
+9401,de,Uganda,German Name,2208
+9402,es,República de Uganda;Uganda,Spanish Name,2208
+9403,fr,l'Ouganda;la République d'Ouganda,French Name,2208
+9404,en,UG,iso-3166-2,2208
+9405,en,UGA,iso-3166-3,2208
+9406,de,Ukraine,German Name,2209
+9407,es,Ucrania,Spanish Name,2209
+9408,fr,Ukraine,French Name,2209
+9409,en,UA,iso-3166-2,2209
+9410,en,UKR,iso-3166-3,2209
+9411,de,Vereinigte Arabische Emirate,German Name,2210
+9412,es,Emiratos Árabes Unidos,Spanish Name,2210
+9413,fr,les Émirats arabes unis;la fédération des Émirats arabes unis,French Name,2210
+9414,en,AE,iso-3166-2,2210
+9415,en,ARE,iso-3166-3,2210
+9416,en,UAE,abbreviation,2210
+9417,de,Vereinigtes Königreich,German Name,2211
+9418,es,Reino Unido de Gran Bretaña e Irlanda del Norte;Reino Unido,Spanish Name,2211
+9419,fr,Royaume-Uni,French Name,2211
+9420,en,GB,iso-3166-2,2211
+9421,en,GBR,iso-3166-3,2211
+9422,de,Vereinigte Staaten,German Name,2212
+9423,es,Los Estatados Unidos,Spanish Name,2212
+9424,fr,les États-Unis,French Name,2212
+9425,en,US,iso-3166-2,2212
+9426,en,USA,iso-3166-3,2212
+9427,en,USA; United States of America,abbreviation,2212
+9428,de,Vereinigte Staaten Minor Outlying Islands; Kleinere Inselbesitzungen der Vereinigten Staaten,German Name,2213
+9429,es,Islas menores alejadas de los Estados Unidos,Spanish Name,2213
+9430,fr,Îles mineures éloignées des États-Unis,French Name,2213
+9431,en,UM,iso-3166-2,2213
+9432,en,UMI,iso-3166-3,2213
+9433,de,Uruguay,German Name,2214
+9434,es,República Oriental del Uruguay;Uruguay,Spanish Name,2214
+9435,fr,Uruguay,French Name,2214
+9436,en,UY,iso-3166-2,2214
+9437,en,URY,iso-3166-3,2214
+9438,de,Usbekistan,German Name,2215
+9439,es,República de Uzbekistán;Uzbekistán,Spanish Name,2215
+9440,fr,l'Ouzbékistan;la République d'Ouzbékistan,French Name,2215
+9441,en,UZ,iso-3166-2,2215
+9442,en,UZB,iso-3166-3,2215
+9443,de,Vanuatu,German Name,2216
+9444,es,República de Vanuatu;Vanuatu,Spanish Name,2216
+9445,fr,Vanuatu,French Name,2216
+9446,en,VU,iso-3166-2,2216
+9447,en,VUT,iso-3166-3,2216
+9448,de,Vatikanstadt,German Name,2217
+9449,es,Ciudad del Vaticano,Spanish Name,2217
+9450,fr,Cité du Vatican,French Name,2217
+9451,en,VA,iso-3166-2,2217
+9452,en,VAT,iso-3166-3,2217
+9453,de,Venezuela,German Name,2218
+9454,es,República Bolivariana de Venezuela;Venezuela,Spanish Name,2218
+9455,fr,Venezuela; République bolivarienne du Venezuela,French Name,2218
+9456,en,VE,iso-3166-2,2218
+9457,en,VEN,iso-3166-3,2218
+9458,en,Bolivarian Republic of Venezuel,abbreviation,2218
+9459,de,Vietnam; Sozialistische Republik Vietnam,German Name,2219
+9460,es,Vietnam,Spanish Name,2219
+9461,fr,Viêt-Nam,French Name,2219
+9462,en,VN,iso-3166-2,2219
+9463,en,VNM,iso-3166-3,2219
+9464,en,Vietnam,abbreviation,2219
+9465,de,Wallis und Futuna,German Name,2220
+9466,es,Wallis y Futuna,Spanish Name,2220
+9467,fr,Wallis et Futuna,French Name,2220
+9468,en,WF,iso-3166-2,2220
+9469,en,WLF,iso-3166-3,2220
+9470,de,Westsahara,German Name,2221
+9471,es,Sahara Occidental,Spanish Name,2221
+9472,fr,Western Sahara,French Name,2221
+9473,en,EH,iso-3166-2,2221
+9474,en,ESH,iso-3166-3,2221
+9475,de,Jemen,German Name,2222
+9476,es,República de Yemen;Yemen,Spanish Name,2222
+9477,fr,le Yémen;la République du Yémen,French Name,2222
+9478,en,YE,iso-3166-2,2222
+9479,en,YEM,iso-3166-3,2222
+9480,de,Sambia,German Name,2223
+9481,es,República de Zambia;Zambia,Spanish Name,2223
+9482,fr,la Zambie;la République de Zambie,French Name,2223
+9483,en,ZM,iso-3166-2,2223
+9484,en,ZMB,iso-3166-3,2223
+9485,de,Simbabwe,German Name,2224
+9486,es,República de Zimbabue;Zimbabue,Spanish Name,2224
+9487,fr,le Zimbabwe;la République du Zimbabwe,French Name,2224
+9488,en,ZW,iso-3166-2,2224
+9489,en,ZWE,iso-3166-3,2224
+9490,de,Ålandinseln,German Name,2225
+9491,es,Islas Aland,Spanish Name,2225
+9492,fr,Iles Aland,French Name,2225
+9493,en,AX,iso-3166-2,2225
+9494,en,ALA,iso-3166-3,2225
+9495,de,Alabama,German Name,2226
+9496,es,Alabama,Spanish Name,2226
+9497,fr,L'Alabama,French Name,2226
+9498,en,US-AL,iso-3166-2,2226
+9499,en,AL,abbreviation,2226
+9500,de,Alaska,German Name,2227
+9501,es,Alaska,Spanish Name,2227
+9502,fr,Alaska,French Name,2227
+9503,en,US-AK,iso-3166-2,2227
+9504,en,AK,abbreviation,2227
+9505,de,Arizona,German Name,2228
+9506,es,Arizona,Spanish Name,2228
+9507,fr,Arizona,French Name,2228
+9508,en,US-AZ,iso-3166-2,2228
+9509,en,AZ,abbreviation,2228
+9510,de,Arkansas,German Name,2229
+9511,es,Arkansas,Spanish Name,2229
+9512,fr,Arkansas,French Name,2229
+9513,en,US-AR,iso-3166-2,2229
+9514,en,AR,abbreviation,2229
+9515,de,Kalifornien,German Name,2230
+9516,es,California,Spanish Name,2230
+9517,fr,Californie,French Name,2230
+9518,en,US-CA,iso-3166-2,2230
+9519,en,CA,abbreviation,2230
+9520,de,Colorado,German Name,2231
+9521,es,Colorado,Spanish Name,2231
+9522,fr,Colorado,French Name,2231
+9523,en,US-CO,iso-3166-2,2231
+9524,en,CO,abbreviation,2231
+9525,de,Connecticut,German Name,2232
+9526,es,Connecticut,Spanish Name,2232
+9527,fr,Connecticut,French Name,2232
+9528,en,US-CT,iso-3166-2,2232
+9529,en,CT,abbreviation,2232
+9530,de,Delaware,German Name,2233
+9531,es,Delaware,Spanish Name,2233
+9532,fr,Delaware,French Name,2233
+9533,en,US-DE,iso-3166-2,2233
+9534,en,DE,abbreviation,2233
+9535,de,Bezirk von Kolumbien,German Name,2234
+9536,es,Distrito de Columbia,Spanish Name,2234
+9537,fr,District de Colombie,French Name,2234
+9538,en,US-DC,iso-3166-2,2234
+9539,en,DC,abbreviation,2234
+9540,de,Florida,German Name,2235
+9541,es,Florida,Spanish Name,2235
+9542,fr,Floride,French Name,2235
+9543,en,US-FL,iso-3166-2,2235
+9544,en,FL,abbreviation,2235
+9545,de,Hawaii,German Name,2236
+9546,es,Hawai,Spanish Name,2236
+9547,fr,Hawaii,French Name,2236
+9548,en,US-HI,iso-3166-2,2236
+9549,en,HI,abbreviation,2236
+9550,de,Idaho,German Name,2237
+9551,es,Idaho,Spanish Name,2237
+9552,fr,Idaho,French Name,2237
+9553,en,US-ID,iso-3166-2,2237
+9554,en,ID,abbreviation,2237
+9555,de,Illinois,German Name,2238
+9556,es,Illinois,Spanish Name,2238
+9557,fr,Illinois,French Name,2238
+9558,en,US-IL,iso-3166-2,2238
+9559,en,IL,abbreviation,2238
+9560,de,Indiana,German Name,2239
+9561,es,Indiana,Spanish Name,2239
+9562,fr,Indiana,French Name,2239
+9563,en,US-IN,iso-3166-2,2239
+9564,en,IN,abbreviation,2239
+9565,de,Iowa,German Name,2240
+9566,es,Iowa,Spanish Name,2240
+9567,fr,Iowa,French Name,2240
+9568,en,US-IA,iso-3166-2,2240
+9569,en,IA,abbreviation,2240
+9570,de,Kansas,German Name,2241
+9571,es,Kansas,Spanish Name,2241
+9572,fr,Kansas,French Name,2241
+9573,en,US-KS,iso-3166-2,2241
+9574,en,KS,abbreviation,2241
+9575,de,Kentucky,German Name,2242
+9576,es,Kentucky,Spanish Name,2242
+9577,fr,Kentucky,French Name,2242
+9578,en,US-KY,iso-3166-2,2242
+9579,en,KY,abbreviation,2242
+9580,de,Louisiana,German Name,2243
+9581,es,Luisiana,Spanish Name,2243
+9582,fr,Louisiane,French Name,2243
+9583,en,US-LA,iso-3166-2,2243
+9584,en,LA,abbreviation,2243
+9585,de,Maine,German Name,2244
+9586,es,Maine,Spanish Name,2244
+9587,fr,Maine,French Name,2244
+9588,en,US-ME,iso-3166-2,2244
+9589,en,ME,abbreviation,2244
+9590,de,Maryland,German Name,2245
+9591,es,Maryland,Spanish Name,2245
+9592,fr,Maryland,French Name,2245
+9593,en,US-MD,iso-3166-2,2245
+9594,en,MD,abbreviation,2245
+9595,de,Massachusetts,German Name,2246
+9596,es,Massachusetts,Spanish Name,2246
+9597,fr,Massachusetts,French Name,2246
+9598,en,US-MA,iso-3166-2,2246
+9599,en,MA,abbreviation,2246
+9600,de,Michigan,German Name,2247
+9601,es,Michigan,Spanish Name,2247
+9602,fr,Michigan,French Name,2247
+9603,en,US-MI,iso-3166-2,2247
+9604,en,MI,abbreviation,2247
+9605,de,Minnesota,German Name,2248
+9606,es,Minnesota,Spanish Name,2248
+9607,fr,Minnesota,French Name,2248
+9608,en,US-MN,iso-3166-2,2248
+9609,en,MN,abbreviation,2248
+9610,de,Mississippi,German Name,2249
+9611,es,Misisipí,Spanish Name,2249
+9612,fr,Mississippi,French Name,2249
+9613,en,US-MS,iso-3166-2,2249
+9614,en,MS,abbreviation,2249
+9615,de,Missouri,German Name,2250
+9616,es,Misuri,Spanish Name,2250
+9617,fr,Missouri,French Name,2250
+9618,en,US-MO,iso-3166-2,2250
+9619,en,MO,abbreviation,2250
+9620,de,Montana,German Name,2251
+9621,es,Montana,Spanish Name,2251
+9622,fr,Montana,French Name,2251
+9623,en,US-MT,iso-3166-2,2251
+9624,en,MT,abbreviation,2251
+9625,de,Nebraska,German Name,2252
+9626,es,Nebraska,Spanish Name,2252
+9627,fr,Nebraska,French Name,2252
+9628,en,US-NE,iso-3166-2,2252
+9629,en,NE,abbreviation,2252
+9630,de,Nevada,German Name,2253
+9631,es,Nevada,Spanish Name,2253
+9632,fr,Nevada,French Name,2253
+9633,en,US-NV,iso-3166-2,2253
+9634,en,NV,abbreviation,2253
+9635,de,New Hampshire,German Name,2254
+9636,es,New Hampshire,Spanish Name,2254
+9637,fr,New Hampshire,French Name,2254
+9638,en,US-NH,iso-3166-2,2254
+9639,en,NH,abbreviation,2254
+9640,de,New Jersey,German Name,2255
+9641,es,New Jersey,Spanish Name,2255
+9642,fr,New Jersey,French Name,2255
+9643,en,US-NJ,iso-3166-2,2255
+9644,en,NJ,abbreviation,2255
+9645,de,New-Mexiko,German Name,2256
+9646,es,Nuevo Mexico,Spanish Name,2256
+9647,fr,Nouveau Mexique,French Name,2256
+9648,en,US-NM,iso-3166-2,2256
+9649,en,NM,abbreviation,2256
+9650,de,New York,German Name,2257
+9651,es,Nueva York,Spanish Name,2257
+9652,fr,New York,French Name,2257
+9653,en,US-NY,iso-3166-2,2257
+9654,en,NY,abbreviation,2257
+9655,de,North Carolina,German Name,2258
+9656,es,Carolina del Norte,Spanish Name,2258
+9657,fr,Caroline du Nord,French Name,2258
+9658,en,US-NC,iso-3166-2,2258
+9659,en,NC,abbreviation,2258
+9660,de,Norddakota,German Name,2259
+9661,es,Dakota del Norte,Spanish Name,2259
+9662,fr,Dakota du nord,French Name,2259
+9663,en,US-ND,iso-3166-2,2259
+9664,en,ND,abbreviation,2259
+9665,de,Ohio,German Name,2260
+9666,es,Ohio,Spanish Name,2260
+9667,fr,Ohio,French Name,2260
+9668,en,US-OH,iso-3166-2,2260
+9669,en,OH,abbreviation,2260
+9670,de,Oklahoma,German Name,2261
+9671,es,Oklahoma,Spanish Name,2261
+9672,fr,Oklahoma,French Name,2261
+9673,en,US-OK,iso-3166-2,2261
+9674,en,OK,abbreviation,2261
+9675,de,Oregon,German Name,2262
+9676,es,Oregón,Spanish Name,2262
+9677,fr,Oregon,French Name,2262
+9678,en,US-OR,iso-3166-2,2262
+9679,en,OR,abbreviation,2262
+9680,de,Pennsylvania,German Name,2263
+9681,es,Pensilvania,Spanish Name,2263
+9682,fr,Pennsylvanie,French Name,2263
+9683,en,US-PA,iso-3166-2,2263
+9684,en,PA,abbreviation,2263
+9685,de,Rhode Island,German Name,2264
+9686,es,Rhode Island,Spanish Name,2264
+9687,fr,Rhode Island,French Name,2264
+9688,en,US-RI,iso-3166-2,2264
+9689,en,RI,abbreviation,2264
+9690,de,South Carolina,German Name,2265
+9691,es,Carolina del Sur,Spanish Name,2265
+9692,fr,Caroline du Sud,French Name,2265
+9693,en,US-SC,iso-3166-2,2265
+9694,en,SC,abbreviation,2265
+9695,de,Süddakota,German Name,2266
+9696,es,Dakota del Sur,Spanish Name,2266
+9697,fr,Dakota du Sud,French Name,2266
+9698,en,US-SD,iso-3166-2,2266
+9699,en,SD,abbreviation,2266
+9700,de,Tennessee,German Name,2267
+9701,es,Tennesse,Spanish Name,2267
+9702,fr,Tennessee,French Name,2267
+9703,en,US-TN,iso-3166-2,2267
+9704,en,TN,abbreviation,2267
+9705,de,Texas,German Name,2268
+9706,es,Texas,Spanish Name,2268
+9707,fr,Texas,French Name,2268
+9708,en,US-TX,iso-3166-2,2268
+9709,en,TX,abbreviation,2268
+9710,de,Utah,German Name,2269
+9711,es,Utah,Spanish Name,2269
+9712,fr,Utah,French Name,2269
+9713,en,US-UT,iso-3166-2,2269
+9714,en,UT,abbreviation,2269
+9715,de,Vermont,German Name,2270
+9716,es,Vermont,Spanish Name,2270
+9717,fr,Vermont,French Name,2270
+9718,en,US-VT,iso-3166-2,2270
+9719,en,VT,abbreviation,2270
+9720,de,Virginia,German Name,2271
+9721,es,Virginia,Spanish Name,2271
+9722,fr,Virginie,French Name,2271
+9723,en,US-VA,iso-3166-2,2271
+9724,en,VA,abbreviation,2271
+9725,de,Washington,German Name,2272
+9726,es,Washington,Spanish Name,2272
+9727,fr,Washington,French Name,2272
+9728,en,US-WA,iso-3166-2,2272
+9729,en,WA,abbreviation,2272
+9730,de,West Virginia,German Name,2273
+9731,es,Virginia del Oeste,Spanish Name,2273
+9732,fr,West Virginia,French Name,2273
+9733,en,US-WV,iso-3166-2,2273
+9734,en,WV,abbreviation,2273
+9735,de,Wisconsin,German Name,2274
+9736,es,Wisconsin,Spanish Name,2274
+9737,fr,Wisconsin,French Name,2274
+9738,en,US-WI,iso-3166-2,2274
+9739,en,WI,abbreviation,2274
+9740,de,Wyoming,German Name,2275
+9741,es,Wyoming,Spanish Name,2275
+9742,fr,Wyoming,French Name,2275
+9743,en,US-WY,iso-3166-2,2275
+9744,en,WY,abbreviation,2275
+9745,de,Alberta,German Name,2276
+9746,es,Alberta,Spanish Name,2276
+9747,fr,Alberta,French Name,2276
+9748,en,CA-AB,iso-3166-2,2276
+9749,en,AB,abbreviation,2276
+9750,de,Britisch-Kolumbien,German Name,2277
+9751,es,Columbia Británica,Spanish Name,2277
+9752,fr,Colombie britannique; Colombie-Britannique,French Name,2277
+9753,en,CA-BC,iso-3166-2,2277
+9754,en,BC,abbreviation,2277
+9755,de,Manitoba,German Name,2278
+9756,es,Manitoba,Spanish Name,2278
+9757,fr,Manitoba,French Name,2278
+9758,en,CA-MB,iso-3166-2,2278
+9759,en,MB,abbreviation,2278
+9760,de,Neufundland und Labrador,German Name,2279
+9761,es,Newfoundland y Labrador,Spanish Name,2279
+9762,fr,Terre-Neuve-et-Labrador,French Name,2279
+9763,en,CA-NL,iso-3166-2,2279
+9764,en,NL,abbreviation,2279
+9765,de,Nordwestliche Territorien,German Name,2280
+9766,es,Territorios del Noroeste,Spanish Name,2280
+9767,fr,Territoires du nord-ouest,French Name,2280
+9768,en,CA-NT,iso-3166-2,2280
+9769,en,NT,abbreviation,2280
+9770,de,Neuschottland,German Name,2281
+9771,es,nueva Escocia,Spanish Name,2281
+9772,fr,Nouvelle-Écosse,French Name,2281
+9773,en,CA-NS,iso-3166-2,2281
+9774,en,NS,abbreviation,2281
+9775,de,Nunavut,German Name,2282
+9776,es,Nunavut,Spanish Name,2282
+9777,fr,Nunavut,French Name,2282
+9778,en,CA-NU,iso-3166-2,2282
+9779,en,NU,abbreviation,2282
+9780,de,Ontario,German Name,2283
+9781,es,Ontario,Spanish Name,2283
+9782,fr,Ontario,French Name,2283
+9783,en,CA-ON,iso-3166-2,2283
+9784,en,ON,abbreviation,2283
+9785,de,Prinz Edward Insel,German Name,2284
+9786,es,Prince Edward Island,Spanish Name,2284
+9787,fr,Île-du-Prince-Édouard,French Name,2284
+9788,en,CA-PE,iso-3166-2,2284
+9789,en,PE,abbreviation,2284
+9790,de,Québec,German Name,2285
+9791,es,Quebec,Spanish Name,2285
+9792,fr,Quebec,French Name,2285
+9793,en,CA-QC,iso-3166-2,2285
+9794,en,QC,abbreviation,2285
+9795,de,Saskatchewan,German Name,2286
+9796,es,Saskatchewan,Spanish Name,2286
+9797,fr,Saskatchewan,French Name,2286
+9798,en,CA-SK,iso-3166-2,2286
+9799,en,SK,abbreviation,2286
+9800,de,Yukon,German Name,2287
+9801,es,Yukon,Spanish Name,2287
+9802,fr,Yukon,French Name,2287
+9803,en,CA-YT,iso-3166-2,2287
+9804,en,YT,abbreviation,2287
+9805,de,Nouveau-Brunswick,German Name,2288
+9806,es,Nuevo Brunswick,Spanish Name,2288
+9807,fr,Nouveau-Brunswick,French Name,2288
+9808,en,CA-NB,iso-3166-2,2288
+9809,en,NB,abbreviation,2288
+9810,de,New South Wales,German Name,2289
+9811,es,Nueva Gales del Sur,Spanish Name,2289
+9812,fr,Nouvelle Galles du Sud,French Name,2289
+9813,en,AU-NSW,iso-3166-2,2289
+9814,en,NSW,abbreviation,2289
+9815,de,Queensland,German Name,2290
+9816,es,Queensland,Spanish Name,2290
+9817,fr,Queensland,French Name,2290
+9818,en,AU-QLD,iso-3166-2,2290
+9819,en,QLD,abbreviation,2290
+9820,de,Süd Australien,German Name,2291
+9821,es,Sur de Australia,Spanish Name,2291
+9822,fr,Australie du Sud,French Name,2291
+9823,en,AU-SA,iso-3166-2,2291
+9824,en,SA,abbreviation,2291
+9825,de,Tasmanien,German Name,2292
+9826,es,Tasmania,Spanish Name,2292
+9827,fr,Tasmanie,French Name,2292
+9828,en,AU-TAS,iso-3166-2,2292
+9829,en,TAS,abbreviation,2292
+9830,de,Victoria,German Name,2293
+9831,es,Victoria,Spanish Name,2293
+9832,fr,Victoria,French Name,2293
+9833,en,AU-VIC,iso-3166-2,2293
+9834,en,VIC,abbreviation,2293
+9835,de,West-Australien,German Name,2294
+9836,es,Western Australia,Spanish Name,2294
+9837,fr,Australie occidentale,French Name,2294
+9838,en,AU-WA,iso-3166-2,2294
+9839,en,WA,abbreviation,2294
+9840,de,Großer Osten,German Name,2295
+9841,es,Gran Este,Spanish Name,2295
+9842,fr,Grand Est,French Name,2295
+9843,en,FR-GES,iso-3166-2,2295
+9844,en,Grand Est; ACAL; ALCA; Alsace-Champagne-Ardenne-Lorraine,abbreviation,2295
+9845,de,Auvergne-Rhône-Alpes,German Name,2296
+9846,es,Auvernia-Ródano-Alpes,Spanish Name,2296
+9847,fr,Auvergne-Rhône-Alpes; Ôvèrgne-Rôno-Ârpes; Auvèrnhe Ròse Aups,French Name,2296
+9848,en,FR-ARA,iso-3166-2,2296
+9849,en,ARA,abbreviation,2296
+9850,de,Bretagne,German Name,2297
+9851,es,Bretaña,Spanish Name,2297
+9852,fr,Bretagne,French Name,2297
+9853,en,FR-BRE,iso-3166-2,2297
+9854,en,BRE,abbreviation,2297
+9855,de,Burgund-Freigrafschaft,German Name,2298
+9856,es,Borgoña-Franco Condado,Spanish Name,2298
+9857,fr,La Bourgogne-Franche-Comté,French Name,2298
+9858,en,FR-BFC,iso-3166-2,2298
+9859,en,BFC,abbreviation,2298
+9860,de,Zentrum-Loiretal,German Name,2299
+9861,es,Centro-Valle de Loira,Spanish Name,2299
+9862,fr,Centre-Val de Loire,French Name,2299
+9863,en,FR-CVL,iso-3166-2,2299
+9864,en,CVL,abbreviation,2299
+9865,de,Korsika,German Name,2300
+9866,es,Córcega,Spanish Name,2300
+9867,fr,la Corse,French Name,2300
+9868,en,FR-COR,iso-3166-2,2300
+9869,en,COR,abbreviation,2300
+9870,de,Neu-Aquitanien,German Name,2301
+9871,es,Nueva Aquitania,Spanish Name,2301
+9872,fr,Nouvelle-Aquitaine; Nòva Aquitània; Akitania Berria; Novéle-Aguiéne,French Name,2301
+9873,en,FR-NAQ,iso-3166-2,2301
+9874,en,Nouvelle-Aquitaine; NAQ,abbreviation,2301
+9875,de,Ile-de-France,German Name,2302
+9876,es,Ile de France,Spanish Name,2302
+9877,fr,Ile-de-France,French Name,2302
+9878,en,FR-IDF,iso-3166-2,2302
+9879,en,IDF,abbreviation,2302
+9880,de,Okzitanien,German Name,2303
+9881,es,Occitania; Occitània,Spanish Name,2303
+9882,fr,Occitanie; Occitània,French Name,2303
+9883,en,FR-OCC,iso-3166-2,2303
+9884,en,OCC,abbreviation,2303
+9885,de,Normandie,German Name,2304
+9886,es,Normandía,Spanish Name,2304
+9887,fr,Normandie; Normaundie,French Name,2304
+9888,en,FR-NOR,iso-3166-2,2304
+9889,en,NOR,abbreviation,2304
+9890,de,Hauts-de-France,German Name,2305
+9891,es,Alta Francia,Spanish Name,2305
+9892,fr,Hauts-de-France,French Name,2305
+9893,en,FR-HDF,iso-3166-2,2305
+9894,en,Upper France; HDF,abbreviation,2305
+9895,de,Loire,German Name,2306
+9896,es,País del Loira,Spanish Name,2306
+9897,fr,Pays de la Loire,French Name,2306
+9898,en,FR-PDL,iso-3166-2,2306
+9899,en,PDL,abbreviation,2306
+9900,de,Provence-Alpes-Côte d'Azur,German Name,2307
+9901,es,Provenza-Alpes-Costa Azul,Spanish Name,2307
+9902,fr,Provence-Alpes-Cote d'Azur,French Name,2307
+9903,en,FR-PAC,iso-3166-2,2307
+9904,en,PAC,abbreviation,2307
+9905,de,Baden-Wurttemberg; Baden-Württemberg,German Name,2308
+9906,es,Baden-Wurttemberg,Spanish Name,2308
+9907,fr,Bade-Wurtemberg,French Name,2308
+9908,en,DE-BW,iso-3166-2,2308
+9909,en,BW; Baden-Württemberg,abbreviation,2308
+9910,de,Bavaria; Bayern,German Name,2309
+9911,es,Baviera,Spanish Name,2309
+9912,fr,Bavière,French Name,2309
+9913,en,DE-BY,iso-3166-2,2309
+9914,en,BY,abbreviation,2309
+9915,de,Berlin,German Name,2310
+9916,es,Berlín,Spanish Name,2310
+9917,fr,Berlin,French Name,2310
+9918,en,DE-BE,iso-3166-2,2310
+9919,en,BE,abbreviation,2310
+9920,de,Bremen,German Name,2311
+9921,es,Bremen,Spanish Name,2311
+9922,fr,Brême,French Name,2311
+9923,en,DE-HB,iso-3166-2,2311
+9924,en,HB,abbreviation,2311
+9925,de,Hamburg,German Name,2312
+9926,es,Hamburgo,Spanish Name,2312
+9927,fr,Hambourg,French Name,2312
+9928,en,DE-HH,iso-3166-2,2312
+9929,en,HH,abbreviation,2312
+9930,de,Hesse; Hessen,German Name,2313
+9931,es,Hesse,Spanish Name,2313
+9932,fr,Hesse,French Name,2313
+9933,en,DE-HE,iso-3166-2,2313
+9934,en,HE,abbreviation,2313
+9935,de,Niedersachsen,German Name,2314
+9936,es,Baja sajonia,Spanish Name,2314
+9937,fr,Basse-Saxe,French Name,2314
+9938,en,DE-NI,iso-3166-2,2314
+9939,en,NI,abbreviation,2314
+9940,de,Mecklenburg-Vorpommern; McPom,German Name,2315
+9941,es,Mecklenburg-Vorpommern,Spanish Name,2315
+9942,fr,Mecklembourg-Poméranie-Occidentale,French Name,2315
+9943,en,DE-MV,iso-3166-2,2315
+9944,en,MV; Mecklenburg-West Pomerania; Meck-Pomm,abbreviation,2315
+9945,de,Nordrhein-Westfalen,German Name,2316
+9946,es,Norte de Rhine-Westphalia,Spanish Name,2316
+9947,fr,Rhénanie du Nord-Westphalie,French Name,2316
+9948,en,DE-NW,iso-3166-2,2316
+9949,en,NW,abbreviation,2316
+9950,de,Rheinland-Pfalz,German Name,2317
+9951,es,Renania-Palatinado,Spanish Name,2317
+9952,fr,Rhénanie-Palatinat,French Name,2317
+9953,en,DE-RP,iso-3166-2,2317
+9954,en,RP,abbreviation,2317
+9955,de,Saarland,German Name,2318
+9956,es,Sarre,Spanish Name,2318
+9957,fr,Sarre,French Name,2318
+9958,en,DE-SL,iso-3166-2,2318
+9959,en,SL,abbreviation,2318
+9960,de,Sachsen,German Name,2319
+9961,es,Sajonia,Spanish Name,2319
+9962,fr,Saxe,French Name,2319
+9963,en,DE-SN,iso-3166-2,2319
+9964,en,SN,abbreviation,2319
+9965,de,Sachsen-anhalt,German Name,2320
+9966,es,Sajonia-Anhalt,Spanish Name,2320
+9967,fr,Saxe-Anhalt,French Name,2320
+9968,en,DE-ST,iso-3166-2,2320
+9969,en,ST,abbreviation,2320
+9970,de,Schleswig-Holstein,German Name,2321
+9971,es,Schleswig-Holstein,Spanish Name,2321
+9972,fr,Schleswig-Holstein,French Name,2321
+9973,en,DE-SH,iso-3166-2,2321
+9974,en,SH,abbreviation,2321
+9975,de,Thüringen,German Name,2322
+9976,es,Turingia,Spanish Name,2322
+9977,fr,Thuringe,French Name,2322
+9978,en,DE-TH,iso-3166-2,2322
+9979,en,TH,abbreviation,2322
+9980,de,Brandenburg,German Name,2323
+9981,es,Brandeburgo; Brandemburgo,Spanish Name,2323
+9982,fr,Brandebourg,French Name,2323
+9983,en,DE-BB,iso-3166-2,2323
+9984,en,BB,abbreviation,2323
+9985,de,Andalusien,German Name,2324
+9986,es,Andalucía,Spanish Name,2324
+9987,fr,Andalucía; Andalousie,French Name,2324
+9988,en,ES-AN,iso-3166-2,2324
+9989,en,AN,abbreviation,2324
+9990,de,Aragonien,German Name,2325
+9991,es,Aragón,Spanish Name,2325
+9992,fr,Aragón,French Name,2325
+9993,en,ES-AR,iso-3166-2,2325
+9994,en,AR,abbreviation,2325
+9995,de,Asturien,German Name,2326
+9996,es,Principado de Asturias,Spanish Name,2326
+9997,fr,Principado de Asturias; Principauté des Asturies,French Name,2326
+9998,en,ES-AS,iso-3166-2,2326
+9999,en,AS; Principality of Asturias,abbreviation,2326
+10000,de,Balearische Inseln,German Name,2327
+10001,es,Illes Balears; Islas Baleares,Spanish Name,2327
+10002,fr,Illes Balears; Islas Baleares; Îles Baléares,French Name,2327
+10003,en,ES-IB,iso-3166-2,2327
+10004,en,IB,abbreviation,2327
+10005,de,Baskenland,German Name,2328
+10006,es,País Vasco; Euskal Herria,Spanish Name,2328
+10007,fr,País Vasco; Euskal Herria; Pays basque,French Name,2328
+10008,en,ES-PV,iso-3166-2,2328
+10009,en,PV,abbreviation,2328
+10010,de,Kanarische Inseln,German Name,2329
+10011,es,Canarias,Spanish Name,2329
+10012,fr,Canarias; Îles Canaries,French Name,2329
+10013,en,ES-CN,iso-3166-2,2329
+10014,en,CN; The Canaries,abbreviation,2329
+10015,de,Kantabrien,German Name,2330
+10016,es,Cantabria,Spanish Name,2330
+10017,fr,Cantabria; Cantabrie,French Name,2330
+10018,en,ES-CB,iso-3166-2,2330
+10019,en,CB,abbreviation,2330
+10020,de,Kastilien und León,German Name,2331
+10021,es,Castilla y León,Spanish Name,2331
+10022,fr,Castilla y León; Castille-et-León,French Name,2331
+10023,en,ES-CL,iso-3166-2,2331
+10024,en,CL,abbreviation,2331
+10025,de,Kastilien-La Mancha,German Name,2332
+10026,es,Castilla-La Mancha,Spanish Name,2332
+10027,fr,Castilla-La Mancha; Castille-La Manche,French Name,2332
+10028,en,ES-CM,iso-3166-2,2332
+10029,en,CM; Castile–La Mancha,abbreviation,2332
+10030,de,Katalonien,German Name,2333
+10031,es,Catalunya; Cataluña,Spanish Name,2333
+10032,fr,Catalunya; Cataluña; Catalogne,French Name,2333
+10033,en,ES-CT,iso-3166-2,2333
+10034,en,CT,abbreviation,2333
+10035,de,Madrid,German Name,2334
+10036,es,Comunidad de Madrid,Spanish Name,2334
+10037,fr,Comunidad de Madrid; Communauté de Madrid,French Name,2334
+10038,en,ES-MD,iso-3166-2,2334
+10039,en,M,abbreviation,2334
+10040,de,Extremadura,German Name,2335
+10041,es,Extremadura,Spanish Name,2335
+10042,fr,Extremadura; Estremaura; Estrémadure,French Name,2335
+10043,en,ES-EX,iso-3166-2,2335
+10044,en,EX,abbreviation,2335
+10045,de,Galicien,German Name,2336
+10046,es,Galicia,Spanish Name,2336
+10047,fr,Galicia; Galice,French Name,2336
+10048,en,ES-GA,iso-3166-2,2336
+10049,en,GA,abbreviation,2336
+10050,de,La Rioja,German Name,2337
+10051,es,La Rioja,Spanish Name,2337
+10052,fr,La Rioja,French Name,2337
+10053,en,ES-RI,iso-3166-2,2337
+10054,en,LO,abbreviation,2337
+10055,de,Navarra,German Name,2338
+10056,es,Comunidad Foral de Navarra; Nafarroako Foru Komunitatea,Spanish Name,2338
+10057,fr,Comunidad Foral de Navarra; Nafarroako Foru Komunitatea; Communauté forale de Navarre,French Name,2338
+10058,en,ES-NC,iso-3166-2,2338
+10059,en,NA; Chartered Community of Navarre,abbreviation,2338
+10060,de,Murcia,German Name,2339
+10061,es,Región de Murcia,Spanish Name,2339
+10062,fr,Región de Murcia; Région de Murcie,French Name,2339
+10063,en,ES-MC,iso-3166-2,2339
+10064,en,MC,abbreviation,2339
+10065,de,Valencia,German Name,2340
+10066,es,Comunidad Valenciana; Comunitat Valenciana,Spanish Name,2340
+10067,fr,Comunidad Valenciana; Comunitat Valenciana; Communauté Valencienne,French Name,2340
+10068,en,ES-VC,iso-3166-2,2340
+10069,en,VC; Valencian Country,abbreviation,2340
+10070,de,Hebei,German Name,2341
+10071,es,Hebei,Spanish Name,2341
+10072,fr,Hebei,French Name,2341
+10073,en,CN-13,iso-3166-2,2341
+10074,en,HE; HEB; Héběi; Hopeh; Jì,abbreviation,2341
+10075,de,Shanxi,German Name,2342
+10076,es,Shanxi,Spanish Name,2342
+10077,fr,Shanxi,French Name,2342
+10078,en,CN-14,iso-3166-2,2342
+10079,en,SX; Shānxī; Jìn,abbreviation,2342
+10080,de,Liaoning,German Name,2343
+10081,es,Liaoning,Spanish Name,2343
+10082,fr,Liaoning,French Name,2343
+10083,en,CN-21,iso-3166-2,2343
+10084,en,LN; Liáoníng; Liáoníng Shěng; Liáo,abbreviation,2343
+10085,de,Jilin,German Name,2344
+10086,es,Jilin,Spanish Name,2344
+10087,fr,Jilin,French Name,2344
+10088,en,CN-22,iso-3166-2,2344
+10089,en,JL; Jílín; Jílín Shěng; Kirin,abbreviation,2344
+10090,de,Heilongjiang,German Name,2345
+10091,es,Heilongjiang,Spanish Name,2345
+10092,fr,Heilongjiang,French Name,2345
+10093,en,CN-23,iso-3166-2,2345
+10094,en,HL; Hēilóngjiāng; Hēilóngjiāng Shěng; Hēi,abbreviation,2345
+10095,de,Jiangsu,German Name,2346
+10096,es,Jiangsu,Spanish Name,2346
+10097,fr,Jiangsu,French Name,2346
+10098,en,CN-32,iso-3166-2,2346
+10099,en,JS; Sū; Jiāngsū; Jiāngsū Shěng; Kiangsu; Kaonsu San,abbreviation,2346
+10100,de,Zhejiang,German Name,2347
+10101,es,Zhejiang,Spanish Name,2347
+10102,fr,Zhejiang,French Name,2347
+10103,en,CN-33,iso-3166-2,2347
+10104,en,ZJ: Zhè; Zhèjiāng Shěng; Chekiang; Tsehkaon San,abbreviation,2347
+10105,de,Anhui,German Name,2348
+10106,es,Anhui,Spanish Name,2348
+10107,fr,Anhui,French Name,2348
+10108,en,CN-34,iso-3166-2,2348
+10109,en,AH; Wǎn; Ānhuī Shěng; Ānhuī,abbreviation,2348
+10110,de,Fujian,German Name,2349
+10111,es,Fujian,Spanish Name,2349
+10112,fr,Fujian,French Name,2349
+10113,en,CN-35,iso-3166-2,2349
+10114,en,FJ; Mǐn; Bân; Fújiàn; Fújiàn Shěng; Foken; Fouken; Fukien; Hokkien; Hok-kiàn; Hók-gióng,abbreviation,2349
+10115,de,Jiangxi,German Name,2350
+10116,es,Jiangxi,Spanish Name,2350
+10117,fr,Jiangxi,French Name,2350
+10118,en,CN-36,iso-3166-2,2350
+10119,en,JX; Jiāngxī; Jiāngxī Shěng; Kongsi; Gong Si Sen; Chiang-hsi,abbreviation,2350
+10120,de,Shandong,German Name,2351
+10121,es,Shandong,Spanish Name,2351
+10122,fr,Shandong,French Name,2351
+10123,en,CN-37,iso-3166-2,2351
+10124,en,SD; Lǔ; Shāndōng Shěng; Shantung,abbreviation,2351
+10125,de,Henan,German Name,2352
+10126,es,Henan,Spanish Name,2352
+10127,fr,Henan,French Name,2352
+10128,en,CN-41,iso-3166-2,2352
+10129,en,HA; HEN; Yù; Hénán Shěn;  Zhongyuan; Zhongzhou,abbreviation,2352
+10130,de,Hubei,German Name,2353
+10131,es,Hubei,Spanish Name,2353
+10132,fr,Hubei,French Name,2353
+10133,en,CN-42,iso-3166-2,2353
+10134,en,HB; È; Húběi Shěng,abbreviation,2353
+10135,de,Hunan,German Name,2354
+10136,es,Hunan,Spanish Name,2354
+10137,fr,Hunan,French Name,2354
+10138,en,CN-43,iso-3166-2,2354
+10139,en,HN; Xiāng; Húnán Shěng; Húnán; Shuangfeng; Changsha,abbreviation,2354
+10140,de,Guangdong,German Name,2355
+10141,es,Guangdong,Spanish Name,2355
+10142,fr,Guangdong,French Name,2355
+10143,en,CN-44,iso-3166-2,2355
+10144,en,GD; Yuè; Jyut; Guǎngdōng Shěng; Canton; Kwangtung,abbreviation,2355
+10145,de,Hainan,German Name,2356
+10146,es,Hainan,Spanish Name,2356
+10147,fr,Hainan,French Name,2356
+10148,en,CN-46,iso-3166-2,2356
+10149,en,HI; Qióng; khêng; king; Hǎinán Shěng,abbreviation,2356
+10150,de,Sichuan,German Name,2357
+10151,es,Sichuan,Spanish Name,2357
+10152,fr,Sichuan,French Name,2357
+10153,en,CN-51,iso-3166-2,2357
+10154,en,SC; Chuān; Shǔ; Cuan; Su; Si cuan Sen; Sìchuān Shěng; Szechuan,abbreviation,2357
+10155,de,Guizhou,German Name,2358
+10156,es,Guizhou,Spanish Name,2358
+10157,fr,Guizhou,French Name,2358
+10158,en,CN-52,iso-3166-2,2358
+10159,en,GZ; Qián; Guì; Guìzhōu Shěng,abbreviation,2358
+10160,de,Yunnan,German Name,2359
+10161,es,Yunnan,Spanish Name,2359
+10162,fr,Yunnan,French Name,2359
+10163,en,CN-53,iso-3166-2,2359
+10164,en,YN; Diān; Yún; Yúnnán Shěng,abbreviation,2359
+10165,de,Shaanxi,German Name,2360
+10166,es,Shaanxi,Spanish Name,2360
+10167,fr,Shaanxi,French Name,2360
+10168,en,CN-61,iso-3166-2,2360
+10169,en,SN; Shǎn; Qín; Shǎnxī Shěng,abbreviation,2360
+10170,de,Gansu,German Name,2361
+10171,es,Gansu,Spanish Name,2361
+10172,fr,Gansu,French Name,2361
+10173,en,CN-62,iso-3166-2,2361
+10174,en,GS; Gān; Lǒng; Gānsù Shěng; Kan su'u,abbreviation,2361
+10175,de,Qinghai,German Name,2362
+10176,es,Qinghai,Spanish Name,2362
+10177,fr,Qinghai,French Name,2362
+10178,en,CN-63,iso-3166-2,2362
+10179,en,QH; Qīng; Qīnghǎi Shěng; Kokonur,abbreviation,2362
+10180,de,England,German Name,2363
+10181,es,Inglaterra,Spanish Name,2363
+10182,fr,L'Angleterre; Angleterre,French Name,2363
+10183,en,GB-ENG,iso-3166-2,2363
+10184,de,Nordirland,German Name,2364
+10185,es,Irlanda del Norte,Spanish Name,2364
+10186,fr,Irlande du Nord,French Name,2364
+10187,en,GB-NIR,iso-3166-2,2364
+10188,de,Wales,German Name,2365
+10189,es,Gales,Spanish Name,2365
+10190,fr,Pays de Galles,French Name,2365
+10191,en,GB-WLS,iso-3166-2,2365
+10192,de,Schottland,German Name,2366
+10193,es,Escocia,Spanish Name,2366
+10194,fr,Écosse,French Name,2366
+10195,en,GB-SCT,iso-3166-2,2366
+10196,de,Nordostengland,German Name,2367
+10197,es,Nordeste de Inglaterra,Spanish Name,2367
+10198,fr,Angleterre du Nord-Est,French Name,2367
+10199,de,Östliche Midlands,German Name,2368
+10200,es,Midlands del este,Spanish Name,2368
+10201,fr,Midlands de l'Est,French Name,2368
+10202,de,Yorkshire und Humbergegend,German Name,2369
+10203,es,Yorkshire y Humber,Spanish Name,2369
+10204,fr,Yorkshire-et-Humber ,French Name,2369
+10205,de,Südwestengland,German Name,2370
+10206,es,Sudoeste de Inglaterra,Spanish Name,2370
+10207,fr,Angleterre du Sud-Ouest ,French Name,2370
+10208,de,Westliche Midlands,German Name,2371
+10209,es,Midlands del Oeste,Spanish Name,2371
+10210,fr,Midlands de l'Ouest,French Name,2371
+10211,de,Ostengland,German Name,2372
+10212,es,Este de Inglaterra,Spanish Name,2372
+10213,fr,Angleterre de l'Est,French Name,2372
+10214,de,Nordwestengland,German Name,2373
+10215,es,Noroeste de Inglaterra,Spanish Name,2373
+10216,fr,Angleterre du Nord-Ouest,French Name,2373
+10217,de,Groß-London,German Name,2374
+10218,es,Gran Londres,Spanish Name,2374
+10219,fr,Grand Londres,French Name,2374
+10220,de,Südostengland,German Name,2375
+10221,es,Sudeste de Inglaterra,Spanish Name,2375
+10222,fr,Angleterre du Sud-Est,French Name,2375
