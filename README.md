@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/LexPredict/lexpredict-lexnlp.svg?branch=master)](https://travis-ci.org/LexPredict/lexpredict-lexnlp) [![Coverage Status](https://coveralls.io/repos/github/LexPredict/lexpredict-lexnlp/badge.svg?branch=master)](https://coveralls.io/github/LexPredict/lexpredict-lexnlp?branch=0.1.8) [![](https://tokei.rs/b1/github/lexpredict/lexpredict-lexnlp?category=code)](https://github.com/lexpredict/lexpredict-lexnlp) [![Docs](https://readthedocs.org/projects/lexpredict-lexnlp/badge/?version=docs-0.1.6)](http://lexpredict-lexnlp.readthedocs.io/en/docs-0.1.6/)
 
-# LexNLP by LexPredict
+# LexNLP by LexPredict - ARM-specific readme
 ## Information retrieval and extraction for real, unstructured legal text
 LexNLP is a library for working with real, unstructured legal text, including contracts, plans, policies, procedures,
 and other material.
@@ -27,50 +27,43 @@ and other material.
 * Documentation: http://lexpredict-lexnlp.readthedocs.io/en/latest/ (in progress)
 * Contact: support@contraxsuite.com
 
-## Structure
-* ContraxSuite web application: https://github.com/LexPredict/lexpredict-contraxsuite
-* LexNLP library for extraction: https://github.com/LexPredict/lexpredict-lexnlp
-* ContraxSuite pre-trained models and "knowledge sets": https://github.com/LexPredict/lexpredict-legal-dictionary
-* ContraxSuite agreement samples: https://github.com/LexPredict/lexpredict-contraxsuite-samples
-* ContraxSuite deployment automation: https://github.com/LexPredict/lexpredict-contraxsuite-deploy
-Please note that ContraxSuite installations generally require trained models or knowledge sets for usage.
-
 ## Licensing
 LexNLP is available under a dual-licensing model.  By default, this library can be used under AGPLv3 terms as detailed
 in the repository LICENSE file; however, organizations can request a release from the AGPL terms or a non-GPL
 evaluation license
 by contacting ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
-## Requirements
-* Python 3.8
+## Requirements for `arm64`/Mac M1
+* Python 3.12
 * pipenv
+* conda
 
-## Releases
-* 2.3.0: November 30, 2022 - Twenty sixth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.3.0)
-* 2.2.1.0: August 10, 2022 - Twenty fifth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.1.0)
-* 2.2.0: July 7, 2022 - Twenty fourth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.2.0)
-* 2.1.0: September 16, 2021 - Twenty third scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.1.0)
-* 2.0.0: May 10, 2021 - Twenty second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.0.0)
-* 1.8.0: December 2, 2020 - Twenty first scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.8.0)
-* 1.7.0: August 27, 2020 - Twentieth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.7.0)
-* 1.6.0: May 27, 2020 - Nineteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.6.0)
-* 1.4.0: December 20, 2019 - Eighteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.4.0)
-* 1.3.0: November 1, 2019 - Seventeenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/1.3.0)
-* 0.2.7: August 1, 2019 - Sixteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.7)
-* 0.2.6: June 12, 2019 - Fifteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.6)
-* 0.2.5: March 1, 2019 - Fourteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.5)
-* 0.2.4: February 1, 2019 - Thirteenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.4)
-* 0.2.3: Junuary 10, 2019 - Twelfth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.3)
-* 0.2.2: September 30, 2018 - Eleventh scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.2)
-* 0.2.1: August 24, 2018 - Tenth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.1)
-* 0.2.0: August 1, 2018 - Ninth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.2.0)
-* 0.1.9: July 1, 2018 - Ninth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.9)
-* 0.1.8: May 1, 2018 - Eighth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.8)
-* 0.1.7: April 1, 2018 - Seventh scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.7)
-* 0.1.6: March 1, 2018 - Sixth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.6)
-* 0.1.5: February 1, 2018 - Fifth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.5)
-* 0.1.4: January 1, 2018 - Fourth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.4)
-* 0.1.3: December 1, 2017 - Third scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.3)
-* 0.1.2: November 1, 2017 - Second scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.2)
-* 0.1.1: October 2, 2017 - Bug fix release for 0.1.0; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.1)
-* 0.1.0: September 30, 2017 - First public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/0.1.0)
+## Installation on `arm64`/Mac M1
+
+Some of the required packages (especially those related to `scikit-learn`) will fail to build wheels when `LexNLP` is installed on a M1 Mac.
+For the package to be installed successfully, you can either use pre-compiled packages, or install a version of `scikit-learn` from the `conda-forge` installation that contains a C/C++ compiler (you can use [miniforge](https://github.com/conda-forge/miniforge#miniforge)). You can find the pre-compiled packages in [this](https://github.com/coaxsoft/arm_python_packages/tree/master/wheels) repo.
+
+As of October 23, 2024, `scikit-learn` has native support of ARM. However, the issue persisted until I created a conda environment with the steps below.
+
+Furthermore, LexNLP's dependencies are strict and lead to failed installation. This repo contains modified versions of `setup.py` and `python-requirements.txt` that (hopefully) will address this problem. WARNING: I have only tested extensively scripts related to definitions. The new installation instructions may end up breaking other LexNLP functions.
+
+### Environment setup
+
+Download this directory (don't install it yet). Move the directory to wherever you prefer. Create a new virtual environment w/ `scikit-learn` specified:
+        
+        conda create -n myenv -c conda-forge scikit-learn
+
+where `myenv` is your environment name. 
+
+Activate the environment and install pip into this environment: 
+
+        conda activate myenv
+        conda install pip
+
+Navigate to the downloaded source directory and run
+
+        pip install .
+
+which executes the modified `setup.py` using the requirements we just copied over. 
+
+This should successfully install the package. You may have to downgrade `setuptools` to ~=70.0.0.
