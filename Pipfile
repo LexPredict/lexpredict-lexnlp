@@ -39,4 +39,5 @@ pytest = "*"
 sphinx = "*"
 
 [requires]
-python_version = "3.8"
+# Keep this in sync with supported runtime to avoid Dependabot parser failures.
+python_version = "3.11"

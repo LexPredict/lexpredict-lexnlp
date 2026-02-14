@@ -75,8 +75,8 @@ terms or a non-GPL evaluation license by contacting ContraxSuite Licensing at
 Requirements
 ------------
 
--  Python 3.8
--  pipenv
+-  Python 3.11
+-  uv (recommended) or pip
 
 Releases
 --------
