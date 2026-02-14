@@ -42,8 +42,40 @@ evaluation license
 by contacting ContraxSuite Licensing at <<license@contraxsuite.com>>.
 
 ## Requirements
-* Python 3.8
-* pipenv
+* Python 3.11 (default; supported range is defined in `pyproject.toml`)
+* `uv`
+
+## Quick Setup (uv + pyproject)
+```bash
+cd /Users/jackeames/Downloads/LexNLP
+uv python install 3.11
+uv venv --python 3.11 .venv
+uv pip install --python .venv/bin/python -e ".[dev,test]"
+./.venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model
+```
+
+## Deprecated Setup Variants
+`Pipfile`, `python-requirements.txt`, and `python-requirements-dev.txt` are deprecated and kept only for legacy reproduction. New development and CI updates should use `uv` with `pyproject.toml`.
+
+## Migration Runbook
+See `MIGRATION_RUNBOOK.md` for complete migration/triage/quality-gate procedures.
+
+## Test Integrity and Full Validation
+- Do not add/remove/modify `skip`, `skipif`, or `xfail` markers to bypass failing tests.
+- Target is **100% pass**.
+- If Stanford assets are enabled, 100% pass includes both base and Stanford-only suites.
+
+```bash
+# Base suite
+./.venv/bin/pytest lexnlp
+
+# Stanford-only suite (run when Stanford assets are installed)
+PATH=/opt/homebrew/opt/openjdk/bin:$PATH \
+LEXNLP_USE_STANFORD=true \
+./.venv/bin/pytest \
+  lexnlp/nlp/en/tests/test_stanford.py \
+  lexnlp/extract/en/entities/tests/test_stanford_ner.py
+```
 
 ## Releases
 * 2.3.0: November 30, 2022 - Twenty sixth scheduled public release; [code](https://github.com/LexPredict/lexpredict-lexnlp/tree/2.3.0)

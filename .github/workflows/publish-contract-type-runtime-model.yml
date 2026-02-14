@@ -1,0 +1,110 @@
+name: Publish Contract-Type Runtime Model
+
+on:
+  workflow_dispatch:
+
+# Note: this workflow publishes a GitHub Release asset in the repository where it
+# runs (i.e., `github.repository`). LexNLP downloads release tags from the
+# repository configured in `lexnlp.MODELS_REPO`.
+
+permissions:
+  contents: write
+
+env:
+  PYTHON_VERSION: "3.11"
+  # Ensure publish workflows work on forks even if the fork does not host the
+  # upstream model/corpus release tags needed for training.
+  LEXNLP_MODELS_REPO_SLUG: "LexPredict/lexpredict-lexnlp"
+  MODEL_TAG: "pipeline/contract-type/0.2-runtime"
+  BASELINE_METRICS: "test_data/model_quality/contract_type_baseline_metrics.json"
+
+jobs:
+  publish:
+    name: Publish Runtime Artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python
+
+      - name: Train runtime contract-type model
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          LEXNLP_CONTRACT_TYPE_MODEL_TAG: ${{ env.MODEL_TAG }}
+        run: |
+          .venv/bin/python scripts/train_contract_type_model.py \
+            --target-tag "${MODEL_TAG}" \
+            --force \
+            --output-json artifacts/model_training/contract_type_model_training_report.json
+
+      - name: Run contract-type quality gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          LEXNLP_CONTRACT_TYPE_MODEL_TAG: ${{ env.MODEL_TAG }}
+        run: |
+          .venv/bin/python scripts/contract_type_quality_gate.py \
+            --baseline-tag "${MODEL_TAG}" \
+            --candidate-tag "${MODEL_TAG}" \
+            --baseline-metrics-json "${BASELINE_METRICS}" \
+            --output-json artifacts/contract_type_quality_gate.json \
+            --max-accuracy-top1-regression 0.0 \
+            --max-accuracy-topn-regression 0.0 \
+            --max-f1-macro-regression 0.0 \
+            --max-f1-weighted-regression 0.0
+
+      - name: Locate model file
+        id: locate
+        run: |
+          MODEL_PATH="$(
+            .venv/bin/python - <<'PY'
+          from lexnlp.extract.en.contracts.runtime_model import (
+              CONTRACT_TYPE_MODEL_FILENAME,
+          )
+          from lexnlp.ml.catalog import CATALOG
+          import os
+
+          tag = (os.getenv("MODEL_TAG") or "").strip() or "pipeline/contract-type/0.2-runtime"
+          path = CATALOG / tag / CONTRACT_TYPE_MODEL_FILENAME
+          print(path)
+          PY
+          )"
+          test -f "${MODEL_PATH}"
+          echo "model_path=${MODEL_PATH}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload training + gate artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-type-runtime-build
+          path: |
+            artifacts/model_training/contract_type_model_training_report.json
+            artifacts/contract_type_quality_gate.json
+          if-no-files-found: error
+
+      - name: Create release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "${MODEL_TAG}" >/dev/null 2>&1; then
+            gh release create "${MODEL_TAG}" \
+              --title "${MODEL_TAG}" \
+              --notes "Runtime-compatible contract-type classifier for LexNLP."
+          fi
+
+      - name: Upload model asset to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${MODEL_TAG}" "${{ steps.locate.outputs.model_path }}" --clobber

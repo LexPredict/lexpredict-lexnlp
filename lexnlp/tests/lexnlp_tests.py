@@ -17,7 +17,6 @@ import time
 from datetime import datetime
 from typing import Callable, Set, Union, List, Tuple, Any
 
-import nose.tools
 import psutil
 from memory_profiler import memory_usage
 
@@ -364,7 +363,7 @@ def assert_set_equal(function_name: str,
         return None
     exx = None
     try:
-        nose.tools.assert_set_equal(actual_results, expected_results)
+        assert actual_results == expected_results
     except AssertionError as ex:
         exx = ex
 
@@ -442,7 +441,7 @@ def assert_in(function_name: str,
               test_data_file: str = None) -> Union[str, None]:
     exx = None
     try:
-        nose.tools.assert_in(expected_in, actual_results)
+        assert expected_in in actual_results
     except AssertionError as ex:
         exx = ex
 

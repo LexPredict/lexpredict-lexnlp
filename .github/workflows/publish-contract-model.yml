@@ -1,0 +1,111 @@
+name: Publish Contract Model (is-contract)
+
+on:
+  workflow_dispatch:
+
+# Note: this workflow publishes a GitHub Release asset in the repository where it
+# runs (i.e., `github.repository`). LexNLP downloads release tags from the
+# repository configured via `LEXNLP_MODELS_REPO` / `LEXNLP_MODELS_REPO_SLUG`.
+
+permissions:
+  contents: write
+
+env:
+  PYTHON_VERSION: "3.11"
+  # Ensure publish workflows work on forks even if the fork does not host the
+  # upstream model/corpus release tags needed for training/re-export.
+  LEXNLP_MODELS_REPO_SLUG: "LexPredict/lexpredict-lexnlp"
+  SOURCE_TAG: "pipeline/is-contract/0.1"
+  MODEL_TAG: "pipeline/is-contract/0.2"
+  BASELINE_METRICS: "test_data/model_quality/is_contract_baseline_metrics.json"
+
+jobs:
+  publish:
+    name: Publish Re-exported Artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python
+
+      - name: Re-export contract model
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          .venv/bin/python scripts/reexport_contract_model.py \
+            --source-tag "${SOURCE_TAG}" \
+            --target-tag "${MODEL_TAG}" \
+            --baseline-metrics-json "${BASELINE_METRICS}" \
+            --output-metadata-json "artifacts/model_reexports/${MODEL_TAG//\\//__}.metadata.json" \
+            --skip-quality-gate \
+            --force
+
+      - name: Run contract model quality gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          LEXNLP_IS_CONTRACT_MODEL_TAG: ${{ env.MODEL_TAG }}
+        run: |
+          .venv/bin/python scripts/model_quality_gate.py \
+            --baseline-tag "${SOURCE_TAG}" \
+            --candidate-tag "${MODEL_TAG}" \
+            --baseline-metrics-json "${BASELINE_METRICS}" \
+            --output-json artifacts/model_quality_gate.json \
+            --max-accuracy-regression 0.0 \
+            --max-f1-regression 0.0
+
+      - name: Locate model file
+        id: locate
+        env:
+          LEXNLP_IS_CONTRACT_MODEL_TAG: ${{ env.MODEL_TAG }}
+        run: |
+          MODEL_PATH="$(
+            .venv/bin/python - <<'PY'
+          from lexnlp.ml.catalog import get_path_from_catalog
+          import os
+
+          tag = (os.getenv("LEXNLP_IS_CONTRACT_MODEL_TAG") or "").strip()
+          if not tag:
+              raise SystemExit("Missing LEXNLP_IS_CONTRACT_MODEL_TAG")
+          print(get_path_from_catalog(tag))
+          PY
+          )"
+          test -f "${MODEL_PATH}"
+          echo "model_path=${MODEL_PATH}" >> "$GITHUB_OUTPUT"
+
+      - name: Upload training + gate artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-model-reexport
+          path: |
+            artifacts/model_reexports/*.metadata.json
+            artifacts/model_quality_gate.json
+          if-no-files-found: error
+
+      - name: Create release if missing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "${MODEL_TAG}" >/dev/null 2>&1; then
+            gh release create "${MODEL_TAG}" \
+              --title "${MODEL_TAG}" \
+              --notes "Runtime re-export of the LexNLP is-contract classifier for modern Python/scikit-learn."
+          fi
+
+      - name: Upload model asset to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${MODEL_TAG}" "${{ steps.locate.outputs.model_path }}" --clobber

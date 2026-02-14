@@ -110,7 +110,8 @@ ENV/
 # mypy
 .mypy_cache/
 
+artifacts/
+
 benchmarks
 lexnlp/extract/en/contracts/data/*.model
 /.pytest_cache/
-

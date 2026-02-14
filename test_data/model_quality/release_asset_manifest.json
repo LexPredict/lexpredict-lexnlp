@@ -1,0 +1,48 @@
+{
+  "models_repo_slug": "LexPredict/lexpredict-lexnlp",
+  "assets": [
+    {
+      "tag": "pipeline/is-contract/0.1",
+      "filename": "pipeline_is_contract_classifier.cloudpickle",
+      "size": 38793969,
+      "sha256": "3acc29e44aed3ca4ac0a7066d96ccc817b3dd9f7df497fefcd057f0f3e1645df"
+    },
+    {
+      "tag": "corpus/contract-types/0.1",
+      "filename": "CONTRACT_TYPES.tar.xz",
+      "size": 16644740,
+      "sha256": "cfdfbd30986eee378fc1740ac2d5838d3cf98d85a95406c524965dc15499216e"
+    },
+    {
+      "tag": "corpus/atticus-cuad-v1-plaintext/0.1",
+      "filename": "atticus_project_cuad_v1_plaintext.tar.xz",
+      "size": 4429792,
+      "sha256": "af71e83e5ec005582643996c5009774aca12a56e7a23dec6e2659fe17a17c924"
+    },
+    {
+      "tag": "corpus/uspto-sample/0.1",
+      "filename": "sample_4500docs_greater-than-2000-characters_100each-year.tar.xz",
+      "size": 5087252,
+      "sha256": "3f58d5c3b4880d5e0d43578c4af9fcdf26f7c969e5ba6d4497836a1a0057a1d0"
+    },
+    {
+      "tag": "corpus/sec-edgar-forms-3-4-5-8k-10k-sample/0.1",
+      "filename": "sec-edgar-forms-3-4-5-8k-10k-sample.tar.xz",
+      "size": 8408080,
+      "sha256": "683c616cb0df43e24316b88ac2d2bf018637db3aa43d3c8e986ee15191c18792"
+    },
+    {
+      "tag": "corpus/arxiv-abstracts-with-agreement/0.1",
+      "filename": "arxiv-metadata-oai-snapshot_abstracts_with_agreement.tar.xz",
+      "size": 19294428,
+      "sha256": "56dc96388b81f64befb60c9ba7d95ce07f00ce388ca0debd435ace2302b98748"
+    },
+    {
+      "tag": "corpus/eurlex-sample-10000/0.1",
+      "filename": "eurlex_epdb_sample_10000.tar.xz",
+      "size": 15290920,
+      "sha256": "e9a759918d2af50460bd9e15e14aca0ee6c9ff0ef37e7f8ff6daa04ef8624e24"
+    }
+  ]
+}
+

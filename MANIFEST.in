@@ -1,11 +1,18 @@
 include README.md
 include README.rst
 include index.rst
-include Pipfile
-include Pipfile.lock
+exclude Pipfile
+exclude Pipfile.lock
+exclude python-requirements.txt
+exclude python-requirements-dev.txt
+exclude python-requirements-full.txt
 recursive-include lexnlp *.pickle
 recursive-include lexnlp/extract/en/addresses *.json *.txt *.xml
 recursive-include lexnlp *.csv
-recursive-include libs *
-recursive-include scripts *
+include libs/download_stanford_nlp.sh
+include libs/download_wiki.sh
+recursive-include scripts *.py *.sh
 recursive-include documentation *
+prune libs/stanford_nlp
+global-exclude __pycache__
+global-exclude *.py[cod]

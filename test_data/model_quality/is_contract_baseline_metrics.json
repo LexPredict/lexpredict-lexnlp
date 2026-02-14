@@ -1,0 +1,11 @@
+{
+  "baseline_tag": "pipeline/is-contract/0.1",
+  "fixture": "test_data/lexnlp/extract/en/contracts/tests/test_contracts/test_is_contract.csv",
+  "metrics": {
+    "accuracy": 1.0,
+    "f1": 1.0,
+    "precision": 1.0,
+    "recall": 1.0
+  },
+  "min_probability": 0.3
+}

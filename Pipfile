@@ -1,3 +1,6 @@
+# DEPRECATED: Legacy pipenv manifest retained only for historical reproduction.
+# Use pyproject.toml + uv.lock for all active development and CI workflows.
+
 [[source]]
 url = "https://pypi.org/simple"
 verify_ssl = true

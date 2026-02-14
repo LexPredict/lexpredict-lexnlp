@@ -12,7 +12,6 @@ __email__ = "support@contraxsuite.com"
 from unittest import TestCase
 
 from nltk.corpus import wordnet
-from nose.tools import assert_list_equal, nottest
 
 from lexnlp.nlp.en.segments.sentences import get_sentence_list
 from lexnlp.nlp.en.tokens import get_adjectives, get_adverbs, get_lemmas, get_lemma_list, get_nouns, \
@@ -30,7 +29,6 @@ Thousand ($40,000.00) Dollars for each calendar month, payable on the first
         self.assertGreater(len(tokens_regex), 50)
 
 
-@nottest
 def run_sentence_token_gen_test(text, result, lowercase=False, stopword=False):
     """
     Base test method to run against text with given results.
@@ -45,10 +43,9 @@ def run_sentence_token_gen_test(text, result, lowercase=False, stopword=False):
     for i, sentence in enumerate(sentence_list):
         tokens = list(lexnlp_tests.benchmark_extraction_func(get_tokens,
                                                              sentence, lowercase=lowercase, stopword=stopword))
-        assert_list_equal(tokens, result[i])
+        assert tokens == result[i]
 
 
-@nottest
 def run_sentence_token_test(text, result, lowercase=False, stopword=False):
     """
     Base test method to run against text with given results.
@@ -63,7 +60,7 @@ def run_sentence_token_test(text, result, lowercase=False, stopword=False):
     for i, sentence in enumerate(sentence_list):
         tokens = lexnlp_tests.benchmark_extraction_func(get_token_list,
                                                         sentence, lowercase=lowercase, stopword=stopword)
-        assert_list_equal(tokens, result[i])
+        assert tokens == result[i]
 
 
 def test_token_gen_example_1():

@@ -13,7 +13,34 @@ import os
 
 USE_STANFORD = os.environ["LEXNLP_USE_STANFORD"].lower() == "true" if "LEXNLP_USE_STANFORD" in os.environ else False
 
-MODELS_REPO: str = "https://api.github.com/repos/LexPredict/lexpredict-lexnlp/releases/tags/"
+DEFAULT_MODELS_REPO_SLUG: str = "LexPredict/lexpredict-lexnlp"
+DEFAULT_MODELS_REPO: str = (
+    f"https://api.github.com/repos/{DEFAULT_MODELS_REPO_SLUG}/releases/tags/"
+)
+
+
+def get_models_repo() -> str:
+    """
+    Base GitHub API URL for LexNLP release tags used by model/corpus downloads.
+
+    Override options:
+    - LEXNLP_MODELS_REPO: full base URL (should end with `/releases/tags/`)
+    - LEXNLP_MODELS_REPO_SLUG: GitHub slug like `owner/repo`
+
+    Note: This returns a *base* URL; callers append the tag name.
+    """
+    url = (os.getenv("LEXNLP_MODELS_REPO") or "").strip()
+    if url:
+        return url if url.endswith("/") else f"{url}/"
+
+    slug = (os.getenv("LEXNLP_MODELS_REPO_SLUG") or "").strip()
+    if slug:
+        return f"https://api.github.com/repos/{slug}/releases/tags/"
+
+    return DEFAULT_MODELS_REPO
+
+
+MODELS_REPO: str = get_models_repo()
 
 
 def get_module_path():

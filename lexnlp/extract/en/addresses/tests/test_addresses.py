@@ -8,7 +8,6 @@ __email__ = "support@contraxsuite.com"
 
 from lexnlp.extract.en.addresses.addresses import get_address_spans, _safe_index
 from lexnlp.tests import lexnlp_tests
-from nose.tools import assert_true, assert_equal
 
 
 def test_get_address():
@@ -18,7 +17,7 @@ def test_get_address():
 
 def test_safe_index():
     actual = _safe_index('hello world', 'world', 1)
-    assert_equal(actual, 6)
+    assert actual == 6
 
 
 def test_safe_index_not_found():
@@ -26,7 +25,7 @@ def test_safe_index_not_found():
         _safe_index('hello world', 'world', 7)
         raise AssertionError('Should raise ValueError before this line')
     except ValueError as e:
-        assert_true('start' in str(e))
+        assert 'start' in str(e)
 
 # def test_bad_cases():
 #    lexnlp_tests.test_extraction_func_on_test_data(get_addresses)

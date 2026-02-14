@@ -229,7 +229,8 @@ def get_titles(text, window_pre=3, window_post=3, score_threshold=0.5) -> Genera
     feature_data = build_document_title_features(text, window_pre, window_post)
 
     # Predict title lines
-    predicted_lines = SECTION_SEGMENTER_MODEL.predict_proba(feature_data)
+    # Avoid pandas dtype deprecation noise in sklearn validation by passing a numpy array.
+    predicted_lines = SECTION_SEGMENTER_MODEL.predict_proba(feature_data.to_numpy())
     predicted_df = pandas.DataFrame(predicted_lines, columns=["prob_false", "prob_true"])
     title_lines = predicted_df.loc[predicted_df["prob_true"] >= score_threshold, :].index.tolist()
 

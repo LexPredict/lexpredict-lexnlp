@@ -1,0 +1,11 @@
+{
+  "baseline_tag": "pipeline/contract-type/0.2-runtime",
+  "fixture": "test_data/lexnlp/extract/en/contracts/tests/test_contracts/test_contract_type.csv",
+  "metrics": {
+    "accuracy_top1": 0.8666666666666667,
+    "accuracy_topn": 1.0,
+    "f1_macro": 0.7,
+    "f1_weighted": 0.91
+  },
+  "top_n": 3
+}

@@ -20,7 +20,6 @@ __email__ = "support@contraxsuite.com"
 import os
 
 # Project imports
-from nose.tools import assert_equal
 from unittest import TestCase
 
 from lexnlp import get_module_path
@@ -41,19 +40,19 @@ class TestSectionSpans(TestCase):
         text = self.get_text('1582586_2015-08-31')
         sections = list(lexnlp_tests.benchmark('get_sections(text)', get_sections, text))
         num_sections = len(sections)
-        assert_equal(num_sections, 23)
+        assert num_sections == 23
 
     def test_file_2(self):
         text = self.get_text('1031296_2004-11-04')
         sections = list(lexnlp_tests.benchmark('get_sections(text)', get_sections, text))
         num_sections = len(sections)
-        assert_equal(num_sections, 11)
+        assert num_sections == 11
 
     def test_file_3(self):
         text = self.get_text('1100644_2016-11-21')
         sections = list(lexnlp_tests.benchmark('get_sections(text)', get_sections, text))
         num_sections = len(sections)
-        assert_equal(num_sections, 72)
+        assert num_sections == 72
 
     def test_file_4_use_ml(self):
         text = self.get_text('test_get_section_spans_1.txt')

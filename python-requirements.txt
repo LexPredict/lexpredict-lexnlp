@@ -1,3 +1,7 @@
+# DEPRECATED: Legacy snapshot retained for historical reproduction only.
+# Use pyproject.toml + uv.lock via:
+#   uv sync --frozen --extra dev --extra test
+
 alabaster==0.7.12
 astroid==2.12.12
 attrs==22.1.0

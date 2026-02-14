@@ -1,0 +1,258 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+  CONTRACT_MODEL_BASELINE_TAG: "pipeline/is-contract/0.1"
+  CONTRACT_MODEL_CANDIDATE_TAG: "pipeline/is-contract/0.1"
+  CONTRACT_MODEL_BASELINE_METRICS: "test_data/model_quality/is_contract_baseline_metrics.json"
+  LEXNLP_CONTRACT_TYPE_MODEL_TAG: "pipeline/contract-type/0.2-runtime"
+  CONTRACT_TYPE_MODEL_BASELINE_METRICS: "test_data/model_quality/contract_type_baseline_metrics.json"
+
+jobs:
+  base-tests:
+    name: Base Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Cache NLTK data
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra dev --extra test
+
+      - name: Bootstrap required assets
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model
+
+      - name: Enforce skip-audit policy
+        run: .venv/bin/python ci/skip_audit.py
+
+      - name: Run base suite
+        run: .venv/bin/pytest lexnlp
+
+  stanford-tests:
+    name: Stanford Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Cache NLTK data
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "11"
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra dev --extra test
+
+      - name: Bootstrap required assets (including Stanford)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model --stanford
+
+      - name: Run Stanford suite
+        env:
+          LEXNLP_USE_STANFORD: "true"
+        run: |
+          .venv/bin/pytest \
+            lexnlp/nlp/en/tests/test_stanford.py \
+            lexnlp/extract/en/entities/tests/test_stanford_ner.py
+
+  model-quality:
+    name: Model Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Cache NLTK data
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra test
+
+      - name: Bootstrap contract-model asset
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model
+
+      - name: Run contract model quality gate
+        run: |
+          .venv/bin/python scripts/model_quality_gate.py \
+            --baseline-tag "${CONTRACT_MODEL_BASELINE_TAG}" \
+            --candidate-tag "${CONTRACT_MODEL_CANDIDATE_TAG}" \
+            --baseline-metrics-json "${CONTRACT_MODEL_BASELINE_METRICS}" \
+            --output-json artifacts/model_quality_gate.json \
+            --max-f1-regression 0.0 \
+            --max-accuracy-regression 0.0
+
+      - name: Upload quality-gate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-quality-gate
+          path: artifacts/model_quality_gate.json
+          if-no-files-found: error
+
+  contract-type-smoke:
+    name: Contract Type Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Cache NLTK data
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra test
+
+      - name: Bootstrap runtime contract-type model
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --contract-type-model
+
+      - name: Run contract-type predictor smoke
+        run: |
+          .venv/bin/python - <<'PY'
+          from lexnlp.extract.en.contracts.predictors import ProbabilityPredictorContractType
+          predictor = ProbabilityPredictorContractType()
+          predictions = predictor.make_predictions(
+              "This Employment Agreement is entered into on January 1, 2024.",
+              top_n=3,
+          )
+          assert len(predictions) > 0
+          print(predictions.to_dict())
+          PY
+
+      - name: Run contract-type quality gate
+        run: |
+          .venv/bin/python scripts/contract_type_quality_gate.py \
+            --baseline-tag "${LEXNLP_CONTRACT_TYPE_MODEL_TAG}" \
+            --candidate-tag "${LEXNLP_CONTRACT_TYPE_MODEL_TAG}" \
+            --baseline-metrics-json "${CONTRACT_TYPE_MODEL_BASELINE_METRICS}" \
+            --output-json artifacts/contract_type_quality_gate.json \
+            --max-accuracy-top1-regression 0.0 \
+            --max-accuracy-topn-regression 0.0 \
+            --max-f1-macro-regression 0.0 \
+            --max-f1-weighted-regression 0.0
+
+      - name: Upload contract-type quality-gate result
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-type-quality-gate
+          path: artifacts/contract_type_quality_gate.json
+          if-no-files-found: error
+
+  packaging-smoke:
+    name: Packaging Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Build source and wheel artifacts
+        run: |
+          uv build
+
+      - name: Validate artifact contents
+        run: python3 ci/check_dist_contents.py
+
+      - name: Install wheel in clean env
+        run: |
+          uv venv .venv-smoke --python "${PYTHON_VERSION}"
+          uv pip install --python .venv-smoke/bin/python dist/*.whl
+          .venv-smoke/bin/python - <<'PY'
+          import lexnlp
+          print(getattr(lexnlp, "__version__", "unknown"))
+          PY

@@ -176,7 +176,8 @@ def get_pages(text, window_pre=3, window_post=3, score_threshold=0.5) -> Generat
                                                      include_doc=doc_distribution))
     column_names.sort()
     test_feature_df = pandas.DataFrame(test_feature_data, columns=column_names).fillna(-1)
-    test_predicted_lines = PAGE_SEGMENTER_MODEL.predict_proba(test_feature_df)
+    # Avoid pandas dtype deprecation noise in sklearn validation by passing a numpy array.
+    test_predicted_lines = PAGE_SEGMENTER_MODEL.predict_proba(test_feature_df.to_numpy(dtype=float))
     predicted_df = pandas.DataFrame(test_predicted_lines, columns=['prob_false', 'prob_true'])
     page_breaks = predicted_df.loc[predicted_df['prob_true'] >= score_threshold, :].index.tolist()
 

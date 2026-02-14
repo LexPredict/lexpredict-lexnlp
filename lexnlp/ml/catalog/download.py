@@ -11,6 +11,7 @@ __email__ = "support@contraxsuite.com"
 
 # standard library
 import logging
+import os
 from pathlib import Path
 from hashlib import md5
 from base64 import b64encode
@@ -23,19 +24,38 @@ from requests import get, Response
 from requests.structures import CaseInsensitiveDict
 
 # LexNLP
-from lexnlp import MODELS_REPO
+from lexnlp import get_models_repo
 from lexnlp.ml.catalog import CATALOG
 
 
-logging.basicConfig(
-    format='[LexNLP][%(asctime)s][%(levelname)s]: %(message)s',
-    level=logging.INFO
-)
-LOGGER: logging.Logger = logging.getLogger()
+LOGGER: logging.Logger = logging.getLogger(__name__)
+
+DEFAULT_GITHUB_TIMEOUT_SECONDS = 60.0
+
+
+def _get_github_timeout_seconds() -> float:
+    raw = (os.getenv("LEXNLP_GITHUB_TIMEOUT") or "").strip()
+    if not raw:
+        return DEFAULT_GITHUB_TIMEOUT_SECONDS
+    try:
+        return float(raw)
+    except ValueError:
+        return DEFAULT_GITHUB_TIMEOUT_SECONDS
 
 
 class ChecksumError(Exception):
     pass
+
+
+def _build_github_headers(headers: Dict[str, str]) -> Dict[str, str]:
+    """
+    Augment request headers with an optional GitHub token for higher API limits.
+    """
+    token: str = (os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN") or "").strip()
+    merged_headers: Dict[str, str] = dict(headers)
+    if token:
+        merged_headers["Authorization"] = f"Bearer {token}"
+    return merged_headers
 
 
 class GitHubReleaseDownloader:
@@ -51,12 +71,15 @@ class GitHubReleaseDownloader:
 
     @staticmethod
     def get_tag(tag: str) -> Response:
+        models_repo = get_models_repo()
         response: Response = get(
-            url=f'{MODELS_REPO}{tag}',
-            headers={
+            url=f'{models_repo}{tag}',
+            headers=_build_github_headers({
                 'Accept': 'application/vnd.github.v3+json',
-            },
+            }),
+            timeout=_get_github_timeout_seconds(),
         )
+        response.raise_for_status()
         return response
 
     @staticmethod
@@ -122,10 +145,12 @@ class GitHubReleaseDownloader:
         response: Response = get(
             url=asset['url'],
             stream=True,
-            headers={
+            headers=_build_github_headers({
                 'Accept': 'application/octet-stream',
-            },
+            }),
+            timeout=_get_github_timeout_seconds(),
         )
+        response.raise_for_status()
         headers: CaseInsensitiveDict[str, Any] = response.headers
         name: str = asset.get('name')
         content_length: int = int(headers.get('Content-Length', asset.get('size', 0)))
@@ -224,7 +249,8 @@ def download_github_release(tag: str, prompt_user: bool = True) -> None:
         return '{:3.2f} {}B'.format(value, ('', 'Ki', 'Mi', 'Gi')[magnitude])
 
     if prompt_user:
-        answer_download = _input_yes_no(f'Download `{tag}` from {MODELS_REPO}? [Y/n]')
+        models_repo = get_models_repo()
+        answer_download = _input_yes_no(f'Download `{tag}` from {models_repo}? [Y/n]')
         if answer_download:
             asset: Dict[str, Any] = _get_asset()
             try:

@@ -75,8 +75,27 @@ terms or a non-GPL evaluation license by contacting ContraxSuite Licensing at
 Requirements
 ------------
 
--  Python 3.8
--  pipenv
+-  Python 3.11 (default; supported range is defined in ``pyproject.toml``)
+-  ``uv``
+
+Quick Setup (uv + pyproject)
+----------------------------
+
+.. code:: bash
+
+   cd /Users/jackeames/Downloads/LexNLP
+   uv python install 3.11
+   uv venv --python 3.11 .venv
+   uv pip install --python .venv/bin/python -e ".[dev,test]"
+   ./.venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model
+
+Deprecated Setup Variants
+-------------------------
+
+``Pipfile``, ``python-requirements.txt``, ``python-requirements-dev.txt``,
+and ``python-requirements-full.txt`` are deprecated and kept only for
+legacy reproduction. New development and CI updates should use ``uv`` with
+``pyproject.toml``.
 
 Releases
 --------

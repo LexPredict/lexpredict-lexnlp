@@ -1,0 +1,65 @@
+name: Asset Drift Check
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.11"
+
+jobs:
+  drift:
+    name: Verify Model/Corpus Release Assets
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python
+
+      - name: Download + verify pinned release assets
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          .venv/bin/python scripts/asset_drift_check.py --force-download
+
+      - name: Run contract model quality gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          .venv/bin/python scripts/model_quality_gate.py \
+            --baseline-tag pipeline/is-contract/0.1 \
+            --candidate-tag pipeline/is-contract/0.1 \
+            --baseline-metrics-json test_data/model_quality/is_contract_baseline_metrics.json \
+            --max-accuracy-regression 0.0 \
+            --max-f1-regression 0.0
+
+      - name: Run contract-type quality gate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          .venv/bin/python scripts/contract_type_quality_gate.py \
+            --baseline-tag pipeline/contract-type/0.2-runtime \
+            --candidate-tag pipeline/contract-type/0.2-runtime \
+            --baseline-metrics-json test_data/model_quality/contract_type_baseline_metrics.json \
+            --max-accuracy-top1-regression 0.0 \
+            --max-accuracy-topn-regression 0.0 \
+            --max-f1-macro-regression 0.0 \
+            --max-f1-weighted-regression 0.0
+

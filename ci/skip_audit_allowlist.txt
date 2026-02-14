@@ -1,0 +1,12 @@
+# Grandfathered skip markers for pytest.
+# Formats (one per line):
+# - Preferred (stable): path:marker:sha256=<hex12>
+#   - resilient to unrelated line movements
+#   - <hex12> is the first 12 chars of sha256(normalized marker expression)
+#   - get keys via: `python ci/skip_audit.py --print-markers`
+# - Legacy (deprecated): path:line:marker
+#
+# Prefer annotations near the marker:
+#   skip-audit: issue=<link-or-id> expires=YYYY-MM-DD
+#
+# This file is reserved for rare cases where annotation is not feasible.

@@ -1,3 +1,7 @@
+# DEPRECATED: Legacy snapshot retained for historical reproduction only.
+# Use pyproject.toml + uv.lock via:
+#   uv sync --frozen --extra dev --extra test
+
 beautifulsoup4==4.11.1
 cloudpickle==2.1.0
 dateparser==1.1.1

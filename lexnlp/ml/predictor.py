@@ -10,6 +10,7 @@ __email__ = "support@contraxsuite.com"
 
 
 # standard library
+import os
 from pathlib import Path
 from abc import ABC, abstractmethod
 from typing import Any, Optional, Protocol, runtime_checkable
@@ -56,6 +57,7 @@ class ProbabilityPredictor(ABC):
     """
 
     _DEFAULT_PIPELINE: str = NotImplemented
+    _DEFAULT_PIPELINE_ENV_VAR: Optional[str] = None
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -84,11 +86,31 @@ class ProbabilityPredictor(ABC):
                 f'does not follow the `ScikitLearnHasPredictProba` protocol.'
             )
 
+        self._patch_legacy_estimator_attributes()
+
         # Fix AttributeError: 'MinMaxScaler' object has no attribute 'clip'
         for _, name, transform in self.pipeline._iter(with_final=False):
             transform.clip = hasattr(transform, 'clip') and transform.clip
 
         self._sanity_check()
+
+    def _patch_legacy_estimator_attributes(self) -> None:
+        """
+        Patch known attribute-renames for old serialized Scikit-Learn estimators.
+
+        LexNLP bundles model artifacts trained on older Scikit-Learn versions.
+        Newer runtimes may rename fitted attributes and break inference unless
+        we provide compatible aliases.
+        """
+        estimator = self.pipeline._final_estimator
+
+        # sklearn.naive_bayes.GaussianNB previously persisted `sigma_` and now
+        # expects `var_`/`variance_` in prediction paths.
+        if hasattr(estimator, "sigma_"):
+            if not hasattr(estimator, "var_"):
+                estimator.var_ = estimator.sigma_
+            if not hasattr(estimator, "variance_"):
+                estimator.variance_ = estimator.var_
 
     @abstractmethod
     def _sanity_check(self) -> None:
@@ -98,6 +120,21 @@ class ProbabilityPredictor(ABC):
         raise NotImplementedError
 
     @classmethod
+    def get_default_pipeline_tag(cls) -> str:
+        """
+        Resolve the pipeline tag for this predictor class.
+
+        Returns:
+            Pipeline catalog tag, optionally overridden by an environment variable.
+        """
+        env_var = cls._DEFAULT_PIPELINE_ENV_VAR
+        if env_var:
+            value = os.getenv(env_var, "").strip()
+            if value:
+                return value
+        return cls._DEFAULT_PIPELINE
+
+    @classmethod
     def get_default_pipeline(cls) -> Pipeline:
         """
         Gets the default Scikit-Learn Pipeline for usage with this ProbabilityPredictor.
@@ -105,6 +142,6 @@ class ProbabilityPredictor(ABC):
         Returns:
             A default Scikit-Learn Pipeline for usage with this ProbabilityPredictor.
         """
-        path: Path = get_path_from_catalog(cls._DEFAULT_PIPELINE)
+        path: Path = get_path_from_catalog(cls.get_default_pipeline_tag())
         with open(path, 'rb') as f:
             return load(f)
