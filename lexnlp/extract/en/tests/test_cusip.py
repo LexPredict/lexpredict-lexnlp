@@ -84,6 +84,14 @@ class TestGetCUSIP(AssertionMixin):
         res = get_cusip_list(text)
         self.assertEqual(res, [])
 
+    def test_typed_annotation_serializes_text_and_checksum(self):
+        annotation = list(get_cusip_annotations('This is 837649128.'))[0]
+        tags = annotation.to_dictionary()['tags']
+
+        self.assertEqual('837649128', annotation.text)
+        self.assertEqual('837649128', annotation.get_extracted_text('This is 837649128.'))
+        self.assertEqual(8, tags['Extracted Entity Checksum'])
+
     def test_file_samples(self):
         tester = TypedAnnotationsTester()
         tester.test_and_raise_errors(

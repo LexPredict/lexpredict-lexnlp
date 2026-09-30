@@ -1,0 +1,558 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+permissions:
+  contents: read
+
+env:
+  PYTHON_VERSION: "3.12"
+  CONTRACT_MODEL_BASELINE_TAG: "pipeline/is-contract/0.1"
+  CONTRACT_MODEL_CANDIDATE_TAG: "pipeline/is-contract/0.2"
+  LEXNLP_IS_CONTRACT_MODEL_TAG: "pipeline/is-contract/0.2"
+  CONTRACT_MODEL_BASELINE_METRICS: "test_data/model_quality/is_contract_baseline_metrics.json"
+  LEXNLP_CONTRACT_TYPE_MODEL_TAG: "pipeline/contract-type/0.2-runtime"
+  CONTRACT_TYPE_MODEL_BASELINE_METRICS: "test_data/model_quality/contract_type_baseline_metrics.json"
+
+jobs:
+  base-tests:
+    name: Base Tests (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    env:
+      PYTHON_VERSION: ${{ matrix.python-version }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Cache NLTK data
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra dev --extra test
+
+      - name: Bootstrap required assets
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model
+
+      - name: Enforce skip-audit policy
+        run: .venv/bin/python ci/skip_audit.py
+
+      - name: Validate bundled model compatibility
+        run: .venv/bin/python scripts/reexport_bundled_sklearn_models.py --check-current
+
+      - name: Run required runtime and import lint
+        run: .venv/bin/ruff check lexnlp scripts ci --select E4,E7,E9,F
+
+      - name: Run base suite
+        run: .venv/bin/python -m pytest lexnlp scripts/tests
+
+  documentation:
+    name: Documentation (Warnings Fatal)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Install locked documentation dependencies
+        run: |
+          uv sync --frozen --python "${PYTHON_VERSION}" --extra docs
+
+      - name: Build documentation with warnings fatal
+        run: |
+          .venv/bin/sphinx-build -W --keep-going -b html \
+            documentation/docs/source "${RUNNER_TEMP}/sphinx-html"
+
+  cross-platform-smoke:
+    name: ${{ matrix.os }} / Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        python-version: ["3.10", "3.13"]
+    env:
+      PYTHON_VERSION: ${{ matrix.python-version }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Install and import compiled runtime dependencies
+        run: |
+          uv sync --frozen --python "${PYTHON_VERSION}"
+          uv pip check
+          uv run --frozen --python "${PYTHON_VERSION}" python -c \
+            "import gensim, lxml.etree, numpy, pandas, regex, scipy, sklearn; import lexnlp; print(lexnlp.__version__)"
+          uv run --frozen --python "${PYTHON_VERSION}" python -c \
+            "from pathlib import PureWindowsPath; from lexnlp.ml.catalog import _catalog_tag; root = PureWindowsPath('C:/nltk_data/lexpredict-lexnlp'); asset = root / 'pipeline/is-contract/0.2/model.cloudpickle'; assert _catalog_tag(asset, root) == 'pipeline/is-contract/0.2'"
+          uv build --python "${PYTHON_VERSION}"
+        shell: bash
+
+  minimum-dependencies:
+    name: Minimum Dependency Bounds
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Install direct dependency lower bounds
+        run: |
+          uv venv .venv-min --python "${PYTHON_VERSION}"
+          uv pip install \
+            --python .venv-min/bin/python \
+            --resolution lowest-direct \
+            -e ".[test]"
+
+      - name: Bootstrap required assets
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          .venv-min/bin/python scripts/bootstrap_assets.py \
+            --nltk \
+            --contract-model \
+            --contract-type-model
+
+      - name: Validate bundled model compatibility
+        run: .venv-min/bin/python scripts/reexport_bundled_sklearn_models.py --check-current
+
+      - name: Direct-load external models at lower bounds
+        run: |
+          .venv-min/bin/python - <<'PY'
+          from lexnlp.extract.en.contracts.predictors import (
+              ProbabilityPredictorContractType,
+              ProbabilityPredictorIsContract,
+          )
+
+          is_contract = ProbabilityPredictorIsContract()
+          result = is_contract.is_contract(
+              "This Employment Agreement is entered into on January 1, 2024.",
+              return_probability=True,
+          )
+          assert len(result) == 2
+
+          contract_type = ProbabilityPredictorContractType()
+          predictions = contract_type.make_predictions(
+              "This Employment Agreement is entered into on January 1, 2024.",
+              top_n=3,
+          )
+          assert not predictions.empty
+          PY
+
+      - name: Run external model quality gates at lower bounds
+        run: |
+          .venv-min/bin/python scripts/model_quality_gate.py \
+            --baseline-tag "${CONTRACT_MODEL_BASELINE_TAG}" \
+            --candidate-tag "${CONTRACT_MODEL_CANDIDATE_TAG}" \
+            --baseline-metrics-json "${CONTRACT_MODEL_BASELINE_METRICS}" \
+            --max-accuracy-regression 0.0 \
+            --max-f1-regression 0.0
+          .venv-min/bin/python scripts/contract_type_quality_gate.py \
+            --baseline-tag "${LEXNLP_CONTRACT_TYPE_MODEL_TAG}" \
+            --candidate-tag "${LEXNLP_CONTRACT_TYPE_MODEL_TAG}" \
+            --baseline-metrics-json "${CONTRACT_TYPE_MODEL_BASELINE_METRICS}" \
+            --max-accuracy-top1-regression 0.0 \
+            --max-accuracy-topn-regression 0.0 \
+            --max-f1-macro-regression 0.0 \
+            --max-f1-weighted-regression 0.0
+
+      - name: Run base suite at lower bounds
+        run: .venv-min/bin/python -m pytest lexnlp scripts/tests
+
+  supply-chain:
+    name: Dependency Audit and SBOM
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Install audit tooling from lock
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra audit
+
+      - name: Export locked runtime dependency set
+        run: |
+          mkdir -p artifacts
+          uv export \
+            --quiet \
+            --format requirements.txt \
+            --no-dev \
+            --no-hashes \
+            --no-emit-project \
+            --frozen \
+            --output-file artifacts/runtime-requirements.txt
+
+      - name: Run strict dependency audit and retain every finding
+        id: dependency-audit
+        continue-on-error: true
+        run: |
+          rm -f artifacts/pip-audit.json artifacts/pip-audit.exit-code
+          set +e
+          .venv/bin/pip-audit \
+            --requirement artifacts/runtime-requirements.txt \
+            --strict \
+            --progress-spinner off \
+            --cache-dir "${RUNNER_TEMP}/pip-audit-cache" \
+            --format json \
+            --output artifacts/pip-audit.json
+          audit_exit_code=$?
+          printf '%s\n' "${audit_exit_code}" > artifacts/pip-audit.exit-code
+          exit "${audit_exit_code}"
+
+      - name: Enforce complete audit and reviewed product applicability
+        id: audit-gate
+        continue-on-error: true
+        run: |
+          .venv/bin/python ci/check_dependency_audit.py \
+            --audit-json artifacts/pip-audit.json \
+            --audit-exit-code-file artifacts/pip-audit.exit-code \
+            --requirements artifacts/runtime-requirements.txt \
+            --output artifacts/dependency-audit-gate.json
+
+      - name: Generate CycloneDX SBOM
+        id: generate-sbom
+        continue-on-error: true
+        run: |
+          uv export \
+            --quiet \
+            --preview-features sbom-export \
+            --format cyclonedx1.5 \
+            --no-dev \
+            --frozen \
+            --output-file artifacts/lexnlp-sbom.cdx.json
+          python -m json.tool artifacts/lexnlp-sbom.cdx.json > /dev/null
+
+      - name: Upload supply-chain artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: supply-chain
+          path: |
+            artifacts/runtime-requirements.txt
+            artifacts/pip-audit.json
+            artifacts/pip-audit.exit-code
+            artifacts/dependency-audit-gate.json
+            artifacts/lexnlp-sbom.cdx.json
+            ci/dependency_audit_exceptions.json
+          if-no-files-found: error
+
+      - name: Enforce supply-chain results
+        if: always()
+        env:
+          AUDIT_OUTCOME: ${{ steps.dependency-audit.outcome }}
+          AUDIT_GATE_OUTCOME: ${{ steps.audit-gate.outcome }}
+          SBOM_OUTCOME: ${{ steps.generate-sbom.outcome }}
+        run: |
+          echo "Raw strict dependency audit outcome: ${AUDIT_OUTCOME}"
+          if [ "${AUDIT_GATE_OUTCOME}" != "success" ] || [ "${SBOM_OUTCOME}" != "success" ]; then
+            echo "Dependency applicability gate outcome: ${AUDIT_GATE_OUTCOME}"
+            echo "SBOM generation outcome: ${SBOM_OUTCOME}"
+            exit 1
+          fi
+
+  stanford-tests:
+    name: Stanford Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Cache NLTK data
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Set up Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: temurin
+          java-version: "11"
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra dev --extra test
+
+      - name: Bootstrap verified assets (including Stanford)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model --stanford
+
+      - name: Run Stanford suite
+        env:
+          LEXNLP_USE_STANFORD: "true"
+        run: |
+          .venv/bin/pytest \
+            lexnlp/nlp/en/tests/test_stanford.py \
+            lexnlp/extract/en/entities/tests/test_stanford_ner.py
+
+  model-quality:
+    name: Model Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Cache NLTK data
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra test
+
+      - name: Bootstrap contract-model asset
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --nltk --contract-model
+
+      - name: Run contract model quality gate
+        run: |
+          .venv/bin/python scripts/model_quality_gate.py \
+            --baseline-tag "${CONTRACT_MODEL_BASELINE_TAG}" \
+            --candidate-tag "${CONTRACT_MODEL_CANDIDATE_TAG}" \
+            --baseline-metrics-json "${CONTRACT_MODEL_BASELINE_METRICS}" \
+            --output-json artifacts/model_quality_gate.json \
+            --max-f1-regression 0.0 \
+            --max-accuracy-regression 0.0
+
+      - name: Upload quality-gate result
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: model-quality-gate
+          path: artifacts/model_quality_gate.json
+          if-no-files-found: error
+
+  contract-type-smoke:
+    name: Contract Type Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Cache NLTK data
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: |
+            ~/nltk_data
+          key: nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-${{ hashFiles('uv.lock') }}
+          restore-keys: |
+            nltk-data-${{ runner.os }}-py${{ env.PYTHON_VERSION }}-
+
+      - name: Install dependencies
+        run: |
+          uv venv .venv --python "${PYTHON_VERSION}"
+          uv sync --frozen --python .venv/bin/python --extra test
+
+      - name: Bootstrap runtime contract-type model
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .venv/bin/python scripts/bootstrap_assets.py --contract-type-model
+
+      - name: Run contract-type predictor smoke
+        run: |
+          .venv/bin/python - <<'PY'
+          from lexnlp.extract.en.contracts.predictors import ProbabilityPredictorContractType
+          predictor = ProbabilityPredictorContractType()
+          predictions = predictor.make_predictions(
+              "This Employment Agreement is entered into on January 1, 2024.",
+              top_n=3,
+          )
+          assert len(predictions) > 0
+          print(predictions.to_dict())
+          PY
+
+      - name: Run contract-type quality gate
+        run: |
+          .venv/bin/python scripts/contract_type_quality_gate.py \
+            --baseline-tag "${LEXNLP_CONTRACT_TYPE_MODEL_TAG}" \
+            --candidate-tag "${LEXNLP_CONTRACT_TYPE_MODEL_TAG}" \
+            --baseline-metrics-json "${CONTRACT_TYPE_MODEL_BASELINE_METRICS}" \
+            --output-json artifacts/contract_type_quality_gate.json \
+            --max-accuracy-top1-regression 0.0 \
+            --max-accuracy-topn-regression 0.0 \
+            --max-f1-macro-regression 0.0 \
+            --max-f1-weighted-regression 0.0
+
+      - name: Upload contract-type quality-gate result
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: contract-type-quality-gate
+          path: artifacts/contract_type_quality_gate.json
+          if-no-files-found: error
+
+  packaging-smoke:
+    name: Packaging Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.12.0"
+          prune-cache: true
+
+      - name: Install locked packaging tooling
+        run: uv sync --frozen --python "${PYTHON_VERSION}" --extra dev
+
+      - name: Build source and wheel artifacts
+        run: |
+          uv build
+
+      - name: Validate distribution metadata
+        run: .venv/bin/twine check dist/*.whl dist/*.tar.gz
+
+      - name: Validate artifact contents
+        run: python3 ci/check_dist_contents.py
+
+      - name: Install and validate wheel in clean environment
+        run: |
+          uv venv "${RUNNER_TEMP}/venv-wheel" --python "${PYTHON_VERSION}"
+          uv pip install --python "${RUNNER_TEMP}/venv-wheel/bin/python" dist/*.whl
+          cd "${RUNNER_TEMP}"
+          "${RUNNER_TEMP}/venv-wheel/bin/python" \
+            "${GITHUB_WORKSPACE}/ci/check_dist_contents.py" \
+            --source-root "${GITHUB_WORKSPACE}" \
+            --installed
+          "${RUNNER_TEMP}/venv-wheel/bin/python" -c \
+            'import lexnlp; print(lexnlp.__version__)'
+
+      - name: Install and validate sdist in clean environment
+        run: |
+          uv venv "${RUNNER_TEMP}/venv-sdist" --python "${PYTHON_VERSION}"
+          uv pip install --python "${RUNNER_TEMP}/venv-sdist/bin/python" dist/*.tar.gz
+          cd "${RUNNER_TEMP}"
+          "${RUNNER_TEMP}/venv-sdist/bin/python" \
+            "${GITHUB_WORKSPACE}/ci/check_dist_contents.py" \
+            --source-root "${GITHUB_WORKSPACE}" \
+            --installed
+          "${RUNNER_TEMP}/venv-sdist/bin/python" -c \
+            'import lexnlp; print(lexnlp.__version__)'

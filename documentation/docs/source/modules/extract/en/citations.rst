@@ -1,8 +1,8 @@
 .. _extract_en_citations:
 
-============
+========================================================
 :mod:`lexnlp.extract.en.citations`: Extracting citations
-============
+========================================================
 
 The :mod:`lexnlp.extract.en.citations` module contains methods that allow for the extraction
 of citations from text.  Sample citations that are covered by this module include:
@@ -26,7 +26,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 .. currentmodule:: lexnlp.extract.en.citations
 
 Extracting citations
-----------------
+--------------------
 .. autofunction:: get_citations
 
 Example ::

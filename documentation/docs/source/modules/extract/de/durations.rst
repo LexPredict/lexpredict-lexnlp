@@ -1,8 +1,8 @@
 .. _extract_de_durations:
 
-============
+========================================================
 :mod:`lexnlp.extract.de.durations`: Extracting durations
-============
+========================================================
 
 The :mod:`lexnlp.extract.de.durations` module contains methods that allow for the extraction
 of durations from text for "DE" locale.  Sample durations that are covered by this module include:
@@ -21,7 +21,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/de/te
 .. currentmodule:: lexnlp.extract.de.durations
 
 Extracting durations
-----------------
+--------------------
 .. autofunction:: get_duration_list
 
 Example ::

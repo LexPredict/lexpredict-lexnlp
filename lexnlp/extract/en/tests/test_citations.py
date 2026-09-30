@@ -18,7 +18,8 @@ __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-from lexnlp.extract.en.citations import get_citations
+from lexnlp.extract.common.annotations.citation_annotation import CitationAnnotation
+from lexnlp.extract.en.citations import get_citation_annotations, get_citations
 from lexnlp.tests import lexnlp_tests
 from lexnlp.tests.dictionary_comparer import DictionaryComparer
 
@@ -66,3 +67,30 @@ def test_get_citations_as_dict():
     if errors:
         errors_str = '\n'.join(errors)
         raise Exception('Citations test has errors:\n' + errors_str)
+
+
+def test_citation_annotation_has_exact_source_span():
+    text = 'See 1 F.2d 1, 2-5 (2d Cir., 1982).'
+    expected_source = '1 F.2d 1, 2-5 (2d Cir., 1982)'
+    expected_start = text.index(expected_source)
+    annotation = list(get_citation_annotations(text))[0]
+
+    assert annotation.coords == (
+        expected_start,
+        expected_start + len(expected_source),
+    )
+    assert annotation.text == expected_source
+    assert text[slice(*annotation.coords)] == annotation.text
+
+
+def test_citation_serializes_source_and_court_without_reporter():
+    annotation = CitationAnnotation(
+        coords=(0, 4),
+        text='test',
+        source='test',
+        court='High Court',
+    )
+
+    tags = annotation.to_dictionary()['tags']
+    assert tags['Extracted Entity Source'] == 'test'
+    assert tags['Extracted Entity Court'] == 'High Court'

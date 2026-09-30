@@ -15,13 +15,10 @@ Public functions:
 `download_github_release(tag: str, prompt_user: bool = True) -> None`
 
     Downloads a GitHub release from the release repository, optionally confirming
-    download behavior with a human user.
+    download behavior with a human user. This legacy API always returns `None`.
 
     If `prompt_user == True`:
-        1. Prompt user for download [Y/n]
-        2. If [Y], fetch file size
-        3. Ask user if downloading file size is acceptable [Y/n]
-        4. If [Y], download file
+        Prompt once with the manifest-pinned file size before downloading.
 
     Args:
         tag (str):
@@ -29,7 +26,22 @@ Public functions:
         prompt_user (bool=True):
             Whether to prompt the user before downloading.
 
+`download_github_release_to_path(tag: str, *, manifest_path=None, force=False) -> Path`
+
+    Downloads and verifies a release without prompting, returning its installed
+    path. Set `force=True` when the remote bytes must be fetched and checked even
+    if a verified local copy already exists.
+
 Downloaded files are written to the `CATALOG` directory.
+Configure the release repository with `LEXNLP_MODELS_REPO` or
+`LEXNLP_MODELS_REPO_SLUG`. Assigning the legacy `lexnlp.MODELS_REPO` or
+`lexnlp.ml.catalog.download.MODELS_REPO` variable remains supported when
+neither environment override is set.
+
+Runtime-generated model candidates are stored under the private
+`_local-candidates/` catalog namespace. Catalog lookup can use such a candidate
+when the corresponding reviewed release is unavailable, but local bytes never
+occupy the manifest-pinned release directory.
 
 ---
 
@@ -103,4 +115,3 @@ Scikit-Learn transformers for usage in Scikit-Learn Pipelines. Read more here: h
 ### `lexnlp.ml.vectorizers`
 
 Classes in this module form vector representations of strings.
-

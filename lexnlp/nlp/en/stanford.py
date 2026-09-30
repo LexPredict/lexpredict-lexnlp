@@ -16,14 +16,11 @@ __email__ = "support@contraxsuite.com"
 import os
 from typing import Generator, List
 
-# NLTK imports
-from nltk.tag import StanfordPOSTagger
-from nltk.tokenize.stanford import StanfordTokenizer
-
 # Project imports
 from lexnlp import is_stanford_enabled
 from lexnlp.nlp.en.tokens import STOPWORDS, get_lemma_list
 from lexnlp.config.stanford import STANFORD_POS_PATH
+from lexnlp.utils.stanford import StanfordPOSTagger, StanfordTokenizer
 
 
 # Setup Stanford POS configuration

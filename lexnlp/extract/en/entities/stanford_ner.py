@@ -22,12 +22,11 @@ import string
 
 from typing import Generator
 
-from nltk.tag import StanfordNERTagger
-
 from lexnlp.config.stanford import STANFORD_NER_PATH
 from lexnlp.extract.en.utils import strip_unicode_punctuation
 from lexnlp.nlp.en.segments.sentences import get_sentence_list
 from lexnlp.nlp.en.stanford import get_tokens_list
+from lexnlp.utils.stanford import StanfordNERTagger
 
 
 # Setup Stanford NER configuration
@@ -65,7 +64,7 @@ def get_persons(text, strict=False, return_source=False, window=2) -> Generator:
     # Iterate through sentences
     for sentence in get_sentence_list(text):
         # Tag sentence
-        sentence_pos = STANFORD_NER_TAGGER.tag(get_tokens_list(text))
+        sentence_pos = STANFORD_NER_TAGGER.tag(get_tokens_list(sentence))
 
         # Iterate through chunks
         names = []
@@ -105,7 +104,7 @@ def get_organizations(text, strict=False, return_source=False, window=2) -> Gene
     # Iterate through sentences
     for sentence in get_sentence_list(text):
         # Tag sentence
-        sentence_pos = STANFORD_NER_TAGGER.tag(get_tokens_list(text))
+        sentence_pos = STANFORD_NER_TAGGER.tag(get_tokens_list(sentence))
 
         # Iterate through chunks
         orgs = []
@@ -145,7 +144,7 @@ def get_locations(text, strict=False, return_source=False, window=2) -> Generato
     # Iterate through sentences
     for sentence in get_sentence_list(text):
         # Tag sentence
-        sentence_pos = STANFORD_NER_TAGGER.tag(get_tokens_list(text))
+        sentence_pos = STANFORD_NER_TAGGER.tag(get_tokens_list(sentence))
 
         # Iterate through chunks
         locations = []

@@ -7,6 +7,7 @@ __email__ = "support@contraxsuite.com"
 
 
 from unittest import TestCase
+from unittest.mock import patch
 
 from lexnlp.extract.common.annotations.ratio_annotation import RatioAnnotation
 from lexnlp.extract.en.ratios import get_ratios, get_ratio_annotations
@@ -31,6 +32,25 @@ class TestRatiosPlain(TestCase):
         text = "Ratio of not greater than 3/1.."
         ants = list(get_ratio_annotations(text))
         self.assertEqual(1, len(ants))
+
+    @patch(
+        'lexnlp.extract.en.amounts.get_np',
+        side_effect=AssertionError('ratio parsing must not invoke NLP unit expansion'),
+    )
+    @patch(
+        'lexnlp.extract.en.amounts.nltk.word_tokenize',
+        side_effect=AssertionError('ratio parsing must not invoke NLTK tokenization'),
+    )
+    def test_ratios_do_not_require_nltk_unit_expansion(
+        self,
+        word_tokenize,
+        get_np,
+    ):
+        ants = list(get_ratio_annotations("Ratio of 3.0:1.5."))
+        self.assertEqual(1, len(ants))
+        self.assertEqual(2, ants[0].ratio)
+        word_tokenize.assert_not_called()
+        get_np.assert_not_called()
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

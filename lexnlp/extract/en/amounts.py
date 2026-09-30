@@ -319,7 +319,7 @@ def quantize_by_float_digit(amount: Decimal, float_digits: int) -> Decimal:
                 return amount.quantize(Decimal(f'0.{"0" * float_digits}'))
             return amount.quantize(Decimal('0.0'))
         return amount
-    except InvalidOperation as invalid_operation:
+    except InvalidOperation:
         # TODO: fix this problem in a better way later
         # raise InvalidOperation(
         #     f'{amount=}, {float_digits=}, {getcontext().prec=}'
@@ -400,7 +400,7 @@ def get_amount_annotations(
             continue
         try:
             amount: Optional[Decimal] = text2num(found_item)
-        except:
+        except Exception:
             continue
         if amount is None:
             continue

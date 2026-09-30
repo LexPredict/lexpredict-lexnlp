@@ -10,7 +10,7 @@ from unittest import TestCase
 
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.common.tests.definitions_text_annotator import annotate_definitions_text
-from lexnlp.extract.es.definitions import make_es_definitions_parser, get_definition_list, get_definition_annotations, \
+from lexnlp.extract.es.definitions import make_es_definitions_parser, get_definition_annotations, \
     get_definition_annotation_list
 from lexnlp.tests.utility_for_testing import load_resource_document
 from lexnlp.tests.typed_annotations_tests import TypedAnnotationsTester

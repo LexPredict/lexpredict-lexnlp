@@ -10,7 +10,12 @@ __email__ = "support@contraxsuite.com"
 
 from typing import Generator
 
-from lexnlp.extract.all_locales.languages import LANG_EN, LANG_DE, DEFAULT_LANGUAGE, Locale
+from lexnlp.extract.all_locales.languages import (
+    DEFAULT_LANGUAGE,
+    LANG_DE,
+    LANG_EN,
+    get_language_routine,
+)
 from lexnlp.extract.common.annotations.duration_annotation import DurationAnnotation
 from lexnlp.extract.en.durations import get_duration_annotations as get_duration_annotations_en
 from lexnlp.extract.de.durations import get_duration_annotations as get_duration_annotations_de
@@ -27,5 +32,9 @@ def get_duration_annotations(
         text: str,
         float_digits: int = 4) \
         -> Generator[DurationAnnotation, None, None]:
-    routine = ROUTINE_BY_LOCALE.get(Locale(locale).language, ROUTINE_BY_LOCALE[DEFAULT_LANGUAGE.code])
-    yield from routine(text, float_digits)
+    routine = get_language_routine(
+        locale,
+        ROUTINE_BY_LOCALE,
+        DEFAULT_LANGUAGE,
+    )
+    yield from routine(text=text, float_digits=float_digits)

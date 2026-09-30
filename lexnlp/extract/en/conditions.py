@@ -27,7 +27,7 @@ CONDITION_PHRASES = ['if', 'if not', 'when', 'when not', 'where', 'where not', '
                      'provided that not', 'subject to', 'not subject to', 'upon the occurrence',
                      'subject to', 'conditioned  on', 'conditioned  upon']
 
-CONDITION_PATTERN_TEMPLATE = r'''(?P<pre>.*?)[\s\.\,](?P<condition>{condition_pattern}){{1,}}[\s\.\,](?P<post>.*?)'''
+CONDITION_PATTERN_TEMPLATE = r'''[\s\.\,](?P<condition>{condition_pattern})[\s\.\,]'''
 
 
 # ================================
@@ -111,25 +111,21 @@ def get_condition_annotations(text: str, strict: bool = True) -> Generator[Condi
         ConditionAnnotation
     """
 
-    # Iterate through all potential matches
+    # Match condition phrases directly instead of leading with ``.*?``.  The
+    # latter makes a trigger-free sentence take quadratic time because the
+    # regex engine retries the wildcard from every character.  ``cursor``
+    # preserves the legacy annotation spans and pre-text between matches.
     for sentence in get_sentence_list(text):
+        cursor = 0
         for match in RE_CONDITION.finditer(sentence):
-            # Get individual group matches
-            captures = match.capturesdict()
-            num_pre = len(captures["pre"])
-            num_post = len(captures["post"])
-
-            # Skip if strict and empty pre/post
-            if strict and (num_pre == 0 or num_post == 0):
-                continue
-
             ant = ConditionAnnotation(
-                coords=match.span(),
-                condition=captures["condition"].pop().lower(),
-                pre=captures["pre"].pop(),
-                post=captures["post"].pop(),
+                coords=(cursor, match.end()),
+                condition=match.group("condition").lower(),
+                pre=sentence[cursor:match.start()],
+                post="",
             )
             yield ant
+            cursor = match.end()
 
 
 def get_condition_annotation_list(text: str, strict: bool = True) -> List[ConditionAnnotation]:

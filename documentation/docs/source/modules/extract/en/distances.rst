@@ -1,8 +1,8 @@
 .. _extract_en_distances:
 
-============
+========================================================
 :mod:`lexnlp.extract.en.distances`: Extracting distances
-============
+========================================================
 
 The :mod:`lexnlp.extract.en.distances` module contains methods that allow for the extraction
 of distance references from text.  Distances that are covered by default in this module include:
@@ -21,7 +21,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting conditions
-----------------
+---------------------
 .. autofunction:: get_distances
 
 Example ::
@@ -33,7 +33,7 @@ Example ::
 
 
 Customizing distance extraction
-----------------
+-------------------------------
 Distance extraction can be customized.  There are three key module
 variables that store the default configuration and one function used to create
 a matching instance:

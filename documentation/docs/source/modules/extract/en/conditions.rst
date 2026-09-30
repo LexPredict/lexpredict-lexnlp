@@ -1,8 +1,8 @@
 .. _extract_en_conditions:
 
-============
+======================================================================
 :mod:`lexnlp.extract.en.conditions`: Extracting conditional statements
-============
+======================================================================
 
 The :mod:`lexnlp.extract.en.conditions` module contains methods that allow for the extraction
 of conditional statements from text.  Statements that are covered by default in this module are:
@@ -38,7 +38,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting conditions
-----------------
+---------------------
 .. autofunction:: get_conditions
 
 Example ::
@@ -55,7 +55,7 @@ Example ::
 
 
 Customizing conditional statement extraction
-----------------
+--------------------------------------------
 
 Conditional statement extraction can be customized.  There are two key module
 variables that store the default configuration and one function used to create

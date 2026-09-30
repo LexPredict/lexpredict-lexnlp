@@ -7,11 +7,11 @@ __email__ = "support@contraxsuite.com"
 
 
 import codecs
-import os
-import shutil
+import tempfile
 
 import pandas
-from typing import Tuple, List
+from pathlib import Path
+from typing import List
 from zipfile import ZipFile
 
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
@@ -42,27 +42,21 @@ class LayeredDefinitionDetector:
         Loads archive with two model pickle files (model_definition,
         model_term)
         """
-        file_folder = os.path.dirname(file_path)
-        temp_folder = os.path.join(file_folder, 'unpack_def_model_temp')
-        try:
-            shutil.rmtree(temp_folder)
-        # pylint: disable=bare-except
-        except:
-            pass
-        os.mkdir(temp_folder)
+        expected_members = {"definition.pickle", "term.pickle"}
+        with ZipFile(file_path) as archive:
+            members = set(archive.namelist())
+            if members != expected_members:
+                missing = sorted(expected_members - members)
+                unexpected = sorted(members - expected_members)
+                raise RuntimeError(
+                    "Invalid layered definition model archive: "
+                    f"missing={missing}, unexpected={unexpected}"
+                )
 
-        with ZipFile(file_path) as z:
-            z.extractall(temp_folder)
-
-        model_files = [i for i in os.listdir(temp_folder) if i.endswith('.pickle')]
-        for file_name in model_files:
-            if file_name == 'definition.pickle':
-                self.model_definition.load(os.path.join(temp_folder, file_name))
-            elif file_name == 'term.pickle':
-                self.model_term.load(os.path.join(temp_folder, file_name))
-            else:
-                raise RuntimeError(f'Found unknown file "{file_name.filename}" in packed model')
-        shutil.rmtree(temp_folder)
+            with archive.open("definition.pickle") as definition_stream:
+                self.model_definition.load_from_stream(definition_stream)
+            with archive.open("term.pickle") as term_stream:
+                self.model_term.load_from_stream(term_stream)
         self.initialized = True
 
     def get_annotations(self, sentence: str) -> List[DefinitionAnnotation]:
@@ -173,38 +167,34 @@ class LayeredDefinitionDetector:
         :param term_frame: dataframe, [ (row_text, [(start, end), (start, end)...]]
         :param save_file_path: path to store zipped model files (as one file)
         """
-        file_folder = os.path.dirname(save_file_path)
-        temp_folder = os.path.join(file_folder, 'def_model_temp')
-        try:
-            shutil.rmtree(temp_folder)
-        # pylint: disable=bare-except
-        except:
-            pass
-        os.mkdir(temp_folder)
+        destination = Path(save_file_path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
 
-        file_terms = os.path.join(temp_folder, "terms")
-        file_definitions = os.path.join(temp_folder, "definitions")
+        with tempfile.TemporaryDirectory(
+            prefix=".lexnlp-definition-",
+            dir=destination.parent,
+        ) as temporary_directory:
+            temporary_path = Path(temporary_directory)
+            file_terms = temporary_path / "terms"
+            file_definitions = temporary_path / "definitions"
 
-        self.model_term.train_and_save_on_dataframe(
-            DetectingSettings(pre_window=1, post_window=1, use_spacy=False),
-            term_frame,
-            file_terms,
-            compress=False)
+            self.model_term.train_and_save_on_dataframe(
+                DetectingSettings(pre_window=1, post_window=1, use_spacy=False),
+                term_frame,
+                str(file_terms),
+                compress=False)
 
-        self.model_definition.train_and_save_on_dataframe(
-            DetectingSettings(use_spacy=False),
-            definition_frame,
-            file_definitions,
-            compress=False)
+            self.model_definition.train_and_save_on_dataframe(
+                DetectingSettings(use_spacy=False),
+                definition_frame,
+                str(file_definitions),
+                compress=False)
 
-        with ZipFile(save_file_path, 'w') as zipObj2:
-            zipObj2.write(file_terms, 'term.pickle')
-            zipObj2.write(file_definitions, 'definition.pickle')
-        try:
-            shutil.rmtree(temp_folder)
-        # pylint: disable=bare-except
-        except:
-            pass
+            archive_path = temporary_path / "definition-model.zip"
+            with ZipFile(archive_path, "w") as archive:
+                archive.write(file_terms, "term.pickle")
+                archive.write(file_definitions, "definition.pickle")
+            archive_path.replace(destination)
 
     @staticmethod
     def join_adjacent_definitions_labels(labels_definitions, labels_terms, row_text):
@@ -213,7 +203,7 @@ class LayeredDefinitionDetector:
         if not labels_definitions:
             return definition_feature_mask, merged_def_labels
 
-        labels_definitions.sort(key=lambda l: l[0])
+        labels_definitions.sort(key=lambda label: label[0])
         ldef_end = -1
         for ld_start, ld_end in labels_definitions:
             continue_label = ldef_end >= 0 and abs(ld_start - ldef_end) < 2

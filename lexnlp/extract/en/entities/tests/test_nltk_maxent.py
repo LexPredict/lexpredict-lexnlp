@@ -21,6 +21,8 @@ __email__ = "support@contraxsuite.com"
 
 from typing import List, Any
 
+import pytest
+
 from lexnlp.extract.en.entities.company_detector import get_noun_phrases
 from lexnlp.extract.en.entities.nltk_maxent import get_geopolitical, get_companies, get_persons
 from lexnlp.tests import lexnlp_tests
@@ -158,6 +160,30 @@ def test_persons_rs():
     lexnlp_tests.test_extraction_func_on_test_data(get_persons, return_source=True,
                                                    actual_data_converter=lambda actual: [p[0] for p
                                                                                          in actual])
+
+
+@pytest.mark.parametrize('quotes', [("'", "'"), ('"', '"'), ('“', '”'), ('‘', '’')])
+@pytest.mark.parametrize('article', ['the ', ''])
+@pytest.mark.parametrize('strict', [False, True])
+def test_persons_excludes_defined_employment_roles(quotes, article, strict):
+    opening, closing = quotes
+    text = (
+        f'a Delaware corporation ({article}{opening}Employer{closing}), '
+        f'and GERALD GREENWALD ({article}{opening}Employee{closing}).'
+    )
+    assert list(get_persons(text, strict=strict)) == ['GERALD GREENWALD']
+    assert [person for person, _source in get_persons(
+        text, strict=strict, return_source=True,
+    )] == ['GERALD GREENWALD']
+
+
+@pytest.mark.parametrize('text, expected', [
+    ("John Employee (the 'Employee') signed the agreement.", ['John Employee']),
+    ('Employee Smith signed the agreement.', ['Employee Smith']),
+    ("The witness is 'John Employee'.", ['John Employee']),
+])
+def test_persons_keeps_employment_role_words_inside_person_names(text, expected):
+    assert list(get_persons(text)) == expected
 
 
 def test_gpes():

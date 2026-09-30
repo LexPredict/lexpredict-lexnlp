@@ -46,7 +46,9 @@ class DataframeEntityParser:
         >>>     df, parse_columns, result_columns, preformed_entity, sort_column).parse(text)
     """
 
-    SEARCH_PTN = r'(?:^|\W)({})(?:\W|$)'
+    # Boundaries are asserted rather than consumed so adjacent entities such
+    # as ``Alpha,Beta`` can both be found and reported with exact spans.
+    SEARCH_PTN = r'(?<!\w)({})(?!\w)'
 
     def __init__(self,
                  dataframe,
@@ -68,12 +70,30 @@ class DataframeEntityParser:
         self.unique_column_values = unique_column_values
         self.line_processor = line_processor
 
-        collection_patterns = \
-            [(col_name, self.get_collection_ptn(self.dataframe[col_name].values))
-            for col_name in parse_columns if col_name]
-        self.collection_patterns = {
-                c[0]: c[1] for c in collection_patterns if c[1]
-            }
+        self._row_positions_by_column = {}
+        self.collection_patterns = {}
+        for col_name in parse_columns:
+            if not col_name:
+                continue
+            if self.result_columns:
+                positions_by_value = {}
+                for position, cell_value in enumerate(
+                    self.dataframe[col_name].values,
+                ):
+                    for item in self._split_cell_value(cell_value):
+                        positions_by_value.setdefault(item, []).append(position)
+                self._row_positions_by_column[col_name] = positions_by_value
+                atomic_values = positions_by_value
+            else:
+                atomic_values = {
+                    item
+                    for cell_value in self.dataframe[col_name].values
+                    for item in self._split_cell_value(cell_value)
+                }
+
+            pattern = self._compile_atomic_collection_ptn(atomic_values)
+            if pattern:
+                self.collection_patterns[col_name] = pattern
 
     def get_collection_ptn(self, collection):
         """
@@ -81,13 +101,47 @@ class DataframeEntityParser:
         :param collection: list of entities to search in
         :return: compilled regex pattern
         """
-        collection = [c for c in collection if c]
-        if not collection:
+        atomic_values = {
+            item
+            for cell in collection
+            for item in self._split_cell_value(cell)
+        }
+        return self._compile_atomic_collection_ptn(atomic_values)
+
+    def _compile_atomic_collection_ptn(self, atomic_values):
+        """
+        Compile a pattern from values that have already been split.
+
+        Longer alternatives are ordered first so overlapping values resolve to
+        the longest entity. Lexical ordering keeps the pattern deterministic
+        when values have the same length.
+        """
+        if not atomic_values:
             return None
 
         ptn = self.SEARCH_PTN.format(
-            '|'.join(re.escape(j) for i in collection for j in i.split(self.cell_values_separator) if i))
+            '|'.join(
+                re.escape(item)
+                for item in sorted(
+                    sorted(atomic_values),
+                    key=len,
+                    reverse=True,
+                )
+            )
+        )
         return re.compile(ptn)
+
+    def _split_cell_value(self, value) -> List[str]:
+        if value is None or value == '':
+            return []
+        value = str(value)
+        if self.cell_values_separator is None:
+            return [value]
+        return [
+            item
+            for item in value.split(self.cell_values_separator)
+            if item
+        ]
 
     def get_single_result(self, rows):
         """
@@ -106,15 +160,17 @@ class DataframeEntityParser:
         :param col_name: df column name
         :return: dict
         """
-        matched_str = match.groups()[0]
-        location_start, location_end = match.span()
+        matched_str = match.group(1)
+        location_start, location_end = match.span(1)
         formed_entity = {
             'location_start': location_start,
             'location_end': location_end,
             'source': matched_str
         }
         if self.result_columns:
-            matched_rows = self.dataframe[self.dataframe[col_name].str.contains(r'(?:^|;){}(?:$|;)'.format(matched_str), regex=True)]
+            matched_rows = self.dataframe.iloc[
+                self._row_positions_by_column[col_name][matched_str]
+            ]
             if self.unique_column_values:
                 matched_row = self.get_single_result(matched_rows)
                 for _col_name, new_col_name in self.result_columns.items():

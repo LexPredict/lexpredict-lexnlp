@@ -14,6 +14,7 @@ import os
 import pytest
 import tempfile
 from unittest import TestCase
+from unittest.mock import patch
 
 from lexnlp.tests import lexnlp_tests
 
@@ -30,8 +31,11 @@ class Test(TestCase):
         file_name = None
         try:
             file_name = lexnlp_tests.write_test_data_text_and_tuple(texts, values, column_names)
-            actual = [(i, text, input_args, expected)
-                      for i, text, input_args, expected in lexnlp_tests.iter_test_data_text_and_tuple(call_stack_offset=1)]
+            actual = [
+                (i, text, input_args, expected)
+                for i, text, input_args, expected
+                in lexnlp_tests.iter_test_data_text_and_tuple(file_name=file_name)
+            ]
             a2 = actual[0]
             e2 = (2, 'text2', {'text_languages': 'l2', 'arg': True, 'int1': 22}, [('e21', 'e22')])
             print('Actual: {0}'.format(a2))
@@ -111,5 +115,19 @@ class Test(TestCase):
         def func(text):
             return text + "!"
 
-        with pytest.raises(AssertionError):
-            lexnlp_tests.test_extraction_func_on_test_data(func, start_from_csv_line=3)
+        def deterministic_memory_usage(call_spec, *, max_usage, retval):
+            assert max_usage is True
+            assert retval is True
+            callable_obj, args, kwargs = call_spec
+            return 0.0, callable_obj(*args, **kwargs)
+
+        with patch.object(
+            lexnlp_tests,
+            "memory_usage",
+            deterministic_memory_usage,
+        ):
+            with pytest.raises(AssertionError):
+                lexnlp_tests.test_extraction_func_on_test_data(
+                    func,
+                    start_from_csv_line=3,
+                )

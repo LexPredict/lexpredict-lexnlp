@@ -135,11 +135,11 @@ class FactExtractor:
         if not extract_all and not include_types:
             return {}
         if not extract_all and include_types:
-            target_types = include_types
+            target_types = set(include_types)
         elif extract_all:
-            target_types = FactExtractor.ALL_ANT_TYPES
+            target_types = set(FactExtractor.ALL_ANT_TYPES)
             if exclude_types:
-                target_types -= exclude_types
+                target_types.difference_update(exclude_types)
 
         if not target_types:
             return {}

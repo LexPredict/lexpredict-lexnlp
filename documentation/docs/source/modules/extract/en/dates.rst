@@ -1,8 +1,8 @@
 .. _extract_en_dates:
 
-============
+==========================================================
 :mod:`lexnlp.extract.en.dates`: Extracting date references
-============
+==========================================================
 
 The :mod:`lexnlp.extract.en.dates` module contains methods that allow for the extraction
 of dates from text.  Sample formats that are handled by this module include:
@@ -44,7 +44,7 @@ Example ::
 
 
 Advanced usage and customization
-----------------
+--------------------------------
 Out of the box, LexNLP uses a cross-validated logistic classifier whose inputs are
 the one-character and two-character sequence distributions within a 5-character window
 of the potential date match.  The training and assessment data used can be found

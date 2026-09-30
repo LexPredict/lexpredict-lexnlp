@@ -10,18 +10,23 @@ __email__ = "support@contraxsuite.com"
 
 
 # standard library
+import os
 from pathlib import Path
 from abc import ABC, abstractmethod
 from typing import Any, Optional, Protocol, runtime_checkable
 
 # third-party imports
-from cloudpickle import load
 from sklearn.pipeline import Pipeline
 from sklearn.exceptions import NotFittedError
 from sklearn.utils.validation import check_is_fitted
 
 # LexNLP
 from lexnlp.ml.catalog import get_path_from_catalog
+from lexnlp.utils.unpickler import (
+    CompatibilityReport,
+    load_sklearn_model,
+    restore_legacy_model_state,
+)
 
 
 @runtime_checkable
@@ -56,6 +61,7 @@ class ProbabilityPredictor(ABC):
     """
 
     _DEFAULT_PIPELINE: str = NotImplemented
+    _DEFAULT_PIPELINE_ENV_VAR: Optional[str] = None
 
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
@@ -70,7 +76,18 @@ class ProbabilityPredictor(ABC):
                 The Scikit-Learn Pipeline used to transform input and make classification predictions.
                 The default Scikit-Learn Pipeline is loaded if no Pipeline is provided.
         """
-        self.pipeline: Pipeline = pipeline or self.get_default_pipeline()
+        self.compatibility_report: Optional[CompatibilityReport] = None
+        if pipeline is None:
+            # Catalog models pass through the scoped compatibility loader.
+            self.pipeline = self.get_default_pipeline()
+        else:
+            # A caller may supply a legacy pipeline that was loaded elsewhere.
+            # Keep this repair path centralized and expose its provenance.
+            self.compatibility_report = CompatibilityReport()
+            self.pipeline = restore_legacy_model_state(
+                pipeline,
+                report=self.compatibility_report,
+            )
         try:
             check_is_fitted(self.pipeline._final_estimator)
         except NotFittedError as not_fitted_error:
@@ -84,10 +101,6 @@ class ProbabilityPredictor(ABC):
                 f'does not follow the `ScikitLearnHasPredictProba` protocol.'
             )
 
-        # Fix AttributeError: 'MinMaxScaler' object has no attribute 'clip'
-        for _, name, transform in self.pipeline._iter(with_final=False):
-            transform.clip = hasattr(transform, 'clip') and transform.clip
-
         self._sanity_check()
 
     @abstractmethod
@@ -98,6 +111,21 @@ class ProbabilityPredictor(ABC):
         raise NotImplementedError
 
     @classmethod
+    def get_default_pipeline_tag(cls) -> str:
+        """
+        Resolve the pipeline tag for this predictor class.
+
+        Returns:
+            Pipeline catalog tag, optionally overridden by an environment variable.
+        """
+        env_var = cls._DEFAULT_PIPELINE_ENV_VAR
+        if env_var:
+            value = os.getenv(env_var, "").strip()
+            if value:
+                return value
+        return cls._DEFAULT_PIPELINE
+
+    @classmethod
     def get_default_pipeline(cls) -> Pipeline:
         """
         Gets the default Scikit-Learn Pipeline for usage with this ProbabilityPredictor.
@@ -105,6 +133,6 @@ class ProbabilityPredictor(ABC):
         Returns:
             A default Scikit-Learn Pipeline for usage with this ProbabilityPredictor.
         """
-        path: Path = get_path_from_catalog(cls._DEFAULT_PIPELINE)
+        path: Path = get_path_from_catalog(cls.get_default_pipeline_tag())
         with open(path, 'rb') as f:
-            return load(f)
+            return load_sklearn_model(f)

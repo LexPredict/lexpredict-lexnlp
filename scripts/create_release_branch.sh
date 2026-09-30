@@ -57,9 +57,12 @@ OLD_RELEASE_BRANCH_esc=$(echo ${OLD_RELEASE_BRANCH} | sed 's,\.,\\.,g')
 NEW_RELEASE_BRANCH_esc=$(echo ${NEW_RELEASE_BRANCH} | sed 's,\.,\\.,g')
 find ./ -type f -readable -writable -exec sed -i "s/__version__ = \"$OLD_RELEASE_BRANCH_esc\"/__version__ = \"$NEW_RELEASE_BRANCH_esc\"/g" {} \;
 find ./ -type f -readable -writable -exec sed -i "s/blob\/$OLD_RELEASE_BRANCH_esc\/LICENSE/blob\/$NEW_RELEASE_BRANCH_esc\/LICENSE/g" {} \;
-find setup.py -type f -readable -writable -exec sed -i "s/version='$OLD_RELEASE_BRANCH_esc'/version='$NEW_RELEASE_BRANCH_esc'/g" {} \;
+sed -i "s/^version = \"$OLD_RELEASE_BRANCH_esc\"$/version = \"$NEW_RELEASE_BRANCH_esc\"/" pyproject.toml
 find documentation/docs/source/conf.py -type f -readable -writable -exec sed -i "s/version = '$OLD_RELEASE_BRANCH_esc'/version = '$NEW_RELEASE_BRANCH_esc'/g" {} \;
 find documentation/docs/source/conf.py -type f -readable -writable -exec sed -i "s/release = '$OLD_RELEASE_BRANCH_esc'/release = '$NEW_RELEASE_BRANCH_esc'/g" {} \;
+
+# Keep the project version in the canonical dependency lock synchronized.
+uv lock || exit 1
 
 echo ${LINE}
 echo "Commit changes"
@@ -109,14 +112,17 @@ rsync -av --delete ${CORE_REPO_PATH}/libs/ ${LEXNLP_REPO_PATH}/libs
 rsync -av --delete ${CORE_REPO_PATH}/notebooks/ ${LEXNLP_REPO_PATH}/notebooks
 rsync -av --delete ${CORE_REPO_PATH}/scripts/ ${LEXNLP_REPO_PATH}/scripts
 rsync -av --delete ${CORE_REPO_PATH}/test_data/ ${LEXNLP_REPO_PATH}/test_data
+rsync -av --delete ${CORE_REPO_PATH}/ci/ ${LEXNLP_REPO_PATH}/ci
+rsync -av --delete ${CORE_REPO_PATH}/constraints/ ${LEXNLP_REPO_PATH}/constraints
+rsync -av --delete ${CORE_REPO_PATH}/.github/ ${LEXNLP_REPO_PATH}/.github
 cp -rf ${CORE_REPO_PATH}/index.rst ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/LICENSE ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/MANIFEST.in ${LEXNLP_REPO_PATH}
-cp -rf ${CORE_REPO_PATH}/python-requirements.txt ${LEXNLP_REPO_PATH}
-cp -rf ${CORE_REPO_PATH}/Pipfile* ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/pyproject.toml ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/uv.lock ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/README.rst ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/README.md ${LEXNLP_REPO_PATH}
-cp -rf ${CORE_REPO_PATH}/readthedocs.yml ${LEXNLP_REPO_PATH}
+cp -rf ${CORE_REPO_PATH}/.readthedocs.yaml ${LEXNLP_REPO_PATH}
 cp -rf ${CORE_REPO_PATH}/setup.py ${LEXNLP_REPO_PATH}
 
 # create commit and push

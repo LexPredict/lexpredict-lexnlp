@@ -70,7 +70,7 @@ def get_percent_annotations(
         real_amount = PERCENT_UNITS_MAP.get(unit_name, Decimal(0)) * amount
 
         if float_digits:
-            real_amount = round(amount, float_digits)
+            real_amount = round(real_amount, float_digits)
 
         yield PercentAnnotation(
             coords=match.span(),

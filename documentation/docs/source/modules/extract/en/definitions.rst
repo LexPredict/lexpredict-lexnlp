@@ -1,8 +1,8 @@
 .. _extract_en_definitions:
 
-============
+======================================================================
 :mod:`lexnlp.extract.en.definitions`: Extracting definition statements
-============
+======================================================================
 
 The :mod:`lexnlp.extract.en.definitions` module contains methods that allow for the extraction
 of definitional statements from text.  Example statements that are covered by default in this module are:
@@ -28,7 +28,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting constraints
-----------------
+----------------------
 .. autofunction:: get_definitions
 
 Example ::

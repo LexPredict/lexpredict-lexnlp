@@ -1,37 +1,28 @@
 .. _extract_en_companies:
 
-============
-:mod:`lexnlp.extract.en.entities.nltk_re`: Extracting companies
-============
+===================================================================
+:mod:`lexnlp.extract.en.entities.nltk_maxent`: Extracting companies
+===================================================================
 
-The :mod:`lexnlp.extract.en.entities.nltk_re` module contains methods that allow for the extraction
-of company names from text.  Example statements that are covered by default in this module include:
+The :mod:`lexnlp.extract.en.entities.nltk_maxent` module extracts company names
+using LexNLP's legal-domain entity detector and NLTK tokenization.
 
- * Deutsche Bank Securities Inc.
- * ACME, INC.
- * Wells Fargo Bank Minnesota, National Association
- * Lexpredict LLC
+Representative inputs include:
 
-The full list of current unit test cases can be found here:
-https://github.com/LexPredict/lexpredict-lexnlp/blob/master/lexnlp/extract/en/entities/tests/test_get_companies.py
+* ``Deutsche Bank Securities Inc.``
+* ``ACME, INC.``
+* ``Wells Fargo Bank Minnesota, National Association``
+* ``LexPredict LLC``
 
+.. currentmodule:: lexnlp.extract.en.entities.nltk_maxent
 
-.. currentmodule:: lexnlp.extract.en.entities.nltk_re
+Extracting companies
+--------------------
 
-
-Extracting conditions
-----------------
 .. autofunction:: get_companies
 
-Example ::
+.. code-block:: python
 
-    >>> import lexnlp.extract.en.entities.nltk_re
+   from lexnlp.extract.en.entities.nltk_maxent import get_companies
 
-    >>> text = "This is Deutsche Bank Securities Inc."
-    >>> print(list(lexnlp.extract.en.entities.nltk_re.get_entities.nltk_re.get_companies(text)))
-    [('This is Deutsche Bank Securities', 'Inc', 'Bank')]
-
-    >>> text = "This is Lexpredict LLC"
-    >>> print(list(lexnlp.extract.en.entities.nltk_re.get_entities.nltk_re(text)))
-    [('This is Lexpredict', 'LLC', None)]
-
+   companies = list(get_companies("This is LexPredict LLC."))

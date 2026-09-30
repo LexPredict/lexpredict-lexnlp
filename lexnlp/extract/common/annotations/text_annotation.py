@@ -96,6 +96,5 @@ class TextAnnotation:
             return obj
         try:
             return int(obj)
-        # pylint:disable=bare-except
-        except:
+        except Exception:
             return def_value

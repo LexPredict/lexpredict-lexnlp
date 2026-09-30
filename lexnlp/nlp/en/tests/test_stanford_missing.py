@@ -14,7 +14,6 @@ from unittest import TestCase
 import pytest
 
 from lexnlp import is_stanford_enabled, enable_stanford, disable_stanford
-from nose.tools import assert_false, assert_true
 
 
 class TestStanfordMissing(TestCase):
@@ -22,9 +21,9 @@ class TestStanfordMissing(TestCase):
         was_enabled = is_stanford_enabled()
         try:
             disable_stanford()
-            assert_false(is_stanford_enabled())
+            assert not is_stanford_enabled()
             enable_stanford()
-            assert_true(is_stanford_enabled())
+            assert is_stanford_enabled()
         finally:
             if was_enabled:
                 enable_stanford()

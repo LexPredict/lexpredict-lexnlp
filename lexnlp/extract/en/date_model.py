@@ -16,7 +16,8 @@ __email__ = "support@contraxsuite.com"
 # Standard imports
 import os
 import string
-import joblib
+
+from lexnlp.utils.unpickler import load_joblib_model
 
 
 # Setup path
@@ -25,7 +26,7 @@ import joblib
 MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Load model
-MODEL_DATE = joblib.load(os.path.join(MODULE_PATH, "./date_model.pickle"))
+MODEL_DATE = load_joblib_model(os.path.join(MODULE_PATH, "./date_model.pickle"))
 
 ALPHA_CHAR_SET = set(string.ascii_letters)
 DATE_MODEL_CHARS = []

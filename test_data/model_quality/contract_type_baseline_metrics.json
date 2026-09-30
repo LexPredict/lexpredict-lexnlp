@@ -1,0 +1,77 @@
+{
+  "schema_version": 2,
+  "training_recipe": "contract-type-runtime-v2-all-docs-duplicate-holdout-v2-single-thread",
+  "baseline_tag": "pipeline/contract-type/0.2-runtime",
+  "fixture": "test_data/lexnlp/extract/en/contracts/tests/test_contracts/test_contract_type.csv",
+  "fixture_sha256": "6d669bad14c044271d5b6ab481bc3a4dd234528e14a98ce3b432a94d4f2b0219",
+  "metrics": {
+    "accuracy_top1": 0.9333333333333333,
+    "accuracy_topn": 1.0,
+    "f1_macro": 0.7999999999999999,
+    "f1_weighted": 0.9600000000000001
+  },
+  "artifact": {
+    "sha256": "3b04a8a96e841a200dd85ba080ee14140be6a4a554e511dfd75d6dc080a9fab7",
+    "size_bytes": 33769286,
+    "runtime": {
+      "joblib": "1.5.0",
+      "numpy": "1.26.4",
+      "pandas": "2.2.0",
+      "python": "3.12.13",
+      "scikit_learn": "1.7.2",
+      "scipy": "1.13.0",
+      "threadpoolctl": "3.6.0"
+    }
+  },
+  "training": {
+    "corpus_tag": "corpus/contract-types/0.1",
+    "corpus_sha256": "cfdfbd30986eee378fc1740ac2d5838d3cf98d85a95406c524965dc15499216e",
+    "corpus_size_bytes": 16644740,
+    "documents": 2387,
+    "head_character_n": 4000,
+    "max_docs_per_label": 0,
+    "max_features": 75000,
+    "random_state": 7,
+    "threadpool_limit": 1,
+    "sampling": "complete-pinned-corpus"
+  },
+  "duplicate_group_holdout": {
+    "strategy": "lexnlp-global-group-holdout-v1",
+    "normalization": "casefold, collapse whitespace, strip, sha256 UTF-8",
+    "split_sha256": "b66f1a09fba13756771ec4d0b935547fcd394b59d655c42963a96601569c3d21",
+    "ambiguous_cross_label_groups_excluded": 20,
+    "ambiguous_cross_label_samples_excluded": 40,
+    "train_samples": 1882,
+    "test_samples": 465,
+    "evaluated_labels": 46,
+    "train_only_labels_with_fewer_than_five_groups": 5,
+    "normalized_group_overlap": 0,
+    "metrics": {
+      "accuracy_top1": 0.7483870967741936,
+      "accuracy_top3": 0.9053763440860215,
+      "f1_macro": 0.6456191572616843,
+      "f1_weighted": 0.7438185939792091
+    },
+    "paired_reference_recipes": [
+      {
+        "name": "canonical-archive-order-cap120",
+        "metrics": {
+          "accuracy_top1": 0.7397849462365591,
+          "accuracy_top3": 0.8989247311827957,
+          "f1_macro": 0.638543,
+          "f1_weighted": 0.736581
+        }
+      },
+      {
+        "name": "rejected-lexical-order-cap120",
+        "metrics": {
+          "accuracy_top1": 0.7462365591397849,
+          "accuracy_top3": 0.9010752688172043,
+          "f1_macro": 0.642248,
+          "f1_weighted": 0.742619
+        }
+      }
+    ]
+  },
+  "top_n": 3
+}

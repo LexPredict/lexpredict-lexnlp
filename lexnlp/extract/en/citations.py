@@ -131,14 +131,16 @@ def get_citation_annotations(text: str) -> Generator[CitationAnnotation, None, N
                         if (end and start <= int(year) <= end.year) or start <= int(year):
                             reporter_full_name = period_data['name']
 
-            ant = CitationAnnotation(coords=match.span(),
+            source_text = source_text.strip()
+            ant = CitationAnnotation(coords=match.span(1),
+                                     text=source_text,
                                      volume=int(volume) if volume else None,
                                      year=int(year) if year and year.isdigit() else None,
                                      reporter=reporter,
                                      reporter_full_name=reporter_full_name,
                                      page=int(page) if page else None,
                                      page_range=page2,
-                                     source=source_text.strip(),
+                                     source=source_text,
                                      court=court.strip(', ') if court else None,
                                      locale='en')
 

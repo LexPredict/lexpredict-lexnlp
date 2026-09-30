@@ -32,6 +32,6 @@ def values_look_equal(a, b) -> bool:
         sb = str(b)
         if sa == sb:
             return True
-    except:  # pylint:disable=bare-except
+    except Exception:
         pass
     return False

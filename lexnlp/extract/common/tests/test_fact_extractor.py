@@ -8,10 +8,15 @@ __email__ = "support@contraxsuite.com"
 
 import os
 from unittest import TestCase
+from unittest.mock import patch
 
 from lexnlp.extract.en.dict_entities import DictionaryEntry
 from lexnlp.extract.common.annotation_type import AnnotationType
-from lexnlp.extract.common.fact_extracting import FactExtractor, ExtractorResultFormat
+from lexnlp.extract.common.fact_extracting import (
+    ExtractingFunction,
+    FactExtractor,
+    ExtractorResultFormat,
+)
 
 
 def make_geoconfig():
@@ -26,6 +31,29 @@ EN_GEO_CONFIG = make_geoconfig()
 
 
 class TestFactExtractor(TestCase):
+
+    def test_exclusions_do_not_mutate_global_annotation_types(self):
+        all_annotation_types = set(FactExtractor.ALL_ANT_TYPES)
+        extractor = ExtractingFunction(
+            method=lambda _text: iter(()),
+            fact_type=AnnotationType.money,
+            result_fmt=ExtractorResultFormat.fmt_class,
+        )
+        test_language = {
+            ExtractorResultFormat.fmt_class: {
+                AnnotationType.money: extractor,
+            },
+        }
+
+        with patch.dict(FactExtractor.func_by_lang, {'test': test_language}):
+            FactExtractor.parse_text(
+                '',
+                'test',
+                extract_all=True,
+                exclude_types={AnnotationType.money},
+            )
+
+        self.assertEqual(all_annotation_types, FactExtractor.ALL_ANT_TYPES)
 
     def test_one_fact_en(self):
         text = """

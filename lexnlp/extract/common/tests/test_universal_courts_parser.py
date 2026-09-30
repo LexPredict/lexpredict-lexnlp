@@ -10,8 +10,10 @@ import re
 import time
 import pandas
 
+from pathlib import Path
 from unittest import TestCase
 
+from lexnlp import get_module_path
 from lexnlp.extract.en.dict_entities import DictionaryEntryAlias, DictionaryEntry
 from lexnlp.extract.common.universal_court_parser import UniversalCourtsParser, ParserInitParams
 from lexnlp.extract.en.courts import _get_courts
@@ -22,6 +24,7 @@ from lexnlp.utils.lines_processing.line_processor import LineSplitParams
 
 
 class TestUniversalCourtsParser(TestCase):
+    COURTS_DATA_PATH = Path(get_module_path()) / "config" / "en" / "us_courts.csv"
 
     def test_check_match_attrs(self):
         parser = self.make_en_parser()
@@ -64,9 +67,7 @@ class TestUniversalCourtsParser(TestCase):
         return _get_courts(text, court_config_list)
 
     def load_en_courts(self):
-        court_df = pandas.read_csv(
-            "https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts.csv"
-        )
+        court_df = pandas.read_csv(self.COURTS_DATA_PATH)
         # Create config objects
         court_config_list = []
         for _, row in court_df.iterrows():
@@ -82,11 +83,9 @@ class TestUniversalCourtsParser(TestCase):
         return court_config_list
 
     def make_en_parser(self):
-        url = "https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts.csv"
-
         ptrs = ParserInitParams()
         ptrs.court_pattern_checker = re.compile('court', re.IGNORECASE)
-        ptrs.dataframe_paths = [url]
+        ptrs.dataframe_paths = [str(self.COURTS_DATA_PATH)]
         ptrs.split_ptrs = LineSplitParams()
         ptrs.split_ptrs.line_breaks = {'\n', '.', ';', ','}.union(set(EnLanguageTokens.conjunctions))
         ptrs.split_ptrs.abbreviations = EnLanguageTokens.abbreviations

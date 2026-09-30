@@ -91,9 +91,9 @@ class CitationAnnotation(TextAnnotation):
             df.tags["Extracted Entity Reporter"] = str(self.reporter)
         if self.reporter_full_name:
             df.tags["Extracted Entity Reporter Full Name"] = str(self.reporter_full_name)
-        if self.reporter:
+        if self.court:
             df.tags["Extracted Entity Court"] = str(self.court)
-        if self.reporter:
+        if self.source:
             df.tags["Extracted Entity Source"] = str(self.source)
 
         return df

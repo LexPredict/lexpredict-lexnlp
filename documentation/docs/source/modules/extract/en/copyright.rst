@@ -1,33 +1,25 @@
 .. _extract_en_copyright:
 
-============
+===================================================================
 :mod:`lexnlp.extract.en.copyright`: Extracting copyright references
-============
+===================================================================
 
-The :mod:`lexnlp.extract.en.copyright` module contains methods that allow for the extraction
-of copyright references from text.
-
-
-The full list of current unit test cases can be found here:
-https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/extract/en/tests/test_copyright
-
+The :mod:`lexnlp.extract.en.copyright` module extracts copyright statements
+and can optionally retain their source text.
 
 .. currentmodule:: lexnlp.extract.en.copyright
 
+Extracting copyright references
+-------------------------------
 
-Extracting copyrights
-----------------
-.. autofunction:: get_copyright
+.. autofunction:: get_copyrights
 
-Example ::
+.. code-block:: python
 
-    >>> import lexnlp.extract.en.copyright
-    >>> text = "(C) Copyright 1993-1996 Hughes Information Systems Company"
-    >>> print(list(lexnlp.extract.en.copyright.get_copyright(text)))
-    [('Copyright', '1993-1996', 'Hughes Information Systems Company')]
+   from lexnlp.extract.en.copyright import get_copyrights
 
-    >>> text = "Test copyrigh symbol © 2017, SIGN LLC"
-    >>> print(list(lexnlp.extract.en.conditions.get_conditions(text)))
-    print(list(lexnlp.extract.en.copyright.get_copyright(text)))
-    [('©', '2017', 'SIGN LLC')]
-
+   notices = list(
+       get_copyrights(
+           "(C) Copyright 1993-1996 Hughes Information Systems Company"
+       )
+   )

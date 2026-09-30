@@ -24,12 +24,12 @@ class TypedLineOrPhrase(LineOrPhrase):
         self.type = LineType.regular
 
     @staticmethod
-    def wrap_line(l: LineOrPhrase):
-        t = TypedLineOrPhrase()
-        t.text = l.text
-        t.start = l.start
-        t.ending = l.ending
-        return t
+    def wrap_line(l: LineOrPhrase):  # noqa: E741 - legacy public keyword
+        typed_line = TypedLineOrPhrase()
+        typed_line.text = l.text
+        typed_line.start = l.start
+        typed_line.ending = l.ending
+        return typed_line
 
     def __repr__(self):
         return '[' + str(self.type) + '] ' + self.text + '->' + self.ending
@@ -89,7 +89,7 @@ class ParsedTextQualityEstimator:
     def split_text_on_lines(self, text: str):
         self.estimate = ParsedTextQualityEstimate()
 
-        self.lines = [TypedLineOrPhrase.wrap_line(l) for l in
+        self.lines = [TypedLineOrPhrase.wrap_line(line) for line in
                       self.proc.split_text_on_line_with_endings(text)]
         self.proc.determine_line_length(text)
         self.estimate.avg_line_length = self.proc.line_length

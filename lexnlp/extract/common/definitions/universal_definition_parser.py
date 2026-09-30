@@ -6,7 +6,6 @@ __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-from typing import Dict, Generator, Union
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.common.pattern_found import PatternFound
 from lexnlp.extract.common.text_pattern_collector import TextPatternCollector

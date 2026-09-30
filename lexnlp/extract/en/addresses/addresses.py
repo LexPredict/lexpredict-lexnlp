@@ -142,12 +142,12 @@ def cleanup(address: str) -> str:
 
 
 def get_address_annotations(text: str) -> Generator[AddressAnnotation, None, None]:
-    for address, start, end in get_address_spans(text):
+    for _address, start, end in get_address_spans(text):
         yield AddressAnnotation(
-            coords=(start, end),
             name='',
+            coords=(start, end),
             locale='en',
-            text=text,
+            text=text[start:end],
         )
 
 

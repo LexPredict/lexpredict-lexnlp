@@ -1,8 +1,8 @@
 .. _extract_en_pii:
 
-============
+==================================================================================
 :mod:`lexnlp.extract.en.pii`: Extracting personally-identifiable information (PII)
-============
+==================================================================================
 
 The :mod:`lexnlp.extract.en.pii` module contains methods that allow for the extraction
 of personally identifying information from text.  Examples include:
@@ -19,7 +19,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting PII
-----------------
+--------------
 .. autofunction:: get_pii
 
 Example ::

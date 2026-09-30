@@ -114,8 +114,7 @@ class DeDateParser(DateParser):
                     continue
                 parts.append(DatePart(wrd, 'number', num_or_str))
                 continue
-            # pylint:disable=bare-except
-            except:
+            except Exception:
                 pass
 
             # is it a capitalized string?
@@ -129,46 +128,64 @@ class DeDateParser(DateParser):
                              locale: Optional[Locale] = None,
                              strict: bool = True) -> \
             Generator[DateAnnotation, None, None]:
-        self.text = text.replace('\n', ' ') or self.text
-        self.text = re.sub(CUSTOM_DATES_SEPARATOR, '\n', self.text)
-        text_parts = self.text.split('\n')
-        for text_part in text_parts:
-            self.locale.language = (locale.language if locale else "") or self.locale.language
+        source_text = text if text is not None else self.text
+        if source_text is None:
+            raise RuntimeError('Define text and language.')
+        if not source_text:
+            return
 
-            if not text_part or not self.locale.language:
-                raise RuntimeError('Define text and language.')
+        self.text = source_text.translate(str.maketrans({'\n': ' ', '\r': ' ', '\t': ' '}))
+        if locale is not None:
+            self.locale = Locale(locale.get_locale())
+        if not self.locale.language:
+            raise RuntimeError('Define text and language.')
 
-            # First try dateparser searcher
+        # Split coordinated date phrases without changing text length, so
+        # coordinates remain relative to the caller's original document.
+        text_part_spans = []
+        part_start = 0
+        for separator in CUSTOM_DATES_SEPARATOR.finditer(self.text):
+            text_part_spans.append((part_start, separator.start()))
+            part_start = separator.end()
+        text_part_spans.append((part_start, len(self.text)))
+
+        positions = []
+        for text_part_start, text_part_end in text_part_spans:
+            text_part = self.text[text_part_start:text_part_end]
+            if not text_part.strip():
+                continue
+
             try:
                 self.dates = self.get_dateparser_dates(text_part, strict)
-            except Exception as e:
-                print(str(e))
+            except (TypeError, ValueError):
+                self.dates = []
 
-            # Next try custom search logic
             self.get_extra_dates(strict)
 
-            positions = []
             for date_str, date in sorted(self.dates, key=lambda i: -len(i[0])):
-
-                # if possible date has weird format or unwanted symbols
                 if not self.passed_general_check(date_str, date):
                     continue
 
-                for match in re.finditer(re.escape(date_str), text_part):
-                    location_start, location_end = match.span()
+                for match in self._find_date_matches(date_str, text_part):
+                    location_start = text_part_start + match.start()
+                    location_end = text_part_start + match.end()
 
-                    # skip overlapping entities
-                    if any(1 for i, j in positions if location_start >= i and location_end <= j):
+                    if any(
+                        location_start >= start and location_end <= end
+                        for start, end in positions
+                    ):
                         continue
-                    positions.append(match.span())
+                    positions.append((location_start, location_end))
 
-                    # filter out possible dates using classifier
-                    if self.enable_classifier_check and \
-                            not self.passed_classifier_check(location_start, location_end):
+                    if (
+                        self.enable_classifier_check
+                        and not self.passed_classifier_check(location_start, location_end)
+                    ):
                         continue
 
-                    ant = DateAnnotation(coords=(location_start, location_end),
-                                         date=date,
-                                         text=text_part[location_start:location_end],
-                                         locale=self.locale.language)
-                    yield ant
+                    yield DateAnnotation(
+                        coords=(location_start, location_end),
+                        date=date,
+                        text=source_text[location_start:location_end],
+                        locale=self.locale.language,
+                    )

@@ -1,8 +1,8 @@
 .. _extract_en_durations:
 
-============
+========================================================
 :mod:`lexnlp.extract.en.durations`: Extracting durations
-============
+========================================================
 
 The :mod:`lexnlp.extract.en.durations` module contains methods that allow for the extraction
 of durations from text.  Statements that are covered by default in this module include:
@@ -18,7 +18,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting constraints
-----------------
+----------------------
 .. autofunction:: get_durations
 
 Example ::
@@ -34,7 +34,7 @@ Example ::
     [('second', 12, 0.0001388888888888889)]
 
 Customizing duration statement extraction
-----------------
+-----------------------------------------
 Duration statement extraction can be customized.  There are three key module
 variables that store the default configuration:
 

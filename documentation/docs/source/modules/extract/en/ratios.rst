@@ -1,8 +1,8 @@
 .. _extract_en_ratios:
 
-============
+==================================================
 :mod:`lexnlp.extract.en.ratios`: Extracting ratios
-============
+==================================================
 
 The :mod:`lexnlp.extract.en.ratios` module contains methods that allow for the extraction
 of ratio statements from text.  Example statements include:
@@ -20,7 +20,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting conditions
-----------------
+---------------------
 .. autofunction:: get_ratios
 
 Example ::

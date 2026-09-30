@@ -15,7 +15,12 @@ __email__ = "support@contraxsuite.com"
 
 from unittest import TestCase
 
-from lexnlp.extract.all_locales.languages import Locale
+from lexnlp.extract.all_locales.languages import (
+    LANG_DE,
+    LANG_EN,
+    Locale,
+    get_language_routine,
+)
 
 
 class TestLocales(TestCase):
@@ -32,3 +37,21 @@ class TestLocales(TestCase):
             locale_obj = Locale(item['input'])
             self.assertEqual(locale_obj.language, output_language_code)
             self.assertEqual(locale_obj.locale_code, item['output_locale_code'])
+
+    def test_unsupported_locale_uses_explicit_fallback(self):
+        english = object()
+        german = object()
+        routines = {'en': english, 'de': german}
+
+        self.assertIs(
+            get_language_routine('fr-FR', routines, LANG_EN),
+            english,
+        )
+        self.assertIs(
+            get_language_routine('fr-FR', routines, LANG_DE),
+            german,
+        )
+        self.assertIs(
+            get_language_routine('de-DE', {'de': german}, LANG_EN),
+            german,
+        )

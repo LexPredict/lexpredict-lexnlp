@@ -11,7 +11,7 @@ __email__ = "support@contraxsuite.com"
 import codecs
 import os
 import string
-from typing import Dict, Optional, List, Callable
+from typing import Optional, List, Callable
 
 import numpy
 import pandas

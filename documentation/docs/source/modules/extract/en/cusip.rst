@@ -1,8 +1,8 @@
 .. _extract_en_cusip:
 
-============
+================================================
 :mod:`lexnlp.extract.en.cusip`: Extracting CUSIP
-============
+================================================
 
 The :mod:`lexnlp.extract.en.cusip` module contains methods that allow for the extraction
 of CUSIP code from text.  Example statements that are covered by default in this module include:
@@ -20,7 +20,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/en/te
 
 
 Extracting conditions
-----------------
+---------------------
 .. autofunction:: get_cusip_list
 
 Example ::

@@ -1,8 +1,8 @@
 .. _extract_de_citations:
 
-============
+========================================================
 :mod:`lexnlp.extract.de.citations`: Extracting citations
-============
+========================================================
 
 The :mod:`lexnlp.extract.de.citations` module contains methods that allow for the extraction
 of "BGBl" citations from text.  Sample citations that are covered by this module include:
@@ -19,7 +19,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/de/te
 .. currentmodule:: lexnlp.extract.de.citations
 
 Extracting citations
-----------------
+--------------------
 .. autofunction:: get_citation_list
 
 Example ::

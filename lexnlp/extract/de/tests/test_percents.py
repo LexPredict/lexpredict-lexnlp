@@ -24,13 +24,13 @@ class TestGetPercents(AssertionMixin):
                                 'source_text': '15 Volumenprozent',
                                 'unit_name': 'prozent',
                                 'amount': 15.0,
-                                'real_amount': 15.0},
+                                'real_amount': Decimal('0.15')},
                                {'location_start': 78,
                                 'location_end': 96,
                                 'source_text': '18 Volumenprozent',
                                 'unit_name': 'prozent',
                                 'amount': 18.0,
-                                'real_amount': 18.0}])
+                                'real_amount': Decimal('0.18')}])
 
     def test_written_percent(self):
         text = 'Dieses Einkommen macht zwanzig Prozent des Gesamteinkommens aus'
@@ -40,7 +40,7 @@ class TestGetPercents(AssertionMixin):
                                 'source_text': ' zwanzig Prozent',
                                 'unit_name': 'prozent',
                                 'amount': 20,
-                                'real_amount': 20}])
+                                'real_amount': Decimal('0.2')}])
         text = 'Dieses Einkommen macht zwanzig % des Gesamteinkommens aus'
         res = list(get_percents(text))
         self.assertEqual(res, [{'location_start': 22,
@@ -48,7 +48,7 @@ class TestGetPercents(AssertionMixin):
                                 'source_text': ' zwanzig %',
                                 'unit_name': '%',
                                 'amount': 20,
-                                'real_amount': 20}])
+                                'real_amount': Decimal('0.2')}])
 
     def test_annotations(self):
         text = 'Dieses Einkommen macht zwanzig Prozent des Gesamteinkommens aus'
@@ -58,7 +58,7 @@ class TestGetPercents(AssertionMixin):
         self.assertEqual('zwanzig Prozent', res[0].text.strip())
         self.assertEqual('prozent', res[0].sign)
         self.assertEqual(Decimal(20), res[0].amount)
-        self.assertEqual(Decimal(20), res[0].fraction)
+        self.assertEqual(Decimal('0.2'), res[0].fraction)
 
     def test_file_samples(self):
         tester = TypedAnnotationsTester()

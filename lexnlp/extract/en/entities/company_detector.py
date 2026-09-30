@@ -40,6 +40,22 @@ COMPANY_NAME_PREFIX_RE = re.compile(PARTY_PREFIX_STR, re.IGNORECASE)
 COMPANY_NAME_TRIM_RE = re.compile(r'^\s*(?:and|&|of)\s+|\s+(?:and|&|of)\s*$', re.IGNORECASE)
 
 
+def _is_defined_employment_role(tokens: List[str], start: int, end: int) -> bool:
+    """Recognize quoted employment roles, without rejecting words in names."""
+    if end - start != 1 or tokens[start].casefold() not in {'employee', 'employer'}:
+        return False
+    if start < 2 or end + 1 >= len(tokens):
+        return False
+    quote_pairs = {"'": "'", '``': "''", '“': '”', '‘': '’', '`': '`'}
+    closing_quote = quote_pairs.get(tokens[start - 1])
+    if closing_quote is None or tokens[end] != closing_quote or tokens[end + 1] != ')':
+        return False
+    opening = start - 2
+    if tokens[opening].casefold() == 'the':
+        opening -= 1
+    return opening >= 0 and tokens[opening] == '('
+
+
 class CompanyDetector:
     BACKTRACK_CATASTROPHY_COMPANY_PATTERN = r'[0-9A-Za-z]{80,}'
 
@@ -288,16 +304,25 @@ class CompanyDetector:
             # Tag sentence
             original_sentence = copy.copy(sentence)
             sentence = replace_upper_words_with_titled(sentence)
-            sentence_pos = nltk.pos_tag(get_token_list(sentence))
+            sentence_tokens = get_token_list(sentence)
+            sentence_pos = nltk.pos_tag(sentence_tokens)
 
             # Iterate through chunks
             persons = []
             last_person_pos = None
+            token_end = 0
 
             for i, chunk in enumerate(nltk.ne_chunk(sentence_pos)):
+                token_start = token_end
+                token_end += len(chunk.leaves()) if isinstance(chunk, nltk.tree.Tree) else 1
                 if isinstance(chunk, nltk.tree.Tree):
                     # Check label
                     if chunk.label() == 'PERSON':
+                        # NLTK 3.10.3 separates opening apostrophes, exposing
+                        # labels such as (the 'Employee') to the NE chunker.
+                        if _is_defined_employment_role(sentence_tokens, token_start, token_end):
+                            last_person_pos = None
+                            continue
                         if not strict and last_person_pos is not None and (i - last_person_pos) < window:
                             persons[-1] += " " + " ".join([c[0] for c in chunk])
                         else:

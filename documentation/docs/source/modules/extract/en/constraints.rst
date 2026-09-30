@@ -1,8 +1,8 @@
 .. _extract_en_constraints:
 
-============
+======================================================================
 :mod:`lexnlp.extract.en.constraints`: Extracting constraint statements
-============
+======================================================================
 
 The :mod:`lexnlp.extract.en.constraints` module contains methods that allow for the extraction
 of constraint statements from text.  Statements that are covered by default in this module are:
@@ -56,7 +56,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting constraints
-----------------
+----------------------
 .. autofunction:: get_constraints
 
 Example ::
@@ -73,7 +73,7 @@ Example ::
 
 
 Customizing constraint statement extraction
-----------------
+-------------------------------------------
 
 Constraint statement extraction can be customized.  There are two key module
 variables that store the default configuration and one function used to create

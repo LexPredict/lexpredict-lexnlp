@@ -1,8 +1,8 @@
 .. _extract_en_amounts:
 
-============
+====================================================
 :mod:`lexnlp.extract.en.amounts`: Extracting amounts
-============
+====================================================
 
 The :mod:`lexnlp.extract.en.amounts` module contains methods that allow for the extraction
 of amounts from text.  Sample amounts that are covered by this module include:
@@ -22,7 +22,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 .. currentmodule:: lexnlp.extract.en.amounts
 
 Extracting amounts
-----------------
+------------------
 .. autofunction:: get_amounts
 
 Example ::
@@ -45,7 +45,7 @@ Example ::
     [10000000000000.0]
 
 Converting text to numbers
-----------------
+--------------------------
 .. autofunction:: text2num
 
 Example ::

@@ -20,11 +20,17 @@ __email__ = "support@contraxsuite.com"
 
 import csv
 import os
+from pathlib import Path
+
 import pandas
 
+from lexnlp import get_module_path
 from lexnlp.extract.en.dict_entities import DictionaryEntry, DictionaryEntryAlias
 from lexnlp.extract.en.courts import _get_courts
 from lexnlp.tests import lexnlp_tests
+
+
+COURTS_DATA_PATH = Path(get_module_path()) / "config" / "en" / "us_courts.csv"
 
 
 BAD_EXAMPLES = ["""13.  Governing Law;  Submissions to  Jurisdiction.  This Agreement shall be
@@ -53,9 +59,7 @@ BY SUCH COURTS.""",
 
 
 def test_courts():
-    court_df = pandas \
-        .read_csv("https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts"
-                  ".csv")
+    court_df = pandas.read_csv(COURTS_DATA_PATH)
 
     # Create config objects
     court_config_list = []
@@ -72,11 +76,7 @@ def test_courts_rs():
     :return:
     """
 
-    # Read main data
-    # Load court data
-    court_df = pandas \
-        .read_csv("https://raw.githubusercontent.com/LexPredict/lexpredict-legal-dictionary/1.0.2/en/legal/us_courts"
-                  ".csv")
+    court_df = pandas.read_csv(COURTS_DATA_PATH)
 
     # Create config objects
     court_config_list = []

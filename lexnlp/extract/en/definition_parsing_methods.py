@@ -20,7 +20,7 @@ __email__ = "support@contraxsuite.com"
 import regex as re
 import unidecode
 from collections import Counter
-from typing import Pattern, List, Tuple, Set
+from typing import Pattern, List, Tuple
 
 from lexnlp.extract.common.annotations.phrase_position_finder import PhrasePositionFinder
 from lexnlp.extract.common.text_beautifier import TextBeautifier

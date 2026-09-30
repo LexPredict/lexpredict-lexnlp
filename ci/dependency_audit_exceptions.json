@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "exceptions": [
+    {
+      "package": "nltk",
+      "version": "3.10.3",
+      "advisory_ids": [
+        "GHSA-8mgp-746c-j5xp",
+        "CVE-2026-81726",
+        "PYSEC-2026-3740"
+      ],
+      "dependency_is_vulnerable": true,
+      "justification": "vulnerable_code_not_in_execute_path",
+      "reviewed_on": "2026-09-30",
+      "expires_on": "2026-10-30",
+      "source_sha256": "adc7bea1deadc13e6dd803501cb7a0056c35960c2362d77a2c826c22e916e481",
+      "description_sha256": "3ee391bec649a662f484948525e7f316558dde42e4c5c43ef3dc5e84e8d05563",
+      "scope": "LexNLP shipped extraction, segmentation, verified asset setup/re-export helpers, model-quality gates, and optional Stanford adapters. Reviewed document text cannot select NLTK model-persistence paths. This disposition is not an upstream fix or a claim that NLTK is vulnerability-free.",
+      "affected_apis": [
+        "TransitionParser.train",
+        "TransitionParser.parse",
+        "AveragedPerceptron.save",
+        "AveragedPerceptron.load",
+        "PerceptronTagger.save_to_json",
+        "save_maxent_params"
+      ],
+      "evidence": [
+        {
+          "path": "lexnlp/nlp/en/tokens.py",
+          "detail": "POS inference calls nltk.pos_tag on text-derived tokens, with the default pretrained English tagger and no caller-selected model path. NLTK uses load_from_json, not the affected AveragedPerceptron.load."
+        },
+        {
+          "path": "lexnlp/extract/en/entities/company_detector.py",
+          "detail": "Person extraction calls pretrained POS/NE inference. nltk.ne_chunk constructs a Maxent_NE_Chunker and loads fixed resource parameters; it does not invoke save_maxent_params or model training/persistence."
+        },
+        {
+          "path": "lexnlp/nlp/en/segments/sentences.py",
+          "detail": "The sentence-training helper trains PunktTrainer in memory; it does not use TransitionParser or PerceptronTagger persistence."
+        },
+        {
+          "path": "README.md",
+          "detail": "Model files must come from trusted releases/producers. NLTK resource installation uses a pinned, checksum-verified catalog. LexNLP is a Python legal-text library, not a sandbox for arbitrary Python or caller-controlled NLTK model persistence."
+        },
+        {
+          "path": "scripts/bootstrap_assets.py",
+          "detail": "Resource destinations are trusted operator setup configuration, not document inputs. The reviewed lexnlp/scripts runtime source tree has no callers of the affected APIs and is bound by source_sha256."
+        }
+      ],
+      "residual_risk": "NLTK 3.10.3 remains vulnerable. Applications that directly expose the affected NLTK persistence APIs, accept untrusted model paths, or rely on NLTK pathsec for such containment are not covered. New advisory text, a fixed release, code changes, version changes, or expiry require fresh review; do not widen this disposition to downstream integrations.",
+      "references": [
+        "https://github.com/advisories/GHSA-8mgp-746c-j5xp",
+        "https://pypi.org/pypi/nltk/3.10.3/json",
+        "https://github.com/nltk/nltk/pull/3757",
+        "https://github.com/nltk/nltk/pull/3759",
+        "https://github.com/nltk/nltk/pull/3813"
+      ]
+    }
+  ]
+}

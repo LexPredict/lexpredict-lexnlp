@@ -59,12 +59,12 @@ class CommonDefinitionPatterns:
         for i in range(len(words) - 1, -1, -1):
             if words[i].is_separator:
                 continue
-            l = words[i].text[0]
-            l_upper = l.upper()
-            is_upper = l_upper == l
+            letter = words[i].text[0]
+            letter_upper = letter.upper()
+            is_upper = letter_upper == letter
             if is_upper:
                 uppercases += 1
-            is_correct = name[acr_index] == l_upper
+            is_correct = name[acr_index] == letter_upper
             if not is_correct:
                 mistakes += 1
                 if mistakes > 1:

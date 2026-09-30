@@ -1,8 +1,8 @@
 .. _extract_en_percents:
 
-============
+================================================================
 :mod:`lexnlp.extract.en.percents`: Extracting percents and rates
-============
+================================================================
 
 The :mod:`lexnlp.extract.en.percents` module contains methods that allow for the extraction
 of percent and rate statements from text.  Example statements that are covered by default in this module include:
@@ -20,7 +20,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting conditions
-----------------
+---------------------
 .. autofunction:: get_percents
 
 Example ::

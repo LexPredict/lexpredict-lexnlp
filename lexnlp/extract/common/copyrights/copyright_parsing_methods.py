@@ -8,7 +8,7 @@ __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-from typing import Pattern, List, Tuple
+from typing import List, Tuple
 # pylint: enable=unused-import
 import regex as re
 from lexnlp.extract.common import year_parser

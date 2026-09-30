@@ -45,7 +45,7 @@ class DateFragment:
 
 
 def refine_pattern_start_end(pattern: str) -> str:
-    """
+    r"""
     The updated Regex pattern doesn't allow alpha characters prepended or appended
     to the match.
     :param pattern: monday|tuesday

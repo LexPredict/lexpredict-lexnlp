@@ -12,7 +12,12 @@ from typing import Generator, List, Optional, Tuple, Dict
 
 from lexnlp.extract.common.annotations.geo_annotation import GeoAnnotation
 from lexnlp.extract.en.dict_entities import DictionaryEntry
-from lexnlp.extract.all_locales.languages import LANG_EN, LANG_DE, DEFAULT_LANGUAGE, Locale
+from lexnlp.extract.all_locales.languages import (
+    DEFAULT_LANGUAGE,
+    LANG_DE,
+    LANG_EN,
+    get_language_routine,
+)
 from lexnlp.extract.en.geoentities import get_geoentity_annotations as get_geoentity_annotations_en
 from lexnlp.extract.de.geoentities import get_geoentity_annotations as get_geoentity_annotations_de
 
@@ -34,7 +39,11 @@ def get_geoentity_annotations(
         prepared_alias_ban_list: Optional[
             Dict[str, Tuple[List[str], List[str]]]] = None,
         simplified_normalization: bool = False) -> Generator[GeoAnnotation, None, None]:
-    routine = ROUTINE_BY_LOCALE.get(Locale(locale).language, ROUTINE_BY_LOCALE[DEFAULT_LANGUAGE.code])
+    routine = get_language_routine(
+        locale,
+        ROUTINE_BY_LOCALE,
+        DEFAULT_LANGUAGE,
+    )
     yield from routine(text, geo_config_list, conflict_resolving_field,
                        priority_direction, text_languages, min_alias_len,
                        prepared_alias_ban_list, simplified_normalization)

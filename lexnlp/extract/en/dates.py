@@ -237,8 +237,7 @@ def get_raw_dates(text, strict=False, base_date=None,
                         date_string = ' '.join(_date_string_tokens)
                     try:
                         date = date_finder.parse_date_string(date_string, date_props, locale=locale)
-                    # pylint: disable=broad-except
-                    except:
+                    except Exception:
                         date = None
                     if date:
                         break

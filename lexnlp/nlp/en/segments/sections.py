@@ -24,12 +24,12 @@ from typing import Generator, List, Optional, Tuple, Any, Union
 # Packages
 import pandas
 import regex as re
-import joblib
 
 # Project imports
 from lexnlp.nlp.en.segments.utils import build_document_line_distribution
 from lexnlp.utils.map import Map
 from lexnlp.utils.decorators import safe_failure
+from lexnlp.utils.unpickler import load_joblib_model
 from lexnlp.nlp.en.segments.heading_heuristics import HeadingHeuristics
 
 
@@ -40,7 +40,9 @@ MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 
 class SectionSegmenterModel:
-    SECTION_SEGMENTER_MODEL = joblib.load(os.path.join(MODULE_PATH, "./section_segmenter.pickle"))
+    SECTION_SEGMENTER_MODEL = load_joblib_model(
+        os.path.join(MODULE_PATH, "./section_segmenter.pickle")
+    )
     FEATURE_NAMES = []
 
 
@@ -225,7 +227,8 @@ def get_sections(text, window_pre=3, window_post=3, score_threshold=0.5) -> Gene
     columns = list(get_section_feature_names(len(lines), window_pre, window_post, include_doc=doc_distribution))
     columns.sort()
     test_feature_df = pandas.DataFrame(test_feature_data, columns=columns).fillna(-1)
-    test_predicted_lines = SectionSegmenterModel.SECTION_SEGMENTER_MODEL.predict_proba(test_feature_df)
+    # Avoid pandas dtype deprecation noise in sklearn validation by passing a numpy array.
+    test_predicted_lines = SectionSegmenterModel.SECTION_SEGMENTER_MODEL.predict_proba(test_feature_df.to_numpy(dtype=float))
     predicted_df = pandas.DataFrame(test_predicted_lines, columns=["prob_false", "prob_true"])
     section_breaks = predicted_df.loc[predicted_df["prob_true"] >= score_threshold, :].index.tolist()
 

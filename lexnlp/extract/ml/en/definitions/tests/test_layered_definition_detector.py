@@ -7,7 +7,12 @@ __email__ = "support@contraxsuite.com"
 
 
 import os
+from pathlib import Path
 from unittest import TestCase
+from zipfile import ZipFile
+
+import pandas
+import pytest
 
 from lexnlp.extract.ml.en.definitions.layered_definition_detector import LayeredDefinitionDetector
 from lexnlp.extract.ml.environment import ENV_EN_DATA_DIRECTORY
@@ -39,3 +44,106 @@ class TestLayeredDefinitionDetector(TestCase):
         self.assertGreater(len(ants), 0)
         ant_def = text[ants[0].coords[0]: ants[0].coords[1]]
         self.assertGreater(len(ant_def), 0)
+
+
+class RecordingDetector:
+    def __init__(self):
+        self.payload = None
+
+    def load_from_stream(self, stream):
+        self.payload = stream.read()
+
+
+def test_compressed_model_loads_exact_members_without_extracting_to_disk(
+    tmp_path: Path,
+):
+    archive_path = tmp_path / "definition-model.zip"
+    with ZipFile(archive_path, "w") as archive:
+        archive.writestr("definition.pickle", b"definition model")
+        archive.writestr("term.pickle", b"term model")
+
+    detector = LayeredDefinitionDetector()
+    detector.model_definition = RecordingDetector()
+    detector.model_term = RecordingDetector()
+
+    detector.load_compressed(str(archive_path))
+
+    assert detector.initialized is True
+    assert detector.model_definition.payload == b"definition model"
+    assert detector.model_term.payload == b"term model"
+    assert sorted(path.name for path in tmp_path.iterdir()) == ["definition-model.zip"]
+
+
+@pytest.mark.parametrize(
+    "members",
+    [
+        {"definition.pickle": b"definition"},
+        {
+            "definition.pickle": b"definition",
+            "term.pickle": b"term",
+            "../outside.pickle": b"unexpected",
+        },
+        {
+            "definition.pickle": b"definition",
+            "term.pickle": b"term",
+            "notes.txt": b"unexpected",
+        },
+    ],
+)
+def test_compressed_model_rejects_missing_or_unexpected_members(
+    tmp_path: Path,
+    members,
+):
+    archive_path = tmp_path / "definition-model.zip"
+    with ZipFile(archive_path, "w") as archive:
+        for name, payload in members.items():
+            archive.writestr(name, payload)
+
+    detector = LayeredDefinitionDetector()
+    detector.model_definition = RecordingDetector()
+    detector.model_term = RecordingDetector()
+
+    with pytest.raises(RuntimeError, match="Invalid layered definition model archive"):
+        detector.load_compressed(str(archive_path))
+
+    assert detector.initialized is False
+    assert not (tmp_path.parent / "outside.pickle").exists()
+
+
+class TrainingDetector:
+    def __init__(self, payload: bytes):
+        self.payload = payload
+
+    def train_and_save_on_dataframe(
+        self,
+        _settings,
+        _frame,
+        save_path,
+        *,
+        compress,
+    ):
+        assert compress is False
+        Path(save_path).write_bytes(self.payload)
+
+
+def test_training_uses_unique_temporary_directory_and_atomic_archive(
+    tmp_path: Path,
+):
+    destination = tmp_path / "models" / "definition-model.zip"
+    detector = LayeredDefinitionDetector()
+    detector.model_definition = TrainingDetector(b"definition model")
+    detector.model_term = TrainingDetector(b"term model")
+
+    detector.train_on_formatted_data(
+        pandas.DataFrame(),
+        pandas.DataFrame(),
+        str(destination),
+    )
+
+    with ZipFile(destination) as archive:
+        assert set(archive.namelist()) == {"definition.pickle", "term.pickle"}
+        assert archive.read("definition.pickle") == b"definition model"
+        assert archive.read("term.pickle") == b"term model"
+    assert sorted(path.name for path in destination.parent.iterdir()) == [
+        "definition-model.zip"
+    ]

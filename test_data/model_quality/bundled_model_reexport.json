@@ -1,0 +1,66 @@
+{
+  "artifacts": [
+    {
+      "artifact_sha256": "618ba44782b533a42cc9e0cd95e883c58bdcee04b137c9ec4cb1ab6ae8cfd685",
+      "artifact_size_bytes": 54794,
+      "path": "lexnlp/extract/de/date_model.pickle"
+    },
+    {
+      "artifact_sha256": "2f9c2a6840940903331e9415f5bfbbc80b168c84c35a7d7bdf5524928a84e19a",
+      "artifact_size_bytes": 29064,
+      "path": "lexnlp/extract/de/model.pickle"
+    },
+    {
+      "artifact_sha256": "be3d14720a365940ec2474872dd0e0fc7ac474232e92a642e5304194fd4333d0",
+      "artifact_size_bytes": 1094209,
+      "path": "lexnlp/extract/en/addresses/addresses_clf.pickle"
+    },
+    {
+      "artifact_sha256": "80ce631ff0bdfa496d2d770810aba34e508a3bf786e9cc203603e30d72018a58",
+      "artifact_size_bytes": 56085,
+      "path": "lexnlp/extract/en/date_model.pickle"
+    },
+    {
+      "artifact_sha256": "c60cdc98da81ee03f8f416a11a6fe182528619625fdb13d1452454732f4abac8",
+      "artifact_size_bytes": 3690751,
+      "path": "lexnlp/extract/ml/en/data/definition_model_layered.pickle.gzip"
+    },
+    {
+      "artifact_sha256": "2cbda30a80f5528948767d963d1d830700989f504dbfdca244a7c73e83a7fd65",
+      "artifact_size_bytes": 1140,
+      "path": "lexnlp/nlp/en/segments/page_segmenter.pickle"
+    },
+    {
+      "artifact_sha256": "e15846445256152a43234b5d616f058f09ceb0b01f1615ed2644f889af1d4b7a",
+      "artifact_size_bytes": 1337,
+      "path": "lexnlp/nlp/en/segments/paragraph_segmenter.pickle"
+    },
+    {
+      "artifact_sha256": "0a87fe03e71f0bbb5c7c0203b57c3683cc718814c381fb2c473f87caa90a0426",
+      "artifact_size_bytes": 6198,
+      "path": "lexnlp/nlp/en/segments/section_segmenter.pickle"
+    },
+    {
+      "artifact_sha256": "f36fe23f1474558f90d4f8769714f533824e12cfb96fc14cac9515bf49176776",
+      "artifact_size_bytes": 295494,
+      "path": "lexnlp/nlp/en/segments/title_locator.pickle"
+    }
+  ],
+  "runtime": {
+    "joblib": "1.5.0",
+    "lexnlp": "2.3.0",
+    "numpy": "1.26.4",
+    "pandas": "2.2.0",
+    "python": "3.12.13",
+    "scikit_learn": "1.7.2",
+    "scipy": "1.13.0",
+    "threadpoolctl": "3.6.0"
+  },
+  "schema_version": 1,
+  "strategy": "Scoped offline reconstruction of legacy sklearn tree node state and estimator attributes, plus classifier value normalization; runtime imports use only native sklearn objects.",
+  "validation": [
+    "scripts/reexport_bundled_sklearn_models.py --check-current",
+    "pytest lexnlp",
+    "contract and contract-type model quality gates"
+  ]
+}

@@ -9,7 +9,11 @@ __email__ = "support@contraxsuite.com"
 
 
 import locale
-from typing import Sequence, Union
+from threading import RLock
+from typing import Mapping, Optional, TypeVar
+
+
+_LOCALE_LOCK = RLock()
 
 
 class LocaleContextManager:
@@ -25,18 +29,28 @@ class LocaleContextManager:
 
         `category` may be given as one of the LC_* values.
         """
-        self._original_locale: Sequence = locale.getlocale()
+        self._original_locale: Optional[str] = None
         self.category: int = category
         self.locale: str = _locale
 
-    def __enter__(self) -> Union[str, str]:
+    def __enter__(self) -> Optional[str]:
+        _LOCALE_LOCK.acquire()
         try:
-            return locale.setlocale(self.category, self.locale)
-        except locale.Error:
-            ...
+            self._original_locale = locale.setlocale(self.category)
+            try:
+                return locale.setlocale(self.category, self.locale)
+            except locale.Error:
+                return None
+        except BaseException:
+            _LOCALE_LOCK.release()
+            raise
 
     def __exit__(self, type, value, traceback) -> None:
-        locale.setlocale(self.category, self._original_locale)
+        try:
+            if self._original_locale is not None:
+                locale.setlocale(self.category, self._original_locale)
+        finally:
+            _LOCALE_LOCK.release()
 
 
 class Language:
@@ -75,3 +89,23 @@ LANGUAGES = [
 ]
 
 DEFAULT_LANGUAGE = LANG_EN
+
+
+Routine = TypeVar('Routine')
+
+
+def get_language_routine(
+    locale_name: str,
+    routines: Mapping[str, Routine],
+    default_language: Language,
+) -> Routine:
+    """Return the locale extractor, falling back to ``default_language``.
+
+    The fallback is explicit at each call site because most all-locale
+    extractors historically default to English, while court citations default
+    to German.
+    """
+    language = Locale(locale_name).language
+    if language in routines:
+        return routines[language]
+    return routines[default_language.code]

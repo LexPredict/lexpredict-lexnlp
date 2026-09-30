@@ -10,7 +10,7 @@ total=1
 0)reporter_full_name=Federal Reporter
 0)reporter=F.2d
 0)volume=1
-0)coords=(19, 50)
+0)coords=(20, 49)
 0)locale=en
 
 -------------------------------------------------------------------------------

@@ -10,6 +10,8 @@ __email__ = "support@contraxsuite.com"
 
 
 # standard library
+import logging
+import pickle
 from typing import Iterable, Tuple, Union
 
 # third-party imports
@@ -20,12 +22,60 @@ from pandas import Series
 from lexnlp.ml.predictor import ProbabilityPredictor
 
 
+LOGGER = logging.getLogger(__name__)
+
+
 class ProbabilityPredictorIsContract(ProbabilityPredictor):
     """
     Uses a Scikit-Learn Pipeline to classify textual input as is/is-not a contract.
     """
 
-    _DEFAULT_PIPELINE: str = 'pipeline/is-contract/0.1'
+    _DEFAULT_PIPELINE: str = 'pipeline/is-contract/0.2'
+    _DEFAULT_PIPELINE_ENV_VAR: str = 'LEXNLP_IS_CONTRACT_MODEL_TAG'
+    _LEGACY_FALLBACK_PIPELINE: str = 'pipeline/is-contract/0.1'
+
+    @classmethod
+    def get_default_pipeline(cls):
+        try:
+            return super().get_default_pipeline()
+        except (
+            FileNotFoundError,
+            EOFError,
+            ImportError,
+            AttributeError,
+            TypeError,
+            ValueError,
+            pickle.UnpicklingError,
+        ) as exc:
+            # Respect explicit env override failures and only auto-fallback for
+            # the default model tag.
+            if cls.get_default_pipeline_tag() != cls._DEFAULT_PIPELINE:
+                raise
+
+            LOGGER.warning(
+                "Failed to load default contract model tag=%s; falling back to legacy tag=%s. error=%s",
+                cls._DEFAULT_PIPELINE,
+                cls._LEGACY_FALLBACK_PIPELINE,
+                exc,
+                exc_info=True,
+            )
+
+            try:
+                from lexnlp.ml.catalog import get_path_from_catalog
+                from lexnlp.utils.unpickler import load_sklearn_model
+
+                legacy_path = get_path_from_catalog(cls._LEGACY_FALLBACK_PIPELINE)
+                with legacy_path.open("rb") as legacy_file:
+                    return load_sklearn_model(legacy_file)
+            except Exception as fallback_error:
+                raise RuntimeError(
+                    "Failed to load default contract model and legacy fallback model. "
+                    "Install the trusted fallback with `from lexnlp.ml.catalog.download "
+                    "import download_github_release; download_github_release("
+                    "'pipeline/is-contract/0.1', prompt_user=False)`. "
+                    "From a source checkout, you can instead run "
+                    "`python scripts/bootstrap_assets.py --contract-model`."
+                ) from fallback_error
 
     def _sanity_check(self) -> None:
         """
@@ -72,11 +122,58 @@ class ProbabilityPredictorContractType(ProbabilityPredictor):
     """
 
     _DEFAULT_PIPELINE: str = 'pipeline/contract-type/0.1'
+    _DEFAULT_PIPELINE_ENV_VAR: str = 'LEXNLP_CONTRACT_TYPE_MODEL_TAG'
+    _RUNTIME_FALLBACK_PIPELINE: str = 'pipeline/contract-type/0.2-runtime'
 
     def _sanity_check(self) -> None:
         """
         Does nothing. No sanity check required.
         """
+
+    @classmethod
+    def get_default_pipeline(cls):
+        try:
+            return super().get_default_pipeline()
+        except (
+            FileNotFoundError,
+            EOFError,
+            ImportError,
+            AttributeError,
+            TypeError,
+            ValueError,
+            pickle.UnpicklingError,
+        ) as exc:
+            # Respect explicit env override failures and only auto-fallback for
+            # the legacy default model tag.
+            if cls.get_default_pipeline_tag() != cls._DEFAULT_PIPELINE:
+                raise
+
+            LOGGER.warning(
+                "Failed to load legacy contract-type model tag=%s; falling back to runtime tag=%s. error=%s",
+                cls._DEFAULT_PIPELINE,
+                cls._RUNTIME_FALLBACK_PIPELINE,
+                exc,
+                exc_info=True,
+            )
+
+            from lexnlp.extract.en.contracts.runtime_model import (
+                ensure_runtime_contract_type_model,
+                load_pipeline_for_tag,
+            )
+
+            ensure_runtime_contract_type_model(target_tag=cls._RUNTIME_FALLBACK_PIPELINE)
+            try:
+                return load_pipeline_for_tag(cls._RUNTIME_FALLBACK_PIPELINE)
+            except Exception as fallback_error:
+                raise RuntimeError(
+                    "Failed to load legacy contract-type model and runtime fallback model. "
+                    "Install or rebuild the runtime model with `from "
+                    "lexnlp.extract.en.contracts.runtime_model import "
+                    "ensure_runtime_contract_type_model; "
+                    "ensure_runtime_contract_type_model(force=True)`. "
+                    "From a source checkout, you can instead run "
+                    "`python scripts/bootstrap_assets.py --contract-type-model`."
+                ) from fallback_error
 
     def make_predictions(
         self,
@@ -127,7 +224,8 @@ class ProbabilityPredictorContractType(ProbabilityPredictor):
                 The second-highest prediction probability must be this less than
                 the highest prediction probability multiplied by this value.
 
-                That is, if `predictions[1] > (predictions[0] * max_closest_probability)`,
+                That is, if `predictions.iloc[1] >
+                (predictions.iloc[0] * max_closest_probability)`,
                 then the `unknown_classification` will be returned.
 
             unknown_classification (str=''):
@@ -140,11 +238,16 @@ class ProbabilityPredictorContractType(ProbabilityPredictor):
         if predictions.empty:
             return unknown_classification
 
-        if predictions[0] < min_probability:
+        highest_probability = predictions.iloc[0]
+        if highest_probability < min_probability:
             return unknown_classification
 
-        next_closest_probability: float = 0.0 if len(predictions) < 2 else predictions[1]
-        if next_closest_probability > (predictions[0] * max_closest_probability):
+        next_closest_probability: float = (
+            0.0 if len(predictions) < 2 else predictions.iloc[1]
+        )
+        if next_closest_probability > (
+            highest_probability * max_closest_probability
+        ):
             return unknown_classification
 
         return predictions.index[0]
@@ -171,7 +274,8 @@ class ProbabilityPredictorContractType(ProbabilityPredictor):
                 The second-highest prediction probability must be this less than
                 the highest prediction probability multiplied by this value.
 
-                That is, if `predictions[1] > (predictions[0] * max_closest_probability)`,
+                That is, if `predictions.iloc[1] >
+                (predictions.iloc[0] * max_closest_probability)`,
                 then the `unknown_classification` will be returned.
 
             unknown_classification (str=''):

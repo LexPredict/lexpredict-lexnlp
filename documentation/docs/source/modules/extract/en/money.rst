@@ -1,8 +1,8 @@
 .. _extract_en_money:
 
-============
+========================================================================
 :mod:`lexnlp.extract.en.money`: Extracting money and currency references
-============
+========================================================================
 
 The :mod:`lexnlp.extract.en.money` module contains methods that allow for the extraction
 of money and currency amounts from text.  Example references that are covered by default in this module include:
@@ -14,6 +14,7 @@ of money and currency amounts from text.  Example references that are covered by
 
 Comprehensive ISO 4217 codes can be captured, but frequently result in false positive matches in real documents.
 By default, only the following ISO 4217 codes and currency symbols are detected:
+
  * USD/$: US Dollars
  * EUR/€: Euros
  * GBP/£: Great British pounds
@@ -29,7 +30,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting money and currency references
-----------------
+----------------------------------------
 .. autofunction:: get_money
 
 Example ::
@@ -43,5 +44,4 @@ Example ::
     >>> text = "The price will be ¥250000000"
     >>> print(list(lexnlp.extract.en.money.get_money(text)))
     [(250000000.0, 'JPY')]
-
 

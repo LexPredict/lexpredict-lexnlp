@@ -10,6 +10,7 @@ __email__ = "support@contraxsuite.com"
 
 import locale
 from typing import Dict, FrozenSet, List, NamedTuple, Optional, Tuple, Set
+
 from lexnlp.extract.all_locales.languages import LocaleContextManager
 
 
@@ -26,6 +27,19 @@ DELIMITERS: FrozenSet = frozenset((
     '\u202F',  # U+202F   NARROW NO-BREAK SPACE (HTML &#8239;)
     '\u02D9',  # U+02D9 ˙ DOT ABOVE (HTML &#729; · &DiacriticalDot;, &dot;)
 ))
+
+NUMERIC_CONVENTIONS = {
+    'de_de': {
+        'decimal_point': ',',
+        'thousands_sep': '.',
+        'grouping': [3, 3, 0],
+    },
+    'en_us': {
+        'decimal_point': '.',
+        'thousands_sep': ',',
+        'grouping': [3, 3, 0],
+    },
+}
 
 
 class DelimitedBlock(NamedTuple):
@@ -160,14 +174,19 @@ def infer_delimiters(
         if not temp_text.isnumeric():
             return None
 
-    # TODO: be careful with the locale string!
-    #   - ".UTF-8" is hardcoded... will this always be correct?
-    #   - exception handling for when locales are not available
-    with LocaleContextManager(locale.LC_NUMERIC, f'{_locale}.UTF-8'):
-        locale_conventions = locale.localeconv()
-        decimal_delimiter: str = locale_conventions['decimal_point']
-        group_delimiter: str = locale_conventions['thousands_sep']
-        grouping: List[int] = locale_conventions['grouping']
+    locale_key = _locale.lower().split('.', maxsplit=1)[0].replace('-', '_')
+    locale_conventions = NUMERIC_CONVENTIONS.get(locale_key)
+    if locale_conventions is None:
+        locale_name = _locale if '.' in _locale else f'{_locale}.UTF-8'
+        # LocaleContextManager serializes process-global locale changes and
+        # restores LC_NUMERIC even when the requested locale is unavailable.
+        with LocaleContextManager(locale.LC_NUMERIC, locale_name):
+            locale_conventions = locale.localeconv()
+    decimal_delimiter: str = locale_conventions['decimal_point']
+    group_delimiter: str = locale_conventions['thousands_sep']
+    grouping: List[int] = [
+        value for value in locale_conventions['grouping'] if value > 0
+    ] or [3]
 
     delimiters, blocks = get_delimited_blocks(text)
     len_delimiters: int = len(delimiters)

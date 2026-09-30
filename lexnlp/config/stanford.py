@@ -11,6 +11,9 @@ __email__ = "support@contraxsuite.com"
 
 
 import os
+
+import nltk.data
+
 from lexnlp import get_lib_path
 
 
@@ -20,20 +23,26 @@ from lexnlp import get_lib_path
 STANFORD_VERSION = "2017-06-09"
 STANFORD_BASE_PATH = '/usr/lexnlp/libs/stanford_nlp'
 
-STANFORD_POS_PATH = os.path.join(
-    STANFORD_BASE_PATH,
-    'stanford-postagger-full-{0}'.format(STANFORD_VERSION))
-if not os.path.exists(STANFORD_POS_PATH):
-    STANFORD_POS_PATH = os.path.join(
-        get_lib_path(),
-        "stanford_nlp",
-        "stanford-postagger-full-{0}".format(STANFORD_VERSION))
+def _resolve_stanford_path(component: str) -> str:
+    candidates = []
+    for root in nltk.data.path:
+        # Bootstrap defaults to root/stanford_nlp. Explicit installations can
+        # also declare the Stanford directory itself as an NLTK data root.
+        candidates.extend((
+            os.path.join(root, "stanford_nlp", component),
+            os.path.join(root, component),
+        ))
+    candidates.extend((
+        os.path.join(STANFORD_BASE_PATH, component),
+        os.path.join(get_lib_path(), "stanford_nlp", component),
+    ))
+    for candidate in candidates:
+        if os.path.isdir(candidate):
+            return candidate
+    # Preserve the historical missing-assets path and diagnostics. Legacy
+    # installations still require their location to be trusted in NLTK_DATA.
+    return candidates[-1]
 
-STANFORD_NER_PATH = os.path.join(
-    STANFORD_BASE_PATH,
-    "stanford-ner-{0}".format(STANFORD_VERSION))
-if not os.path.exists(STANFORD_NER_PATH):
-    STANFORD_NER_PATH = os.path.join(
-        get_lib_path(),
-        "stanford_nlp",
-        "stanford-ner-{0}".format(STANFORD_VERSION))
+
+STANFORD_POS_PATH = _resolve_stanford_path(f"stanford-postagger-full-{STANFORD_VERSION}")
+STANFORD_NER_PATH = _resolve_stanford_path(f"stanford-ner-{STANFORD_VERSION}")

@@ -8,12 +8,12 @@ __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-import joblib
 from typing import List
 from pandas import Series
 from gensim.models.doc2vec import Doc2Vec
 from sklearn.ensemble import RandomForestClassifier
 from lexnlp.nlp.en.tokens import get_tokens
+from lexnlp.utils.unpickler import load_joblib_model
 
 
 class ContractTypeDetector:
@@ -33,7 +33,7 @@ class ContractTypeDetector:
             d2v_model_path (str):
         """
         with open(rf_model_path, "rb") as rf_model_file:
-            self.rf_model: RandomForestClassifier = joblib.load(rf_model_file)
+            self.rf_model: RandomForestClassifier = load_joblib_model(rf_model_file)
         self.d2v_model: Doc2Vec = Doc2Vec.load(d2v_model_path)
 
     @staticmethod
@@ -46,20 +46,25 @@ class ContractTypeDetector:
         """
         Decides what document type (string) this is based on sorted type_vector.
         :param type_vector: [('MERGER & ACQUISTION AGREEMENT', 0.16), ('UNKNOWN', 0.15), ...
-        :param min_prob: most probable ([0]) vector's value should be >= min_prob
-        :param max_closest_prob_percent: the second ([1]) vector's value should be <=
+        :param min_prob: most probable (.iloc[0]) vector's value should be >= min_prob
+        :param max_closest_prob_percent: the second (.iloc[1]) vector's value should be <=
                                          type_vector * X / 100%
         :param unknown_category: what value we return if either of both checks failed
-        :return: unknown_category or type_vector[0] title
+        :return: unknown_category or the highest-probability title
         """
         if type_vector.empty:
             return unknown_category
 
-        if type_vector[0] < min_prob:
+        highest_probability = type_vector.iloc[0]
+        if highest_probability < min_prob:
             return unknown_category
 
-        next_closest_probability: float = 0.0 if len(type_vector) < 2 else type_vector[1]
-        if next_closest_probability > (type_vector[0] * (max_closest_prob_percent/100)):
+        next_closest_probability: float = (
+            0.0 if len(type_vector) < 2 else type_vector.iloc[1]
+        )
+        if next_closest_probability > (
+            highest_probability * (max_closest_prob_percent / 100)
+        ):
             return unknown_category
 
         return type_vector.index[0]

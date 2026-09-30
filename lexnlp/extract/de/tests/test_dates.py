@@ -140,6 +140,10 @@ class TestDeDatesPlain(TestCase):
         self.assertEqual(2, len(dates))
         self.assertEqual(datetime.datetime(1972, 2, 15, 0, 0), dates[0].date)
         self.assertEqual(datetime.datetime(1972, 12, 29, 0, 0), dates[1].date)
+        self.assertEqual(
+            ['15. Februar 1972', '29. Dezember 1972'],
+            [text[slice(*annotation.coords)] for annotation in dates],
+        )
 
     def test_negative_stunden(self):
         text = '''- Definitiver Leasing-Entscheid innert 24 Stunden 5.'''
@@ -170,3 +174,47 @@ def get_dates_ordered(text: str) -> List[DateAnnotation]:
     dates = list(get_date_annotations(text))
     dates.sort(key=lambda d: d.coords[0])
     return dates
+
+
+@pytest.mark.parametrize('separator', ['\n', '\r\n', '\t', '  '])
+def test_german_date_annotations_preserve_original_whitespace(separator):
+    source = f'15.{separator}Februar 1972'
+    text = f'Der Termin ist {source}.'
+    annotations = list(get_date_annotations(text, locale=Locale('de-AT')))
+
+    assert len(annotations) == 1
+    annotation = annotations[0]
+    assert annotation.date == datetime.datetime(1972, 2, 15)
+    assert annotation.coords == (text.index(source), text.index(source) + len(source))
+    assert annotation.text == text[slice(*annotation.coords)] == source
+    assert annotation.locale == 'de'
+    assert list(get_date_annotations(text, threshold=1.0)) == []
+
+
+def test_coordinated_repeated_german_dates_keep_each_original_span():
+    sources = ['15.\r\nFebruar 1972', '15.\tFebruar 1972']
+    text = f'Die Termine sind {sources[0]} und {sources[1]}.'
+    annotations = sorted(get_date_annotations(text), key=lambda annotation: annotation.coords)
+
+    assert [(annotation.text, annotation.date) for annotation in annotations] == [
+        (source, datetime.datetime(1972, 2, 15)) for source in sources
+    ]
+    assert [annotation.coords for annotation in annotations] == [
+        (text.index(source), text.index(source) + len(source)) for source in sources
+    ]
+    assert all(text[slice(*annotation.coords)] == annotation.text for annotation in annotations)
+
+
+def test_german_multiline_date_honors_strict_and_base_date_without_leaking_state():
+    text = 'Der Termin ist 15.\r\nFebruar.'
+    assert list(get_date_annotations(text, strict=True)) == []
+
+    for year in (2024, 2030, 2024):
+        annotations = list(get_date_annotations(
+            text,
+            strict=False,
+            base_date=datetime.datetime(year, 6, 1),
+        ))
+        assert len(annotations) == 1
+        assert annotations[0].date == datetime.datetime(year, 2, 15)
+        assert annotations[0].text == text[slice(*annotations[0].coords)] == '15.\r\nFebruar'

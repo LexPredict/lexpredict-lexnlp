@@ -1,8 +1,8 @@
 .. _extract_en_regulations:
 
-============
+======================================================================
 :mod:`lexnlp.extract.en.regulations`: Extracting regulatory references
-============
+======================================================================
 
 The :mod:`lexnlp.extract.en.regulations` module contains methods that allow for the extraction
 of regulations references from text.  Examples include:
@@ -20,7 +20,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting constraints
-----------------
+----------------------
 .. autofunction:: get_regulations
 
 Example ::
@@ -36,7 +36,7 @@ Example ::
 
 
 Customizing regulation extraction
-----------------
+---------------------------------
 
 .. note::
     The LexPredict Legal Dictionary repository contains a large number of additional regulatory citations

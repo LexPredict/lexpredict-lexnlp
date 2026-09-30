@@ -62,3 +62,9 @@ Durch eine Sonderzahlung wird die monatliche Belastung gesenkt, das Risiko für
 den Leasinggeber sinkt. Bei einer Ablehnung des Antrags können Sie die Bank auf  
 diese Option ansprechen, sofern Sie in der Lage sind, eine Anzahlung zu leisten.'''
         ants = list(get_money_annotations(text))
+        self.assertEqual(5, len(ants))
+        self.assertEqual(
+            [Decimal('300'), Decimal('10800'), Decimal('2500'), Decimal('230.55'), Decimal('10800')],
+            [ant.amount for ant in ants],
+        )
+        self.assertEqual(['EUR'] * 5, [ant.currency for ant in ants])

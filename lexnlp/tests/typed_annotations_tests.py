@@ -135,7 +135,7 @@ class TypedFieldCheck:
                 return val >= cmp_value, True
             if self.comparison == '!=':
                 return val != cmp_value, True
-        except:  # pylint:disable=bare-except
+        except Exception:
             self.last_error = f'{self.path_string}: cannot cast "{self.value}" to {type(val).__name__}'
             return False, False
 
@@ -146,14 +146,14 @@ class TypedFieldCheck:
             for fmt in self.date_formats:
                 try:
                     return datetime.strptime(self.value, fmt).date()
-                except:  # pylint:disable=bare-except
+                except ValueError:
                     pass
             raise Exception(f'Cannot parse test date: "{self.value}"')
 
         for fmt in self.datetime_formats:
             try:
                 return datetime.strptime(self.value, fmt)
-            except:  # pylint:disable=bare-except
+            except ValueError:
                 pass
         raise Exception(f'Cannot parse test datetime: "{self.value}"')
 

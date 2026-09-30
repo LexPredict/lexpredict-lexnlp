@@ -1,8 +1,8 @@
 .. _extract_en_acts:
 
-============
+==============================================
 :mod:`lexnlp.extract.en.acts`: Extracting acts
-============
+==============================================
 
 The :mod:`lexnlp.extract.en.acts` module contains methods that allow for the extraction
 of acts from text.  Sample acts that are covered by this module include:
@@ -18,7 +18,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/en/te
 .. currentmodule:: lexnlp.extract.en.acts
 
 Extracting acts
-----------------
+---------------
 .. autofunction:: get_act_list
 
 Example ::

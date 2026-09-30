@@ -1,5 +1,3 @@
-# pylint: disable=bare-except
-
 __author__ = "ContraxSuite, LLC; LexPredict, LLC"
 __copyright__ = "Copyright 2015-2021, ContraxSuite, LLC"
 __license__ = "https://github.com/LexPredict/lexpredict-lexnlp/blob/2.3.0/LICENSE"
@@ -8,29 +6,42 @@ __maintainer__ = "LexPredict, LLC"
 __email__ = "support@contraxsuite.com"
 
 
-import types
+from functools import wraps
+from inspect import isgeneratorfunction
 from typing import Any, Callable
 
 
 def safe_failure(func):
     """
-    Return None on failure, either skip result if generator
+    Suppress ordinary failures unless ``safe_failure=False``.
+
+    Scalar functions remain scalar and generator functions remain generators.
+    Process-control exceptions such as ``KeyboardInterrupt`` and ``SystemExit``
+    are deliberately not suppressed.
     """
-    def decorator(*args, **kwargs):
+    if isgeneratorfunction(func):
+        @wraps(func)
+        def generator_wrapper(*args, **kwargs):
+            raise_exc = not kwargs.pop('safe_failure', True)
+            try:
+                yield from func(*args, **kwargs)
+            except Exception:
+                if raise_exc:
+                    raise
+
+        return generator_wrapper
+
+    @wraps(func)
+    def scalar_wrapper(*args, **kwargs):
         raise_exc = not kwargs.pop('safe_failure', True)
         try:
-            res = func(*args, **kwargs)
-            if isinstance(res, types.GeneratorType):
-                try:
-                    yield from func(*args, **kwargs)
-                except:
-                    if raise_exc:
-                        raise
-        except:
+            return func(*args, **kwargs)
+        except Exception:
             if raise_exc:
                 raise
             return None
-    return decorator
+
+    return scalar_wrapper
 
 
 def handle_invalid_text(

@@ -1,8 +1,8 @@
 .. _extract_en_courts:
 
-============
+============================================================
 :mod:`lexnlp.extract.en.courts`: Extracting court references
-============
+============================================================
 
 The :mod:`lexnlp.extract.en.courts` module contains methods that allow for the extraction
 of court or venue references from text.
@@ -29,7 +29,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting courts
-----------------
+-----------------
 .. autofunction:: get_courts
 
 Example ::

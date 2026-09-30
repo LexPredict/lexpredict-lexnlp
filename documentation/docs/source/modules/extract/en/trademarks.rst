@@ -1,8 +1,8 @@
 .. _extract_en_trademarks:
 
-============
+====================================================================
 :mod:`lexnlp.extract.en.trademarks`: Extracting trademark references
-============
+====================================================================
 
 The :mod:`lexnlp.extract.en.trademarks` module contains methods that allow for the extraction
 of trademarks references from text.  Examples include:
@@ -20,7 +20,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting conditions
-----------------
+---------------------
 .. autofunction:: get_trademarks
 
 Example ::

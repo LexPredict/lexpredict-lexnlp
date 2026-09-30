@@ -1,0 +1,23 @@
+---
+# Read the Docs configuration file for Sphinx projects.
+# See https://docs.readthedocs.com/platform/stable/config-file/v2.html.
+
+version: 2
+
+formats: all
+
+build:
+  os: ubuntu-24.04
+  tools:
+    python: "3.12"
+
+sphinx:
+  configuration: documentation/docs/source/conf.py
+  fail_on_warning: true
+
+python:
+  install:
+    - method: uv
+      command: sync
+      extras:
+        - docs

@@ -34,8 +34,8 @@ def _norm(s: str) -> str:
 def _load_set_from_lines(fn, normalize: bool = False):
     with open(os.path.join(cwd, fn), 'r', encoding='utf-8') as f:
         if normalize:
-            return {_norm(l.strip()) for l in f.readlines()}
-        return {l.strip() for l in f.readlines()}
+            return {_norm(line.strip()) for line in f.readlines()}
+        return {line.strip() for line in f.readlines()}
 
 
 STREET_SUFFIXES = _load_set_from_lines('street_suffixes.csv', normalize=True)

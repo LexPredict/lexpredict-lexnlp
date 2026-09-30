@@ -1,4 +1,0 @@
-1. used dateparser==0.7.2 instead of 0.7.6 because 0.7.6 parses incorrectly "one 10-11-2017" as "01-10-2017"
-2. used pandas 0.24.2 instead of 1.0.5 because 0.25.0 and latest version breaks feature dataframe for
-page/paragraph/sentence/section pickled models and they predict wrong results
-3. Sphinx, twine install the newest docutils==0.16 but it's incompatible with gensim==3.8.3>>botocore. Installed docutils==0.15.2.

@@ -47,7 +47,6 @@ def replace_upper_words_with_titled(text: str):
         [i.title() for i in re.findall(r'[a-zA-Z]+', text) if i.upper() == i],
         key=len
     )[::-1]
-    words = re.findall(r'[a-zA-Z]+', text)
 
     for i in titled_upper_words:
         text = text.replace(i.upper(), i)
@@ -85,10 +84,10 @@ class NPExtractor:
         return tokenizer().tokenize
 
     def cleanup_leaves(self, leaves):
-        leaves = [l for l in
+        leaves = [leaf_group for leaf_group in
                   [list(group) for key, group in groupby(
                       leaves, key=lambda k: k[0] not in self.exception_sym and k[1] in self.exception_pos)]
-                  if l[0][1] not in self.exception_pos or l[0][0] in self.exception_sym]
+                  if leaf_group[0][1] not in self.exception_pos or leaf_group[0][0] in self.exception_sym]
         return leaves
 
     def get_np(self, text: str) -> Generator[str, None, None]:

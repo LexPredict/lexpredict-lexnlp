@@ -61,8 +61,7 @@ def build_date_model(input_examples: List[Tuple[str, List[datetime.date]]],
         dates = [d[0] for d in date_results]
         try:
             l_diff = set(dates) - set(expected_dates)
-        # pylint: disable=broad-except
-        except:
+        except Exception:
             print(dates)
             print(date_str)
             raise

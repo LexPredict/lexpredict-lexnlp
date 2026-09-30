@@ -12,8 +12,8 @@ __email__ = "support@contraxsuite.com"
 
 
 # pylint: disable=bare-except
-import datetime
 import string
+from datetime import datetime
 from typing import Optional, Dict, Any, Generator
 import regex as re
 
@@ -39,7 +39,7 @@ DATE_MODEL_CHARS.extend(["-", "/", " ", "%", "#", "$"])
 class ESDateParser(DateParser):
     DEFAULT_DATEPARSER_SETTINGS = {'PREFER_DAY_OF_MONTH': 'first', 'STRICT_PARSING': False, 'DATE_ORDER': 'DMY'}
     SEQUENTIAL_DATES_RE = re.compile(
-        r'(?P<text>(?P<day>\d{{1,2}}) de (?P<month>{es_months})(?:, | y | de (?P<year>\d{{4}})))'.format(
+        r'(?P<text>(?P<day>\d{{1,2}})\s+de\s+(?P<month>{es_months})(?:,\s+|\s+y\s+|\s+de\s+(?P<year>\d{{4}})))'.format(
             es_months='|'.join(ES_MONTHS)), re.I | re.M)
     WEIRD_DATES_NORM = [
         (re.compile(r'(\d+º\s?de (?:{es_months})(?: de \d{{4}})?)'.format(
@@ -58,9 +58,35 @@ class ESDateParser(DateParser):
                          enable_classifier_check, classifier_model, classifier_threshold)
 
     def get_extra_dates(self, strict: bool):
-        dateparser_dates_dict = {i[0]: i for i in self.dates}
+        sequential_matches = list(self.SEQUENTIAL_DATES_RE.finditer(self.text))
+        sequential_spans = [match.span() for match in sequential_matches]
+        sequential_texts = {
+            re.sub(r'\s+', ' ', ''.join(match.capturesdict()['text']).strip(',y '))
+            for match in sequential_matches
+        }
+
+        # dateparser may treat the leading day from the next item in a
+        # coordinated sequence as a two-digit year.  For example,
+        # ``28 de abril y 17 de noviembre de 1995`` has been returned as the
+        # spurious ``28 de abril y 17 de`` -> 2017-04-28.  The explicit
+        # Spanish sequence parser below owns these spans, so discard only
+        # non-canonical dateparser candidates that overlap them.
+        dateparser_dates_dict = {}
+        for date_item in self.dates:
+            date_text = date_item[0]
+            overlaps_sequence = any(
+                candidate_start < sequence_end
+                and candidate_end > sequence_start
+                for candidate in self._find_date_matches(date_text, self.text)
+                for candidate_start, candidate_end in [candidate.span()]
+                for sequence_start, sequence_end in sequential_spans
+            )
+            if overlaps_sequence and re.sub(r'\s+', ' ', date_text) not in sequential_texts:
+                continue
+            dateparser_dates_dict[date_text] = date_item
+
         last_match_start = last_match_year = None
-        dates_rev = reversed(list(self.SEQUENTIAL_DATES_RE.finditer(self.text)))
+        dates_rev = reversed(sequential_matches)
         for match in dates_rev:
             capture = match.capturesdict()
             capture_text = ''.join(capture['text']).strip(',y ')
@@ -74,15 +100,22 @@ class ESDateParser(DateParser):
                         dateparser_dates_dict[a_date[0]] = a_date
             elif last_match_year and last_match_start is not None and last_match_start == match_end:
                 if capture_text not in dateparser_dates_dict:
+                    keys_to_replace = [
+                        key
+                        for key in dateparser_dates_dict
+                        if key.startswith(capture_text)
+                    ]
+                    for key in keys_to_replace:
+                        dateparser_dates_dict.pop(key)
                     a_date = self.get_dateparser_dates(capture_text, strict)
                     if a_date:
-                        date_str, a_date = a_date[0]
+                        _, a_date = a_date[0]
                         a_date = a_date.replace(year=last_match_year)
-                        dateparser_dates_dict[date_str] = (capture_text, a_date)
+                        dateparser_dates_dict[capture_text] = (capture_text, a_date)
                 else:
                     a_date = dateparser_dates_dict[capture_text][1].replace(year=last_match_year)
                     if a_date:
-                        dateparser_dates_dict[capture_text] = (dateparser_dates_dict[capture_text][0], a_date)
+                        dateparser_dates_dict[capture_text] = (capture_text, a_date)
             last_match_start = match_start
 
         dates = list(dateparser_dates_dict.values())
@@ -98,18 +131,89 @@ class ESDateParser(DateParser):
         self.dates = dates
 
 
-parser = ESDateParser(
-    enable_classifier_check=False,
-    locale=Locale('es-ES'),
-    dateparser_settings={'PREFER_DAY_OF_MONTH': 'first',
-                         'STRICT_PARSING': False,
-                         'DATE_ORDER': 'DMY'})
+def _coerce_locale(locale: Optional[Locale]) -> Locale:
+    if locale is None:
+        return Locale('es-ES')
+    if isinstance(locale, Locale):
+        return Locale(locale.get_locale())
+    return Locale(locale)
 
 
-get_dates = parser.get_dates
+def _build_parser(
+    locale: Optional[Locale] = None,
+    *,
+    base_date: Optional[datetime] = None,
+    threshold: float = 0.5,
+) -> ESDateParser:
+    settings = {
+        'PREFER_DAY_OF_MONTH': 'first',
+        'STRICT_PARSING': False,
+        'DATE_ORDER': 'DMY',
+    }
+    if base_date is not None:
+        settings['RELATIVE_BASE'] = base_date
+    return ESDateParser(
+        enable_classifier_check=False,
+        locale=_coerce_locale(locale),
+        dateparser_settings=settings,
+        classifier_threshold=threshold,
+    )
 
-get_date_list = parser.get_date_list
 
-get_date_annotations = parser.get_date_annotations
+# Retained for compatibility with callers which inspect the configured parser.
+parser = _build_parser()
 
-get_date_annotation_list = parser.get_date_annotation_list
+
+def get_dates(
+    text: str = None,
+    locale: Optional[Locale] = None,
+) -> Generator[Dict[str, Any], None, None]:
+    locale_obj = _coerce_locale(locale)
+    yield from _build_parser(locale_obj).get_dates(text=text, locale=locale_obj)
+
+
+def get_date_list(
+    text: str = None,
+    locale: Optional[Locale] = None,
+):
+    return list(get_dates(text=text, locale=locale))
+
+
+def get_date_annotations(
+    text: str = None,
+    locale: Optional[Locale] = None,
+    strict: bool = True,
+    base_date: Optional[datetime] = None,
+    threshold: float = 0.5,
+) -> Generator[DateAnnotation, None, None]:
+    """Extract Spanish dates, using ``base_date`` for incomplete dates.
+
+    ``threshold`` is accepted for all-locale API compatibility; the Spanish
+    parser does not enable a classifier check.
+    """
+    locale_obj = _coerce_locale(locale)
+    yield from _build_parser(
+        locale_obj, base_date=base_date, threshold=threshold,
+    ).get_date_annotations(
+        text=text,
+        locale=locale_obj,
+        strict=strict,
+    )
+
+
+def get_date_annotation_list(
+    text: str = None,
+    locale: Optional[Locale] = None,
+    strict: bool = True,
+    base_date: Optional[datetime] = None,
+    threshold: float = 0.5,
+):
+    return list(
+        get_date_annotations(
+            text=text,
+            locale=locale,
+            strict=strict,
+            base_date=base_date,
+            threshold=threshold,
+        )
+    )

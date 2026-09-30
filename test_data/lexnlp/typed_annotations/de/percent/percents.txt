@@ -2,7 +2,7 @@ Dieses Einkommen macht zwanzig % des Gesamteinkommens aus
 -------------------------------------------------------------------------------
 total=1
 0)amount=20
-0)fraction=20
+0)fraction=0.2
 0)coords=(22, 33)
 0)sign=%
 0)text= zwanzig %
@@ -15,7 +15,7 @@ Dieses Einkommen macht zwanzig Prozent des Gesamteinkommens aus
 total=1
 0)amount=20
 0)coords=(22, 39)
-0)fraction=20
+0)fraction=0.2
 0)sign=prozent
 0)text= zwanzig Prozent
 
@@ -30,14 +30,14 @@ total=2
 ..)locale=de
 0)amount=15
 0)coords=(56, 74)
-0)fraction=15
+0)fraction=0.15
 0)sign=prozent
 0)text=15 Volumenprozent
 0)get_cite()=/de/percent/15.0/prozent
 
 1)amount=18
 1)coords=(78, 96)
-1)fraction=18
+1)fraction=0.18
 1)sign=prozent
 1)text=18 Volumenprozent
 1)get_cite()=/de/percent/18.0/prozent

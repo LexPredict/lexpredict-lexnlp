@@ -111,6 +111,7 @@ def get_cusip_annotations(text: str) -> Generator[CusipAnnotation, None, None]:
 
         internal = bool(INTERNAL_ISSUER_ID_PTN_RE.match(issuer_id))
         ant = CusipAnnotation(coords=(match.start(1), match.end(1)),
+                              text=code,
                               code=code,
                               issuer_id=issuer_id,
                               issue_id=issue_id,

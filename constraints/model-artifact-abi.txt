@@ -1,0 +1,10 @@
+# Model artifacts are intentionally serialized with the oldest supported
+# numerical/runtime ABI.  Published artifacts must also load and pass their
+# quality gates with the latest locked dependencies.
+# Python 3.12.13 is enforced by lexnlp.ml.artifact_abi and the publish workflows.
+joblib==1.5.0
+numpy==1.26.4
+pandas==2.2.0
+scikit-learn==1.7.2
+scipy==1.13.0
+threadpoolctl==3.6.0

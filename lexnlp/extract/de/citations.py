@@ -73,7 +73,7 @@ class DeCitationParser:
                 if date:
                     try:
                         date = str(list(get_dates(date, 'de'))[0]['value'])
-                    except:
+                    except Exception:
                         pass
 
                 ant = CitationAnnotation(coords=match.span(),

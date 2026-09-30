@@ -23,9 +23,9 @@ from typing import Tuple, List, Generator, Any, Union
 
 # Packages
 from nltk.tokenize.punkt import PunktTrainer, PunktSentenceTokenizer
-import joblib
 
 from lexnlp.extract.en.en_language_tokens import EnLanguageTokens
+from lexnlp.utils.unpickler import load_joblib_model
 
 # Setup module path
 
@@ -34,7 +34,7 @@ MODULE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 # Load segmenters
 SENTENCE_SEGMENTER_MODEL: PunktSentenceTokenizer = \
-    joblib.load(os.path.join(MODULE_PATH, "./sentence_segmenter.pickle"))
+    load_joblib_model(os.path.join(MODULE_PATH, "./sentence_segmenter.pickle"))
 extra_abbreviations = [a.rstrip('.') for a in EnLanguageTokens.abbreviations]
 SENTENCE_SEGMENTER_MODEL._params.abbrev_types.update(extra_abbreviations)
 SENTENCE_SEGMENTER_MODEL._params.abbrev_types.update(['no', 'l'])

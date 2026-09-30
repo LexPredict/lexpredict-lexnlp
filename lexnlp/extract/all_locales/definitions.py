@@ -10,7 +10,12 @@ __email__ = "support@contraxsuite.com"
 
 from typing import Generator
 
-from lexnlp.extract.all_locales.languages import LANG_EN, LANG_DE, DEFAULT_LANGUAGE, Locale
+from lexnlp.extract.all_locales.languages import (
+    DEFAULT_LANGUAGE,
+    LANG_DE,
+    LANG_EN,
+    get_language_routine,
+)
 from lexnlp.extract.common.annotations.definition_annotation import DefinitionAnnotation
 from lexnlp.extract.en.definitions import get_definition_annotations as get_definition_annotations_en
 from lexnlp.extract.de.definitions import get_definition_annotations as get_definition_annotations_de
@@ -27,5 +32,9 @@ def get_definition_annotations(
         text: str,
         **kwargs) \
         -> Generator[DefinitionAnnotation, None, None]:
-    routine = ROUTINE_BY_LOCALE.get(Locale(locale).language, ROUTINE_BY_LOCALE[DEFAULT_LANGUAGE.code])
+    routine = get_language_routine(
+        locale,
+        ROUTINE_BY_LOCALE,
+        DEFAULT_LANGUAGE,
+    )
     yield from routine(text, **kwargs)

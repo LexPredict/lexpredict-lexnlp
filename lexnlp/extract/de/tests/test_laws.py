@@ -55,7 +55,8 @@ class TestParseDeLaws(TestCase):
         ret = list(parser.parse(text, 'x'))
         self.assertEqual(1, len(ret))
         self.assertEqual("x", ret[0].locale)
-        self.assertEqual((18, 24), ret[0].coords)
+        self.assertEqual((19, 23), ret[0].coords)
+        self.assertEqual(ret[0].text, text[slice(*ret[0].coords)])
         self.assertEqual('AAÜG', ret[0].name)
         self.assertEqual('AAÜG', ret[0].text)
 

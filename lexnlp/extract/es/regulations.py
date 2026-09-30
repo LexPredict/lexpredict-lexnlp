@@ -52,7 +52,20 @@ class RegulationsParser:
         dtypes = {'trigger': str, 'position': str}
         if not self.regulations_dataframe:
             path = os.path.join(lexnlp_base_path, 'lexnlp/config/es/es_regulations.csv')
-            self.regulations_dataframe = read_csv(path, encoding='utf-8', error_bad_lines=False, converters=dtypes)
+            try:
+                # pandas >= 1.3
+                self.regulations_dataframe = read_csv(
+                    path,
+                    encoding='utf-8',
+                    on_bad_lines='skip',
+                    converters=dtypes)
+            except TypeError:
+                # pandas < 1.3
+                self.regulations_dataframe = read_csv(
+                    path,
+                    encoding='utf-8',
+                    error_bad_lines=False,
+                    converters=dtypes)
         subset = self.regulations_dataframe[['trigger', 'position']]
         tuples = [tuple(x) for x in subset.values]
         self.start_triggers = [t[0] for t in tuples if t[1] == 'start']

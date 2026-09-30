@@ -120,7 +120,7 @@ class TextBeautifier:
         try:
             return TextBeautifier.unify_quotes_braces_unsafe(
                 text, 0, len(text), empty_replacement)[0]
-        except:  # pylint:disable=bare-except
+        except Exception:
             return text
 
     @staticmethod
@@ -129,7 +129,7 @@ class TextBeautifier:
         try:
             return TextBeautifier.unify_quotes_braces_unsafe(
                 text, start, end, empty_replacement)
-        except:  # pylint:disable=bare-except
+        except Exception:
             return text, start, end
 
     @staticmethod

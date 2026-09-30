@@ -1,8 +1,8 @@
 .. _extract_en_geoentities:
 
-============
+=====================================================================================
 :mod:`lexnlp.extract.en.geoentities`: Extracting geographic and geopolitical entities
-============
+=====================================================================================
 
 The :mod:`lexnlp.extract.en.geoentities` module contains methods that allow for the extraction
 of geopolitical or geographic references from text.
@@ -23,7 +23,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 
 
 Extracting courts
-----------------
+-----------------
 .. autofunction:: get_geoentities
 
 .. note::

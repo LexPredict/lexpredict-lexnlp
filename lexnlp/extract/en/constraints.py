@@ -30,17 +30,8 @@ CONSTRAINT_PHRASES = ['after', 'at least', 'at most', 'before', 'equal to', 'exa
                       'no later than', 'no less than', 'no more than', 'not equal to', 'not to exceed', 'earlier than',
                       'later than', 'within', 'exceed', 'exceeds', "prior to", "highest", "least"]
 
-CONSTRAINT_PATTERN_TEMPLATE = r'''
-(
-    (
-        (?P<pre>.*?)[\s\.\,\;](?P<constraint>{constraint_pattern}){{1,}}[\s\.\,\;](?P<post>.)*?
-    )
-    |
-    (
-        (?P<constraint>{constraint_pattern}){{1,}}[\s\.\,\;](?P<post>.+)
-    )
-)+?
-'''
+CONSTRAINT_PATTERN_TEMPLATE = r'''[\s\.\,\;](?P<constraint>{constraint_pattern})[\s\.\,\;]'''
+CONSTRAINT_WITH_POST_PATTERN_TEMPLATE = r'''(?P<constraint>{constraint_pattern})[\s\.\,\;](?P<post>.+)'''
 
 
 # ================================
@@ -64,6 +55,14 @@ def create_constraint_pattern(constraint_pattern_template, constraint_phrases):
 # Materialize pattern and create regex
 CONSTRAINT_PATTERN = create_constraint_pattern(CONSTRAINT_PATTERN_TEMPLATE, CONSTRAINT_PHRASES)
 RE_CONSTRAINT = re.compile(CONSTRAINT_PATTERN, re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE)
+CONSTRAINT_WITH_POST_PATTERN = create_constraint_pattern(
+    CONSTRAINT_WITH_POST_PATTERN_TEMPLATE,
+    CONSTRAINT_PHRASES,
+)
+RE_CONSTRAINT_WITH_POST = re.compile(
+    CONSTRAINT_WITH_POST_PATTERN,
+    re.IGNORECASE | re.UNICODE | re.DOTALL | re.MULTILINE | re.VERBOSE,
+)
 
 
 def get_constraints(
@@ -103,32 +102,39 @@ def get_constraint_annotations(text: str, strict: bool = False) -> Generator[Con
     :return:
     """
 
-    # Iterate through all potential matches
+    # Match constraint phrases directly instead of leading with ``.*?``.  The
+    # wildcard made trigger-free sentences quadratic by retrying from every
+    # character.  The cursor keeps the legacy spans and pre-text intact.
     for sentence in get_sentence_list(text):
-        for match in RE_CONSTRAINT.finditer(sentence.lower()):
-            # Get individual group matches
-            captures = match.capturesdict()
-            num_pre = len(captures["pre"])
-            num_post = len(captures["post"])
+        normalized_sentence = sentence.lower()
+        cursor = 0
+        for match in RE_CONSTRAINT.finditer(normalized_sentence):
+            constraint = match.group("constraint").lower()
+            pre = normalized_sentence[cursor:match.start()]
+            combined = "{0} {1}".format(pre, constraint).lower().strip()
+            if combined in CONSTRAINT_PHRASES:
+                constraint = combined
 
-            # Skip if strict and empty pre/post
-            if strict and (num_pre + num_post == 0):
-                continue
+            ant = ConstraintAnnotation(
+                coords=(cursor, match.end()),
+                constraint=constraint,
+                pre=pre,
+                post="",
+            )
+            yield ant
+            cursor = match.end()
 
-            # Setup fields
-            constraint = captures.get("constraint").pop().lower()
-            pre = "".join(captures["pre"])
-            post = "".join(captures["post"])
-
-            if num_post == 0 and num_pre == 1:
-                combined = "{0} {1}".format(pre, constraint).lower().strip()
-                if combined in CONSTRAINT_PHRASES:
-                    constraint = combined
-
-            ant = ConstraintAnnotation(coords=match.span(),
-                                       constraint=constraint,
-                                       pre=pre,
-                                       post=post)
+        # Preserve the second branch of the legacy pattern: if no later
+        # delimiter-prefixed constraint exists, a phrase may start anywhere in
+        # the remaining text and its post-text extends to the sentence end.
+        match = RE_CONSTRAINT_WITH_POST.search(normalized_sentence, pos=cursor)
+        if match is not None:
+            ant = ConstraintAnnotation(
+                coords=match.span(),
+                constraint=match.group("constraint").lower(),
+                pre="",
+                post=match.group("post"),
+            )
             yield ant
 
 

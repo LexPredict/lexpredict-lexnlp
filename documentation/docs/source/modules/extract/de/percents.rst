@@ -1,8 +1,8 @@
 .. _extract_de_percents:
 
-============
+======================================================
 :mod:`lexnlp.extract.de.percents`: Extracting percents
-============
+======================================================
 
 The :mod:`lexnlp.extract.de.percents` module contains methods that allow for the extraction
 of percents from text for "DE" locale.  Sample percents that are covered by this module include:
@@ -18,7 +18,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/de/te
 .. currentmodule:: lexnlp.extract.de.percents
 
 Extracting percents
-----------------
+-------------------
 .. autofunction:: get_percent_list
 
 Example ::

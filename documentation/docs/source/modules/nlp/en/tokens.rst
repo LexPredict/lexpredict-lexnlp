@@ -1,14 +1,14 @@
 .. _nlp_en_tokens:
 
-============
+================================================
 :mod:`lexnlp.nlp.en.tokens`: Working with tokens
-============
+================================================
 
 The :mod:`lexnlp.nlp.en.tokens` module contains methods that provide a number
 of useful functions for extracting and working with tokens in text.
 
 Tokenizing text
-----------------
+---------------
 Tokenization is one of the most common and basic operations in natural language processing.
 LexNLP supports custom tokenizers, but by default mirrors the behavior of
 `word_tokenize <http://www.nltk.org/api/nltk.tokenize.html?highlight=word_tokenize#nltk.tokenize.word_tokenize>`_
@@ -35,7 +35,7 @@ This module provides both generator and list tokenization methods for convenienc
     is case-insensitive.
 
 Stemming and lemmatizing text
-----------------
+-----------------------------
 Stemming and lemmatization are also supported in LexNLP.  Custom stemmers or lemmatizers can be implemented,
 as well as any models available in NLTK.  Models from Stanford NLP and spaCy can also be injected subject to
 the user's licensing and use case.  By default, the following models are exposed:
@@ -68,7 +68,7 @@ As with tokenization, this module provides both list and generator methods for c
     Future versions of LexNLP will re-case the returned tokens to match the original text.
 
 Working with parts-of-speech
-----------------
+----------------------------
 LexNLP can also provide access to part of speech (POS) information directly.  By default, LexNLP
 uses the pre-trained `nltk.tag.pos_tag <https://www.nltk.org/api/nltk.tag.html#nltk.tag.pos_tag>`_
 method, which is built on the Penn Treebank corpus and tags.  The Stanford NLP and spaCy taggers
@@ -97,7 +97,7 @@ of certain part of speech types like nouns or verbs::
 
 
 Collocations
--------
+------------
 LexNLP provides common bigram and trigram collocations for supported languages.
 The `lexnlp.nlp.en` includes bigram and trigram collocations trained on American
 English contracts.  The `lexnlp.nlp.en.tokens.COLLOCATION_SIZE` variable controls
@@ -106,18 +106,7 @@ the top 100, 1,000, and 10,000 bigram and trigram collocations are provided with
 LexNLP.
 
 
-.. attention::
-    This section is a work in progress.  Thank you for your patience
-    while we continue to expand and improve our documentation coverage.
-
-    If you have any questions in the meantime, please feel free to log issues on
-    GitHub at the URL below or contact us at the email below:
-
-    - GitHub issues: https://github.com/LexPredict/lexpredict-lexnlp
-    - Email: support@contraxsuite.com
 
 
-.. automodapi:: lexnlp.nlp.en.tokens
-    :include-all-objects:
+.. automodule:: lexnlp.nlp.en.tokens
     :members:
-

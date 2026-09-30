@@ -1,8 +1,8 @@
 .. _extract_es_dates:
 
-============
+==========================================================
 :mod:`lexnlp.extract.es.dates`: Extracting date references
-============
+==========================================================
 
 The :mod:`lexnlp.extract.es.dates` module contains methods that allow for the extraction
 of dates from text.  Sample formats that are handled by this module include:

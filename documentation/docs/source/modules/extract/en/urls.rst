@@ -1,8 +1,8 @@
 .. _extract_en_urls:
 
-============
+=============================================
 :mod:`lexnlp.extract.en.url`: Extracting URLs
-============
+=============================================
 
 The :mod:`lexnlp.extract.en.urls` module contains methods that allow for the extraction
 of URLs from text.
@@ -13,7 +13,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/test_data/lexnlp/ext
 .. currentmodule:: lexnlp.extract.en.urls
 
 Extracting constraints
-----------------
+----------------------
 .. autofunction:: get_urls
 
 Example ::

@@ -1,8 +1,8 @@
 .. _extract_de_amounts:
 
-============
+====================================================
 :mod:`lexnlp.extract.de.amounts`: Extracting amounts
-============
+====================================================
 
 The :mod:`lexnlp.extract.de.amounts` module contains methods that allow for the extraction
 of amounts from text for "DE" locale.  Sample amounts that are covered by this module include:
@@ -19,7 +19,7 @@ https://github.com/LexPredict/lexpredict-lexnlp/tree/master/lexnlp/extract/de/te
 .. currentmodule:: lexnlp.extract.de.amounts
 
 Extracting amounts
-----------------
+------------------
 .. autofunction:: get_amount_list
 
 Example ::

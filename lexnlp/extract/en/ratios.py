@@ -60,10 +60,20 @@ def get_ratio_annotations(
 ) -> Generator[RatioAnnotation, None, None]:
     for match in RATIO_PTN_RE.finditer(text.lower()):
         source_text, ratio_1_text, ratio_2_text = match.groups()
-        amount_1: List[Decimal] = \
-            list(get_amounts(ratio_1_text, float_digits=float_digits))
-        amount_2: List[Decimal] = \
-            list(get_amounts(ratio_2_text, float_digits=float_digits))
+        amount_1: List[Decimal] = list(
+            get_amounts(
+                ratio_1_text,
+                extended_sources=False,
+                float_digits=float_digits,
+            )
+        )
+        amount_2: List[Decimal] = list(
+            get_amounts(
+                ratio_2_text,
+                extended_sources=False,
+                float_digits=float_digits,
+            )
+        )
         if len(amount_1) != 1 or len(amount_2) != 1:
             continue
         amount_1: Decimal = amount_1[0]
